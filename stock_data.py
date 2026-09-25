@@ -280,6 +280,59 @@ def latest_shares_outstanding(facts):
     return best
 
 
+# ---------- SEC filing history ("remarks") ----------
+AMENDMENT_FORMS = {"10-K/A", "20-F/A", "40-F/A"}
+
+
+def _classify_filing(form, items):
+    """Map one filing to a notable event type, or None."""
+    items = {i.strip() for i in (items or "").split(",")}
+    if form in ("8-K", "8-K/A") and "4.02" in items:
+        return "non_reliance", "Company said earlier financial statements can't be relied on (restatement)"
+    if form in ("8-K", "8-K/A") and "4.01" in items:
+        return "auditor_change", "Change in the company's independent auditor"
+    if form.startswith("NT "):
+        return "late_filing", f"Notice of late filing: couldn't file its {form[3:]} on time"
+    if form in AMENDMENT_FORMS:
+        return "amendment", f"Amended annual report ({form[:-2]})"
+    if form == "UPLOAD":
+        return "sec_letter", "SEC staff letter from a filing review"
+    if form == "CORRESP":
+        return "company_response", "Company letter to SEC staff (usually a response to review comments)"
+    return None
+
+
+def filing_history(cik, since):
+    """Notable filings on or after `since` (YYYY-MM-DD) from EDGAR's submissions index."""
+    base = "https://data.sec.gov/submissions/"
+    sub = sec_get(f"{base}CIK{cik:010d}.json")
+    tables = [sub["filings"]["recent"]]
+    for f in sub["filings"].get("files", []):
+        if f.get("filingTo", "") >= since:  # older pages, only if they overlap the window
+            tables.append(sec_get(base + f["name"]))
+    events = []
+    for t in tables:
+        for i, form in enumerate(t["form"]):
+            filed = t["filingDate"][i]
+            if filed < since:
+                continue
+            kind = _classify_filing(form, t["items"][i] if "items" in t else "")
+            if not kind:
+                continue
+            accn = t["accessionNumber"][i].replace("-", "")
+            doc = t["primaryDocument"][i]
+            folder = f"https://www.sec.gov/Archives/edgar/data/{cik}/{accn}/"
+            events.append({"date": filed, "type": kind[0], "form": form, "description": kind[1],
+                           "url": folder + doc if doc else folder})
+    events.sort(key=lambda e: e["date"], reverse=True)
+    counts = {}
+    for e in events:
+        counts[e["type"]] = counts.get(e["type"], 0) + 1
+    return {"since": since, "events": events, "counts": counts,
+            "industry": sub.get("sicDescription") or None,
+            "filingsUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=&dateb=&owner=include&count=40"}
+
+
 def fiscal_year_ends(facts, currency):
     """Fiscal year end dates, taken from annual income-statement periods."""
     ends = set()
@@ -333,6 +386,10 @@ def build_financials(ticker):
         sources[metric] = used
 
     shares = latest_shares_outstanding(facts)
+    try:
+        history = filing_history(cik, f"{years[0]}-01-01")
+    except Exception:  # noqa: BLE001 - the financials are still useful without it
+        history = None
 
     # Derived fallbacks
     for i in range(len(years)):
@@ -352,6 +409,7 @@ def build_financials(ticker):
         "series": series,
         "sources": sources,
         "splits": [{"detectedInFiling": d, "ratio": round(f, 4)} for d, f in splits],
+        "secHistory": history,
         "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
         "secUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=10-K",
     }

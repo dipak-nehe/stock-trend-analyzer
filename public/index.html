@@ -111,6 +111,7 @@
   .loading { margin-top: 24px; color: var(--text-2); }
   .section-note { color: var(--text-2); margin: -4px 0 12px; font-size: 14px; }
   .muted { color: var(--muted); font-weight: 400; }
+  .section-note a { color: var(--accent); }
   .price-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-bottom: 12px; }
   .price-row label { font-weight: 600; font-size: 14px; }
   .price-row input { width: 160px; padding: 8px 12px; font-size: 15px; border: 1px solid var(--axis); border-radius: 8px; background: var(--page); color: var(--text-1); }
@@ -131,6 +132,22 @@
   .check .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); margin-left: 6px; }
   .check .rule { color: var(--muted); font-size: 13px; }
   .check .actual { color: var(--text-2); font-size: 13px; }
+  .history-tiles { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin-bottom: 12px; }
+  .history-tiles .value { font-size: 24px; }
+  .history-tiles .status { font-size: 13px; font-weight: 600; }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .chip[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .event { display: grid; grid-template-columns: 92px 1fr auto; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--grid); align-items: baseline; font-size: 14px; }
+  .event .date { color: var(--text-2); font-variant-numeric: tabular-nums; }
+  .event .kind { font-weight: 600; }
+  .event .kind::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; background: var(--info); vertical-align: 1px; }
+  .event.critical .kind::before { background: var(--critical); }
+  .event.warning .kind::before { background: var(--warning); }
+  .event .desc { color: var(--text-2); font-size: 13px; }
+  .event a { color: var(--accent); white-space: nowrap; font-size: 13px; }
+  .empty { color: var(--text-2); padding: 12px 0; border-top: 1px solid var(--grid); }
+  .more { margin-top: 10px; }
+  @media (max-width: 600px) { .event { grid-template-columns: 1fr auto; } .event .date { grid-column: 1 / -1; } }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -178,6 +195,17 @@
     <h2>Balance sheet &amp; quality flags</h2>
     <div class="score" id="score"></div>
     <div class="flags" id="flags"></div>
+
+    <section id="historySection">
+      <h2>SEC filing history</h2>
+      <p class="section-note" id="historyIntro"></p>
+      <div class="tiles history-tiles" id="historyTiles"></div>
+      <div class="card">
+        <div class="filter-row" id="historyFilters" role="group" aria-label="Filter filings"></div>
+        <div id="historyList"></div>
+        <button class="chip more" id="historyMore" type="button"></button>
+      </div>
+    </section>
 
     <h2>Value investing checklists</h2>
     <p class="section-note">How the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
@@ -397,6 +425,18 @@ function analyze(d) {
     if (!cuts.length && streak >= 5) add("good", "Growing dividend", `Dividend raised ${streak} years in a row (${pct(cagr(dps))} a year).`);
   }
 
+  // SEC filing record
+  const h = d.secHistory;
+  if (h) {
+    const on = (t) => h.events.filter((e) => e.type === t).map((e) => e.date);
+    const nr = on("non_reliance"), ac = on("auditor_change"), lf = on("late_filing");
+    const since = h.since.slice(0, 4);
+    if (nr.length) add("critical", "Financial statements were restated", `Filed a notice that earlier financials can't be relied on (8-K item 4.02) on ${nr.join(", ")}.`);
+    if (ac.length) add("warning", "Auditor changed", `Filed an auditor-change notice (8-K item 4.01) on ${ac.join(", ")}.`);
+    if (lf.length) add(lf.length >= 3 ? "critical" : "warning", "Late SEC filings", `${lf.length} late-filing notice${lf.length > 1 ? "s" : ""} since ${since}, most recently ${lf[0]}.`);
+    if (!nr.length && !ac.length && !lf.length) add("good", "Clean filing record", `No restatements, auditor changes or late filings since ${since}.`);
+  }
+
   // Data coverage
   const gaps = ["revenue", "netIncome", "totalAssets", "totalLiabilities", "equity", "operatingCashFlow"].filter((k) => s[k].filter((v) => v == null).length > 2);
   if (gaps.length) add("info", "Some data missing", `Few filings tagged: ${gaps.map(labelOf).join(", ")}. Related checks may be skipped.`);
@@ -604,13 +644,71 @@ function renderValue() {
   $("valueNote").textContent = `Book value per share uses ${so ? `${num(so.value)} shares outstanding as of ${so.asOf}` : "the latest diluted share count"}. Thresholds follow Graham's and Buffett's published rules of thumb, simplified to what annual filings report. The value estimates are rough models that depend heavily on their assumptions; they are not price targets.`;
 }
 
+// ---------- SEC filing history ----------
+const HISTORY_TYPES = {
+  non_reliance: { label: "Restatement warning", sev: "critical" },
+  auditor_change: { label: "Auditor change", sev: "warning" },
+  late_filing: { label: "Late filing", sev: "warning" },
+  amendment: { label: "Amended annual report", sev: "info" },
+  sec_letter: { label: "SEC comment letter", sev: "info" },
+  company_response: { label: "Company reply to SEC", sev: "info" },
+};
+const HISTORY_FILTERS = [
+  ["all", "All", () => true],
+  ["flags", "Red flags", (e) => HISTORY_TYPES[e.type].sev !== "info"],
+  ["letters", "SEC letters & replies", (e) => e.type === "sec_letter" || e.type === "company_response"],
+  ["amend", "Amendments", (e) => e.type === "amendment"],
+];
+let historyFilter = "all", historyExpanded = false;
+
+function renderHistory() {
+  const h = current.data.secHistory;
+  $("historySection").classList.toggle("hidden", !h);
+  if (!h) return;
+  const c = (t) => h.counts[t] || 0, since = h.since.slice(0, 4);
+  $("historyIntro").innerHTML = `Notable filings since ${since}, straight from the company's EDGAR record. Each entry links to the original document. <a href="${h.filingsUrl}" target="_blank" rel="noopener">All filings on SEC ↗</a>`;
+
+  const tile = (label, n, badSev, okText, badText, detail) => {
+    const sev = n ? badSev : "good";
+    const status = n ? `<span class="status ${sev === "critical" ? "down" : "flat"}">${sev === "critical" ? "✗" : "!"} ${badText}</span>` : `<span class="status up">✓ ${okText}</span>`;
+    return `<div class="card tile"><div class="label">${label}</div><div class="value">${n}</div>${status}<div class="detail">${detail}</div></div>`;
+  };
+  const letters = c("sec_letter");
+  $("historyTiles").innerHTML = [
+    tile("Restatement warnings", c("non_reliance"), "critical", "None", "Serious", "8-K item 4.02: earlier financials can't be relied on"),
+    tile("Auditor changes", c("auditor_change"), "warning", "None", "Worth a look", "8-K item 4.01: auditor resigned or was replaced"),
+    tile("Late filings", c("late_filing"), c("late_filing") >= 3 ? "critical" : "warning", "None", c("late_filing") >= 3 ? "Repeated" : "Worth a look", "NT 10-K / NT 10-Q: report not filed on time"),
+    tile("Amended annual reports", c("amendment"), "info", "None", "Check why", "Often just adds executive pay details; sometimes corrects numbers"),
+    `<div class="card tile"><div class="label">SEC comment letters</div><div class="value">${letters}</div><span class="status flat">${c("company_response")} company replies</span><div class="detail">SEC reviews every listed company at least every 3 years. Letters are routine, not an accusation.</div></div>`,
+  ].join("");
+
+  $("historyFilters").innerHTML = HISTORY_FILTERS.map(([k, label, fn]) =>
+    `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === historyFilter}">${label} (${h.events.filter(fn).length})</button>`).join("");
+  $("historyFilters").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => {
+    historyFilter = b.dataset.f; historyExpanded = false; renderHistory();
+  }));
+
+  const list = h.events.filter(HISTORY_FILTERS.find((f) => f[0] === historyFilter)[2]);
+  const shown = historyExpanded ? list : list.slice(0, 10);
+  $("historyList").innerHTML = shown.length ? shown.map((e) => {
+    const t = HISTORY_TYPES[e.type];
+    return `<div class="event ${t.sev}"><span class="date">${e.date}</span>
+      <div><div class="kind">${t.label} <span class="muted">· ${e.form}</span></div><div class="desc">${e.description}</div></div>
+      <a href="${e.url}" target="_blank" rel="noopener">Open ↗</a></div>`;
+  }).join("") : `<div class="empty">No filings of this kind since ${since}.</div>`;
+  $("historyMore").classList.toggle("hidden", list.length <= 10);
+  $("historyMore").textContent = historyExpanded ? "Show fewer" : `Show all ${list.length}`;
+}
+$("historyMore").addEventListener("click", () => { historyExpanded = !historyExpanded; renderHistory(); });
+
 function render(d) {
   const s = d.series, cur = d.currency;
   const r = analyze(d);
   current = { data: d, result: r };
 
   $("coName").textContent = `${d.name} (${d.ticker})`;
-  $("coMeta").textContent = `Fiscal years ${d.years[0]}–${d.years[d.years.length - 1]} · reported in ${cur} · CIK ${d.cik}`;
+  const industry = d.secHistory && d.secHistory.industry;
+  $("coMeta").textContent = `${industry ? industry + " · " : ""}Fiscal years ${d.years[0]}–${d.years[d.years.length - 1]} · reported in ${cur} · CIK ${d.cik}`;
   $("secLink").href = d.secUrl;
 
   $("tiles").innerHTML = [
@@ -643,6 +741,8 @@ function render(d) {
   $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Debt" uses the company's reported long-term debt tag (may include the current portion).${splitNote}`;
 
   $("result").classList.remove("hidden");
+  historyFilter = "all"; historyExpanded = false;
+  renderHistory();
   renderValue();
   renderCharts();
 }

@@ -13,6 +13,7 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
   - Leverage and liquidity: debt/equity, debt growing faster than revenue, current ratio, interest coverage, negative equity, large goodwill
   - Earnings quality: operating cash flow below net income, negative free cash flow, receivables or inventory growing faster than sales
   - Shareholders: dilution vs buybacks, dividend cuts or suspension, payout above 100%, dividends not covered by free cash flow
+- **Value investing checklists** that score the company against Benjamin Graham's defensive-investor criteria (*The Intelligent Investor*, ch. 14: size, current ratio, debt vs working capital, earnings stability, dividend record, EPS growth, P/E, P/B) and Buffett-style business-quality tests (consistent earnings, ROE, debt vs earnings, margins, capital needs, buybacks, margin of safety). The page also shows the Graham Number and a simple owner-earnings (free cash flow) value estimate. Enter an optional share price to run the valuation tests; it's kept in the URL (`?t=KO&p=68`). Results are shown as criteria met or not met, never as buy/sell ratings.
 - **Eight charts** (Chart.js) and a full data table, in light and dark mode.
 - **Stock-split adjustment.** EDGAR never restates old per-share values, so the server detects splits from restated EPS in later filings and adjusts older EPS, dividends, and share counts.
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.

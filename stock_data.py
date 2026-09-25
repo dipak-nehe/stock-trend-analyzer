@@ -56,6 +56,7 @@ CONCEPTS = {
         ("ifrs-full", "ProfitLossAttributableToOwnersOfParent"),
         ("ifrs-full", "ProfitLoss"),
     ]),
+    "grossProfit": ("duration", [("us-gaap", "GrossProfit"), ("ifrs-full", "GrossProfit")]),
     "operatingIncome": ("duration", [
         ("us-gaap", "OperatingIncomeLoss"),
         ("ifrs-full", "ProfitLossFromOperatingActivities"),
@@ -260,6 +261,25 @@ def split_events(facts, currency):
     return events
 
 
+def latest_shares_outstanding(facts):
+    """Most recent common shares outstanding (cover page or balance sheet), summed across share classes."""
+    best = None  # (end, filed, value, source)
+    for tax, concept in (("dei", "EntityCommonStockSharesOutstanding"), ("us-gaap", "CommonStockSharesOutstanding"),
+                         ("ifrs-full", "NumberOfSharesOutstanding")):
+        node = facts.get(tax, {}).get(concept)
+        if not node or "shares" not in node["units"]:
+            continue
+        rows = node["units"]["shares"]
+        end = max(r["end"] for r in rows)
+        latest = [r for r in rows if r["end"] == end]
+        accn = max(latest, key=lambda r: r["filed"])["accn"]
+        same_filing = [r for r in latest if r["accn"] == accn]
+        cand = (end, same_filing[0]["filed"], sum(r["val"] for r in same_filing), concept)
+        if best is None or cand[:2] > best[:2]:
+            best = cand
+    return best
+
+
 def fiscal_year_ends(facts, currency):
     """Fiscal year end dates, taken from annual income-statement periods."""
     ends = set()
@@ -312,6 +332,8 @@ def build_financials(ticker):
         series[metric] = vals
         sources[metric] = used
 
+    shares = latest_shares_outstanding(facts)
+
     # Derived fallbacks
     for i in range(len(years)):
         if series["totalLiabilities"][i] is None and series["liabilitiesAndEquity"][i] is not None \
@@ -330,6 +352,7 @@ def build_financials(ticker):
         "series": series,
         "sources": sources,
         "splits": [{"detectedInFiling": d, "ratio": round(f, 4)} for d, f in splits],
+        "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
         "secUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=10-K",
     }
 

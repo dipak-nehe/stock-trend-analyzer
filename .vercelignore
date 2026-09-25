@@ -1,0 +1,4 @@
+docs/
+server.py
+.venv/
+__pycache__/

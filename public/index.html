@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stock Trend Analyzer</title>
+<meta name="description" content="Enter a stock ticker to see 10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta name="theme-color" content="#2a78d6">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stock Trend Analyzer">
+<meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta property="og:image" content="og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
@@ -100,6 +110,16 @@
   .note { color: var(--muted); font-size: 12px; margin-top: 24px; }
   .loading { margin-top: 24px; color: var(--text-2); }
   .hidden { display: none; }
+  .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
+  footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+  footer a { color: var(--text-2); }
+  @media (max-width: 600px) {
+    main { padding-top: 20px; }
+    h1 { font-size: 22px; }
+    .tile .value { font-size: 24px; }
+    .chart-box { height: 220px; }
+    button { flex: 1 1 auto; }
+  }
 </style>
 </head>
 <body>
@@ -119,6 +139,7 @@
     <button class="chip" data-t="INTC">INTC</button>
     <button class="chip" data-t="T">T</button>
   </div>
+  <p class="disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <div id="loading" class="loading hidden">Fetching filings from SEC EDGAR…</div>
   <div id="error" class="card error hidden"></div>
@@ -153,6 +174,10 @@
     <p class="note" id="note"></p>
   </section>
 </main>
+<footer>
+  <span>Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
+  <span>Built by Dipak Nehe · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
+</footer>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -441,7 +466,7 @@ function render(d) {
     rows.map(([k, f]) => `<tr><td>${labelOf(k)}</td>${get(k).map((v) => `<td>${f(v, cur)}</td>`).join("")}</tr>`).join("") + "</tbody>";
 
   const splitNote = d.splits.length ? ` Per-share figures adjusted for stock splits (${d.splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
-  $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Debt" uses the company's reported long-term debt tag (may include the current portion).${splitNote} Automated screening, not investment advice: check the filings before acting.`;
+  $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Debt" uses the company's reported long-term debt tag (may include the current portion).${splitNote}`;
 
   $("result").classList.remove("hidden");
   renderCharts();

@@ -18,28 +18,49 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.
 - **Foreign filers** (20-F / 40-F, IFRS) are pinned to their reporting currency, so USD convenience translations are never mixed in.
 
-## Run it
+## Run it locally
 
 Requires Python 3.9+. It has no third-party dependencies.
 
 ```bash
-export SEC_USER_AGENT="StockTrendAnalyzer your-email@example.com"   # SEC asks for a contact
+export SEC_USER_AGENT="StockTrendAnalyzer your-email@example.com"   # required by SEC's fair-access policy
 python3 server.py
 ```
 
 Open <http://localhost:8000>, or link straight to a ticker with `http://localhost:8000/?t=KO`.
 To use a different port, run `PORT=8001 python3 server.py`.
 
+## Deploy to Vercel (free)
+
+1. Sign in at [vercel.com](https://vercel.com) with GitHub, click **Add New → Project**, and import this repo.
+2. Leave the framework preset as **Other**. No build command is needed.
+3. Under **Environment Variables**, add `SEC_USER_AGENT` = `StockTrendAnalyzer your-email@example.com`.
+4. Click **Deploy**. Every push to `main` redeploys automatically.
+
+API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat lookups never reach SEC.
+
+## Project structure
+
+```
+public/index.html     one-page UI: trends, red-flag rules, charts (Chart.js)
+public/favicon.svg    icon; public/og.png is the link-preview image
+api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL
+stock_data.py         SEC EDGAR fetching and normalization, shared by both servers
+server.py             local development server (same API, serves public/)
+vercel.json           function settings and security headers
+```
+
 ## How it works
 
 ```
-Browser (index.html)  ──/api/financials?ticker=KO──▶  server.py  ──▶  SEC EDGAR
-   trends, flags,                                     ticker → CIK
-   charts, table   ◀──────── normalized JSON ─────────  10-K facts → 10 fiscal years
+Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financials.py ──▶ SEC EDGAR
+   trends, flags,                                         (or server.py locally)
+   charts, table   ◀────────── normalized JSON ──────────  stock_data.py: ticker → CIK,
+                                                           10-K facts → 10 fiscal years
 ```
 
-- **`server.py`** is a Python standard-library HTTP server. It maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached for 6 hours. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
-- **`index.html`** is a single page with plain JavaScript. It computes CAGRs, classifies trends, runs the red-flag rules, and renders the charts.
+- **`stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
+- **`public/index.html`** is a single page with plain JavaScript. It computes CAGRs, classifies trends, runs the red-flag rules, and renders the charts.
 
 ## Limitations
 

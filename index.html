@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stock Trend Analyzer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7;
+    --surface: #fcfcfb;
+    --text-1: #0b0b0b;
+    --text-2: #52514e;
+    --muted: #898781;
+    --grid: #e1e0d9;
+    --axis: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --good: #0ca30c;
+    --good-text: #006300;
+    --warning: #fab219;
+    --critical: #d03b3b;
+    --info: #898781;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
+      --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+      --good-text: #0ca30c;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --good-text: #0ca30c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--text-1);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 18px; margin: 40px 0 12px; }
+  .sub { color: var(--text-2); margin: 0 0 24px; }
+  form { display: flex; gap: 8px; flex-wrap: wrap; }
+  input[type=text] {
+    flex: 1 1 220px; max-width: 320px; padding: 10px 14px; font-size: 16px;
+    border: 1px solid var(--axis); border-radius: 8px; background: var(--surface); color: var(--text-1);
+    text-transform: uppercase;
+  }
+  button {
+    padding: 10px 20px; font-size: 15px; font-weight: 600; border: 0; border-radius: 8px;
+    background: var(--accent); color: #fff; cursor: pointer;
+  }
+  button:disabled { opacity: .6; cursor: progress; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); align-items: center; }
+  .chip { background: transparent; color: var(--text-2); border: 1px solid var(--border); padding: 3px 10px; font-weight: 500; font-size: 13px; border-radius: 999px; }
+  .chip:hover { border-color: var(--axis); }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .error { border-color: var(--critical); color: var(--text-1); margin-top: 24px; }
+  .company { margin-top: 32px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .company h2 { margin: 0; font-size: 22px; }
+  .company .meta { color: var(--text-2); font-size: 14px; }
+  .company a { color: var(--accent); }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .tile .label { color: var(--text-2); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .tile .value { font-size: 28px; font-weight: 650; margin: 4px 0 2px; }
+  .tile .trend { font-weight: 600; font-size: 14px; }
+  .tile .detail { color: var(--text-2); font-size: 13px; }
+  .up { color: var(--good-text); } .down { color: var(--critical); } .flat { color: var(--text-2); }
+  .score { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 14px; color: var(--text-2); }
+  .flags { display: grid; gap: 8px; }
+  .flag { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 12px 14px; }
+  .flag .icon { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff; }
+  .flag.critical .icon { background: var(--critical); }
+  .flag.warning .icon { background: var(--warning); color: #0b0b0b; }
+  .flag.good .icon { background: var(--good); }
+  .flag.info .icon { background: var(--info); }
+  .flag .title { font-weight: 600; }
+  .flag .sev { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-right: 6px; color: var(--text-2); }
+  .flag .why { color: var(--text-2); font-size: 14px; }
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); gap: 12px; }
+  .chart-card h3 { margin: 0 0 2px; font-size: 15px; }
+  .chart-card p { margin: 0 0 10px; color: var(--text-2); font-size: 13px; }
+  .chart-box { position: relative; height: 260px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 6px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--grid); }
+  th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+  thead th { color: var(--text-2); font-weight: 600; }
+  .note { color: var(--muted); font-size: 12px; margin-top: 24px; }
+  .loading { margin-top: 24px; color: var(--text-2); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Stock Trend Analyzer</h1>
+  <p class="sub">10 years of annual filings from SEC EDGAR: earnings, revenue, and dividend trends, plus balance-sheet red flags.</p>
+
+  <form id="form">
+    <input id="ticker" type="text" placeholder="Ticker, e.g. AAPL" autocomplete="off" autofocus aria-label="Stock ticker">
+    <button id="go" type="submit">Analyze</button>
+  </form>
+  <div class="chips">Try:
+    <button class="chip" data-t="AAPL">AAPL</button>
+    <button class="chip" data-t="KO">KO</button>
+    <button class="chip" data-t="MSFT">MSFT</button>
+    <button class="chip" data-t="JPM">JPM</button>
+    <button class="chip" data-t="INTC">INTC</button>
+    <button class="chip" data-t="T">T</button>
+  </div>
+
+  <div id="loading" class="loading hidden">Fetching filings from SEC EDGAR…</div>
+  <div id="error" class="card error hidden"></div>
+
+  <section id="result" class="hidden">
+    <div class="company card">
+      <div><h2 id="coName"></h2><div class="meta" id="coMeta"></div></div>
+      <a id="secLink" target="_blank" rel="noopener">View filings on SEC ↗</a>
+    </div>
+
+    <h2>Trends</h2>
+    <div class="tiles" id="tiles"></div>
+
+    <h2>Balance sheet &amp; quality flags</h2>
+    <div class="score" id="score"></div>
+    <div class="flags" id="flags"></div>
+
+    <h2>Charts</h2>
+    <div class="charts">
+      <div class="card chart-card"><h3>Revenue and net income</h3><p>Annual totals</p><div class="chart-box"><canvas id="cRevenue"></canvas></div></div>
+      <div class="card chart-card"><h3>Earnings per share (diluted)</h3><p>Split-adjusted</p><div class="chart-box"><canvas id="cEps"></canvas></div></div>
+      <div class="card chart-card"><h3>Dividend per share</h3><p>Declared per year, split-adjusted</p><div class="chart-box"><canvas id="cDps"></canvas></div></div>
+      <div class="card chart-card"><h3>Payout ratio</h3><p>Dividends paid ÷ net income</p><div class="chart-box"><canvas id="cPayout"></canvas></div></div>
+      <div class="card chart-card"><h3>Balance sheet</h3><p>Total assets, liabilities and shareholders' equity</p><div class="chart-box"><canvas id="cBalance"></canvas></div></div>
+      <div class="card chart-card"><h3>Debt vs cash</h3><p>Reported debt and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
+      <div class="card chart-card"><h3>Cash flow vs earnings</h3><p>Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
+      <div class="card chart-card"><h3>Margins</h3><p>Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
+    </div>
+
+    <h2>Data</h2>
+    <div class="card table-wrap"><table id="table"></table></div>
+    <p class="note" id="note"></p>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let charts = [];
+let current = null;
+
+// ---------- formatting ----------
+function money(v, cur, digits = 1) {
+  if (v == null || !isFinite(v)) return "–";
+  const sym = cur === "USD" ? "$" : "";
+  const suf = cur === "USD" ? "" : " " + cur;
+  const a = Math.abs(v), sign = v < 0 ? "-" : "";
+  const units = [[1e12, "T"], [1e9, "B"], [1e6, "M"], [1e3, "K"]];
+  for (const [n, u] of units) if (a >= n) return `${sign}${sym}${(a / n).toFixed(digits)}${u}${suf}`;
+  return `${sign}${sym}${a.toFixed(2)}${suf}`;
+}
+const perShare = (v, cur) => v == null ? "–" : (v < 0 ? "-" : "") + (cur === "USD" ? "$" : "") + Math.abs(v).toFixed(2) + (cur === "USD" ? "" : " " + cur);
+const pct = (v, d = 1) => v == null || !isFinite(v) ? "–" : (v * 100).toFixed(d) + "%";
+const num = (v) => v == null ? "–" : (Math.abs(v) >= 1e9 ? (v / 1e9).toFixed(2) + "B" : (v / 1e6).toFixed(1) + "M");
+
+// ---------- math helpers ----------
+const lastIdx = (arr) => { for (let i = arr.length - 1; i >= 0; i--) if (arr[i] != null) return i; return -1; };
+const firstIdx = (arr) => arr.findIndex((v) => v != null);
+function cagr(arr, span) {
+  // span = number of years back from the latest value (default: full range)
+  const e = lastIdx(arr); if (e < 0) return null;
+  let s = span ? Math.max(0, e - span) : firstIdx(arr);
+  while (s < e && arr[s] == null) s++;
+  const a = arr[s], b = arr[e], n = e - s;
+  if (n < 1 || a == null || a <= 0 || b <= 0) return null;
+  return Math.pow(b / a, 1 / n) - 1;
+}
+function yoy(arr) { return arr.map((v, i) => (i && v != null && arr[i - 1] != null && arr[i - 1] !== 0) ? (v - arr[i - 1]) / Math.abs(arr[i - 1]) : null); }
+function slopeSign(arr) {
+  const pts = arr.map((v, i) => [i, v]).filter((p) => p[1] != null);
+  if (pts.length < 3) return 0;
+  const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length, my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+  const sl = pts.reduce((s, p) => s + (p[0] - mx) * (p[1] - my), 0) / pts.reduce((s, p) => s + (p[0] - mx) ** 2, 0);
+  return sl / (Math.abs(my) || 1); // relative slope per year
+}
+const ratio = (a, b) => a.map((v, i) => (v != null && b[i] != null && b[i] !== 0) ? v / b[i] : null);
+const lastN = (arr, n) => arr.slice(-n).filter((v) => v != null);
+
+// ---------- trend classification ----------
+function classify(arr) {
+  const vals = arr.filter((v) => v != null);
+  if (vals.length < 3) return { label: "Not enough data", cls: "flat", icon: "·", g: null };
+  const g = cagr(arr);
+  const ups = yoy(arr).filter((v) => v != null);
+  const downs = ups.filter((v) => v < -0.02).length;
+  let rate = g != null ? g : slopeSign(arr);
+  let label, cls, icon;
+  if (rate >= 0.10) { label = "Strong growth"; cls = "up"; icon = "▲"; }
+  else if (rate >= 0.03) { label = "Growing"; cls = "up"; icon = "▲"; }
+  else if (rate > -0.03) { label = "Flat"; cls = "flat"; icon = "▶"; }
+  else { label = "Declining"; cls = "down"; icon = "▼"; }
+  if (downs >= 3 && cls !== "down") label += ", volatile";
+  if (vals.some((v) => v < 0)) label += " (had losses)";
+  return { label, cls, icon, g, downs, n: ups.length };
+}
+
+// ---------- red flag engine ----------
+function analyze(d) {
+  const s = d.series, Y = d.years, cur = d.currency, flags = [];
+  const add = (sev, title, why) => flags.push({ sev, title, why });
+  const L = (arr) => { const i = lastIdx(arr); return i < 0 ? null : arr[i]; };
+  const yearOf = (i) => Y[i];
+
+  // Banks & insurers don't report current assets/liabilities; leverage rules differ.
+  const liabToAssets = L(s.totalLiabilities) / L(s.totalAssets);
+  const financial = s.currentAssets.every((v) => v == null) && liabToAssets > 0.8;
+  if (financial) add("info", "Looks like a bank or insurer", "No classified balance sheet and liabilities are over 80% of assets. High leverage is normal here, so debt and liquidity rules are skipped.");
+
+  // Revenue
+  const revG = cagr(s.revenue), revY = yoy(s.revenue);
+  const revDown5 = revY.slice(-5).filter((v) => v != null && v < 0).length;
+  if (revG != null && revG < -0.03) add("critical", "Revenue is shrinking", `Revenue fell ${pct(-revG)} a year on average across the period.`);
+  else if (revG != null && revG < 0) add("warning", "Revenue slightly lower than 10 years ago", `Revenue fell ${pct(-revG)} a year on average across the period.`);
+  else if (revDown5 >= 3) add("warning", "Revenue is inconsistent", `Revenue fell in ${revDown5} of the last 5 years.`);
+  else if (revY.filter((v) => v != null).length >= 5 && revY.filter((v) => v != null && v < 0).length <= 1 && revG > 0.03)
+    add("good", "Consistent revenue growth", `Revenue rose in almost every year (${pct(revG)} a year).`);
+
+  // Profitability
+  const lossYears = Y.filter((_, i) => s.netIncome[i] != null && s.netIncome[i] < 0);
+  const recentLoss = s.netIncome.slice(-3).some((v) => v != null && v < 0);
+  if (recentLoss) add("critical", "Recent net losses", `Net loss in: ${lossYears.join(", ")}.`);
+  else if (lossYears.length) add("warning", "Past net losses", `Loss years: ${lossYears.join(", ")}. Profitable in the last 3 years.`);
+  else if (s.netIncome.filter((v) => v != null).length >= 5) add("good", "Profitable every year", "No net loss across the period.");
+
+  const nm = ratio(s.netIncome, s.revenue);
+  const nmRecent = L(nm), nmAvg = lastN(nm, 6).slice(0, -1);
+  if (nmRecent != null && nmAvg.length >= 3) {
+    const avg = nmAvg.reduce((a, b) => a + b, 0) / nmAvg.length;
+    if (avg > 0 && nmRecent < avg * 0.7) add("warning", "Profit margin is shrinking", `Latest net margin ${pct(nmRecent)} vs the prior 5-year average of ${pct(avg)}.`);
+  }
+
+  const epsG5 = cagr(s.eps, 5);
+  if (epsG5 != null && epsG5 < -0.03) add("warning", "EPS falling over 5 years", `Diluted EPS down ${pct(-epsG5)} a year over the last 5 years.`);
+
+  // Leverage & liquidity (non-financials)
+  const eq = L(s.equity);
+  if (eq != null && eq < 0) add(financial ? "warning" : "critical", "Negative shareholders' equity",
+    "Liabilities exceed assets. This can come from heavy buybacks (as at some mature consumer brands) but also means no balance-sheet cushion.");
+  if (!financial) {
+    const de = ratio(s.longTermDebt, s.equity), deL = L(de);
+    if (eq > 0 && deL != null) {
+      if (deL > 2) add("critical", "Very high debt vs equity", `Debt/equity is ${deL.toFixed(2)}x.`);
+      else if (deL > 1) add("warning", "Elevated debt vs equity", `Debt/equity is ${deL.toFixed(2)}x.`);
+      else if (deL < 0.5) add("good", "Low leverage", `Debt/equity is ${deL.toFixed(2)}x.`);
+    }
+    const debtG = cagr(s.longTermDebt, 5), revG5 = cagr(s.revenue, 5);
+    if (debtG != null && revG5 != null && debtG - revG5 > 0.08 && (deL == null || deL > 0.5))
+      add("warning", "Debt growing faster than revenue", `Debt up ${pct(debtG)} a year vs revenue ${pct(revG5)} a year (last 5 years).`);
+    const cr = ratio(s.currentAssets, s.currentLiabilities), crL = L(cr);
+    if (crL != null) {
+      if (crL < 0.8) add("critical", "Weak short-term liquidity", `Current ratio is ${crL.toFixed(2)}: current liabilities exceed current assets.`);
+      else if (crL < 1) add("warning", "Current ratio below 1", `Current ratio is ${crL.toFixed(2)}.`);
+    }
+    const cov = ratio(s.operatingIncome, s.interestExpense), covL = L(cov);
+    if (covL != null && L(s.interestExpense) > 0) {
+      if (covL < 0) add("critical", "Interest not covered", "The company had an operating loss, so operations did not cover interest costs.");
+      else if (covL < 1.5) add("critical", "Interest barely covered", `Operating income covers interest only ${covL.toFixed(1)}x.`);
+      else if (covL < 3) add("warning", "Thin interest coverage", `Operating income covers interest ${covL.toFixed(1)}x (under 3x is tight).`);
+    }
+    const cash = L(s.cash), debt = L(s.longTermDebt);
+    if (cash != null && debt != null && cash > debt) add("good", "Net cash position", `Cash (${money(cash, cur)}) exceeds debt (${money(debt, cur)}).`);
+  }
+
+  // Earnings quality
+  const ocf5 = lastN(s.operatingCashFlow, 5), ni5 = lastN(s.netIncome, 5);
+  const weakYears = Y.slice(-5).filter((_, k) => {
+    const i = Y.length - 5 + k; return s.operatingCashFlow[i] != null && s.netIncome[i] > 0 && s.operatingCashFlow[i] < s.netIncome[i];
+  });
+  if (!financial && ocf5.length >= 3 && ni5.length >= 3) {
+    const sumO = ocf5.reduce((a, b) => a + b, 0), sumN = ni5.reduce((a, b) => a + b, 0);
+    if (weakYears.length >= 3) add("warning", "Earnings not backed by cash", `Operating cash flow was below net income in ${weakYears.join(", ")}. Could point to aggressive accounting or rising working capital.`);
+    else if (ni5.length >= 5 && ni5.every((v) => v > 0) && sumO / sumN > 1.1) add("good", "High-quality earnings", `5-year operating cash flow is ${(sumO / sumN).toFixed(1)}x net income.`);
+  }
+  const fcf = s.operatingCashFlow.map((o, i) => o != null && s.capex[i] != null ? o - s.capex[i] : null);
+  const negFcf = fcf.slice(-3).filter((v) => v != null && v < 0).length;
+  if (!financial && negFcf >= 2) add("warning", "Negative free cash flow", `Free cash flow was negative in ${negFcf} of the last 3 years.`);
+
+  const rec = cagr(s.receivables, 5), inv = cagr(s.inventory, 5), rev5 = cagr(s.revenue, 5);
+  if (rec != null && rev5 != null && rec - rev5 > 0.10) add("warning", "Receivables outpacing sales", `Receivables up ${pct(rec)} a year vs revenue ${pct(rev5)} a year. Customers may be paying slower, or sales may be pulled forward.`);
+  if (inv != null && rev5 != null && inv - rev5 > 0.10) add("warning", "Inventory building up", `Inventory up ${pct(inv)} a year vs revenue ${pct(rev5)} a year.`);
+
+  const gwA = L(s.goodwill) / L(s.totalAssets), gwE = L(s.goodwill) / eq;
+  if (isFinite(gwA) && !financial && (gwA > 0.4 || (eq > 0 && gwE > 1)))
+    add("warning", "Large goodwill balance", `Goodwill is ${pct(gwA, 0)} of assets${eq > 0 ? ` and ${pct(gwE, 0)} of equity` : ""}. Write-downs could hit equity.`);
+
+  // Dilution
+  const shG = cagr(s.dilutedShares, 5);
+  if (shG != null) {
+    if (shG > 0.02) add("warning", "Shareholder dilution", `Diluted share count up ${pct(shG)} a year over 5 years.`);
+    else if (shG < -0.01) add("good", "Share buybacks", `Share count down ${pct(-shG)} a year over 5 years.`);
+  }
+
+  // Dividends
+  const dps = s.dps, hasDiv = dps.some((v) => v > 0);
+  if (hasDiv) {
+    const cuts = Y.filter((_, i) => i && dps[i] != null && dps[i - 1] > 0 && dps[i] < dps[i - 1] * 0.9);
+    const suspended = L(dps) === 0;
+    if (cuts.length) add(cuts.some((y) => y >= Y[Y.length - 3]) ? "critical" : "warning", suspended ? "Dividend cut, then suspended" : "Dividend cut",
+      `Dividend per share dropped over 10% in ${cuts.join(", ")}${suspended ? " and is now zero" : ""}.`);
+    const payout = ratio(s.dividendsPaid, s.netIncome), pL = L(payout);
+    if (pL != null && (pL > 1 || pL < 0)) add("critical", "Dividend exceeds earnings", `Dividends paid were ${pL < 0 ? "paid despite a loss" : pct(pL, 0) + " of net income"} in the latest year.`);
+    else if (pL != null && pL > 0.8 && !financial) add("warning", "High payout ratio", `${pct(pL, 0)} of earnings paid out, leaving little room for cuts in profit.`);
+    const uncovered = fcf.slice(-3).map((f, k) => { const i = Y.length - 3 + k; return f != null && s.dividendsPaid[i] != null && s.dividendsPaid[i] > f; }).filter(Boolean).length;
+    if (!financial && uncovered >= 2) add("warning", "Dividend not covered by free cash flow", `Dividends exceeded free cash flow in ${uncovered} of the last 3 years.`);
+    const streak = (() => { let n = 0; for (let i = dps.length - 1; i > 0; i--) { if (dps[i] != null && dps[i - 1] != null && dps[i] > dps[i - 1]) n++; else break; } return n; })();
+    if (!cuts.length && streak >= 5) add("good", "Growing dividend", `Dividend raised ${streak} years in a row (${pct(cagr(dps))} a year).`);
+  }
+
+  // Data coverage
+  const gaps = ["revenue", "netIncome", "totalAssets", "totalLiabilities", "equity", "operatingCashFlow"].filter((k) => s[k].filter((v) => v == null).length > 2);
+  if (gaps.length) add("info", "Some data missing", `Few filings tagged: ${gaps.map(labelOf).join(", ")}. Related checks may be skipped.`);
+
+  const order = { critical: 0, warning: 1, good: 2, info: 3 };
+  flags.sort((a, b) => order[a.sev] - order[b.sev]);
+  return { flags, fcf, nm, financial };
+}
+
+// ---------- rendering ----------
+const LABELS = {
+  revenue: "Revenue", netIncome: "Net income", operatingIncome: "Operating income", eps: "EPS (diluted)",
+  dps: "Dividend / share", dividendsPaid: "Dividends paid", operatingCashFlow: "Operating cash flow",
+  capex: "Capital expenditure", fcf: "Free cash flow", interestExpense: "Interest expense", dilutedShares: "Diluted shares",
+  totalAssets: "Total assets", totalLiabilities: "Total liabilities", equity: "Shareholders' equity",
+  currentAssets: "Current assets", currentLiabilities: "Current liabilities", cash: "Cash & equivalents",
+  longTermDebt: "Debt", goodwill: "Goodwill", receivables: "Receivables", inventory: "Inventory",
+};
+function labelOf(k) { return LABELS[k] || k; }
+
+function tile(title, arr, fmt, cur) {
+  const c = classify(arr), i = lastIdx(arr), f = firstIdx(arr);
+  const latest = i >= 0 ? fmt(arr[i], cur) : "–";
+  const detail = c.g != null
+    ? `${pct(c.g)} a year (CAGR) · ${fmt(arr[f], cur)} → ${latest}`
+    : (i >= 0 ? `From ${fmt(arr[f], cur)} to ${latest}` : "Not reported");
+  return `<div class="card tile">
+    <div class="label">${title}</div>
+    <div class="value">${latest}</div>
+    <div class="trend ${c.cls}">${c.icon} ${c.label}</div>
+    <div class="detail">${detail}</div></div>`;
+}
+
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+function makeChart(id, type, datasets, yFmt, opts = {}) {
+  const ctx = $(id);
+  const multi = datasets.length > 1;
+  const c = new Chart(ctx, {
+    type,
+    data: { labels: current.data.years.map(String), datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        legend: { display: multi, position: "top", align: "start", labels: { color: css("--text-2"), boxWidth: 12, boxHeight: 12, useBorderRadius: true, borderRadius: 3 } },
+        tooltip: { callbacks: { label: (it) => `${it.dataset.label}: ${yFmt(it.raw)}` } },
+      },
+      scales: {
+        x: { grid: { display: false }, border: { color: css("--axis") }, ticks: { color: css("--muted") } },
+        y: { grid: { color: css("--grid") }, border: { display: false }, ticks: { color: css("--muted"), callback: (v) => yFmt(v) }, ...(opts.y || {}) },
+      },
+    },
+  });
+  charts.push(c);
+}
+
+function bars(label, data, color) {
+  return { label, data, backgroundColor: color, borderRadius: 4, borderSkipped: "start", maxBarThickness: 28, categoryPercentage: 0.7, barPercentage: 0.9 };
+}
+function line(label, data, color) {
+  return { label, data, borderColor: color, backgroundColor: color, borderWidth: 2, pointRadius: 3, pointHoverRadius: 5, tension: 0.2, spanGaps: true };
+}
+
+function renderCharts() {
+  charts.forEach((c) => c.destroy()); charts = [];
+  const { data: d, result: r } = current, s = d.series, cur = d.currency;
+  const s1 = css("--series-1"), s2 = css("--series-2"), s3 = css("--series-3");
+  const m = (v) => money(v, cur), ps = (v) => perShare(v, cur), pc = (v) => pct(v, 0);
+  makeChart("cRevenue", "bar", [bars("Revenue", s.revenue, s1), bars("Net income", s.netIncome, s2)], m);
+  makeChart("cEps", "line", [line("EPS", s.eps, s1)], ps);
+  makeChart("cDps", "bar", [bars("Dividend / share", s.dps, s1)], ps);
+  makeChart("cPayout", "line", [line("Payout ratio", ratio(s.dividendsPaid, s.netIncome), s1)], pc);
+  makeChart("cBalance", "bar", [bars("Assets", s.totalAssets, s1), bars("Liabilities", s.totalLiabilities, s2), bars("Equity", s.equity, s3)], m);
+  makeChart("cDebt", "line", [line("Debt", s.longTermDebt, s2), line("Cash", s.cash, s1)], m);
+  makeChart("cCash", "line", [line("Operating cash flow", s.operatingCashFlow, s1), line("Net income", s.netIncome, s2), line("Free cash flow", r.fcf, s3)], m);
+  makeChart("cMargin", "line", [line("Operating margin", ratio(s.operatingIncome, s.revenue), s1), line("Net margin", r.nm, s2)], pc);
+}
+
+function render(d) {
+  const s = d.series, cur = d.currency;
+  const r = analyze(d);
+  current = { data: d, result: r };
+
+  $("coName").textContent = `${d.name} (${d.ticker})`;
+  $("coMeta").textContent = `Fiscal years ${d.years[0]}–${d.years[d.years.length - 1]} · reported in ${cur} · CIK ${d.cik}`;
+  $("secLink").href = d.secUrl;
+
+  $("tiles").innerHTML = [
+    tile("Revenue", s.revenue, money, cur),
+    tile("Net income (earnings)", s.netIncome, money, cur),
+    tile("Earnings per share", s.eps, perShare, cur),
+    tile("Dividend per share", s.dps, perShare, cur),
+  ].join("");
+
+  const cnt = (k) => r.flags.filter((f) => f.sev === k).length;
+  $("score").innerHTML = `<span><b class="down">${cnt("critical")}</b> critical</span><span><b>${cnt("warning")}</b> warnings</span><span><b class="up">${cnt("good")}</b> strengths</span>`;
+  const ICON = { critical: "!", warning: "!", good: "✓", info: "i" };
+  const SEV = { critical: "Critical", warning: "Warning", good: "Strength", info: "Note" };
+  $("flags").innerHTML = r.flags.map((f) => `<div class="card flag ${f.sev}">
+      <div class="icon" aria-hidden="true">${ICON[f.sev]}</div>
+      <div><div class="title"><span class="sev">${SEV[f.sev]}</span>${f.title}</div><div class="why">${f.why}</div></div></div>`).join("")
+    || `<div class="card">No flags triggered.</div>`;
+
+  const rows = [
+    ["revenue", money], ["netIncome", money], ["operatingIncome", money], ["eps", perShare], ["dps", perShare],
+    ["dividendsPaid", money], ["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dilutedShares", (v) => num(v)],
+    ["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["longTermDebt", money],
+    ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money], ["interestExpense", money],
+  ];
+  const get = (k) => k === "fcf" ? r.fcf : s[k];
+  $("table").innerHTML = `<thead><tr><th>Metric</th>${d.years.map((y) => `<th>${y}</th>`).join("")}</tr></thead><tbody>` +
+    rows.map(([k, f]) => `<tr><td>${labelOf(k)}</td>${get(k).map((v) => `<td>${f(v, cur)}</td>`).join("")}</tr>`).join("") + "</tbody>";
+
+  const splitNote = d.splits.length ? ` Per-share figures adjusted for stock splits (${d.splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
+  $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Debt" uses the company's reported long-term debt tag (may include the current portion).${splitNote} Automated screening, not investment advice: check the filings before acting.`;
+
+  $("result").classList.remove("hidden");
+  renderCharts();
+}
+
+async function run(ticker) {
+  ticker = ticker.trim().toUpperCase();
+  if (!ticker) return;
+  $("ticker").value = ticker;
+  $("error").classList.add("hidden");
+  $("loading").classList.remove("hidden");
+  $("go").disabled = true;
+  try {
+    const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}`);
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
+    render(body);
+    history.replaceState(null, "", `?t=${encodeURIComponent(ticker)}`);
+  } catch (e) {
+    $("result").classList.add("hidden");
+    $("error").textContent = e.message;
+    $("error").classList.remove("hidden");
+  } finally {
+    $("loading").classList.add("hidden");
+    $("go").disabled = false;
+  }
+}
+
+$("form").addEventListener("submit", (e) => { e.preventDefault(); run($("ticker").value); });
+document.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => run(b.dataset.t)));
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => current && renderCharts());
+const initial = new URLSearchParams(location.search).get("t");
+if (initial) run(initial);
+</script>
+</body>
+</html>

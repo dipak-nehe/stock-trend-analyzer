@@ -17,9 +17,10 @@ from datetime import date
 YEARS = 10
 TICKER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]{0,9}$")
 
-# CDN caching: filings change at most a few times a year, so a day is plenty.
-CACHE_OK = "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800"
-CACHE_NOT_FOUND = "public, max-age=3600, s-maxage=3600"
+# Cache on the CDN only (s-maxage): filings change at most a few times a year, so a day is plenty.
+# Browsers always revalidate (max-age=0), so a new app version never sees an old-format response.
+CACHE_OK = "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
+CACHE_NOT_FOUND = "public, max-age=0, s-maxage=3600"
 CACHE_NONE = "no-store"
 
 

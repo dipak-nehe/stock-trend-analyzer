@@ -255,6 +255,8 @@
 
 <script>
 const $ = (id) => document.getElementById(id);
+// Bump when the API response format changes, so no cache serves an older shape to newer code.
+const API_VERSION = 3;
 let charts = [];
 let current = null;
 
@@ -755,7 +757,7 @@ async function run(ticker) {
   $("loading").classList.remove("hidden");
   $("go").disabled = true;
   try {
-    const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}`);
+    const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}&v=${API_VERSION}`);
     const body = await res.json();
     if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
     render(body);

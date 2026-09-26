@@ -83,3 +83,66 @@ export function valueView(d, price, v) {
     buffett: list(v.buffett), buffettScore: score(v.buffett),
   };
 }
+
+// ---------- "At a glance": one line per area, each linking to its tab ----------
+const GLANCE_ICON = { good: "✓", warning: "!", critical: "✗", info: "–" };
+const TREND_ICON = { up: "▲", flat: "▶", down: "▼" };
+
+function trendRow(what, arr, tab) {
+  const c = classify(arr);
+  const recentLoss = arr.slice(-3).some((x) => x != null && x < 0);
+  const sev = recentLoss ? "critical" : c.cls === "up" ? "good" : c.cls === "down" ? "warning" : "info";
+  const say = c.g != null ? `${c.label}, ${pct(c.g)} a year` : c.label;
+  return { what, say, sev, icon: TREND_ICON[c.cls] || GLANCE_ICON[sev], tab };
+}
+
+// Filing-record counts that count against a company (routine SEC letters don't).
+export function filingProblems(h) {
+  if (!h) return null;
+  const n = (t) => h.counts[t] || 0;
+  const plural = (k, one, many) => `${k} ${k === 1 ? one : many}`;
+  const parts = [
+    n("non_reliance") && plural(n("non_reliance"), "restatement", "restatements"),
+    n("auditor_change") && plural(n("auditor_change"), "auditor change", "auditor changes"),
+    n("late_filing") && plural(n("late_filing"), "late filing", "late filings"),
+  ].filter(Boolean);
+  const total = n("non_reliance") + n("auditor_change") + n("late_filing");
+  const sev = !total ? "good" : n("non_reliance") || n("late_filing") >= 3 ? "critical" : "warning";
+  return { total, sev, text: parts.join(" · ") };
+}
+
+export function glanceRows(d, r, v) {
+  const s = d.series, rows = [];
+  rows.push(trendRow("Revenue", s.revenue, "overview"));
+  rows.push(trendRow("Earnings", s.netIncome, "overview"));
+
+  const dps = s.dps.filter((x) => x != null);
+  if (!dps.some((x) => x > 0)) rows.push({ what: "Dividend", say: "No dividend paid", sev: "info", icon: "–", tab: "overview" });
+  else if (dps[dps.length - 1] === 0) rows.push({ what: "Dividend", say: "Cut to zero (suspended)", sev: "critical", icon: "✗", tab: "overview" });
+  else rows.push(trendRow("Dividend", s.dps, "overview"));
+
+  const cnt = (k) => r.flags.filter((f) => f.sev === k).length;
+  const crit = r.flags.filter((f) => f.sev === "critical");
+  const flagSev = crit.length ? "critical" : cnt("warning") ? "warning" : "good";
+  rows.push({ what: "Red flags", sev: flagSev, icon: GLANCE_ICON[flagSev], tab: "flags",
+              say: `${crit.length} critical · ${cnt("warning")} warnings · ${cnt("good")} strengths${crit.length ? ` — ${crit[0].title}` : ""}` });
+
+  const fp = filingProblems(d.secHistory);
+  if (fp) rows.push({ what: "SEC record", sev: fp.sev, icon: GLANCE_ICON[fp.sev], tab: "history",
+                      say: fp.total ? fp.text : `Clean since ${d.secHistory.since.slice(0, 4)}` });
+
+  const score = (list) => {
+    const met = list.filter((c) => c.status === "pass").length, judged = list.filter((c) => c.status === "pass" || c.status === "fail").length;
+    return { met, judged, needPrice: list.some((c) => c.status === "price") };
+  };
+  const g = score(v.graham), b = score(v.buffett);
+  rows.push({ what: "Value checklists", sev: "info", icon: "★", tab: "value",
+              say: `Graham ${g.met} of ${g.judged} · Buffett ${b.met} of ${b.judged}${g.needPrice || b.needPrice ? " · add a price for valuation tests" : ""}` });
+  return rows;
+}
+
+export function glanceView(d, r, v) {
+  return glanceRows(d, r, v).map((row) => `<button type="button" class="glance-row ${row.sev}" data-tab="${row.tab}">
+      <span class="st" aria-hidden="true">${row.icon}</span><span class="what">${row.what}</span>
+      <span class="say">${row.say}</span><span class="go">Details →</span></button>`).join("");
+}

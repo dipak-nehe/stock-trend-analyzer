@@ -54,3 +54,41 @@ test("footnote describes stock splits in plain words", () => {
   const d = company({}, { splits: [{ ratio: 4 }, { ratio: 0.125 }] });
   assert.match(footnote(d), /stock splits \(4-for-1, 1-for-8\)/);
 });
+
+import { filingProblems, glanceRows } from "../../public/js/views.js";
+
+const glance = (d, price = null) => {
+  const r = analyze(d);
+  return Object.fromEntries(glanceRows(d, r, valueChecks(d, price, r)).map((row) => [row.what, row]));
+};
+
+test("glance: one line per area, each pointing to its tab", () => {
+  const rows = glance(company());
+  assert.deepEqual(Object.keys(rows), ["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Value checklists"]);
+  assert.deepEqual(Object.values(rows).map((r) => r.tab), ["overview", "overview", "overview", "flags", "history", "value"]);
+  assert.match(rows.Revenue.say, /^Growing, 6\.0% a year$/);
+  assert.equal(rows["SEC record"].say, "Clean since 2016");
+  assert.match(rows["Value checklists"].say, /add a price for valuation tests$/);
+});
+
+test("glance: recent losses, suspended dividends and critical flags stand out", () => {
+  const d = company({ netIncome: [...Array(9).fill(100e6), -50e6], dps: [...Array(9).fill(1), 0] });
+  const rows = glance(d);
+  assert.equal(rows.Earnings.sev, "critical");
+  assert.equal(rows.Dividend.say, "Cut to zero (suspended)");
+  assert.equal(rows["Red flags"].sev, "critical");
+  assert.match(rows["Red flags"].say, /— Recent net losses$/);
+});
+
+test("glance: no dividend history and the price prompt disappears once a price is set", () => {
+  assert.equal(glance(company({ dps: nulls(), dividendsPaid: nulls() })).Dividend.say, "No dividend paid");
+  assert.doesNotMatch(glance(company(), 50)["Value checklists"].say, /add a price/);
+});
+
+test("filing problems ignore routine SEC letters and grade severity", () => {
+  assert.equal(filingProblems(null), null);
+  assert.deepEqual(filingProblems(history(events(["sec_letter", "2020-01-01"]))), { total: 0, sev: "good", text: "" });
+  assert.equal(filingProblems(history(events(["auditor_change", "2024-01-01"]))).sev, "warning");
+  const smci = filingProblems(history(events(["non_reliance", "2018-01-01"], ["late_filing", "2019-01-01"], ["late_filing", "2020-01-01"])));
+  assert.deepEqual(smci, { total: 3, sev: "critical", text: "1 restatement · 2 late filings" });
+});

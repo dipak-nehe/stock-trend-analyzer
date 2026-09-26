@@ -11,6 +11,11 @@ def flag_titles(page):
     return page.locator("#flags .title").all_inner_texts()
 
 
+def open_tab(page, name):
+    page.click(f"#tab-{name}")
+    expect(page.locator(f"#panel-{name}")).to_be_visible()
+
+
 def check_row(page, name):
     """One row of the Graham/Buffett checklists, located by its criterion name."""
     return page.locator(".check").filter(has=page.locator(".name", has_text=name))
@@ -25,6 +30,8 @@ def test_search_shows_company_trends_and_charts(page, app_url, console_errors):
     expect(page.locator("#tiles .tile").first).to_contain_text("$416.2B")
     expect(page.locator("#tiles")).to_contain_text("Growing")
     expect(page).to_have_url(re.compile(r"\?t=AAPL$"))
+    open_tab(page, "charts")
+    expect(page).to_have_url(re.compile(r"\?t=AAPL#charts$"))
     # all eight charts are drawn
     for chart_id in ("cRevenue", "cEps", "cDps", "cPayout", "cBalance", "cDebt", "cCash", "cMargin"):
         box = page.locator(f"#{chart_id}").bounding_box()
@@ -68,6 +75,7 @@ def test_restatements_and_late_filings_are_flagged(open_ticker):
 
 def test_filing_history_filters_and_expands(open_ticker):
     page = open_ticker("SMCI")
+    open_tab(page, "history")
     events = page.locator("#historyList .event")
     expect(events).to_have_count(10)                   # first ten shown
     page.click("#historyMore")
@@ -88,12 +96,13 @@ def test_clean_filer_gets_a_strength(open_ticker):
 def test_price_runs_valuation_tests_and_is_kept_in_the_url(open_ticker):
     page = open_ticker("KO")
     expect(check_row(page, "Moderate P/E")).to_contain_text("Needs price")
+    open_tab(page, "value")
     page.fill("#price", "68")
     expect(check_row(page, "Moderate P/E")).to_contain_text("Not met")
     expect(check_row(page, "Moderate P/E")).to_contain_text("P/E 25.6")
     expect(check_row(page, "Margin of safety")).to_contain_text("Not met")
     expect(page.locator("#valueTiles")).to_contain_text("Price is")
-    expect(page).to_have_url(re.compile(r"\?t=KO&p=68$"))
+    expect(page).to_have_url(re.compile(r"\?t=KO&p=68#value$"))
 
 
 def test_price_from_link_is_applied_on_load(open_ticker):
@@ -154,6 +163,7 @@ def test_show_all_keeps_the_price_and_raises_no_errors(open_ticker, console_erro
     # Regression: the "Show all" button shares the .chip style with the ticker buttons and used to
     # be wired as one, which cleared the price and threw a JavaScript error.
     page = open_ticker("SMCI", price=30)
+    open_tab(page, "history")
     page.click("#historyMore")
     expect(page.locator("#historyList .event")).to_have_count(17)
     expect(page.locator("#price")).to_have_value("30")
@@ -164,9 +174,8 @@ def test_guide_explains_the_results_before_a_search(page, app_url):
     page.goto(app_url)
     guide = page.locator("#guide")
     expect(guide).to_have_attribute("open", "")
-    expect(guide.locator(".guide-item h3")).to_have_text([
-        "10-year trends", "Red flags & strengths", "SEC filing history",
-        "Value investing checklists", "Growth over the period", "Charts & full data",
+    expect(guide.locator(".guide-list strong")).to_have_text([
+        "At a glance", "Overview", "Red flags", "SEC history", "Value", "Charts & data",
     ])
 
 
@@ -174,15 +183,97 @@ def test_guide_collapses_after_a_search_and_can_be_reopened(open_ticker):
     page = open_ticker("KO")
     guide = page.locator("#guide")
     expect(guide).not_to_have_attribute("open", "")
-    expect(guide.locator(".guide-grid")).to_be_hidden()
+    expect(guide.locator(".guide-list")).to_be_hidden()
     page.click("#guide summary")
-    expect(guide.locator(".guide-grid")).to_be_visible()
+    expect(guide.locator(".guide-list")).to_be_visible()
 
 
-def test_each_results_section_has_an_explanation(open_ticker):
+def test_each_tab_has_a_short_explanation(open_ticker):
     page = open_ticker("KO")
-    for heading in ("Trends", "Balance sheet & quality flags", "SEC filing history", "Value investing checklists",
-                    "Charts", "Growth over the period", "Data"):
-        note = page.locator(f"xpath=//h2[normalize-space()='{heading}']/following-sibling::p[1]")
-        expect(note).to_have_class("section-note")
-        assert len(note.inner_text()) > 30, heading
+    for tab in ("overview", "flags", "history", "value", "charts", "data"):
+        open_tab(page, tab)
+        note = page.locator(f"#panel-{tab} .section-note").first
+        expect(note).to_be_visible()
+        assert 30 < len(note.inner_text()) < 160, tab  # one short sentence, not a wall of text
+
+
+# ---------- at a glance + tabs ----------
+
+def test_glance_summarises_each_area_in_one_line(open_ticker):
+    page = open_ticker("SMCI")
+    rows = page.locator("#glance .glance-row")
+    expect(rows).to_have_count(6)
+    expect(rows.locator(".what")).to_have_text(["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Value checklists"])
+    expect(rows.filter(has_text="Red flags")).to_contain_text("2 critical")
+    expect(rows.filter(has_text="Red flags")).to_contain_text("Financial statements were restated")
+    expect(rows.filter(has_text="SEC record")).to_contain_text("1 restatement · 3 auditor changes · 13 late filings")
+    expect(rows.filter(has_text="Dividend")).to_contain_text("No dividend paid")
+
+
+def test_glance_rows_open_their_tab(open_ticker):
+    page = open_ticker("SMCI")
+    page.locator("#glance .glance-row", has_text="SEC record").click()
+    expect(page.locator("#tab-history")).to_have_attribute("aria-selected", "true")
+    expect(page.locator("#panel-history")).to_be_visible()
+    expect(page.locator("#panel-overview")).to_be_hidden()
+    expect(page).to_have_url(re.compile(r"#history$"))
+
+
+def test_clean_company_glance_and_badges(open_ticker):
+    page = open_ticker("KO")
+    expect(page.locator("#glance .glance-row", has_text="SEC record")).to_contain_text("Clean since 2016")
+    expect(page.locator("#flagsBadge")).to_have_text("")
+    expect(page.locator("#historyBadge")).to_have_text("")
+
+
+def test_badges_count_serious_problems(open_ticker):
+    page = open_ticker("SMCI")
+    expect(page.locator("#flagsBadge")).to_have_text("2")
+    expect(page.locator("#historyBadge")).to_have_text("17")
+
+
+def test_link_with_a_tab_opens_that_tab(page, app_url):
+    page.goto(f"{app_url}/?t=SMCI#flags")
+    expect(page.locator("#panel-flags")).to_be_visible()
+    expect(page.locator("#tab-flags")).to_have_attribute("aria-selected", "true")
+
+
+def test_tabs_work_with_the_keyboard(open_ticker):
+    page = open_ticker("KO")
+    page.focus("#tab-overview")
+    page.keyboard.press("ArrowRight")
+    expect(page.locator("#tab-flags")).to_be_focused()
+    expect(page.locator("#panel-flags")).to_be_visible()
+    page.keyboard.press("End")
+    expect(page.locator("#panel-data")).to_be_visible()
+    page.keyboard.press("ArrowRight")  # wraps around
+    expect(page.locator("#panel-overview")).to_be_visible()
+
+
+def test_charts_are_drawn_only_when_their_tab_opens(open_ticker):
+    page = open_ticker("AAPL")
+    drawn = "() => [...document.querySelectorAll('#panel-charts canvas')].filter(c => Chart.getChart(c)).length"
+    assert page.evaluate(drawn) == 0
+    open_tab(page, "charts")
+    assert page.evaluate(drawn) == 8
+
+
+def test_new_search_stays_on_the_current_tab(open_ticker):
+    page = open_ticker("KO")
+    open_tab(page, "flags")
+    page.fill("#ticker", "INTC")
+    page.click("#go")
+    expect(page.locator("#coName")).to_have_text("INTEL CORP (INTC)")
+    expect(page.locator("#panel-flags")).to_be_visible()
+    assert any("Recent net losses" in t for t in flag_titles(page))
+
+
+def test_page_loads_nothing_from_other_sites(page, app_url):
+    # Everything (including Chart.js) is served by the app itself, so a slow third-party site
+    # can never block the page.
+    requests = []
+    page.on("request", lambda req: requests.append(req.url))
+    page.goto(f"{app_url}/?t=AAPL#charts")
+    page.locator("#panel-charts canvas").first.wait_for()
+    outside = [u for u in requests if not u.startswith(app_url)]
+    assert outside == []

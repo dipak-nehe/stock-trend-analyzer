@@ -18,7 +18,7 @@ export const HISTORY_FILTERS = [
 // Returns HTML pieces for the section; `total` is the number of events matching the filter.
 export function historyView(h, filter = "all", expanded = false) {
   const c = (t) => h.counts[t] || 0, since = h.since.slice(0, 4);
-  const intro = `Notable filings since ${since}, straight from the company's EDGAR record. Each entry links to the original document. <a href="${h.filingsUrl}" target="_blank" rel="noopener">All filings on SEC ↗</a>`;
+  const intro = `Notable filings since ${since} from the company's own SEC record, each linked to the document. <a href="${h.filingsUrl}" target="_blank" rel="noopener">All filings on SEC ↗</a>`;
 
   const tile = (label, n, badSev, okText, badText, detail) => {
     const sev = n ? badSev : "good";

@@ -37,6 +37,6 @@ export function growthView(d, r) {
     return `<tr><td>${labelOf(k)}</td><td>${cell(a, i, y0)}</td><td>${cell(b, j, yN)}</td><td>${changeTxt}</td><td>${total}</td><td>${perYear}</td></tr>`;
   }).join("");
   const table = `<thead><tr><th>Metric</th><th>${y0}</th><th>${yN}</th><th>Change</th><th>Total growth</th><th>Per year (CAGR)</th></tr></thead><tbody>${body}</tbody>`;
-  const intro = `How much each figure changed from fiscal ${y0} to fiscal ${yN}. A year in brackets means the company first or last reported that item in a different year. Percentages aren't meaningful (n/m) when a value is zero or negative.`;
+  const intro = `Fiscal ${y0} vs ${yN}. A year in brackets means that item was first or last reported in a different year; n/m means not meaningful (zero or negative values).`;
   return { table, intro };
 }

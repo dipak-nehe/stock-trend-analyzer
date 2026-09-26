@@ -153,6 +153,17 @@
   .growth td:nth-child(n+4) { font-weight: 600; }
   .growth .yr { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
   .growth .nm { color: var(--text-2); font-weight: 400; }
+  .guide { margin-top: 16px; padding: 0; }
+  .guide summary { cursor: pointer; padding: 14px 18px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+  .guide summary::-webkit-details-marker { display: none; }
+  .guide summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
+  .guide[open] summary::before { transform: rotate(90deg); }
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px 20px; padding: 4px 18px 8px; }
+  .guide-item { display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
+  .guide-item .step { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+  .guide-item h3 { margin: 0 0 2px; font-size: 15px; }
+  .guide-item p { margin: 0; color: var(--text-2); font-size: 14px; }
+  .guide-notes { margin: 8px 18px 16px; padding: 12px 0 0 18px; border-top: 1px solid var(--grid); color: var(--text-2); font-size: 13px; display: grid; gap: 4px; }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -169,7 +180,7 @@
 <body>
 <main>
   <h1>Stock Trend Analyzer</h1>
-  <p class="sub">10 years of annual filings from SEC EDGAR: earnings, revenue, and dividend trends, plus balance-sheet red flags.</p>
+  <p class="sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
 
   <form id="form">
     <input id="ticker" type="text" placeholder="Ticker, e.g. AAPL" autocomplete="off" autofocus aria-label="Stock ticker">
@@ -185,6 +196,23 @@
   </div>
   <p class="disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
+  <details class="guide card" id="guide" open>
+    <summary>What you'll see in the results</summary>
+    <div class="guide-grid">
+      <div class="guide-item"><span class="step">1</span><div><h3>10-year trends</h3><p>Revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>.</p></div></div>
+      <div class="guide-item"><span class="step">2</span><div><h3>Red flags &amp; strengths</h3><p>20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</p></div></div>
+      <div class="guide-item"><span class="step">3</span><div><h3>SEC filing history</h3><p>Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</p></div></div>
+      <div class="guide-item"><span class="step">4</span><div><h3>Value investing checklists</h3><p>How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</p></div></div>
+      <div class="guide-item"><span class="step">5</span><div><h3>Growth over the period</h3><p>First year vs latest year for 12 key figures: the change, total growth and growth per year, in one table.</p></div></div>
+      <div class="guide-item"><span class="step">6</span><div><h3>Charts &amp; full data</h3><p>Eight charts (margins, debt vs cash, cash flow vs earnings and more) and every figure by year, straight from the annual reports.</p></div></div>
+    </div>
+    <ul class="guide-notes">
+      <li><strong>Which companies:</strong> any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Results cover up to 10 fiscal years.</li>
+      <li><strong>Accuracy:</strong> figures come from the companies' 10-K / 20-F filings. Per-share numbers are adjusted for stock splits, and banks and insurers get checks suited to them.</li>
+      <li><strong>Sharing:</strong> the page address keeps the ticker (and any price you enter), so you can bookmark or share a result.</li>
+    </ul>
+  </details>
+
   <div id="loading" class="loading hidden">Fetching filings from SEC EDGAR…</div>
   <div id="error" class="card error hidden"></div>
 
@@ -195,9 +223,11 @@
     </div>
 
     <h2>Trends</h2>
+    <p class="section-note">The latest annual figure, its average growth per year (CAGR) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
     <div class="tiles" id="tiles"></div>
 
     <h2>Balance sheet &amp; quality flags</h2>
+    <p class="section-note">Automated checks on growth, profitability, debt, liquidity, cash flow, dilution, dividends and the SEC filing record. Critical items are worth a close look in the filings; strengths show what's going well.</p>
     <div class="score" id="score"></div>
     <div class="flags" id="flags"></div>
 
@@ -237,6 +267,7 @@
     <p class="note" id="valueNote"></p>
 
     <h2>Charts</h2>
+    <p class="section-note">Hover over or tap a chart to see each year's values.</p>
     <div class="charts">
       <div class="card chart-card"><h3>Revenue and net income</h3><p>Annual totals</p><div class="chart-box"><canvas id="cRevenue"></canvas></div></div>
       <div class="card chart-card"><h3>Earnings per share (diluted)</h3><p>Split-adjusted</p><div class="chart-box"><canvas id="cEps"></canvas></div></div>
@@ -253,6 +284,7 @@
     <div class="card table-wrap"><table id="growthTable" class="growth"></table></div>
 
     <h2>Data</h2>
+    <p class="section-note">Every figure used on this page, by fiscal year, as reported in the company's annual filings. A dash means the company didn't report that item for that year.</p>
     <div class="card table-wrap"><table id="table"></table></div>
     <p class="note" id="note"></p>
   </section>

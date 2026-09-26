@@ -41,6 +41,7 @@ function render(d) {
   $("note").textContent = footnote(d);
 
   $("result").classList.remove("hidden");
+  $("guide").open = false;  // keep the results in view; the guide stays one click away
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   renderValue();

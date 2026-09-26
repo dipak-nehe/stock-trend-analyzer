@@ -158,3 +158,31 @@ def test_show_all_keeps_the_price_and_raises_no_errors(open_ticker, console_erro
     expect(page.locator("#historyList .event")).to_have_count(17)
     expect(page.locator("#price")).to_have_value("30")
     assert console_errors == []
+
+
+def test_guide_explains_the_results_before_a_search(page, app_url):
+    page.goto(app_url)
+    guide = page.locator("#guide")
+    expect(guide).to_have_attribute("open", "")
+    expect(guide.locator(".guide-item h3")).to_have_text([
+        "10-year trends", "Red flags & strengths", "SEC filing history",
+        "Value investing checklists", "Growth over the period", "Charts & full data",
+    ])
+
+
+def test_guide_collapses_after_a_search_and_can_be_reopened(open_ticker):
+    page = open_ticker("KO")
+    guide = page.locator("#guide")
+    expect(guide).not_to_have_attribute("open", "")
+    expect(guide.locator(".guide-grid")).to_be_hidden()
+    page.click("#guide summary")
+    expect(guide.locator(".guide-grid")).to_be_visible()
+
+
+def test_each_results_section_has_an_explanation(open_ticker):
+    page = open_ticker("KO")
+    for heading in ("Trends", "Balance sheet & quality flags", "SEC filing history", "Value investing checklists",
+                    "Charts", "Growth over the period", "Data"):
+        note = page.locator(f"xpath=//h2[normalize-space()='{heading}']/following-sibling::p[1]")
+        expect(note).to_have_class("section-note")
+        assert len(note.inner_text()) > 30, heading

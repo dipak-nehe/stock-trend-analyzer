@@ -17,6 +17,13 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-dev.txt
 
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: JavaScript unit tests
+        run: node --test tests/js/
+
       - name: Install test tools
         run: |
           pip install -r requirements-dev.txt

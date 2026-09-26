@@ -48,14 +48,15 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-121 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+156 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
 | **Unit** (`tests/test_stock_data.py`, 46 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
-| **HTTP** (`tests/test_server.py`, 17 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
-| **End-to-end** (`tests/e2e/`, 16 tests) | Playwright drives the real page in Chromium: search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+| **HTTP** (`tests/test_server.py`, 19 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
+| **JavaScript unit** (`tests/js/`, 32 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
+| **End-to-end** (`tests/e2e/`, 17 tests) | Playwright drives the real page in Chromium: search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
 
 ```bash
 python3 -m venv .venv
@@ -64,6 +65,7 @@ python3 -m venv .venv
 
 .venv/bin/pytest                 # everything, about 6 seconds
 .venv/bin/pytest -m "not e2e"    # skip the browser tests
+node --test tests/js/            # JavaScript unit tests (Node 20+)
 ```
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
@@ -71,7 +73,10 @@ To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 
 ## Project structure
 
 ```
-public/index.html     one-page UI: trends, red-flag rules, charts (Chart.js)
+public/index.html     page layout and styles
+public/js/            ES modules: app.js wires the page; flags.js (red-flag rules),
+                      valuation.js (Graham/Buffett), growth.js, history.js, views.js and
+                      charts.js; format.js, series.js and labels.js hold shared helpers
 public/favicon.svg    icon; public/og.png is the link-preview image
 api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL
 stock_data.py         SEC EDGAR fetching and normalization, shared by both servers
@@ -91,7 +96,7 @@ Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financi
 ```
 
 - **`stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
-- **`public/index.html`** is a single page with plain JavaScript. It computes CAGRs, classifies trends, runs the red-flag rules, and renders the charts.
+- **`public/js/`** holds plain-JavaScript ES modules with no build step. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node. Only `app.js` and `charts.js` touch the page.
 
 ## Limitations
 

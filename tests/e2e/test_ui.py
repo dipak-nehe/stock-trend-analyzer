@@ -148,3 +148,13 @@ def test_phone_layout_has_no_horizontal_scroll(page, open_ticker):
     open_ticker("AAPL")
     widths = page.evaluate("[document.documentElement.scrollWidth, document.documentElement.clientWidth]")
     assert widths[0] <= widths[1]
+
+
+def test_show_all_keeps_the_price_and_raises_no_errors(open_ticker, console_errors):
+    # Regression: the "Show all" button shares the .chip style with the ticker buttons and used to
+    # be wired as one, which cleared the price and threw a JavaScript error.
+    page = open_ticker("SMCI", price=30)
+    page.click("#historyMore")
+    expect(page.locator("#historyList .event")).to_have_count(17)
+    expect(page.locator("#price")).to_have_value("30")
+    assert console_errors == []

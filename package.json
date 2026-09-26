@@ -1,0 +1,9 @@
+{
+  "name": "stock-trend-analyzer",
+  "private": true,
+  "type": "module",
+  "description": "Lets Node run the browser ES modules in public/js for unit tests. No dependencies.",
+  "scripts": {
+    "test": "node --test tests/js/"
+  }
+}

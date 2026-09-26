@@ -7,3 +7,4 @@ tests/
 requirements-dev.txt
 pytest.ini
 test-results/
+package.json

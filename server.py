@@ -15,7 +15,7 @@ import stock_data
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
-STATIC_TYPES = {".html": "text/html", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
+STATIC_TYPES = {".html": "text/html", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
 
 
 class Handler(BaseHTTPRequestHandler):

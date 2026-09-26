@@ -12,6 +12,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
 import stock_data
+import store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
@@ -28,6 +29,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Cache-Control", cache)
         if data_cache:
             self.send_header("X-Data-Cache", data_cache)
+            self.send_header("X-Data-Store", store.describe(stock_data.store))
         self.end_headers()
         self.wfile.write(data)
 

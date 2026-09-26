@@ -109,6 +109,7 @@ def test_repeat_lookups_are_served_from_storage(local):
     first = local("/api/financials?ticker=KO")
     second = local("/api/financials?ticker=KO")
     assert first[1]["X-Data-Cache"] == "MISS" and second[1]["X-Data-Cache"] == "HIT"
+    assert second[1]["X-Data-Store"] == "memory"     # which backend served it (tests use memory)
     assert json.loads(first[2]) == json.loads(second[2])
     assert json.loads(second[2])["dataAsOf"]
 

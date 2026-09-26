@@ -7,6 +7,7 @@ from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import stock_data  # noqa: E402
+import store  # noqa: E402
 
 
 class handler(BaseHTTPRequestHandler):
@@ -19,6 +20,7 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", cache)
         if data_cache:
             self.send_header("X-Data-Cache", data_cache)
+            self.send_header("X-Data-Store", store.describe(stock_data.store))  # redis | memory | file
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         self.wfile.write(data)

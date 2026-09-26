@@ -173,20 +173,40 @@
   .growth td:nth-child(n+4) { font-weight: 600; }
   .growth .yr { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
   .growth .nm { color: var(--text-2); font-weight: 400; }
-  .guide { margin-top: 16px; padding: 0; }
+  .guide { margin-top: 16px; padding: 0; overflow: hidden; }
   .guide summary { cursor: pointer; padding: 14px 18px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
   .guide summary::-webkit-details-marker { display: none; }
   .guide summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
   .guide[open] summary::before { transform: rotate(90deg); }
-  .guide-intro { margin: 0 18px 12px; color: var(--text-2); font-size: 14px; }
-  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 8px 12px; padding: 0 10px 8px; }
-  .guide-item { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 8px; border-radius: 10px; }
-  .guide.has-results .guide-item { cursor: pointer; }
-  .guide.has-results .guide-item:hover { background: var(--page); }
-  .guide-item .step { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
-  .guide-item h3 { margin: 0 0 2px; font-size: 15px; }
-  .guide-item p { margin: 0; color: var(--text-2); font-size: 14px; }
-  .guide-notes { margin: 8px 18px 16px; padding: 12px 0 0 18px; border-top: 1px solid var(--grid); color: var(--text-2); font-size: 13px; display: grid; gap: 4px; }
+  .how { list-style: none; margin: 0 18px 16px; padding: 12px; display: flex; gap: 8px; border-radius: 10px; background: var(--page); counter-reset: none; }
+  .how li { flex: 1 1 0; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); position: relative; }
+  .how li + li::before { content: "›"; color: var(--muted); font-size: 22px; margin-right: 6px; }
+  .how strong { color: var(--text-1); }
+  .how-n { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; background: var(--accent); }
+  .guide-intro { margin: 0 18px 10px; color: var(--text-2); font-size: 14px; }
+  .guide-try { color: var(--accent); font-weight: 600; }
+  .guide.has-results .guide-try { display: none; }
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; padding: 0 18px 4px; }
+  .guide-item { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; text-align: left; padding: 14px; border-radius: 12px;
+    background: var(--surface); color: var(--text-1); border: 1px solid var(--border); font: inherit; cursor: pointer; transition: border-color .15s, transform .15s, box-shadow .15s; }
+  .guide-item:hover, .guide-item:focus-visible { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--accent) 60%, transparent); }
+  .gi-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .gi-icon svg, .tab-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .gi-body { display: grid; gap: 4px; }
+  .gi-title { font-weight: 700; font-size: 15px; }
+  .gi-text { color: var(--text-2); font-size: 14px; line-height: 1.45; }
+  .gi-go { color: var(--accent); font-size: 13px; font-weight: 600; margin-top: 2px; }
+  .gi-go::after { content: "See an example →"; }
+  .guide.has-results .gi-go::after { content: "Open →"; }
+  .guide-notes { list-style: none; margin: 14px 18px 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; }
+  .guide-notes li { padding: 10px 12px; border-radius: 10px; background: var(--page); color: var(--text-2); font-size: 13px; line-height: 1.45; }
+  .guide-notes strong { display: block; color: var(--text-1); font-size: 13px; margin-bottom: 2px; }
+  .tabbar [role=tab] { display: inline-flex; align-items: center; gap: 6px; }
+  .tab-icon { width: 16px; height: 16px; }
+  @media (max-width: 700px) {
+    .how { flex-direction: column; }
+    .how li + li::before { display: none; }
+  }
 
   .glance { margin-top: 16px; padding: 6px 8px; display: grid; }
   .glance-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 8px 10px 4px; }
@@ -264,6 +284,14 @@
 </head>
 <body>
 <main>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-overview" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-flags" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></symbol>
+  <symbol id="i-value" viewBox="0 0 24 24"><path d="M12 4v16M6 20h12"/><path d="M4 8h16"/><path d="M4 8l-2 6h6zM20 8l-2 6h6z"/></symbol>
+  <symbol id="i-charts" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-data" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
+</svg>
   <h1>Stock Trend Analyzer</h1>
   <p class="sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
 
@@ -288,20 +316,43 @@
   <p class="disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <details class="guide card" id="guide" open>
-    <summary>What you'll see in the results</summary>
-    <p class="guide-intro">Results open with an <strong>at-a-glance</strong> summary. Click any line, or a tab, for the detail:</p>
+    <summary><span class="guide-title">What you'll see in the results</span></summary>
+    <ol class="how">
+      <li><span class="how-n">1</span><span><strong>Enter a ticker</strong> or pick an example</span></li>
+      <li><span class="how-n">2</span><span><strong>Read the at-a-glance summary</strong>: six one-line verdicts</span></li>
+      <li><span class="how-n">3</span><span><strong>Open a tab</strong> for the detail behind each verdict</span></li>
+    </ol>
+    <p class="guide-intro">The tabs, and what each one shows. <span class="guide-try">Click a card to see it with a real company.</span></p>
     <div class="guide-grid">
-      <div class="guide-item" data-tab="overview"><span class="step">1</span><div><h3>Overview</h3><p>10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</p></div></div>
-      <div class="guide-item" data-tab="flags"><span class="step">2</span><div><h3>Red flags</h3><p>20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</p></div></div>
-      <div class="guide-item" data-tab="history"><span class="step">3</span><div><h3>SEC history</h3><p>Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</p></div></div>
-      <div class="guide-item" data-tab="value"><span class="step">4</span><div><h3>Value</h3><p>How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</p></div></div>
-      <div class="guide-item" data-tab="charts"><span class="step">5</span><div><h3>Charts</h3><p>Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</p></div></div>
-      <div class="guide-item" data-tab="data"><span class="step">6</span><div><h3>Data</h3><p>Every figure by fiscal year, straight from the annual reports.</p></div></div>
+      <button type="button" class="guide-item" data-tab="overview">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-overview"/></svg></span>
+        <span class="gi-body"><span class="gi-title">Overview</span><span class="gi-text">10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</span><span class="gi-go"></span></span>
+      </button>
+      <button type="button" class="guide-item" data-tab="flags">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-flags"/></svg></span>
+        <span class="gi-body"><span class="gi-title">Red flags</span><span class="gi-text">20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</span><span class="gi-go"></span></span>
+      </button>
+      <button type="button" class="guide-item" data-tab="history">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-history"/></svg></span>
+        <span class="gi-body"><span class="gi-title">SEC history</span><span class="gi-text">Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</span><span class="gi-go"></span></span>
+      </button>
+      <button type="button" class="guide-item" data-tab="value">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
+        <span class="gi-body"><span class="gi-title">Value</span><span class="gi-text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go"></span></span>
+      </button>
+      <button type="button" class="guide-item" data-tab="charts">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-charts"/></svg></span>
+        <span class="gi-body"><span class="gi-title">Charts</span><span class="gi-text">Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</span><span class="gi-go"></span></span>
+      </button>
+      <button type="button" class="guide-item" data-tab="data">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-data"/></svg></span>
+        <span class="gi-body"><span class="gi-title">Data</span><span class="gi-text">Every figure by fiscal year, straight from the annual reports.</span><span class="gi-go"></span></span>
+      </button>
     </div>
     <ul class="guide-notes">
-      <li><strong>Which companies:</strong> any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Results cover up to 10 fiscal years.</li>
-      <li><strong>Accuracy:</strong> figures come from the companies' 10-K / 20-F filings. Per-share numbers are adjusted for stock splits, and banks and insurers get checks suited to them.</li>
-      <li><strong>Sharing:</strong> the page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
+      <li><strong>Which companies</strong> Any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Up to 10 fiscal years.</li>
+      <li><strong>Accuracy</strong> Figures come from the companies' 10-K / 20-F filings. Per-share numbers are split-adjusted; banks and insurers get checks suited to them.</li>
+      <li><strong>Sharing</strong> The page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
     </ul>
   </details>
 
@@ -320,12 +371,12 @@
     </section>
 
     <div class="tabbar" role="tablist" aria-label="Result sections" id="tabs">
-      <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview">Overview</button>
-      <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags">Red flags <span class="badge" id="flagsBadge"></span></button>
-      <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history">SEC history <span class="badge" id="historyBadge"></span></button>
-      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value">Value</button>
-      <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts">Charts</button>
-      <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data">Data</button>
+      <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview"><svg class="tab-icon" aria-hidden="true"><use href="#i-overview"/></svg>Overview</button>
+      <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg>Red flags <span class="badge" id="flagsBadge"></span></button>
+      <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg>SEC history <span class="badge" id="historyBadge"></span></button>
+      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg>Value</button>
+      <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg>Charts</button>
+      <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg>Data</button>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-overview" aria-labelledby="tab-overview">

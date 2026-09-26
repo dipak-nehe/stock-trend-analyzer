@@ -55,6 +55,7 @@ function render(d) {
   $("result").classList.remove("hidden");
   $("guide").open = false;  // keep the results in view; the guide stays one click away
   $("guide").classList.add("has-results");  // guide cards now open their tab
+  $("guide").querySelector(".guide-title").textContent = "How to read these results";
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   renderValue();
@@ -177,10 +178,22 @@ $("tabs").addEventListener("keydown", (e) => {
                  Home: visible[0], End: visible[visible.length - 1] }[e.key];
   if (next) { e.preventDefault(); showTab(next, { focus: true }); }
 });
-// Glance lines, panel Previous/Next buttons and (once results exist) guide cards all open a tab.
-for (const el of [$("glance"), $("result"), $("guide")]) {
+// Guide cards: before a search they load an example company on that tab; afterwards they just open it.
+const EXAMPLE_TICKER = "AAPL";
+$("guide").addEventListener("click", async (e) => {
+  const card = e.target.closest(".guide-item[data-tab]");
+  if (!card) return;
+  if (current) return openTabAndScroll(card.dataset.tab);
+  activeTab = card.dataset.tab;
+  $("price").value = "";
+  await run(EXAMPLE_TICKER);
+  if (current) $("tabs").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+// Glance lines and panel Previous/Next buttons open a tab.
+for (const el of [$("glance"), $("result")]) {
   el.addEventListener("click", (e) => {
-    const target = e.target.closest("#glance [data-tab], .panel-nav [data-tab], .guide-item[data-tab]");
+    const target = e.target.closest("#glance [data-tab], .panel-nav [data-tab]");
     if (!target || !current || $(`tab-${target.dataset.tab}`).hidden) return;
     e.stopPropagation();
     openTabAndScroll(target.dataset.tab);

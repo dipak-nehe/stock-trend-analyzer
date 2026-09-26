@@ -175,7 +175,9 @@ def test_guide_explains_the_results_before_a_search(page, app_url):
     guide = page.locator("#guide")
     expect(guide).to_have_attribute("open", "")
     # the guide's cards are named after the tabs, so the guide maps directly onto the results
-    expect(guide.locator(".guide-item h3")).to_have_text(["Overview", "Red flags", "SEC history", "Value", "Charts", "Data"])
+    expect(guide.locator(".guide-item .gi-title")).to_have_text(["Overview", "Red flags", "SEC history", "Value", "Charts", "Data"])
+    expect(guide.locator(".how li")).to_have_count(3)                    # the three-step "how it works" strip
+    expect(guide.locator(".guide-item .gi-go").first).to_be_visible()
 
 
 def test_guide_collapses_after_a_search_and_can_be_reopened(open_ticker):
@@ -297,14 +299,28 @@ def test_previous_and_next_buttons_walk_through_the_tabs(open_ticker):
     expect(page.locator("#panel-data .panel-nav button")).to_have_text(["← Charts"])  # no "next" on the last tab
 
 
-def test_guide_cards_open_their_tab_once_results_are_shown(page, app_url, open_ticker):
+def test_guide_card_before_a_search_shows_an_example_on_that_tab(page, app_url):
     page.goto(app_url)
-    page.locator(".guide-item", has_text="Value").click()   # before a search: nothing to open
-    expect(page.locator("#result")).to_be_hidden()
-    open_ticker("KO")
+    page.locator(".guide-item", has_text="Red flags").click()
+    expect(page.locator("#coName")).to_have_text("Apple Inc. (AAPL)")
+    expect(page.locator("#panel-flags")).to_be_visible()
+    expect(page).to_have_url(re.compile(r"\?t=AAPL#flags$"))
+    expect(page.locator(".guide-title")).to_have_text("How to read these results")
+
+
+def test_guide_card_after_a_search_opens_its_tab_for_that_company(open_ticker):
+    page = open_ticker("KO")
     page.click("#guide summary")
     page.locator(".guide-item", has_text="Value").click()
     expect(page.locator("#panel-value")).to_be_visible()
+    expect(page.locator("#coName")).to_have_text("COCA COLA CO (KO)")   # stays on the searched company
+
+
+def test_tabs_carry_the_same_icons_as_the_guide(page, app_url, open_ticker):
+    page = open_ticker("KO")
+    for tab in ("overview", "flags", "history", "value", "charts", "data"):
+        expect(page.locator(f"#tab-{tab} use")).to_have_attribute("href", f"#i-{tab}")
+        expect(page.locator(f'.guide-item[data-tab="{tab}"] use')).to_have_attribute("href", f"#i-{tab}")
 
 
 # ---------- search box ----------

@@ -69,6 +69,10 @@ jobs:
         continue-on-error: true   # a publishing problem shouldn't mark the tests as failed
         run: |
           # Check the token first, so a bad one gets a clear message (the token itself is never printed).
+          echo "--- token diagnostics (no secrets printed)"
+          echo "v2/user:  HTTP $(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/v2/user)"
+          curl -s -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/v2/teams | python3 -c 'import sys,json; d=json.load(sys.stdin); print("v2/teams:", [(t.get("slug"), t.get("id")) for t in d.get("teams",[])] or d.get("error"))'
+          curl -s -H "Authorization: Bearer $VERCEL_TOKEN" "https://api.vercel.com/v9/projects?limit=5" | python3 -c 'import sys,json; d=json.load(sys.stdin); print("v9/projects:", [p.get("name") for p in d.get("projects",[])] or d.get("error"))'
           who=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/v2/user)
           user=$(echo "$who" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("user",{}).get("username",""))')
           if [ -z "$user" ]; then

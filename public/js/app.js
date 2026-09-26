@@ -152,6 +152,13 @@ function updateUrl() {
 
 // ---------- events ----------
 // a price belongs to one ticker, so clear it when the user looks up another
+// "/" jumps to the search box from anywhere (unless the user is typing in a field)
+document.addEventListener("keydown", (e) => {
+  if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey || e.target.closest("input, textarea, select")) return;
+  e.preventDefault();
+  $("ticker").focus();
+  $("ticker").select();
+});
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
 document.querySelectorAll(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

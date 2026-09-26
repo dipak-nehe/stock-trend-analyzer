@@ -305,3 +305,27 @@ def test_guide_cards_open_their_tab_once_results_are_shown(page, app_url, open_t
     page.click("#guide summary")
     page.locator(".guide-item", has_text="Value").click()
     expect(page.locator("#panel-value")).to_be_visible()
+
+
+# ---------- search box ----------
+
+def test_search_box_has_a_visible_label_and_works_by_label(page, app_url):
+    page.goto(app_url)
+    box = page.get_by_label("Look up a company")
+    expect(box).to_be_focused()                      # ready to type on arrival
+    expect(box).to_have_attribute("placeholder", "Enter a ticker, e.g. AAPL")
+    box.fill("ko")
+    box.press("Enter")
+    expect(page.locator("#coName")).to_have_text("COCA COLA CO (KO)")
+
+
+def test_slash_jumps_to_search_but_not_while_typing_elsewhere(open_ticker):
+    page = open_ticker("KO")
+    open_tab(page, "value")
+    page.fill("#price", "68")
+    page.locator("#price").press("/")               # typing in another field: no jump
+    expect(page.locator("#price")).to_be_focused()
+    page.locator("body").click(position={"x": 5, "y": 5})
+    page.keyboard.press("/")
+    expect(page.locator("#ticker")).to_be_focused()
+    assert page.evaluate("document.getElementById('ticker').selectionEnd") == 2  # existing text selected, ready to replace

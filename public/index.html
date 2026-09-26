@@ -64,11 +64,30 @@
   h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -0.01em; }
   h2 { font-size: 18px; margin: 40px 0 12px; }
   .sub { color: var(--text-2); margin: 0 0 24px; }
-  form { display: flex; gap: 8px; flex-wrap: wrap; }
+  .search { margin: 4px 0 0; padding: 18px; border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border)); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); box-shadow: 0 6px 24px -12px color-mix(in srgb, var(--accent) 45%, transparent); }
+  .search-label { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-weight: 700; font-size: 15px; margin-bottom: 10px; }
+  .kbd-hint { color: var(--muted); font-weight: 400; font-size: 12px; }
+  kbd { font: 600 11px/1 system-ui, sans-serif; padding: 2px 6px; border: 1px solid var(--axis); border-bottom-width: 2px; border-radius: 4px; background: var(--surface); color: var(--text-2); }
+  form { display: flex; gap: 10px; }
+  .search-field { position: relative; flex: 1 1 auto; min-width: 0; max-width: 520px; }
+  .search-icon { position: absolute; left: 14px; top: 50%; width: 22px; height: 22px; transform: translateY(-50%); color: var(--accent); pointer-events: none; }
   input[type=text] {
-    flex: 1 1 220px; max-width: 320px; padding: 10px 14px; font-size: 16px;
-    border: 1px solid var(--axis); border-radius: 8px; background: var(--surface); color: var(--text-1);
-    text-transform: uppercase;
+    width: 100%; height: 56px; padding: 0 16px 0 46px; font-size: 20px; font-weight: 600; letter-spacing: .02em;
+    border: 2px solid var(--accent); border-radius: 12px; background: var(--surface); color: var(--text-1);
+    transition: box-shadow .15s;
+  }
+  input[type=text]:not(:placeholder-shown) { text-transform: uppercase; }
+  input[type=text]::placeholder { color: var(--muted); font-weight: 400; letter-spacing: 0; }
+  input[type=text]:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent); }
+  #go { height: 56px; padding: 0 26px; font-size: 17px; border-radius: 12px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--muted); align-items: center; }
+  .chip { background: var(--surface); color: var(--text-1); border: 1px solid var(--border); padding: 5px 12px; font-weight: 600; font-size: 13px; border-radius: 999px; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 600px) {
+    .search { padding: 14px; }
+    .kbd-hint { display: none; }
+    input[type=text] { height: 52px; font-size: 18px; }
+    #go { height: 52px; padding: 0 18px; }
   }
   button {
     padding: 10px 20px; font-size: 15px; font-weight: 600; border: 0; border-radius: 8px;
@@ -214,7 +233,6 @@
     h1 { font-size: 22px; }
     .tile .value { font-size: 24px; }
     .chart-box { height: 220px; }
-    button { flex: 1 1 auto; }
   }
 </style>
 </head>
@@ -223,18 +241,24 @@
   <h1>Stock Trend Analyzer</h1>
   <p class="sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
 
-  <form id="form">
-    <input id="ticker" type="text" placeholder="Ticker, e.g. AAPL" autocomplete="off" autofocus aria-label="Stock ticker">
-    <button id="go" type="submit">Analyze</button>
-  </form>
-  <div class="chips">Try:
-    <button class="chip" data-t="AAPL">AAPL</button>
-    <button class="chip" data-t="KO">KO</button>
-    <button class="chip" data-t="MSFT">MSFT</button>
-    <button class="chip" data-t="JPM">JPM</button>
-    <button class="chip" data-t="INTC">INTC</button>
-    <button class="chip" data-t="T">T</button>
-  </div>
+  <section class="search card" aria-label="Search">
+    <div class="search-label"><label for="ticker">Look up a company</label><span class="kbd-hint" aria-hidden="true">Press <kbd>/</kbd> to search</span></div>
+    <form id="form" role="search">
+      <div class="search-field">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="ticker" type="text" placeholder="Enter a ticker, e.g. AAPL" autocomplete="off" autocapitalize="characters" spellcheck="false" autofocus>
+      </div>
+      <button id="go" type="submit">Analyze</button>
+    </form>
+    <div class="chips">Try:
+      <button class="chip" type="button" data-t="AAPL">AAPL</button>
+      <button class="chip" type="button" data-t="KO">KO</button>
+      <button class="chip" type="button" data-t="MSFT">MSFT</button>
+      <button class="chip" type="button" data-t="JPM">JPM</button>
+      <button class="chip" type="button" data-t="INTC">INTC</button>
+      <button class="chip" type="button" data-t="T">T</button>
+    </div>
+  </section>
   <p class="disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <details class="guide card" id="guide" open>

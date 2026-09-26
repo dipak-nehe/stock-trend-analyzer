@@ -405,6 +405,8 @@ export default {
   "nav.next": "Next: {name} →",
   "nav.prev": "← {name}",
   "company.meta": "Fiscal years {from}–{to} · reported in {cur} · CIK {cik}",
+  "company.asOf": "Data from SEC as of {date}",
+  "company.stale": "SEC couldn't be reached just now, so this is the copy saved on {date}. It may miss the latest filings.",
   "guide.titleAfter": "How to read these results",
   "error.empty": "Please enter a ticker.",
   "error.badTicker": "That doesn't look like a ticker. Use letters, digits, '.' or '-' (e.g. AAPL, BRK.B).",

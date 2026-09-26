@@ -405,6 +405,8 @@ export default {
   "nav.next": "Siguiente: {name} →",
   "nav.prev": "← {name}",
   "company.meta": "Ejercicios {from}–{to} · declara en {cur} · CIK {cik}",
+  "company.asOf": "Datos de la SEC a {date}",
+  "company.stale": "Ahora mismo no se puede contactar con la SEC, así que se muestra la copia guardada el {date}. Puede que no incluya las últimas presentaciones.",
   "guide.titleAfter": "Cómo leer estos resultados",
   "error.empty": "Introduce un ticker.",
   "error.badTicker": "Eso no parece un ticker. Usa letras, números, «.» o «-» (p. ej. AAPL, BRK.B).",

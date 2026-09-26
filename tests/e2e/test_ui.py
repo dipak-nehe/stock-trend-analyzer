@@ -501,3 +501,25 @@ def test_analytics_script_is_not_loaded_locally(page, app_url):
     page.locator("#glance .glance-row").first.wait_for()
     assert not [u for u in requests if "/_vercel/insights" in u]
     expect(page.locator("footer")).to_contain_text("no cookies, no personal data")
+
+
+def test_company_header_says_when_the_data_was_fetched(open_ticker):
+    page = open_ticker("KO")
+    expect(page.locator("#coAsOf")).to_contain_text("Data from SEC as of")
+    expect(page.locator("#staleNote")).to_be_hidden()
+    page.click(".lang-switch [data-lang=es]")
+    expect(page.locator("#coAsOf")).to_contain_text("Datos de la SEC a")
+
+
+def test_saved_copy_notice_when_sec_is_unreachable(page, app_url):
+    stale = {"ticker": "KO", "name": "COCA COLA CO", "cik": 21344, "currency": "USD", "years": [2024, 2025],
+             "periodEnds": ["2024-12-31", "2025-12-31"], "splits": [], "secHistory": None, "sharesOutstanding": None,
+             "secUrl": "https://www.sec.gov/x", "dataAsOf": "2026-09-20T10:00:00+00:00", "stale": True,
+             "series": {k: [1e9, 1.1e9] for k in ["revenue", "netIncome", "operatingIncome", "grossProfit", "eps", "dps",
+                        "dividendsPaid", "operatingCashFlow", "capex", "interestExpense", "dilutedShares", "totalAssets",
+                        "totalLiabilities", "equity", "liabilitiesAndEquity", "currentAssets", "currentLiabilities", "cash",
+                        "goodwill", "receivables", "inventory", "totalDebt", "longTermDebt"]}}
+    page.route("**/api/financials*", lambda route: route.fulfill(status=200, json=stale))
+    page.goto(f"{app_url}/?t=KO")
+    expect(page.locator("#staleNote")).to_be_visible()
+    expect(page.locator("#staleNote")).to_contain_text("SEC couldn't be reached")

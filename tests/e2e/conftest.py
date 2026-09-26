@@ -7,6 +7,7 @@ import pytest
 
 import server
 import stock_data
+import store
 from helpers import fixture_sec_get
 
 
@@ -28,6 +29,7 @@ def app_url():
     mp = pytest.MonkeyPatch()
     mp.setenv("SEC_USER_AGENT", "StockTrendTests tests@example.com")
     mp.setattr(stock_data, "sec_get", fixture_sec_get)
+    mp.setattr(stock_data, "store", store.MemoryStore())
     mp.setattr(server.Handler, "log_message", lambda *a: None)
     httpd = ThreadingHTTPServer(("127.0.0.1", 0), server.Handler)
     threading.Thread(target=httpd.serve_forever, kwargs={"poll_interval": 0.05}, daemon=True).start()

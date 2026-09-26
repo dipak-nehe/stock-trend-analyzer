@@ -7,6 +7,7 @@ import allure
 import pytest
 
 import stock_data
+import store
 from helpers import _not_found, fixture_sec_get
 
 
@@ -25,6 +26,14 @@ def _allure_layer(request):
     layer = LAYERS.get(request.module.__name__.rsplit(".", 1)[-1])
     if layer:
         allure.dynamic.parent_suite(layer)
+
+
+@pytest.fixture(autouse=True)
+def fresh_store(monkeypatch):
+    """Every test starts with an empty in-memory store, so nothing stored by one test answers another."""
+    mem = store.MemoryStore()
+    monkeypatch.setattr(stock_data, "store", mem)
+    return mem
 
 
 @pytest.fixture

@@ -4,7 +4,7 @@
   "outputDirectory": "public",
   "functions": {
     "api/financials.py": {
-      "includeFiles": "stock_data.py",
+      "includeFiles": "{stock_data,store}.py",
       "maxDuration": 30
     }
   },

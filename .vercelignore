@@ -16,3 +16,4 @@ allure-report/
 tsconfig.json
 eslint.config.js
 types/
+.cache/

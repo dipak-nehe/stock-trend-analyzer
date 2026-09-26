@@ -248,14 +248,14 @@ def test_lookup_accepts_class_share_tickers_with_a_dot(fake_sec):
                                             ("NOPE", 404)])
 def test_bad_or_unknown_tickers(fake_sec, ticker, status):
     fake_sec(us_gaap={"NetIncomeLoss": net_income_years(YEARS)})
-    code, body, cache = stock_data.api_response(ticker)
+    code, body, cache, _ = stock_data.api_response(ticker)
     assert code == status and "error" in body
     assert cache == (stock_data.CACHE_NOT_FOUND if status == 404 else stock_data.CACHE_NONE)
 
 
 def test_success_is_cached_on_the_cdn_only(fake_sec):
     fake_sec(us_gaap={"NetIncomeLoss": net_income_years(YEARS)})
-    code, body, cache = stock_data.api_response("test")
+    code, body, cache, _ = stock_data.api_response("test")
     assert code == 200 and body["ticker"] == "TEST"
     assert "s-maxage=86400" in cache and "max-age=0" in cache  # browsers always revalidate
 
@@ -274,7 +274,7 @@ def test_sec_failures_become_friendly_uncached_errors(monkeypatch, exc, status, 
     def failing(url):
         raise exc
     monkeypatch.setattr(stock_data, "sec_get", failing)
-    code, body, cache = stock_data.api_response("AAPL")
+    code, body, cache, _ = stock_data.api_response("AAPL")
     assert code == status and text in body["error"] and cache == stock_data.CACHE_NONE
     assert "boom" not in body["error"]  # internal details never leak
 
@@ -287,5 +287,5 @@ def test_sec_contact_is_required(monkeypatch, value):
         monkeypatch.setenv("SEC_USER_AGENT", value)
     monkeypatch.setattr(stock_data, "_cache", {})
     monkeypatch.setattr(stock_data, "sec_get", REAL_SEC_GET)  # fails on the contact check before any network call
-    code, body, _ = stock_data.api_response("AAPL")
+    code, body, _, _ = stock_data.api_response("AAPL")
     assert code == 500 and "SEC_USER_AGENT" in body["error"]

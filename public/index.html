@@ -294,6 +294,7 @@
   .lang-switch button { background: none; color: var(--text-2); font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
   .lang-switch button[aria-pressed="true"] { background: var(--accent-strong); color: #fff; }
   .table-wrap:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .stale-note { margin: 8px 0 0; padding: 8px 12px; font-size: 13px; border-left: 3px solid var(--warning); background: var(--page); border-radius: 0 6px 6px 0; }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -391,7 +392,7 @@
 
   <section id="result" class="hidden">
     <div class="company card">
-      <div><h2 id="coName"></h2><div class="meta" id="coMeta"></div></div>
+      <div><h2 id="coName"></h2><div class="meta" id="coMeta"></div><div class="meta as-of" id="coAsOf"></div><p class="stale-note" id="staleNote" role="status" hidden></p></div>
       <a id="secLink" target="_blank" rel="noopener" data-i18n="ui.secLink">View filings on SEC ↗</a>
     </div>
 

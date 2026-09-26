@@ -12,11 +12,13 @@ import stock_data  # noqa: E402
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         ticker = (parse_qs(urlparse(self.path).query).get("ticker") or [""])[0]
-        status, body, cache = stock_data.api_response(ticker)
+        status, body, cache, data_cache = stock_data.api_response(ticker)
         data = json.dumps(body).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Cache-Control", cache)
+        if data_cache:
+            self.send_header("X-Data-Cache", data_cache)
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         self.wfile.write(data)

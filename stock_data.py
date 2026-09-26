@@ -4,7 +4,9 @@ Pulls up to 10 years of annual (10-K / 20-F / 40-F) financials for a ticker
 from SEC EDGAR's free XBRL API. Shared by the local server (server.py) and the
 Vercel serverless function (api/financials.py). Standard library only.
 """
+import gzip
 import json
+import logging
 import os
 import re
 import socket
@@ -12,7 +14,9 @@ import ssl
 import time
 import urllib.error
 import urllib.request
-from datetime import date
+from datetime import date, datetime, timezone
+
+import store as store_module
 
 YEARS = 10
 TICKER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]{0,9}$")
@@ -22,6 +26,42 @@ TICKER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]{0,9}$")
 CACHE_OK = "public, max-age=0, s-maxage=86400, stale-while-revalidate=604800"
 CACHE_NOT_FOUND = "public, max-age=0, s-maxage=3600"
 CACHE_NONE = "no-store"
+
+
+# ---------- stored results (see store.py) ----------
+# Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/app.js),
+# so stored entries in the old format are simply ignored.
+CACHE_VERSION = "v4"
+FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC for this long
+KEEP_SECONDS = 30 * 24 * 3600      # keep it this long as a fallback for when SEC is unavailable
+TICKERS_SECONDS = 7 * 24 * 3600    # ticker -> company lookup table
+log = logging.getLogger("stock_data")
+store = None                       # set at the bottom of this module (tests replace it)
+
+
+def safe_get(key):
+    """Read and decode a stored JSON value; any storage problem counts as 'not stored'."""
+    if store is None:
+        return None
+    try:
+        raw = store.get(key)
+        return None if raw is None else json.loads(gzip.decompress(raw))
+    except Exception as e:  # noqa: BLE001
+        log.warning("store read failed for %s: %s", key, e)
+        return None
+
+
+def safe_set(key, value, ttl):
+    if store is None:
+        return
+    try:
+        store.set(key, gzip.compress(json.dumps(value, separators=(",", ":")).encode(), 6), ttl)
+    except Exception as e:  # noqa: BLE001
+        log.warning("store write failed for %s: %s", key, e)
+
+
+def normalize_ticker(ticker):
+    return ticker.strip().upper().replace(".", "-").replace("/", "-")
 
 
 class ConfigError(Exception):
@@ -192,12 +232,20 @@ def sec_get(url):
     return data
 
 
+def ticker_table():
+    """{TICKER: [cik, title, ticker]}: stored for a week instead of downloading SEC's multi-MB list each time."""
+    key = f"{CACHE_VERSION}:tickers"
+    table = safe_get(key)
+    if table is None:
+        table = {row["ticker"].upper(): [row["cik_str"], row["title"], row["ticker"]]
+                 for row in sec_get("https://www.sec.gov/files/company_tickers.json").values()}
+        safe_set(key, table, TICKERS_SECONDS)
+    return table
+
+
 def lookup_cik(ticker):
-    t = ticker.strip().upper().replace(".", "-").replace("/", "-")
-    for row in sec_get("https://www.sec.gov/files/company_tickers.json").values():
-        if row["ticker"].upper() == t:
-            return row["cik_str"], row["title"], row["ticker"]
-    return None
+    row = ticker_table().get(normalize_ticker(ticker))
+    return tuple(row) if row else None
 
 
 def _d(s):
@@ -459,28 +507,53 @@ def build_financials(ticker):
     }
 
 
-def api_response(ticker):
-    """Handle one /api/financials request. Returns (status, body_dict, cache_control)."""
+def api_response(ticker, now=time.time):
+    """Handle one /api/financials request.
+
+    Returns (status, body_dict, cache_control, data_cache) where data_cache says where the data came from:
+    "HIT" (stored, fresh), "MISS" (fetched from SEC now), "STALE" (SEC failed, stored copy served) or None.
+    """
     ticker = (ticker or "").strip()
     if not ticker:
-        return 400, {"error": "Please enter a ticker."}, CACHE_NONE
+        return 400, {"error": "Please enter a ticker."}, CACHE_NONE, None
     if not TICKER_RE.match(ticker):
-        return 400, {"error": "That doesn't look like a ticker. Use letters, digits, '.' or '-' (e.g. AAPL, BRK.B)."}, CACHE_NONE
+        return 400, {"error": "That doesn't look like a ticker. Use letters, digits, '.' or '-' (e.g. AAPL, BRK.B)."}, CACHE_NONE, None
+
+    key = f"{CACHE_VERSION}:fin:{normalize_ticker(ticker)}"
+    stored = safe_get(key)
+    if stored and now() - stored["fetchedTs"] < FRESH_SECONDS:
+        return 200, stored["data"], CACHE_OK, "HIT"
+
+    def stale_or(status, body, cache):
+        # SEC failed: a stored copy (even an old one) beats an error page
+        if stored:
+            return 200, {**stored["data"], "stale": True}, CACHE_NONE, "STALE"
+        return status, body, cache, None
+
     try:
-        return 200, build_financials(ticker), CACHE_OK
+        data = build_financials(ticker)
     except ConfigError as e:
-        return 500, {"error": str(e)}, CACHE_NONE
+        return stale_or(500, {"error": str(e)}, CACHE_NONE)
     except LookupError as e:
-        return 404, {"error": str(e)}, CACHE_NOT_FOUND
+        return 404, {"error": str(e)}, CACHE_NOT_FOUND, None
     except urllib.error.HTTPError as e:
         if e.code in (403, 429):
             msg = "SEC EDGAR is limiting requests right now. Please try again in a minute."
         elif e.code == 404:
-            return 404, {"error": f"SEC EDGAR has no financial data (XBRL) for '{ticker.upper()}'."}, CACHE_NOT_FOUND
+            return 404, {"error": f"SEC EDGAR has no financial data (XBRL) for '{ticker.upper()}'."}, CACHE_NOT_FOUND, None
         else:
             msg = f"SEC EDGAR returned an error (HTTP {e.code}). Please try again shortly."
-        return 502, {"error": msg}, CACHE_NONE
+        return stale_or(502, {"error": msg}, CACHE_NONE)
     except (urllib.error.URLError, socket.timeout, TimeoutError):
-        return 504, {"error": "SEC EDGAR took too long to respond. Please try again."}, CACHE_NONE
+        return stale_or(504, {"error": "SEC EDGAR took too long to respond. Please try again."}, CACHE_NONE)
     except Exception:  # noqa: BLE001
-        return 500, {"error": "Something went wrong while processing this company's filings."}, CACHE_NONE
+        log.exception("failed to build financials for %s", ticker)
+        return stale_or(500, {"error": "Something went wrong while processing this company's filings."}, CACHE_NONE)
+
+    ts = now()
+    data["dataAsOf"] = datetime.fromtimestamp(ts, timezone.utc).isoformat(timespec="seconds")
+    safe_set(key, {"fetchedTs": ts, "data": data}, KEEP_SECONDS)
+    return 200, data, CACHE_OK, "MISS"
+
+
+store = store_module.from_environment(ssl_context=SSL_CTX)

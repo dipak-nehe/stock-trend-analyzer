@@ -19,13 +19,15 @@ STATIC_TYPES = {".html": "text/html", ".js": "text/javascript", ".svg": "image/s
 
 
 class Handler(BaseHTTPRequestHandler):
-    def _send(self, code, body, ctype="application/json", cache=None):
+    def _send(self, code, body, ctype="application/json", cache=None, data_cache=None):
         data = body if isinstance(body, bytes) else body.encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", ctype + ("; charset=utf-8" if ctype.startswith(("text", "application/json")) else ""))
         self.send_header("Content-Length", str(len(data)))
         if cache:
             self.send_header("Cache-Control", cache)
+        if data_cache:
+            self.send_header("X-Data-Cache", data_cache)
         self.end_headers()
         self.wfile.write(data)
 
@@ -33,8 +35,8 @@ class Handler(BaseHTTPRequestHandler):
         url = urlparse(self.path)
         if url.path == "/api/financials":
             ticker = (parse_qs(url.query).get("ticker") or [""])[0]
-            status, body, cache = stock_data.api_response(ticker)
-            return self._send(status, json.dumps(body), cache=cache)
+            status, body, cache, data_cache = stock_data.api_response(ticker)
+            return self._send(status, json.dumps(body), cache=cache, data_cache=data_cache)
         name = "index.html" if url.path in ("/", "") else url.path.lstrip("/")
         path = os.path.realpath(os.path.join(PUBLIC, name))
         ext = os.path.splitext(path)[1]

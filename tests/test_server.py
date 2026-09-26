@@ -101,5 +101,20 @@ def test_vercel_config_bundles_the_shared_module():
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
     for fn in config["functions"].values():
-        assert fn["includeFiles"] == "stock_data.py"
+        assert fn["includeFiles"] == "{stock_data,store}.py"  # every module the function imports
     assert os.path.exists(os.path.join(ROOT, "public", "index.html"))
+
+
+def test_repeat_lookups_are_served_from_storage(local):
+    first = local("/api/financials?ticker=KO")
+    second = local("/api/financials?ticker=KO")
+    assert first[1]["X-Data-Cache"] == "MISS" and second[1]["X-Data-Cache"] == "HIT"
+    assert json.loads(first[2]) == json.loads(second[2])
+    assert json.loads(second[2])["dataAsOf"]
+
+
+def test_vercel_function_sends_the_data_cache_header(serve):
+    vercel = serve(load_vercel_handler(), threading_server=False)
+    assert vercel("/api/financials?ticker=KO")[1]["X-Data-Cache"] == "MISS"
+    assert vercel("/api/financials?ticker=KO")[1]["X-Data-Cache"] == "HIT"
+    assert "X-Data-Cache" not in vercel("/api/financials?ticker=ZZZZQ")[1]

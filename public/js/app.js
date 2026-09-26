@@ -7,7 +7,7 @@ import { historyView } from "./history.js";
 import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
-import { detectLang, dictionaries, getLang, setLang, t } from "./i18n.js";
+import { detectLang, dictionaries, getLang, getLocale, setLang, t } from "./i18n.js";
 
 // Element lookups by id. Typed loosely (inputs, buttons, details…): every id used here exists in index.html.
 /** @param {string} id @returns {any} */
@@ -35,6 +35,11 @@ function render(d) {
   $("coMeta").textContent = (industry ? industry + " · " : "")
     + t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur, cik: d.cik });
   $("secLink").href = d.secUrl;
+  // When the data was fetched from SEC (results are stored and reused for up to a day)
+  const asOf = d.dataAsOf ? new Date(d.dataAsOf).toLocaleString(getLocale(), { dateStyle: "medium", timeStyle: "short" }) : "";
+  $("coAsOf").textContent = asOf ? t("company.asOf", { date: asOf }) : "";
+  $("staleNote").hidden = !d.stale;
+  $("staleNote").textContent = d.stale ? t("company.stale", { date: asOf }) : "";
 
   $("tiles").innerHTML = [
     trendTile(t("tile.revenue"), s.revenue, money, cur),

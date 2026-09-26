@@ -28,6 +28,24 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.
 - **Foreign filers** (20-F / 40-F, IFRS) are pinned to their reporting currency, so USD convenience translations are never mixed in.
 
+## Stored results
+
+Each ticker is fetched from SEC once, and the finished result is stored and reused (`store.py`):
+
+- **Fresh for 24 hours:** repeat lookups are served from storage (a few milliseconds instead of 1–3 s) without calling SEC.
+- **After 24 hours:** the next lookup fetches from SEC again and replaces the stored copy.
+- **If SEC is unreachable,** a saved copy up to 30 days old is shown, with a notice, instead of an error.
+- **The ticker lookup table** is stored for a week, instead of downloading SEC's multi-MB list each time.
+- **Stored data is gzip-compressed** (a company is about 2–15 KB) and keyed with a format version (`CACHE_VERSION`), so a format change never serves old-shaped data.
+
+| Where | Storage |
+|---|---|
+| Live site with Upstash Redis connected (Vercel → Storage) | Redis, shared by all servers |
+| Live site without Redis | In memory, per server instance |
+| Your machine | Files in `.cache/` (set `STOCK_CACHE=off` to disable) |
+
+Responses carry `X-Data-Cache: HIT | MISS | STALE`, and the page shows "Data from SEC as of …".
+
 ## Privacy
 
 The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/analytics): page views, country, device and referrer, with no cookies and no personal data. It isn't loaded when running locally, and the footer says so.
@@ -55,15 +73,15 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-232 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+259 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
-| **Unit** (`tests/test_stock_data.py`, 46 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
+| **Unit** (`tests/test_stock_data.py`, `tests/test_store.py`, 69 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
-| **HTTP** (`tests/test_server.py`, 19 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
+| **HTTP** (`tests/test_server.py`, 21 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 49 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
-| **End-to-end** (`tests/e2e/test_ui.py`, 52 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+| **End-to-end** (`tests/e2e/test_ui.py`, 54 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
 | **Accessibility** (`tests/e2e/test_accessibility.py`, 24 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page and every results tab, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
 ```bash
@@ -80,7 +98,7 @@ node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 232 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+Every CI run builds an [Allure](https://allurereport.org) report covering all 259 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
 - **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.
@@ -115,6 +133,7 @@ public/js/            ES modules: app.js wires the page; flags.js (red-flag rule
 public/favicon.svg    icon; public/og.png is the link-preview image
 api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL
 stock_data.py         SEC EDGAR fetching and normalization, shared by both servers
+store.py              stored results: Redis (live), files (local) or memory (tests)
 server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
 tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)

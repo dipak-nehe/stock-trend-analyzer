@@ -175,7 +175,7 @@ def test_guide_explains_the_results_before_a_search(page, app_url):
     guide = page.locator("#guide")
     expect(guide).to_have_attribute("open", "")
     # the guide's cards are named after the tabs, so the guide maps directly onto the results
-    expect(guide.locator(".guide-item .gi-title")).to_have_text(["Overview", "Red flags", "SEC history", "Value", "Charts", "Data"])
+    expect(guide.locator(".guide-item .gi-title")).to_have_text(["Overview", "Red flags", "SEC history", "Graham & Buffett-style analysis", "Charts", "Data"])
     expect(guide.locator(".how li")).to_have_count(3)                    # the three-step "how it works" strip
     expect(guide.locator(".guide-item .gi-go").first).to_be_visible()
 
@@ -204,7 +204,7 @@ def test_glance_summarises_each_area_in_one_line(open_ticker):
     page = open_ticker("SMCI")
     rows = page.locator("#glance .glance-row")
     expect(rows).to_have_count(6)
-    expect(rows.locator(".what")).to_have_text(["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Value checklists"])
+    expect(rows.locator(".what")).to_have_text(["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Graham & Buffett"])
     expect(rows.filter(has_text="Red flags")).to_contain_text("2 critical")
     expect(rows.filter(has_text="Red flags")).to_contain_text("Financial statements were restated")
     expect(rows.filter(has_text="SEC record")).to_contain_text("1 restatement · 3 auditor changes · 13 late filings")
@@ -311,7 +311,7 @@ def test_guide_card_before_a_search_shows_an_example_on_that_tab(page, app_url):
 def test_guide_card_after_a_search_opens_its_tab_for_that_company(open_ticker):
     page = open_ticker("KO")
     page.click("#guide summary")
-    page.locator(".guide-item", has_text="Value").click()
+    page.locator('.guide-item[data-tab="value"]').click()
     expect(page.locator("#panel-value")).to_be_visible()
     expect(page.locator("#coName")).to_have_text("COCA COLA CO (KO)")   # stays on the searched company
 
@@ -392,3 +392,19 @@ def test_checklist_scores_have_a_bar(open_ticker):
     bar = page.locator("#grahamScore .meter")
     expect(bar).to_have_attribute("aria-label", "4 of 8 criteria met")
     assert page.evaluate("document.querySelector('#grahamScore .meter span').style.width") == "50%"
+
+
+def test_value_tab_is_named_after_graham_and_buffett(open_ticker):
+    page = open_ticker("KO")
+    expect(page.locator("#tab-value")).to_have_text("Graham & Buffett")
+    expect(page.locator("#panel-charts .panel-nav button.prev")).to_have_text("← Graham & Buffett")
+    expect(page.locator("#valueNote")).to_contain_text("Not affiliated with or endorsed by")
+
+
+def test_phone_tab_bar_keeps_the_active_tab_in_view(page, app_url):
+    page.set_viewport_size({"width": 375, "height": 812})
+    page.goto(f"{app_url}/?t=KO#value")
+    page.locator("#panel-value").wait_for()
+    bar, tab = page.locator("#tabs").bounding_box(), page.locator("#tab-value").bounding_box()
+    assert tab["x"] >= bar["x"] and tab["x"] + tab["width"] <= bar["x"] + bar["width"] + 1
+    expect(page.locator("#tabs")).to_have_class(re.compile("more-(left|right)"))  # fade hints at hidden tabs

@@ -106,7 +106,7 @@ export function valueView(d, price, v) {
   const priceHint = cur === "USD"
     ? "Needed for the valuation tests. Look it up on any quote site or your broker."
     : `Enter the price per ordinary share in ${cur}. ADRs often represent several shares, so an ADR price in USD won't match.`;
-  const note = `Book value per share uses ${so ? `${num(so.value)} shares outstanding as of ${so.asOf}` : "the latest diluted share count"}. Thresholds follow Graham's and Buffett's published rules of thumb, simplified to what annual filings report. The value estimates are rough models that depend heavily on their assumptions; they are not price targets.`;
+  const note = `Book value per share uses ${so ? `${num(so.value)} shares outstanding as of ${so.asOf}` : "the latest diluted share count"}. Thresholds follow Graham's and Buffett's published rules of thumb, simplified to what annual filings report. The value estimates are rough models that depend heavily on their assumptions; they are not price targets. Not affiliated with or endorsed by Warren Buffett, Berkshire Hathaway or the Graham estate.`;
   return {
     tiles, priceHint, note,
     graham: list(v.graham), grahamScore: score(v.graham),
@@ -166,7 +166,7 @@ export function glanceRows(d, r, v) {
     return { met, judged, needPrice: list.some((c) => c.status === "price") };
   };
   const g = score(v.graham), b = score(v.buffett);
-  rows.push({ what: "Value checklists", sev: "info", icon: "★", tab: "value",
+  rows.push({ what: "Graham & Buffett", sev: "info", icon: "★", tab: "value",
               say: `Graham ${g.met} of ${g.judged} · Buffett ${b.met} of ${b.judged}${g.needPrice || b.needPrice ? " · add a price for valuation tests" : ""}` });
   return rows;
 }

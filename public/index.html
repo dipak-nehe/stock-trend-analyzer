@@ -230,6 +230,9 @@
 
   .tabbar { position: sticky; top: 0; z-index: 5; display: flex; gap: 4px; overflow-x: auto; margin: 20px 0 12px; padding: 8px 0; background: var(--page); border-bottom: 1px solid var(--grid); scrollbar-width: none; }
   .tabbar::-webkit-scrollbar { display: none; }
+  .tabbar.more-right { -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); }
+  .tabbar.more-left { -webkit-mask-image: linear-gradient(to left, #000 82%, transparent); mask-image: linear-gradient(to left, #000 82%, transparent); }
+  .tabbar.more-left.more-right { -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent); }
   .tabbar [role=tab] { flex: 0 0 auto; background: none; color: var(--text-2); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 8px; }
   .tabbar [role=tab]:hover { color: var(--text-1); background: var(--surface); }
   .tabbar [role=tab][aria-selected=true] { color: #fff; background: var(--accent); }
@@ -338,7 +341,7 @@
       </button>
       <button type="button" class="guide-item" data-tab="value">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Value</span><span class="gi-text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title">Graham &amp; Buffett-style analysis</span><span class="gi-text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go"></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="charts">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-charts"/></svg></span>
@@ -374,7 +377,7 @@
       <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview"><svg class="tab-icon" aria-hidden="true"><use href="#i-overview"/></svg>Overview</button>
       <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg>Red flags <span class="badge" id="flagsBadge"></span></button>
       <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg>SEC history <span class="badge" id="historyBadge"></span></button>
-      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg>Value</button>
+      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg>Graham &amp; Buffett</button>
       <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg>Charts</button>
       <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg>Data</button>
     </div>
@@ -407,7 +410,7 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>
-      <p class="section-note">How the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
+      <p class="section-note"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
     <div class="card price-row">
       <label for="price">Current share price <span class="muted">(optional)</span></label>
       <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50">

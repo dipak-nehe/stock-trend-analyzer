@@ -64,11 +64,11 @@ const glance = (d, price = null) => {
 
 test("glance: one line per area, each pointing to its tab", () => {
   const rows = glance(company());
-  assert.deepEqual(Object.keys(rows), ["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Value checklists"]);
+  assert.deepEqual(Object.keys(rows), ["Revenue", "Earnings", "Dividend", "Red flags", "SEC record", "Graham & Buffett"]);
   assert.deepEqual(Object.values(rows).map((r) => r.tab), ["overview", "overview", "overview", "flags", "history", "value"]);
   assert.match(rows.Revenue.say, /^Growing, 6\.0% a year$/);
   assert.equal(rows["SEC record"].say, "Clean since 2016");
-  assert.match(rows["Value checklists"].say, /add a price for valuation tests$/);
+  assert.match(rows["Graham & Buffett"].say, /add a price for valuation tests$/);
 });
 
 test("glance: recent losses, suspended dividends and critical flags stand out", () => {
@@ -82,7 +82,7 @@ test("glance: recent losses, suspended dividends and critical flags stand out", 
 
 test("glance: no dividend history and the price prompt disappears once a price is set", () => {
   assert.equal(glance(company({ dps: nulls(), dividendsPaid: nulls() })).Dividend.say, "No dividend paid");
-  assert.doesNotMatch(glance(company(), 50)["Value checklists"].say, /add a price/);
+  assert.doesNotMatch(glance(company(), 50)["Graham & Buffett"].say, /add a price/);
 });
 
 test("filing problems ignore routine SEC letters and grade severity", () => {

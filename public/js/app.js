@@ -15,7 +15,7 @@ const API_VERSION = 4;
 let current = null;  // { data: API response, result: analyze(data) }
 let historyFilter = "all", historyExpanded = false;
 const TABS = ["overview", "flags", "history", "value", "charts", "data"];
-const TAB_NAMES = { overview: "Overview", flags: "Red flags", history: "SEC history", value: "Value", charts: "Charts", data: "Data" };
+const TAB_NAMES = { overview: "Overview", flags: "Red flags", history: "SEC history", value: "Graham & Buffett", charts: "Charts", data: "Data" };
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
 let chartsStale = true;  // charts are drawn when their tab is first shown (a hidden canvas has no size)
 
@@ -79,6 +79,19 @@ function openTabAndScroll(name) {
   $("tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// On narrow screens the tab bar scrolls sideways: keep the active tab in view and fade the edge
+// that has more tabs beyond it.
+function revealTab(tab) {
+  const bar = $("tabs");
+  if (bar.scrollWidth > bar.clientWidth) bar.scrollLeft = tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2;
+  updateTabFades();
+}
+function updateTabFades() {
+  const bar = $("tabs");
+  bar.classList.toggle("more-left", bar.scrollLeft > 4);
+  bar.classList.toggle("more-right", bar.scrollLeft + bar.clientWidth < bar.scrollWidth - 4);
+}
+
 function showTab(name, { focus = false } = {}) {
   activeTab = name;
   for (const t of TABS) {
@@ -88,6 +101,7 @@ function showTab(name, { focus = false } = {}) {
     $(`panel-${t}`).hidden = !selected;
   }
   if (focus) $(`tab-${name}`).focus();
+  revealTab($(`tab-${name}`));
   if (name === "charts" && chartsStale && current) {
     renderCharts(current.data, current.result);
     chartsStale = false;
@@ -171,6 +185,8 @@ $("tabs").addEventListener("click", (e) => {
   const tab = e.target.closest("[role=tab]");
   if (tab) showTab(tab.dataset.tab);
 });
+$("tabs").addEventListener("scroll", updateTabFades, { passive: true });
+addEventListener("resize", updateTabFades);
 $("tabs").addEventListener("keydown", (e) => {
   const visible = TABS.filter((t) => !$(`tab-${t}`).hidden);
   const i = visible.indexOf(activeTab);

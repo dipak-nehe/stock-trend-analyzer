@@ -8,7 +8,7 @@ import pytest
 
 import stock_data
 
-FY = [2021, 2022, 2023, 2024, 2025]
+FY = [2021, 2022, 2023, 2024, 2025]  # the years the saved filings were verified for (not relative to today)
 
 EXPECTED = {
     "AAPL": {

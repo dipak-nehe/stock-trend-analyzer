@@ -52,6 +52,7 @@ export function flagsList(flags) {
     + group(t("flags.group.notes"), flags.filter((f) => f.sev === "info"));
 }
 
+/** @type {[string, [string, (v: number, cur?: string) => string][]][]} Group key, then [metric, formatter] rows. */
 export const DATA_GROUPS = [
   ["group.income", [["revenue", money], ["operatingIncome", money], ["netIncome", money], ["interestExpense", money]]],
   ["group.perShare", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],

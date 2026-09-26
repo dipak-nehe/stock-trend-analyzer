@@ -9,7 +9,13 @@ import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView,
 import { money, perShare } from "./format.js";
 import { detectLang, dictionaries, getLang, setLang, t } from "./i18n.js";
 
+// Element lookups by id. Typed loosely (inputs, buttons, details…): every id used here exists in index.html.
+/** @param {string} id @returns {any} */
 const $ = (id) => document.getElementById(id);
+/** @param {string} selector @returns {HTMLElement[]} */
+const $$ = (selector) => [...document.querySelectorAll(selector)].map((el) => /** @type {HTMLElement} */ (el));
+/** @param {Event} e */
+const targetOf = (e) => /** @type {HTMLElement} */ (e.target);
 // Bump when the API response format changes, so no cache serves an older shape to newer code.
 const API_VERSION = 4;
 
@@ -46,9 +52,9 @@ function render(d) {
   $("note").textContent = footnote(d);
 
   const crit = r.flags.filter((f) => f.sev === "critical").length;
-  $("flagsBadge").textContent = crit || "";
+  $("flagsBadge").textContent = crit ? String(crit) : "";
   const problems = filingProblems(d.secHistory);
-  $("historyBadge").textContent = problems && problems.sev === "critical" ? problems.total : "";
+  $("historyBadge").textContent = problems && problems.sev === "critical" ? String(problems.total) : "";
   $("tab-history").hidden = !d.secHistory;
   if (!d.secHistory && activeTab === "history") activeTab = "overview";
 
@@ -68,7 +74,7 @@ function render(d) {
 // "← Previous / Next →" at the bottom of each tab, skipping tabs hidden for this company.
 function renderPanelNav() {
   const visible = TABS.filter((tab) => !$(`tab-${tab}`).hidden);
-  document.querySelectorAll(".panel-nav").forEach((nav) => {
+  $$(".panel-nav").forEach((nav) => {
     const i = visible.indexOf(nav.dataset.for);
     const prev = visible[i - 1], next = visible[i + 1];
     nav.innerHTML = (prev ? `<button type="button" class="prev" data-tab="${prev}">${t("nav.prev", { name: t(`tab.${prev}`) })}</button>` : "")
@@ -98,7 +104,7 @@ function showTab(name, { focus = false } = {}) {
   activeTab = name;
   for (const tab of TABS) {
     const selected = tab === name;
-    $(`tab-${tab}`).setAttribute("aria-selected", selected);
+    $(`tab-${tab}`).setAttribute("aria-selected", String(selected));
     $(`tab-${tab}`).tabIndex = selected ? 0 : -1;
     $(`panel-${tab}`).hidden = !selected;
   }
@@ -175,7 +181,7 @@ function updateUrl() {
   const q = new URLSearchParams();
   if (current) q.set("t", current.data.ticker);
   const p = parseFloat($("price").value);
-  if (current && p > 0) q.set("p", p);
+  if (current && p > 0) q.set("p", String(p));
   if (getLang() !== "en") q.set("lang", getLang());
   const hash = current && activeTab !== "overview" ? `#${activeTab}` : "";
   history.replaceState(null, "", `${location.pathname}${q.toString() ? `?${q}` : ""}${hash}`);
@@ -187,15 +193,15 @@ function updateUrl() {
 function applyStaticText() {
   const lang = getLang(), dict = dictionaries[lang];
   document.documentElement.lang = lang;
-  for (const el of document.querySelectorAll("[data-i18n]")) {
+  for (const el of $$("[data-i18n]")) {
     if (!("en" in el.dataset)) el.dataset.en = el.innerHTML;
     el.innerHTML = lang === "en" ? el.dataset.en : (dict[el.dataset.i18n] ?? el.dataset.en);
   }
-  for (const el of document.querySelectorAll("[data-i18n-placeholder]")) {
+  for (const el of /** @type {HTMLInputElement[]} */ ($$("[data-i18n-placeholder]"))) {
     if (!("enPlaceholder" in el.dataset)) el.dataset.enPlaceholder = el.placeholder;
     el.placeholder = lang === "en" ? el.dataset.enPlaceholder : (dict[el.dataset.i18nPlaceholder] ?? el.dataset.enPlaceholder);
   }
-  document.querySelectorAll(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   if (current) $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
 }
 
@@ -218,20 +224,20 @@ function initialLang(params) {
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey || e.target.closest("input, textarea, select")) return;
+  if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey || targetOf(e).closest("input, textarea, select")) return;
   e.preventDefault();
   $("ticker").focus();
   $("ticker").select();
 });
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
-document.querySelectorAll(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
+$$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   chartsStale = true;  // chart colours come from the theme
   if (current && activeTab === "charts") showTab("charts");
 });
 
 $("tabs").addEventListener("click", (e) => {
-  const tab = e.target.closest("[role=tab]");
+  const tab = /** @type {HTMLElement | null} */ (targetOf(e).closest("[role=tab]"));
   if (tab) showTab(tab.dataset.tab);
 });
 $("tabs").addEventListener("scroll", updateTabFades, { passive: true });
@@ -246,7 +252,7 @@ $("tabs").addEventListener("keydown", (e) => {
 // Guide cards: before a search they load an example company on that tab; afterwards they just open it.
 const EXAMPLE_TICKER = "AAPL";
 $("guide").addEventListener("click", async (e) => {
-  const card = e.target.closest(".guide-item[data-tab]");
+  const card = /** @type {HTMLElement | null} */ (targetOf(e).closest(".guide-item[data-tab]"));
   if (!card) return;
   if (current) return openTabAndScroll(card.dataset.tab);
   activeTab = card.dataset.tab;
@@ -258,7 +264,7 @@ $("guide").addEventListener("click", async (e) => {
 // Glance lines and panel Previous/Next buttons open a tab.
 for (const el of [$("glance"), $("result")]) {
   el.addEventListener("click", (e) => {
-    const target = e.target.closest("#glance [data-tab], .panel-nav [data-tab]");
+    const target = /** @type {HTMLElement | null} */ (targetOf(e).closest("#glance [data-tab], .panel-nav [data-tab]"));
     if (!target || !current || $(`tab-${target.dataset.tab}`).hidden) return;
     e.stopPropagation();
     openTabAndScroll(target.dataset.tab);
@@ -266,7 +272,7 @@ for (const el of [$("glance"), $("result")]) {
 }
 
 $("historyFilters").addEventListener("click", (e) => {
-  const b = e.target.closest("button[data-f]");
+  const b = /** @type {HTMLElement | null} */ (targetOf(e).closest("button[data-f]"));
   if (!b) return;
   historyFilter = b.dataset.f; historyExpanded = false; renderHistory();
 });
@@ -278,6 +284,6 @@ $("price").addEventListener("input", () => { clearTimeout(priceTimer); priceTime
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
-document.querySelectorAll(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
+$$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
 if (params.get("p")) $("price").value = params.get("p");
 if (params.get("t")) run(params.get("t"));

@@ -13,3 +13,6 @@ package-lock.json
 allurerc.mjs
 allure-results/
 allure-report/
+tsconfig.json
+eslint.config.js
+types/

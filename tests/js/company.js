@@ -1,7 +1,10 @@
 // Builds a synthetic API response (ten fiscal years) for the JavaScript unit tests.
 // Defaults describe a steady, healthy company; pass overrides for the series a test cares about.
 
-export const YEARS = [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+// A fixed decade (not "the last 10 years from today"), so expected text such as "Net loss in: 2025" never
+// changes with the calendar. The app itself always takes the latest 10 fiscal years from the filings.
+export const FIRST_YEAR = 2016;
+export const YEARS = Array.from({ length: 10 }, (_, i) => FIRST_YEAR + i);
 const grow = (start, rate) => YEARS.map((_, i) => Math.round(start * Math.pow(1 + rate, i)));
 const nulls = () => YEARS.map(() => null);
 

@@ -91,6 +91,16 @@ Every CI run builds an [Allure](https://allurereport.org) report covering all 23
   npm run report                       # writes allure-report/index.html
   ```
 
+### Lint and type check
+
+```bash
+npm run lint        # ESLint: recommended rules plus no-shadow, eqeqeq (null-aware), prefer-const
+npm run typecheck   # TypeScript 7 checks the plain JavaScript (checkJs); no build step, nothing emitted
+npm run check       # both; CI runs this before the tests
+```
+
+The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics).
+
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
 
 ## Project structure
@@ -108,6 +118,7 @@ stock_data.py         SEC EDGAR fetching and normalization, shared by both serve
 server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
 tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)
+tsconfig.json, eslint.config.js, types/   type checking and lint settings (not deployed)
 .github/workflows/    CI: runs the tests on every push
 ```
 

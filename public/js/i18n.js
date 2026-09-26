@@ -23,6 +23,7 @@ export const has = (key) => DICTS[lang][key] != null || EN[key] != null;
 export const tn = (key, count, vars = {}) => t(`${key}.${count === 1 ? "one" : "other"}`, { n: count, ...vars });
 
 // Best match for the visitor's browser languages, e.g. ["es-MX", "en"] -> "es".
+/** @param {readonly string[]} [languages] */
 export function detectLang(languages = []) {
   for (const l of languages) {
     const base = String(l).toLowerCase().split("-")[0];

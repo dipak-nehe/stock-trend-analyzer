@@ -7,7 +7,7 @@ import pytest
 import stock_data
 from helpers import REAL_SEC_GET, concept, fact, net_income_years, year
 
-YEARS = list(range(2016, 2026))
+YEARS = list(range(2016, 2026))  # a fixed decade so expectations don't change with the calendar; the app uses the latest 10 filed years
 
 
 def build(fake_sec, **tags):

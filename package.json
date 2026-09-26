@@ -4,12 +4,20 @@
   "type": "module",
   "description": "Front-end unit tests run in Node; the Allure report generator. Not deployed (see .vercelignore).",
   "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "npm run lint && npm run typecheck",
     "test": "node --test tests/js/*.test.js",
     "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
     "report": "allure generate allure-results",
     "report:open": "allure open allure-report"
   },
   "devDependencies": {
-    "allure": "3.18.0"
+    "@eslint/js": "10.0.1",
+    "@types/node": "22.20.4",
+    "allure": "3.18.0",
+    "eslint": "10.11.0",
+    "globals": "17.12.0",
+    "typescript": "7.0.2"
   }
 }

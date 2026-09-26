@@ -9,7 +9,7 @@ let charts = [];
 function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
 function makeChart(years, id, type, datasets, yFmt, opts = {}) {
-  const ctx = document.getElementById(id);
+  const ctx = /** @type {HTMLCanvasElement} */ (document.getElementById(id));
   const multi = datasets.length > 1;
   const c = new Chart(ctx, {
     type,

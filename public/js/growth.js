@@ -8,6 +8,8 @@ import { t } from "./i18n.js";
 // Returns { table: <thead>/<tbody> HTML, intro: plain text }.
 export function growthView(d, r) {
   const s = d.series, cur = d.currency, Y = d.years, y0 = Y[0], yN = Y[Y.length - 1];
+  /** @typedef {(v: number, cur?: string) => string} Fmt */
+  /** @type {(string | [string, Fmt])[]} Group headings (strings) and [metric, formatter] rows. */
   const rows = [
     "group.income", ["revenue", money], ["operatingIncome", money], ["netIncome", money],
     "group.perShare", ["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)],

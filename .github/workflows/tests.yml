@@ -67,31 +67,7 @@ jobs:
         id: publish
         if: always() && github.ref == 'refs/heads/main' && env.VERCEL_TOKEN != ''
         continue-on-error: true   # a publishing problem shouldn't mark the tests as failed
-        run: |
-          # Check the token first, so a bad one gets a clear message (the token itself is never printed).
-          who=$(curl -s -H "Authorization: Bearer $VERCEL_TOKEN" https://api.vercel.com/v2/user)
-          user=$(echo "$who" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get("user",{}).get("username",""))')
-          if [ -z "$user" ]; then
-            projects=$(curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $VERCEL_TOKEN" "https://api.vercel.com/v9/projects?limit=1")
-            if [ "$projects" = "200" ]; then
-              echo "::error title=Vercel token is limited to specific projects::It can't create the separate report site. Create a token with access to your whole account (not specific projects) at vercel.com/account/settings/tokens and update the VERCEL_TOKEN secret."
-            else
-              echo "::error title=Vercel token rejected::Create a new token at vercel.com/account/settings/tokens and update the VERCEL_TOKEN secret."
-            fi
-            exit 1
-          fi
-          echo "Vercel token OK (account: $user)"
-          mkdir -p site/stock-trend-test-report
-          cp allure-report/index.html site/stock-trend-test-report/
-          cd site/stock-trend-test-report
-          if ! npx --yes vercel@60.1.3 deploy --prod --yes --token "$VERCEL_TOKEN" > ../deploy-url.txt 2> ../deploy.log; then
-            cat ../deploy.log; exit 1
-          fi
-          # Prefer the stable production address (e.g. https://stock-trend-test-report.vercel.app).
-          alias=$(grep -Eo 'Aliased: https://[^ ]+' ../deploy.log | head -1 | cut -d' ' -f2)
-          url="${alias:-$(cat ../deploy-url.txt)}"
-          echo "url=$url" >> "$GITHUB_OUTPUT"
-          echo "::notice title=Allure report::$url"
+        run: python3 .github/scripts/publish_report.py allure-report/index.html
 
       - name: Test summary
         if: always()

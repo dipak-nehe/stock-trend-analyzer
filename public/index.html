@@ -243,7 +243,7 @@
       <div class="card chart-card"><h3>Dividend per share</h3><p>Declared per year, split-adjusted</p><div class="chart-box"><canvas id="cDps"></canvas></div></div>
       <div class="card chart-card"><h3>Payout ratio</h3><p>Dividends paid ÷ net income</p><div class="chart-box"><canvas id="cPayout"></canvas></div></div>
       <div class="card chart-card"><h3>Balance sheet</h3><p>Total assets, liabilities and shareholders' equity</p><div class="chart-box"><canvas id="cBalance"></canvas></div></div>
-      <div class="card chart-card"><h3>Debt vs cash</h3><p>Reported debt and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
+      <div class="card chart-card"><h3>Debt vs cash</h3><p>Total debt (all borrowings) and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
       <div class="card chart-card"><h3>Cash flow vs earnings</h3><p>Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
       <div class="card chart-card"><h3>Margins</h3><p>Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
     </div>
@@ -265,7 +265,7 @@
 <script>
 const $ = (id) => document.getElementById(id);
 // Bump when the API response format changes, so no cache serves an older shape to newer code.
-const API_VERSION = 3;
+const API_VERSION = 4;
 let charts = [];
 let current = null;
 
@@ -367,13 +367,13 @@ function analyze(d) {
   if (eq != null && eq < 0) add(financial ? "warning" : "critical", "Negative shareholders' equity",
     "Liabilities exceed assets. This can come from heavy buybacks (as at some mature consumer brands) but also means no balance-sheet cushion.");
   if (!financial) {
-    const de = ratio(s.longTermDebt, s.equity), deL = L(de);
+    const de = ratio(s.totalDebt, s.equity), deL = L(de);
     if (eq > 0 && deL != null) {
       if (deL > 2) add("critical", "Very high debt vs equity", `Debt/equity is ${deL.toFixed(2)}x.`);
       else if (deL > 1) add("warning", "Elevated debt vs equity", `Debt/equity is ${deL.toFixed(2)}x.`);
       else if (deL < 0.5) add("good", "Low leverage", `Debt/equity is ${deL.toFixed(2)}x.`);
     }
-    const debtG = cagr(s.longTermDebt, 5), revG5 = cagr(s.revenue, 5);
+    const debtG = cagr(s.totalDebt, 5), revG5 = cagr(s.revenue, 5);
     if (debtG != null && revG5 != null && debtG - revG5 > 0.08 && (deL == null || deL > 0.5))
       add("warning", "Debt growing faster than revenue", `Debt up ${pct(debtG)} a year vs revenue ${pct(revG5)} a year (last 5 years).`);
     const cr = ratio(s.currentAssets, s.currentLiabilities), crL = L(cr);
@@ -387,7 +387,7 @@ function analyze(d) {
       else if (covL < 1.5) add("critical", "Interest barely covered", `Operating income covers interest only ${covL.toFixed(1)}x.`);
       else if (covL < 3) add("warning", "Thin interest coverage", `Operating income covers interest ${covL.toFixed(1)}x (under 3x is tight).`);
     }
-    const cash = L(s.cash), debt = L(s.longTermDebt);
+    const cash = L(s.cash), debt = L(s.totalDebt);
     if (cash != null && debt != null && cash > debt) add("good", "Net cash position", `Cash (${money(cash, cur)}) exceeds debt (${money(debt, cur)}).`);
   }
 
@@ -464,7 +464,7 @@ const LABELS = {
   capex: "Capital expenditure", fcf: "Free cash flow", interestExpense: "Interest expense", dilutedShares: "Diluted shares",
   totalAssets: "Total assets", totalLiabilities: "Total liabilities", equity: "Shareholders' equity",
   currentAssets: "Current assets", currentLiabilities: "Current liabilities", cash: "Cash & equivalents",
-  longTermDebt: "Debt", goodwill: "Goodwill", receivables: "Receivables", inventory: "Inventory",
+  totalDebt: "Total debt", longTermDebt: "Long-term debt", goodwill: "Goodwill", receivables: "Receivables", inventory: "Inventory",
 };
 function labelOf(k) { return LABELS[k] || k; }
 
@@ -522,7 +522,7 @@ function renderCharts() {
   makeChart("cDps", "bar", [bars("Dividend / share", s.dps, s1)], ps);
   makeChart("cPayout", "line", [line("Payout ratio", ratio(s.dividendsPaid, s.netIncome), s1)], pc);
   makeChart("cBalance", "bar", [bars("Assets", s.totalAssets, s1), bars("Liabilities", s.totalLiabilities, s2), bars("Equity", s.equity, s3)], m);
-  makeChart("cDebt", "line", [line("Debt", s.longTermDebt, s2), line("Cash", s.cash, s1)], m);
+  makeChart("cDebt", "line", [line("Total debt", s.totalDebt, s2), line("Cash", s.cash, s1)], m);
   makeChart("cCash", "line", [line("Operating cash flow", s.operatingCashFlow, s1), line("Net income", s.netIncome, s2), line("Free cash flow", r.fcf, s3)], m);
   makeChart("cMargin", "line", [line("Operating margin", ratio(s.operatingIncome, s.revenue), s1), line("Net margin", r.nm, s2)], pc);
 }
@@ -567,10 +567,10 @@ function valueChecks(d, price, r) {
   graham.push(row("Strong current position", "Current assets at least 2x current liabilities",
     fin || cr == null ? "na" : tf(cr >= 2), fin ? NA_BANK : cr == null ? "Not reported" : `Current ratio ${cr.toFixed(2)}`));
   const nca = L(s.currentAssets) != null && L(s.currentLiabilities) != null ? L(s.currentAssets) - L(s.currentLiabilities) : null;
-  const debt = L(s.longTermDebt);
+  const ltDebt = L(s.longTermDebt), debt = L(s.totalDebt);
   graham.push(row("Debt covered by working capital", "Long-term debt no more than net current assets",
-    fin || nca == null || debt == null ? "na" : tf(debt <= nca),
-    fin ? NA_BANK : nca == null ? "Not reported" : debt == null ? "No long-term debt reported" : `Debt ${m(debt)} vs net current assets ${m(nca)}`));
+    fin || nca == null || ltDebt == null ? "na" : tf(ltDebt <= nca),
+    fin ? NA_BANK : nca == null ? "Not reported" : ltDebt == null ? "No long-term debt reported" : `Long-term debt ${m(ltDebt)} vs net current assets ${m(nca)}`));
   const ni = vals(s.netIncome), profitable = ni.filter((v) => v > 0).length;
   graham.push(row("Earnings stability", "Positive earnings every year (Graham asked for 10)",
     ni.length < 5 ? "na" : tf(profitable === ni.length), `Profitable ${profitable} of ${ni.length} years`));
@@ -718,7 +718,7 @@ function renderGrowth(d, r) {
   const rows = [
     ["revenue", money], ["netIncome", money], ["operatingIncome", money], ["eps", perShare], ["dps", perShare],
     ["operatingCashFlow", money], ["fcf", money], ["totalAssets", money], ["equity", money],
-    ["longTermDebt", money], ["cash", money], ["dilutedShares", (v) => num(v)],
+    ["totalDebt", money], ["cash", money], ["dilutedShares", (v) => num(v)],
   ];
   const PROFIT = new Set(["netIncome", "operatingIncome", "eps"]);
   const body = rows.map(([k, fmt]) => {
@@ -778,7 +778,7 @@ function render(d) {
   const rows = [
     ["revenue", money], ["netIncome", money], ["operatingIncome", money], ["eps", perShare], ["dps", perShare],
     ["dividendsPaid", money], ["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dilutedShares", (v) => num(v)],
-    ["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["longTermDebt", money],
+    ["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money], ["longTermDebt", money],
     ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money], ["interestExpense", money],
   ];
   const get = (k) => k === "fcf" ? r.fcf : s[k];
@@ -788,7 +788,7 @@ function render(d) {
   renderGrowth(d, r);
 
   const splitNote = d.splits.length ? ` Per-share figures adjusted for stock splits (${d.splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
-  $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Debt" uses the company's reported long-term debt tag (may include the current portion).${splitNote}`;
+  $("note").textContent = `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Total debt" is long-term debt including the part due within a year, plus short-term borrowings (leases excluded). "Long-term debt" excludes the part due within a year.${splitNote}`;
 
   $("result").classList.remove("hidden");
   historyFilter = "all"; historyExpanded = false;

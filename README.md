@@ -71,7 +71,7 @@ Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financi
 
 - Covers companies that file with the SEC only.
 - Some companies don't tag every item (for example, Berkshire Hathaway has no EPS tag). Checks that need missing data are skipped, and the page says so.
-- "Debt" uses the company's reported long-term debt tag, which may or may not include the current portion.
+- "Total debt" is long-term debt (including the part due within a year) plus short-term borrowings; lease liabilities are not included, so it can be lower than totals on sites that add leases.
 - This is an automated screen, **not investment advice**. Check the actual filings before making decisions.
 
 ## License

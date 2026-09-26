@@ -123,14 +123,36 @@ CONCEPTS = {
         ("us-gaap", "Cash"),
         ("ifrs-full", "CashAndCashEquivalents"),
     ]),
-    "longTermDebt": ("instant", [
+    # Debt and liability building blocks, combined into consistent series in build_financials().
+    # Companies switch tags over the years (e.g. total vs non-current only), so tags are never mixed
+    # across definitions: each helper holds one definition.
+    "_ltdTotal": ("instant", [  # long-term debt INCLUDING the portion due within a year
         ("us-gaap", "LongTermDebt"),
         ("us-gaap", "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"),
-        ("us-gaap", "DebtLongtermAndShorttermCombinedAmount"),
+        ("ifrs-full", "Borrowings"),
+    ]),
+    "_ltdNoncurrent": ("instant", [  # long-term debt EXCLUDING the portion due within a year
         ("us-gaap", "LongTermDebtNoncurrent"),
         ("us-gaap", "LongTermDebtAndCapitalLeaseObligations"),
         ("ifrs-full", "NoncurrentPortionOfNoncurrentBorrowings"),
-        ("ifrs-full", "Borrowings"),
+    ]),
+    "_ltdCurrent": ("instant", [  # portion of long-term debt due within a year
+        ("us-gaap", "LongTermDebtCurrent"),
+        ("us-gaap", "LongTermDebtAndCapitalLeaseObligationsCurrent"),
+        ("ifrs-full", "CurrentPortionOfNoncurrentBorrowings"),
+    ]),
+    "_shortTermBorrowings": ("instant", [  # one tag only: ShortTermBorrowings usually already includes commercial paper
+        ("us-gaap", "ShortTermBorrowings"),
+        ("us-gaap", "CommercialPaper"),
+        ("ifrs-full", "ShorttermBorrowings"),
+    ]),
+    "_equityInclNci": ("instant", [
+        ("us-gaap", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"),
+        ("ifrs-full", "Equity"),
+    ]),
+    "_minorityInterest": ("instant", [
+        ("us-gaap", "MinorityInterest"),
+        ("ifrs-full", "NoncontrollingInterests"),
     ]),
     "goodwill": ("instant", [("us-gaap", "Goodwill"), ("ifrs-full", "Goodwill")]),
     "receivables": ("instant", [
@@ -392,13 +414,34 @@ def build_financials(ticker):
     except Exception:  # noqa: BLE001 - the financials are still useful without it
         history = None
 
-    # Derived fallbacks
+    # Derived series
+    total_debt, lt_debt = [], []
     for i in range(len(years)):
-        if series["totalLiabilities"][i] is None and series["liabilitiesAndEquity"][i] is not None \
-                and series["equity"][i] is not None:
-            series["totalLiabilities"][i] = series["liabilitiesAndEquity"][i] - series["equity"][i]
+        ltd_total, ltd_nc = series["_ltdTotal"][i], series["_ltdNoncurrent"][i]
+        ltd_cur, stb = series["_ltdCurrent"][i], series["_shortTermBorrowings"][i]
+        if ltd_total is None and ltd_nc is not None:
+            ltd_total = ltd_nc + (ltd_cur or 0)
+        if ltd_nc is None and ltd_total is not None:
+            ltd_nc = ltd_total - (ltd_cur or 0)
+        total_debt.append(ltd_total + (stb or 0) if ltd_total is not None else stb)
+        lt_debt.append(ltd_nc)
+
+        # Total liabilities = everything that isn't equity. Minority owners' stakes in subsidiaries are
+        # equity, not liabilities, so subtract equity INCLUDING non-controlling interests.
+        if series["totalLiabilities"][i] is None and series["liabilitiesAndEquity"][i] is not None:
+            eq_all = series["_equityInclNci"][i]
+            if eq_all is None and series["equity"][i] is not None:
+                eq_all = series["equity"][i] + (series["_minorityInterest"][i] or 0)
+            if eq_all is not None:
+                series["totalLiabilities"][i] = series["liabilitiesAndEquity"][i] - eq_all
         if series["dps"][i] is None and series["dividendsPaid"][i] is not None and series["dilutedShares"][i]:
             series["dps"][i] = round(series["dividendsPaid"][i] / series["dilutedShares"][i], 4)
+
+    series["totalDebt"], series["longTermDebt"] = total_debt, lt_debt
+    sources["totalDebt"] = sources["_ltdTotal"] + sources["_ltdNoncurrent"] + sources["_ltdCurrent"] + sources["_shortTermBorrowings"]
+    sources["longTermDebt"] = sources["_ltdNoncurrent"] + sources["_ltdTotal"] + sources["_ltdCurrent"]
+    for k in [k for k in series if k.startswith("_")]:
+        series.pop(k), sources.pop(k)
 
     return {
         "ticker": sec_ticker,

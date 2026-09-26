@@ -174,18 +174,17 @@ def test_guide_explains_the_results_before_a_search(page, app_url):
     page.goto(app_url)
     guide = page.locator("#guide")
     expect(guide).to_have_attribute("open", "")
-    expect(guide.locator(".guide-list strong")).to_have_text([
-        "At a glance", "Overview", "Red flags", "SEC history", "Value", "Charts & data",
-    ])
+    # the guide's cards are named after the tabs, so the guide maps directly onto the results
+    expect(guide.locator(".guide-item h3")).to_have_text(["Overview", "Red flags", "SEC history", "Value", "Charts", "Data"])
 
 
 def test_guide_collapses_after_a_search_and_can_be_reopened(open_ticker):
     page = open_ticker("KO")
     guide = page.locator("#guide")
     expect(guide).not_to_have_attribute("open", "")
-    expect(guide.locator(".guide-list")).to_be_hidden()
+    expect(guide.locator(".guide-grid")).to_be_hidden()
     page.click("#guide summary")
-    expect(guide.locator(".guide-list")).to_be_visible()
+    expect(guide.locator(".guide-grid")).to_be_visible()
 
 
 def test_each_tab_has_a_short_explanation(open_ticker):
@@ -194,7 +193,7 @@ def test_each_tab_has_a_short_explanation(open_ticker):
         open_tab(page, tab)
         note = page.locator(f"#panel-{tab} .section-note").first
         expect(note).to_be_visible()
-        assert 30 < len(note.inner_text()) < 160, tab  # one short sentence, not a wall of text
+        assert 30 < len(note.inner_text()) < 260, tab  # a sentence or two, not a wall of text
 
 
 # ---------- at a glance + tabs ----------
@@ -277,3 +276,32 @@ def test_page_loads_nothing_from_other_sites(page, app_url):
     page.locator("#panel-charts canvas").first.wait_for()
     outside = [u for u in requests if not u.startswith(app_url)]
     assert outside == []
+
+
+def test_glance_has_a_title_and_hint(open_ticker):
+    page = open_ticker("KO")
+    expect(page.locator("#glanceTitle")).to_have_text("At a glance")
+    expect(page.locator(".glance-head")).to_contain_text("Click any line for the details")
+
+
+def test_previous_and_next_buttons_walk_through_the_tabs(open_ticker):
+    page = open_ticker("KO")
+    nav = page.locator("#panel-overview .panel-nav")
+    expect(nav.locator("button")).to_have_text(["Next: Red flags →"])  # no "previous" on the first tab
+    nav.locator("button.next").click()
+    expect(page.locator("#panel-flags")).to_be_visible()
+    expect(page.locator("#panel-flags .panel-nav button")).to_have_text(["← Overview", "Next: SEC history →"])
+    page.locator("#panel-flags .panel-nav button.prev").click()
+    expect(page.locator("#panel-overview")).to_be_visible()
+    open_tab(page, "data")
+    expect(page.locator("#panel-data .panel-nav button")).to_have_text(["← Charts"])  # no "next" on the last tab
+
+
+def test_guide_cards_open_their_tab_once_results_are_shown(page, app_url, open_ticker):
+    page.goto(app_url)
+    page.locator(".guide-item", has_text="Value").click()   # before a search: nothing to open
+    expect(page.locator("#result")).to_be_hidden()
+    open_ticker("KO")
+    page.click("#guide summary")
+    page.locator(".guide-item", has_text="Value").click()
+    expect(page.locator("#panel-value")).to_be_visible()

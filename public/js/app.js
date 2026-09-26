@@ -15,6 +15,7 @@ const API_VERSION = 4;
 let current = null;  // { data: API response, result: analyze(data) }
 let historyFilter = "all", historyExpanded = false;
 const TABS = ["overview", "flags", "history", "value", "charts", "data"];
+const TAB_NAMES = { overview: "Overview", flags: "Red flags", history: "SEC history", value: "Value", charts: "Charts", data: "Data" };
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
 let chartsStale = true;  // charts are drawn when their tab is first shown (a hidden canvas has no size)
 
@@ -50,13 +51,31 @@ function render(d) {
   $("tab-history").hidden = !d.secHistory;
   if (!d.secHistory && activeTab === "history") activeTab = "overview";
 
+  renderPanelNav();
   $("result").classList.remove("hidden");
   $("guide").open = false;  // keep the results in view; the guide stays one click away
+  $("guide").classList.add("has-results");  // guide cards now open their tab
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   renderValue();
   chartsStale = true;
   showTab(activeTab);
+}
+
+// "← Previous / Next →" at the bottom of each tab, skipping tabs hidden for this company.
+function renderPanelNav() {
+  const visible = TABS.filter((t) => !$(`tab-${t}`).hidden);
+  document.querySelectorAll(".panel-nav").forEach((nav) => {
+    const i = visible.indexOf(nav.dataset.for);
+    const prev = visible[i - 1], next = visible[i + 1];
+    nav.innerHTML = (prev ? `<button type="button" class="prev" data-tab="${prev}">← ${TAB_NAMES[prev]}</button>` : "")
+      + (next ? `<button type="button" class="next" data-tab="${next}">Next: ${TAB_NAMES[next]} →</button>` : "");
+  });
+}
+
+function openTabAndScroll(name) {
+  showTab(name);
+  $("tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function showTab(name, { focus = false } = {}) {
@@ -151,12 +170,15 @@ $("tabs").addEventListener("keydown", (e) => {
                  Home: visible[0], End: visible[visible.length - 1] }[e.key];
   if (next) { e.preventDefault(); showTab(next, { focus: true }); }
 });
-$("glance").addEventListener("click", (e) => {
-  const row = e.target.closest("[data-tab]");
-  if (!row) return;
-  showTab(row.dataset.tab);
-  $("tabs").scrollIntoView({ behavior: "smooth", block: "start" });
-});
+// Glance lines, panel Previous/Next buttons and (once results exist) guide cards all open a tab.
+for (const el of [$("glance"), $("result"), $("guide")]) {
+  el.addEventListener("click", (e) => {
+    const target = e.target.closest("#glance [data-tab], .panel-nav [data-tab], .guide-item[data-tab]");
+    if (!target || !current || $(`tab-${target.dataset.tab}`).hidden) return;
+    e.stopPropagation();
+    openTabAndScroll(target.dataset.tab);
+  });
+}
 
 $("historyFilters").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-f]");

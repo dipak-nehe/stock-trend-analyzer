@@ -155,17 +155,31 @@
   .growth .yr { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
   .growth .nm { color: var(--text-2); font-weight: 400; }
   .guide { margin-top: 16px; padding: 0; }
-  .guide summary { cursor: pointer; padding: 12px 16px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+  .guide summary { cursor: pointer; padding: 14px 18px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
   .guide summary::-webkit-details-marker { display: none; }
   .guide summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
   .guide[open] summary::before { transform: rotate(90deg); }
-  .guide-list { margin: 0; padding: 0 16px 0 40px; display: grid; gap: 6px; color: var(--text-2); font-size: 14px; }
-  .guide-list strong { color: var(--text-1); }
-  .guide-foot { margin: 10px 16px 14px; color: var(--muted); font-size: 13px; }
+  .guide-intro { margin: 0 18px 12px; color: var(--text-2); font-size: 14px; }
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 8px 12px; padding: 0 10px 8px; }
+  .guide-item { display: grid; grid-template-columns: 26px 1fr; gap: 10px; padding: 8px; border-radius: 10px; }
+  .guide.has-results .guide-item { cursor: pointer; }
+  .guide.has-results .guide-item:hover { background: var(--page); }
+  .guide-item .step { width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 13px; font-weight: 700; display: grid; place-items: center; margin-top: 1px; }
+  .guide-item h3 { margin: 0 0 2px; font-size: 15px; }
+  .guide-item p { margin: 0; color: var(--text-2); font-size: 14px; }
+  .guide-notes { margin: 8px 18px 16px; padding: 12px 0 0 18px; border-top: 1px solid var(--grid); color: var(--text-2); font-size: 13px; display: grid; gap: 4px; }
 
   .glance { margin-top: 16px; padding: 6px 8px; display: grid; }
-  .glance-row { display: grid; grid-template-columns: 26px 150px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; border: 0; background: none; color: var(--text-1); font: inherit; text-align: left; cursor: pointer; border-radius: 8px; }
-  .glance-row + .glance-row { border-top: 1px solid var(--grid); border-radius: 0; }
+  .glance-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 8px 10px 4px; }
+  .glance-head h2 { margin: 0; font-size: 17px; }
+  .glance-head .muted { font-size: 13px; }
+  .panel-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--grid); }
+  .panel-nav button { background: var(--surface); color: var(--text-1); border: 1px solid var(--border); font-weight: 600; font-size: 14px; padding: 10px 14px; }
+  .panel-nav button:hover { border-color: var(--axis); }
+  .panel-nav .next { margin-left: auto; background: var(--accent); color: #fff; border-color: var(--accent); }
+  #glance { display: grid; }
+  .glance-row { width: 100%; display: grid; grid-template-columns: 26px 150px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; border: 0; background: none; color: var(--text-1); font: inherit; text-align: left; cursor: pointer; border-radius: 8px; }
+  #glance .glance-row { border-top: 1px solid var(--grid); border-radius: 0; }
   .glance-row:hover { background: var(--page); }
   .glance-row .st { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; background: var(--info); }
   .glance-row.good .st { background: var(--good); }
@@ -225,15 +239,20 @@
 
   <details class="guide card" id="guide" open>
     <summary>What you'll see in the results</summary>
-    <ol class="guide-list">
-      <li><strong>At a glance</strong> — six one-line verdicts, then tabs for the detail</li>
-      <li><strong>Overview</strong> — 10-year trends and growth from first to latest year</li>
-      <li><strong>Red flags</strong> — automated checks on debt, cash flow, dilution and dividends</li>
-      <li><strong>SEC history</strong> — restatements, auditor changes, late filings, SEC letters</li>
-      <li><strong>Value</strong> — Graham and Buffett checklists; add a price for valuation tests</li>
-      <li><strong>Charts &amp; data</strong> — eight charts and every figure by year</li>
-    </ol>
-    <p class="guide-foot">Works for companies that file with the SEC · up to 10 years · links are shareable</p>
+    <p class="guide-intro">Results open with an <strong>at-a-glance</strong> summary. Click any line, or a tab, for the detail:</p>
+    <div class="guide-grid">
+      <div class="guide-item" data-tab="overview"><span class="step">1</span><div><h3>Overview</h3><p>10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</p></div></div>
+      <div class="guide-item" data-tab="flags"><span class="step">2</span><div><h3>Red flags</h3><p>20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</p></div></div>
+      <div class="guide-item" data-tab="history"><span class="step">3</span><div><h3>SEC history</h3><p>Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</p></div></div>
+      <div class="guide-item" data-tab="value"><span class="step">4</span><div><h3>Value</h3><p>How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</p></div></div>
+      <div class="guide-item" data-tab="charts"><span class="step">5</span><div><h3>Charts</h3><p>Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</p></div></div>
+      <div class="guide-item" data-tab="data"><span class="step">6</span><div><h3>Data</h3><p>Every figure by fiscal year, straight from the annual reports.</p></div></div>
+    </div>
+    <ul class="guide-notes">
+      <li><strong>Which companies:</strong> any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Results cover up to 10 fiscal years.</li>
+      <li><strong>Accuracy:</strong> figures come from the companies' 10-K / 20-F filings. Per-share numbers are adjusted for stock splits, and banks and insurers get checks suited to them.</li>
+      <li><strong>Sharing:</strong> the page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
+    </ul>
   </details>
 
   <div id="loading" class="loading hidden">Fetching filings from SEC EDGAR…</div>
@@ -245,7 +264,10 @@
       <a id="secLink" target="_blank" rel="noopener">View filings on SEC ↗</a>
     </div>
 
-    <div class="card glance" id="glance" aria-label="At a glance"></div>
+    <section class="card glance" aria-labelledby="glanceTitle">
+      <div class="glance-head"><h2 id="glanceTitle">At a glance</h2><span class="muted">Click any line for the details</span></div>
+      <div id="glance"></div>
+    </section>
 
     <div class="tabbar" role="tablist" aria-label="Result sections" id="tabs">
       <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview">Overview</button>
@@ -257,17 +279,19 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-overview" aria-labelledby="tab-overview">
-      <p class="section-note">Latest figure and average growth per year. "Volatile" means it fell in 3+ years.</p>
+      <p class="section-note">The latest annual figure, its average growth per year (CAGR) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
       <div class="tiles" id="tiles"></div>
       <h3 class="panel-h">Growth from first to latest year</h3>
       <div class="card table-wrap"><table id="growthTable" class="growth"></table></div>
       <p class="note" id="growthIntro"></p>
+      <nav class="panel-nav" data-for="overview" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-flags" aria-labelledby="tab-flags" hidden>
-      <p class="section-note">Automated checks, most serious first. Critical items deserve a look in the filings.</p>
+      <p class="section-note">Automated checks on growth, profitability, debt, liquidity, cash flow, dilution, dividends and the SEC filing record, most serious first. Critical items are worth a close look in the filings; strengths show what's going well.</p>
       <div class="score" id="score"></div>
       <div class="flags" id="flags"></div>
+      <nav class="panel-nav" data-for="flags" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-history" aria-labelledby="tab-history" hidden>
@@ -278,14 +302,16 @@
         <div id="historyList"></div>
         <button class="chip more" id="historyMore" type="button"></button>
       </div>
+      <nav class="panel-nav" data-for="history" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>
-      <p class="section-note">Graham's and Buffett's criteria, as met / not met. Educational, not a recommendation.</p>
+      <p class="section-note">How the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
     <div class="card price-row">
       <label for="price">Current share price <span class="muted">(optional)</span></label>
       <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50">
       <span class="price-hint" id="priceHint">Needed for the valuation tests. Look it up on any quote site or your broker.</span>
+      <nav class="panel-nav" data-for="value" aria-label="Move between sections"></nav>
     </div>
     <div class="tiles value-tiles" id="valueTiles"></div>
     <div class="value-grid">
@@ -316,13 +342,15 @@
       <div class="card chart-card"><h3>Debt vs cash</h3><p>Total debt (all borrowings) and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
       <div class="card chart-card"><h3>Cash flow vs earnings</h3><p>Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
       <div class="card chart-card"><h3>Margins</h3><p>Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
+      <nav class="panel-nav" data-for="charts" aria-label="Move between sections"></nav>
     </div>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-data" aria-labelledby="tab-data" hidden>
-      <p class="section-note">Every figure by fiscal year, as reported. A dash means not reported that year.</p>
+      <p class="section-note">Every figure used on this page, by fiscal year, as reported in the company's annual filings. A dash means the company didn't report that item for that year.</p>
       <div class="card table-wrap"><table id="table"></table></div>
       <p class="note" id="note"></p>
+      <nav class="panel-nav" data-for="data" aria-label="Move between sections"></nav>
     </div>
   </section>
 </main>

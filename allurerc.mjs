@@ -2,12 +2,12 @@
 import { defineConfig } from "allure";
 
 export default defineConfig({
-  name: "Stock Trend Analyzer · test report",
+  name: "Stock Value Analyzer · test report",
   output: "./allure-report",
   plugins: {
     awesome: {
       options: {
-        reportName: "Stock Trend Analyzer · test report",
+        reportName: "Stock Value Analyzer · test report",
         reportLanguage: "en",
         groupBy: ["parentSuite", "suite", "subSuite"],
         singleFile: true, // one self-contained index.html: opens straight from a downloaded CI artifact

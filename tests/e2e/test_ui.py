@@ -483,7 +483,7 @@ def test_no_english_left_in_spanish_results(page, app_url):
     page.goto(f"{app_url}/?t=INTC&lang=es&p=24")
     page.locator("#glance .glance-row").first.wait_for()
     english = re.compile(r"\b(the|and|with|Revenue|Earnings|Needs|Why it matters|years? of|Price is|Not met|Show all)\b")
-    allowed = ("INTEL CORP", "Semiconductors", "Stock Trend Analyzer", "Yahoo Finance", "Google")
+    allowed = ("INTEL CORP", "Semiconductors", "Stock Value Analyzer", "Yahoo Finance", "Google")
     found = []
     for tab in ("overview", "flags", "history", "value", "charts", "data"):
         open_tab(page, tab)
@@ -537,3 +537,30 @@ def test_guide_toggle_looks_and_reads_like_a_control(open_ticker):
     expect(summary.locator(".when-open")).to_have_text("Hide")
     page.click(".lang-switch [data-lang=es]")
     expect(summary.locator(".when-open")).to_have_text("Ocultar")
+
+
+def test_home_button_returns_to_a_fresh_landing_page(open_ticker, app_url, console_errors):
+    page = open_ticker("SMCI", price=30)
+    open_tab(page, "flags")
+    page.click(".home-btn")
+    expect(page).to_have_url(f"{app_url}/")
+    expect(page.locator("#result")).to_be_hidden()
+    expect(page.locator("#ticker")).to_have_value("")
+    expect(page.locator("#price")).to_have_value("")
+    expect(page).to_have_title("Stock Value Analyzer")
+    # and a new search works normally from there
+    page.fill("#ticker", "KO")
+    page.click("#go")
+    expect(page.locator("#coName")).to_have_text("COCA COLA CO (KO)")
+    assert console_errors == []
+
+
+def test_home_keeps_the_language(page, app_url):
+    page.goto(f"{app_url}/?t=KO&lang=es")
+    page.locator("#result").wait_for(state="visible")
+    home = page.locator(".home-btn")
+    expect(home).to_have_text("Inicio")
+    home.click()
+    expect(page).to_have_url(f"{app_url}/?lang=es")
+    expect(page.locator("#result")).to_be_hidden()
+    expect(page.locator("#go")).to_have_text("Analizar")

@@ -342,3 +342,11 @@
     .cmp-price .price-links { white-space: normal; flex-basis: 100%; }
     .cmp-price { min-width: 0; }
   }
+
+/* ---------- header: home button ---------- */
+  .top-actions { display: flex; align-items: center; gap: 10px; }
+  .home-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+              color: var(--text-2); font-size: 13px; font-weight: 700; text-decoration: none; }
+  .home-btn svg { width: 16px; height: 16px; }
+  .home-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .home-btn:focus-visible, .home-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

@@ -1,4 +1,4 @@
-"""Stock Trend Analyzer - local development server.
+"""Stock Value Analyzer - local development server.
 
 Serves public/index.html and /api/financials (same API as the Vercel function).
 
@@ -63,5 +63,5 @@ if __name__ == "__main__":
             raise
         raise SystemExit(f"Port {PORT} is already in use. Stop the other server (lsof -iTCP:{PORT} -sTCP:LISTEN) "
                          f"or pick another port: PORT=8001 python3 server.py")
-    print(f"Stock Trend Analyzer running at http://localhost:{PORT}")
+    print(f"Stock Value Analyzer running at http://localhost:{PORT}")
     httpd.serve_forever()

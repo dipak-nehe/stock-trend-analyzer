@@ -48,7 +48,7 @@ def test_second_stock_is_fetched_and_compared(page, app_url, console_errors):
     page.click("#goB")
     expect(page.locator("#cmpResult")).to_be_visible()
     expect(page).to_have_url(re.compile(r"\?a=KO&b=AAPL$"))
-    expect(page).to_have_title("KO vs AAPL · Stock Trend Analyzer")
+    expect(page).to_have_title("KO vs AAPL · Stock Value Analyzer")
     expect(page.locator("#cmpCards .cmp-card")).to_have_count(2)
     expect(page.locator("#cmpCards")).to_contain_text("Apple Inc. (AAPL)")
     expect(page.locator("#cmpTable thead")).to_contain_text("KO")
@@ -161,3 +161,11 @@ def test_phone_width_has_no_sideways_scroll(page, app_url):
     page.set_viewport_size({"width": 375, "height": 800})
     open_compare(page, app_url, "a=KO&b=AAPL")
     assert page.evaluate("document.documentElement.scrollWidth") <= 375
+
+
+def test_home_leaves_the_compare_page(page, app_url):
+    open_compare(page, app_url, "a=KO&b=AAPL")
+    page.click(".home-btn")
+    expect(page).to_have_url(f"{app_url}/")
+    expect(page.locator("#result")).to_be_hidden()
+    expect(page.locator("#ticker")).to_have_value("")

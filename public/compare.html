@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Compare stocks · Stock Trend Analyzer</title>
+<title>Compare stocks · Stock Value Analyzer</title>
 <meta name="description" content="Compare two companies side by side: 10-year trends, red flags and Graham &amp; Buffett checks from their SEC filings.">
 <meta name="theme-color" content="#2a78d6">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://stock-value-analysis.vercel.app/compare.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Compare stocks · Stock Trend Analyzer">
+<meta property="og:title" content="Compare stocks · Stock Value Analyzer">
 <meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
 <meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
 <meta property="og:url" content="https://stock-value-analysis.vercel.app/compare.html">
@@ -34,10 +34,13 @@
 <body>
 <main class="compare-page">
   <header class="top">
-    <h1><a class="home-link" href="index.html">Stock Trend Analyzer</a></h1>
-    <div class="lang-switch" role="group" aria-label="Language / Idioma">
-      <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
-      <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+    <h1><a class="home-link" href="./">Stock Value Analyzer</a></h1>
+    <div class="top-actions">
+      <a class="home-btn" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
+      <div class="lang-switch" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+      </div>
     </div>
   </header>
   <p class="sub" data-i18n="ui.cmp.sub">Compare two companies side by side: 10-year trends, red flags and Graham &amp; Buffett checks from their SEC filings.</p>

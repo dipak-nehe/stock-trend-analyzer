@@ -45,6 +45,8 @@ export function applyStaticText() {
     el.placeholder = lang === "en" ? el.dataset.enPlaceholder : (dict[el.dataset.i18nPlaceholder] ?? el.dataset.enPlaceholder);
   }
   $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+  // Home goes back to a fresh landing page (a full page load, so nothing from the last lookup is left over)
+  $$("a.home-btn, a.home-link").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
 }
 
 /** Language from the link, then the remembered choice, then the browser. @param {URLSearchParams} params */

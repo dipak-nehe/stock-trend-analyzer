@@ -92,3 +92,59 @@ test("filing problems ignore routine SEC letters and grade severity", () => {
   const smci = filingProblems(history(events(["non_reliance", "2018-01-01"], ["late_filing", "2019-01-01"], ["late_filing", "2020-01-01"])));
   assert.deepEqual(smci, { total: 3, sev: "critical", text: "1 restatement · 2 late filings" });
 });
+
+import { FLAG_HELP } from "../../public/js/help.js";
+import { DATA_GROUPS, dataTable, flagsList, sparkline } from "../../public/js/views.js";
+import { YEARS } from "./company.js";
+
+test("every warning, critical or strength flag has a plain-English 'why it matters' line", () => {
+  // Scenarios chosen to trigger as many different rules as possible.
+  const scenarios = [
+    company(),
+    company({ netIncome: [...Array(9).fill(100e6), -50e6], dps: [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.6, 0.8, 0],
+              totalDebt: YEARS.map(() => 2500e6), currentLiabilities: YEARS.map(() => 900e6),
+              operatingIncome: YEARS.map(() => -5e6), dividendsPaid: YEARS.map(() => 300e6),
+              goodwill: YEARS.map(() => 1500e6), dilutedShares: YEARS.map((_, i) => 100e6 * 1.05 ** i) },
+            { secHistory: history(events(["non_reliance", "2018-01-01"], ["auditor_change", "2024-01-01"],
+                                         ["late_filing", "2025-01-01"], ["late_filing", "2024-01-01"], ["late_filing", "2023-01-01"])) }),
+    company({ revenue: YEARS.map((_, i) => 1000e6 * 0.9 ** i), operatingCashFlow: YEARS.map(() => 50e6),
+              receivables: YEARS.map((_, i) => 100e6 * 1.3 ** i), inventory: YEARS.map((_, i) => 80e6 * 1.3 ** i),
+              operatingIncome: YEARS.map(() => 20e6), capex: YEARS.map(() => 200e6) }),
+    company({ totalDebt: YEARS.map(() => 1500e6), cash: YEARS.map(() => 5000e6) }),
+  ];
+  const titles = new Set(scenarios.flatMap((d) => analyze(d).flags.filter((f) => f.sev !== "info").map((f) => f.title)));
+  assert.ok(titles.size >= 20, `only ${titles.size} distinct flags exercised`);
+  for (const t of titles) assert.ok(FLAG_HELP[t], `no "why it matters" text for: ${t}`);
+});
+
+test("flags are grouped into needs attention, going well and notes", () => {
+  const flags = [{ sev: "good", title: "Growing dividend", why: "x" }, { sev: "critical", title: "Recent net losses", why: "y" },
+                 { sev: "info", title: "Some data missing", why: "z" }, { sev: "warning", title: "High payout ratio", why: "w" }];
+  const html = text(flagsList(flags));
+  assert.match(html, /^Needs attention 2 .*Recent net losses.*High payout ratio.* Going well 1 .*Growing dividend.* Notes 1 .*Some data missing/);
+  assert.match(html, /Why it matters: The company recently spent more than it earned/);
+  assert.match(text(flagsList([{ sev: "good", title: "Growing dividend", why: "x" }])), /Nothing needs attention/);
+});
+
+test("sparkline draws the yearly shape and skips missing years", () => {
+  const svg = sparkline([1, 2, null, 4]);
+  assert.equal((svg.match(/[ML]\d/g) || []).length, 3);
+  assert.match(svg, /aria-hidden="true"/);
+  assert.equal(sparkline([null, 5, null]), "");
+  assert.match(sparkline([-2, 3, 5]), /class="zero"/);  // a zero line when values cross zero
+});
+
+test("data table groups rows by statement and highlights the latest year", () => {
+  const d = company();
+  const html = dataTable(d, analyze(d));
+  const groups = [...html.matchAll(/<tr class="group"><th[^>]*>([^<]+)</g)].map((m) => m[1]);
+  assert.deepEqual(groups, DATA_GROUPS.map(([name]) => name));
+  assert.equal((html.match(/class="latest"/g) || []).length, 1 + DATA_GROUPS.reduce((n, [, rows]) => n + rows.length, 0));
+});
+
+test("footnote only mentions stock splits that affect the years shown", () => {
+  const d = company({}, { periodEnds: YEARS.map((y) => `${y}-12-31`),
+                          splits: [{ ratio: 2, detectedInFiling: "2013-02-27" }, { ratio: 4, detectedInFiling: "2020-10-30" }] });
+  assert.match(footnote(d), /stock splits \(4-for-1\)/);
+  assert.doesNotMatch(footnote(d), /2-for-1/);
+});

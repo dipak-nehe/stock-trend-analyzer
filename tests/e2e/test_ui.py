@@ -329,3 +329,50 @@ def test_slash_jumps_to_search_but_not_while_typing_elsewhere(open_ticker):
     page.keyboard.press("/")
     expect(page.locator("#ticker")).to_be_focused()
     assert page.evaluate("document.getElementById('ticker').selectionEnd") == 2  # existing text selected, ready to replace
+
+
+# ---------- readability ----------
+
+def test_previous_next_buttons_sit_at_the_bottom_of_every_tab(open_ticker):
+    # Regression: on the Value and Charts tabs the buttons had ended up inside the price box / chart grid.
+    page = open_ticker("KO")
+    for tab in ("overview", "flags", "history", "value", "charts", "data"):
+        is_last = page.evaluate(f"""() => {{
+            const panel = document.getElementById('panel-{tab}');
+            return panel.lastElementChild.classList.contains('panel-nav');
+        }}""")
+        assert is_last, tab
+
+
+def test_red_flags_are_grouped_with_explanations(open_ticker):
+    page = open_ticker("SMCI")
+    open_tab(page, "flags")
+    groups = page.locator("#flags .flag-group h3")
+    expect(groups).to_have_count(2)
+    expect(groups.nth(0)).to_contain_text("Needs attention")
+    expect(groups.nth(1)).to_contain_text("Going well")
+    first = page.locator("#flags .flag").first
+    expect(first).to_contain_text("Financial statements were restated")
+    expect(first.locator(".help")).to_contain_text("Why it matters:")
+
+
+def test_trend_tiles_show_a_sparkline(open_ticker):
+    page = open_ticker("AAPL")
+    expect(page.locator("#tiles .tile svg.spark")).to_have_count(4)
+
+
+def test_jargon_is_explained(open_ticker):
+    page = open_ticker("KO")
+    cagr = page.locator("#panel-overview abbr", has_text="CAGR").first
+    expect(cagr).to_have_attribute("title", re.compile("Compound annual growth rate"))
+    glossary = page.locator("#glossary")
+    expect(glossary).to_be_visible()
+    glossary.locator("summary").click()
+    expect(glossary.locator("dt")).to_contain_text(["CAGR", "Free cash flow", "Graham Number"])
+
+
+def test_checklist_scores_have_a_bar(open_ticker):
+    page = open_ticker("KO", price=68)
+    bar = page.locator("#grahamScore .meter")
+    expect(bar).to_have_attribute("aria-label", "4 of 8 criteria met")
+    assert page.evaluate("document.querySelector('#grahamScore .meter span').style.width") == "50%"

@@ -3,17 +3,32 @@
 import { money, num, pct, perShare } from "./format.js";
 import { classify, firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
+import { FLAG_HELP, abbr } from "./help.js";
+
+// A small trend line of the yearly values (decorative: the tile's text carries the meaning).
+export function sparkline(arr) {
+  const pts = arr.map((v, i) => [i, v]).filter((p) => p[1] != null);
+  if (pts.length < 2) return "";
+  const W = 120, H = 32, pad = 3, n = arr.length - 1 || 1;
+  const vals = pts.map((p) => p[1]), lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
+  const xy = pts.map(([i, v]) => [pad + (i / n) * (W - 2 * pad), H - pad - ((v - lo) / span) * (H - 2 * pad)]);
+  const d = xy.map(([x, y], k) => `${k ? "L" : "M"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+  const zero = lo < 0 && hi > 0 ? `<line x1="0" x2="${W}" y1="${(H - pad - ((0 - lo) / span) * (H - 2 * pad)).toFixed(1)}" y2="${(H - pad - ((0 - lo) / span) * (H - 2 * pad)).toFixed(1)}" class="zero"/>` : "";
+  const [lx, ly] = xy[xy.length - 1];
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${zero}<path d="${d}"/><circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.5"/></svg>`;
+}
 
 export function trendTile(title, arr, fmt, cur) {
   const c = classify(arr), i = lastIdx(arr), f = firstIdx(arr);
   const latest = i >= 0 ? fmt(arr[i], cur) : "–";
   const detail = c.g != null
-    ? `${pct(c.g)} a year (CAGR) · ${fmt(arr[f], cur)} → ${latest}`
+    ? `${pct(c.g)} a year (${abbr("CAGR")}) · ${fmt(arr[f], cur)} → ${latest}`
     : (i >= 0 ? `From ${fmt(arr[f], cur)} to ${latest}` : "Not reported");
   return `<div class="card tile">
     <div class="label">${title}</div>
     <div class="value">${latest}</div>
     <div class="trend ${c.cls}">${c.icon} ${c.label}</div>
+    ${sparkline(arr)}
     <div class="detail">${detail}</div></div>`;
 }
 
@@ -25,27 +40,40 @@ export function flagCounts(flags) {
 export function flagsList(flags) {
   const ICON = { critical: "!", warning: "!", good: "✓", info: "i" };
   const SEV = { critical: "Critical", warning: "Warning", good: "Strength", info: "Note" };
-  return flags.map((f) => `<div class="card flag ${f.sev}">
+  const card = (f) => `<div class="card flag ${f.sev}">
       <div class="icon" aria-hidden="true">${ICON[f.sev]}</div>
-      <div><div class="title"><span class="sev">${SEV[f.sev]}</span>${f.title}</div><div class="why">${f.why}</div></div></div>`).join("")
-    || `<div class="card">No flags triggered.</div>`;
+      <div><div class="title"><span class="sev">${SEV[f.sev]}</span>${f.title}</div><div class="why">${f.why}</div>${
+        FLAG_HELP[f.title] ? `<div class="help"><strong>Why it matters:</strong> ${FLAG_HELP[f.title]}</div>` : ""}</div></div>`;
+  const group = (title, list, empty) => (list.length || empty)
+    ? `<div class="flag-group"><h3>${title}${list.length ? ` <span class="count">${list.length}</span>` : ""}</h3>${list.length ? list.map(card).join("") : `<div class="card empty-group">${empty}</div>`}</div>`
+    : "";
+  return group("Needs attention", flags.filter((f) => f.sev === "critical" || f.sev === "warning"), "Nothing needs attention: no critical items or warnings.")
+    + group("Going well", flags.filter((f) => f.sev === "good"))
+    + group("Notes", flags.filter((f) => f.sev === "info"));
 }
 
+export const DATA_GROUPS = [
+  ["Income statement", [["revenue", money], ["operatingIncome", money], ["netIncome", money], ["interestExpense", money]]],
+  ["Per share", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
+  ["Cash flow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],
+  ["Balance sheet", [["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money],
+    ["longTermDebt", money], ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money]]],
+];
+
 export function dataTable(d, r) {
-  const s = d.series, cur = d.currency;
-  const rows = [
-    ["revenue", money], ["netIncome", money], ["operatingIncome", money], ["eps", perShare], ["dps", perShare],
-    ["dividendsPaid", money], ["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dilutedShares", (v) => num(v)],
-    ["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money], ["longTermDebt", money],
-    ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money], ["interestExpense", money],
-  ];
+  const s = d.series, cur = d.currency, last = d.years.length - 1;
   const get = (k) => k === "fcf" ? r.fcf : s[k];
-  return `<thead><tr><th>Metric</th>${d.years.map((y) => `<th>${y}</th>`).join("")}</tr></thead><tbody>` +
-    rows.map(([k, f]) => `<tr><td>${labelOf(k)}</td>${get(k).map((v) => `<td>${f(v, cur)}</td>`).join("")}</tr>`).join("") + "</tbody>";
+  const cls = (i) => i === last ? ' class="latest"' : "";
+  const head = `<thead><tr><th>Metric</th>${d.years.map((y, i) => `<th${cls(i)}>${y}</th>`).join("")}</tr></thead>`;
+  const body = DATA_GROUPS.map(([name, rows]) => `<tr class="group"><th colspan="${d.years.length + 1}">${name}</th></tr>`
+    + rows.map(([k, f]) => `<tr><td>${labelOf(k)}</td>${get(k).map((v, i) => `<td${cls(i)}>${f(v, cur)}</td>`).join("")}</tr>`).join("")).join("");
+  return `${head}<tbody>${body}</tbody>`;
 }
 
 export function footnote(d) {
-  const splitNote = d.splits.length ? ` Per-share figures adjusted for stock splits (${d.splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
+  const first = d.periodEnds ? d.periodEnds[0] : "";
+  const splits = d.splits.filter((x) => !x.detectedInFiling || x.detectedInFiling > first);
+  const splitNote = splits.length ? ` Per-share figures adjusted for stock splits (${splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
   return `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Total debt" is long-term debt including the part due within a year, plus short-term borrowings (leases excluded). "Long-term debt" excludes the part due within a year.${splitNote}`;
 }
 
@@ -69,7 +97,9 @@ export function valueView(d, price, v) {
   const score = (rows) => {
     const n = (k) => rows.filter((c) => c.status === k).length, judged = n("pass") + n("fail");
     const extra = [n("price") && `${n("price")} need a price`, n("na") && `${n("na")} not applicable`].filter(Boolean).join(", ");
-    return `Meets <b>${n("pass")}</b> of ${judged} criteria${extra ? ` <span class="muted">(${extra})</span>` : ""}`;
+    const share = judged ? Math.round((n("pass") / judged) * 100) : 0;
+    return `Meets <b>${n("pass")}</b> of ${judged} criteria${extra ? ` <span class="muted">(${extra})</span>` : ""}`
+      + `<div class="meter" role="img" aria-label="${n("pass")} of ${judged} criteria met"><span style="width:${share}%"></span></div>`;
   };
 
   const so = d.sharesOutstanding;

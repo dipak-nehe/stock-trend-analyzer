@@ -224,6 +224,32 @@
     .glance-row .go { font-size: 0; }
     .glance-row .go::after { content: "›"; font-size: 22px; }
   }
+  .spark { display: block; width: 100%; height: 34px; margin: 8px 0 2px; }
+  .spark path { fill: none; stroke: var(--series-1); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .spark circle { fill: var(--series-1); }
+  .spark .zero { stroke: var(--axis); stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; }
+  .tile .value, table, .glance-row .say { font-variant-numeric: tabular-nums; }
+  abbr[title] { text-decoration: underline dotted; text-underline-offset: 2px; cursor: help; }
+  .flag-group h3 { display: flex; align-items: center; gap: 8px; font-size: 15px; margin: 22px 0 8px; }
+  .flag-group:first-child h3 { margin-top: 4px; }
+  .flag-group .count { font-size: 12px; font-weight: 700; min-width: 20px; text-align: center; padding: 1px 6px; border-radius: 10px; background: var(--grid); color: var(--text-2); }
+  .flags { gap: 0; }
+  .flag-group .flag + .flag { margin-top: 8px; }
+  .flag .help { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--grid); font-size: 13px; color: var(--text-2); }
+  .flag .help strong { color: var(--text-1); font-weight: 600; }
+  .empty-group { color: var(--text-2); }
+  .meter { height: 6px; margin-top: 8px; border-radius: 3px; background: var(--grid); overflow: hidden; }
+  .meter span { display: block; height: 100%; border-radius: 3px; background: var(--good); }
+  tr.group th { text-align: left; padding-top: 14px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: var(--surface); }
+  th.latest, td.latest { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); font-weight: 600; }
+  #glance .glance-row.critical { box-shadow: inset 3px 0 0 var(--critical); }
+  #glance .glance-row.warning { box-shadow: inset 3px 0 0 var(--warning); }
+  .glossary { margin-top: 24px; padding: 0; }
+  .glossary summary { cursor: pointer; padding: 12px 16px; font-weight: 600; }
+  .glossary dl { margin: 0; padding: 0 16px 16px; display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 8px 16px; font-size: 14px; }
+  .glossary dt { font-weight: 600; }
+  .glossary dd { margin: 0; color: var(--text-2); }
+  @media (max-width: 600px) { .glossary dl { grid-template-columns: 1fr; gap: 2px; } .glossary dd { margin-bottom: 8px; } }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -303,7 +329,7 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-overview" aria-labelledby="tab-overview">
-      <p class="section-note">The latest annual figure, its average growth per year (CAGR) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
+      <p class="section-note">The latest annual figure, its average growth per year (<abbr title="Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one">CAGR</abbr>) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
       <div class="tiles" id="tiles"></div>
       <h3 class="panel-h">Growth from first to latest year</h3>
       <div class="card table-wrap"><table id="growthTable" class="growth"></table></div>
@@ -335,7 +361,6 @@
       <label for="price">Current share price <span class="muted">(optional)</span></label>
       <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50">
       <span class="price-hint" id="priceHint">Needed for the valuation tests. Look it up on any quote site or your broker.</span>
-      <nav class="panel-nav" data-for="value" aria-label="Move between sections"></nav>
     </div>
     <div class="tiles value-tiles" id="valueTiles"></div>
     <div class="value-grid">
@@ -353,6 +378,7 @@
       </div>
     </div>
     <p class="note" id="valueNote"></p>
+      <nav class="panel-nav" data-for="value" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-charts" aria-labelledby="tab-charts" hidden>
@@ -366,8 +392,8 @@
       <div class="card chart-card"><h3>Debt vs cash</h3><p>Total debt (all borrowings) and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
       <div class="card chart-card"><h3>Cash flow vs earnings</h3><p>Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
       <div class="card chart-card"><h3>Margins</h3><p>Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
-      <nav class="panel-nav" data-for="charts" aria-label="Move between sections"></nav>
     </div>
+      <nav class="panel-nav" data-for="charts" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-data" aria-labelledby="tab-data" hidden>
@@ -376,6 +402,27 @@
       <p class="note" id="note"></p>
       <nav class="panel-nav" data-for="data" aria-label="Move between sections"></nav>
     </div>
+
+    <details class="card glossary" id="glossary">
+      <summary>Terms explained</summary>
+      <dl>
+        <dt>CAGR</dt><dd>Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one.</dd>
+        <dt>EPS (diluted)</dt><dd>Earnings per share: net income divided by the number of shares, counting options and convertibles.</dd>
+        <dt>Payout ratio</dt><dd>The share of net income paid out as dividends.</dd>
+        <dt>Operating cash flow</dt><dd>Cash the business actually generated from its operations in the year.</dd>
+        <dt>Free cash flow</dt><dd>Operating cash flow minus capital spending (new equipment, buildings): the cash left for dividends, buybacks or debt.</dd>
+        <dt>Current ratio</dt><dd>Current assets divided by current liabilities: can the company pay bills due within a year?</dd>
+        <dt>Debt / equity</dt><dd>Total debt divided by shareholders' equity: how much the company borrows relative to what shareholders own.</dd>
+        <dt>Interest coverage</dt><dd>Operating income divided by interest expense: how many times profits cover the interest bill.</dd>
+        <dt>ROE</dt><dd>Return on equity: net income as a percentage of shareholders' equity.</dd>
+        <dt>P/E and P/B</dt><dd>Share price divided by earnings per share, or by book value per share. Lower means you pay less for each dollar of profit or assets.</dd>
+        <dt>Graham Number</dt><dd>√(22.5 × EPS × book value per share): the highest price Benjamin Graham would pay under his defensive rules.</dd>
+        <dt>Margin of safety</dt><dd>How far the price sits below an estimate of value, as a cushion against mistakes in the estimate.</dd>
+        <dt>Goodwill</dt><dd>The amount paid for acquisitions above the value of their assets; written off if a deal disappoints.</dd>
+        <dt>Dilution / buybacks</dt><dd>Issuing new shares shrinks each shareholder's slice; buying shares back grows it.</dd>
+        <dt>10-K, 20-F, 8-K</dt><dd>SEC filings: the annual report (US companies), the annual report (foreign companies), and a report of a major event.</dd>
+      </dl>
+    </details>
   </section>
 </main>
 <footer>

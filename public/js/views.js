@@ -1,9 +1,10 @@
 // HTML for the trend tiles, red flags, data table, checklists and footnote.
 // Pure functions: data in, markup or text out. app.js puts the results on the page.
-import { money, num, pct, perShare } from "./format.js";
+import { fixed, money, num, pct, perShare } from "./format.js";
+import { t, tn } from "./i18n.js";
 import { classify, firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
-import { FLAG_HELP, abbr } from "./help.js";
+import { abbr } from "./help.js";
 
 // A small trend line of the yearly values (decorative: the tile's text carries the meaning).
 export function sparkline(arr) {
@@ -22,8 +23,8 @@ export function trendTile(title, arr, fmt, cur) {
   const c = classify(arr), i = lastIdx(arr), f = firstIdx(arr);
   const latest = i >= 0 ? fmt(arr[i], cur) : "–";
   const detail = c.g != null
-    ? `${pct(c.g)} a year (${abbr("CAGR")}) · ${fmt(arr[f], cur)} → ${latest}`
-    : (i >= 0 ? `From ${fmt(arr[f], cur)} to ${latest}` : "Not reported");
+    ? t("tile.growth", { rate: pct(c.g), cagr: abbr("CAGR"), first: fmt(arr[f], cur), latest })
+    : (i >= 0 ? t("tile.fromTo", { first: fmt(arr[f], cur), latest }) : t("tile.notReported"));
   return `<div class="card tile">
     <div class="label">${title}</div>
     <div class="value">${latest}</div>
@@ -34,29 +35,28 @@ export function trendTile(title, arr, fmt, cur) {
 
 export function flagCounts(flags) {
   const cnt = (k) => flags.filter((f) => f.sev === k).length;
-  return `<span><b class="down">${cnt("critical")}</b> critical</span><span><b>${cnt("warning")}</b> warnings</span><span><b class="up">${cnt("good")}</b> strengths</span>`;
+  return `<span><b class="down">${cnt("critical")}</b> ${t("flags.count.critical")}</span><span><b>${cnt("warning")}</b> ${t("flags.count.warning")}</span><span><b class="up">${cnt("good")}</b> ${t("flags.count.good")}</span>`;
 }
 
 export function flagsList(flags) {
   const ICON = { critical: "!", warning: "!", good: "✓", info: "i" };
-  const SEV = { critical: "Critical", warning: "Warning", good: "Strength", info: "Note" };
   const card = (f) => `<div class="card flag ${f.sev}">
       <div class="icon" aria-hidden="true">${ICON[f.sev]}</div>
-      <div><div class="title"><span class="sev">${SEV[f.sev]}</span>${f.title}</div><div class="why">${f.why}</div>${
-        FLAG_HELP[f.title] ? `<div class="help"><strong>Why it matters:</strong> ${FLAG_HELP[f.title]}</div>` : ""}</div></div>`;
+      <div><div class="title"><span class="sev">${t(`flags.sev.${f.sev}`)}</span>${f.title}</div><div class="why">${f.why}</div>${
+        f.help ? `<div class="help"><strong>${t("flags.whyItMatters")}</strong> ${f.help}</div>` : ""}</div></div>`;
   const group = (title, list, empty) => (list.length || empty)
     ? `<div class="flag-group"><h3>${title}${list.length ? ` <span class="count">${list.length}</span>` : ""}</h3>${list.length ? list.map(card).join("") : `<div class="card empty-group">${empty}</div>`}</div>`
     : "";
-  return group("Needs attention", flags.filter((f) => f.sev === "critical" || f.sev === "warning"), "Nothing needs attention: no critical items or warnings.")
-    + group("Going well", flags.filter((f) => f.sev === "good"))
-    + group("Notes", flags.filter((f) => f.sev === "info"));
+  return group(t("flags.group.attention"), flags.filter((f) => f.sev === "critical" || f.sev === "warning"), t("flags.none"))
+    + group(t("flags.group.good"), flags.filter((f) => f.sev === "good"))
+    + group(t("flags.group.notes"), flags.filter((f) => f.sev === "info"));
 }
 
 export const DATA_GROUPS = [
-  ["Income statement", [["revenue", money], ["operatingIncome", money], ["netIncome", money], ["interestExpense", money]]],
-  ["Per share", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
-  ["Cash flow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],
-  ["Balance sheet", [["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money],
+  ["group.income", [["revenue", money], ["operatingIncome", money], ["netIncome", money], ["interestExpense", money]]],
+  ["group.perShare", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
+  ["group.cashFlow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],
+  ["group.balance", [["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money],
     ["longTermDebt", money], ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money]]],
 ];
 
@@ -64,8 +64,8 @@ export function dataTable(d, r) {
   const s = d.series, cur = d.currency, last = d.years.length - 1;
   const get = (k) => k === "fcf" ? r.fcf : s[k];
   const cls = (i) => i === last ? ' class="latest"' : "";
-  const head = `<thead><tr><th>Metric</th>${d.years.map((y, i) => `<th${cls(i)}>${y}</th>`).join("")}</tr></thead>`;
-  const body = DATA_GROUPS.map(([name, rows]) => `<tr class="group"><th colspan="${d.years.length + 1}">${name}</th></tr>`
+  const head = `<thead><tr><th>${t("table.metric")}</th>${d.years.map((y, i) => `<th${cls(i)}>${y}</th>`).join("")}</tr></thead>`;
+  const body = DATA_GROUPS.map(([name, rows]) => `<tr class="group"><th colspan="${d.years.length + 1}">${t(name)}</th></tr>`
     + rows.map(([k, f]) => `<tr><td>${labelOf(k)}</td>${get(k).map((v, i) => `<td${cls(i)}>${f(v, cur)}</td>`).join("")}</tr>`).join("")).join("");
   return `${head}<tbody>${body}</tbody>`;
 }
@@ -73,49 +73,48 @@ export function dataTable(d, r) {
 export function footnote(d) {
   const first = d.periodEnds ? d.periodEnds[0] : "";
   const splits = d.splits.filter((x) => !x.detectedInFiling || x.detectedInFiling > first);
-  const splitNote = splits.length ? ` Per-share figures adjusted for stock splits (${splits.map((x) => x.ratio >= 1 ? x.ratio + "-for-1" : "1-for-" + Math.round(1 / x.ratio)).join(", ")}).` : "";
-  return `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Total debt" is long-term debt including the part due within a year, plus short-term borrowings (leases excluded). "Long-term debt" excludes the part due within a year.${splitNote}`;
+  const list = splits.map((x) => x.ratio >= 1 ? t("split.forward", { n: x.ratio }) : t("split.reverse", { n: Math.round(1 / x.ratio) })).join(", ");
+  return t("footnote") + (splits.length ? t("footnote.splits", { list }) : "");
 }
 
 // Links to look up today's price on public quote pages. The site doesn't fetch or show prices itself:
 // free price feeds only allow personal use, so the visitor looks the price up and types it in.
 export function priceLinks(ticker) {
-  const t = encodeURIComponent(ticker);
-  const q = encodeURIComponent(`${ticker} stock price`);
-  return `Look up today's price: <a href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener noreferrer">Google ↗</a>`
-    + ` · <a href="https://finance.yahoo.com/quote/${t}/" target="_blank" rel="noopener noreferrer">Yahoo Finance ↗</a>`;
+  const sym = encodeURIComponent(ticker);
+  const q = encodeURIComponent(t("vv.lookup.query", { ticker }));
+  return `${t("vv.lookup")} <a href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener noreferrer">Google ↗</a>`
+    + ` · <a href="https://finance.yahoo.com/quote/${sym}/" target="_blank" rel="noopener noreferrer">Yahoo Finance ↗</a>`;
 }
 
 export function valueView(d, price, v) {
   const cur = d.currency;
   const ps = (x) => perShare(x, cur);
-  const vs = (x) => !price || x == null ? "" : `<div class="trend ${price <= x ? "up" : "down"}">Price is ${price <= x ? pct(1 - price / x, 0) + " below" : pct(price / x - 1, 0) + " above"}</div>`;
+  const vs = (x) => !price || x == null ? "" : `<div class="trend ${price <= x ? "up" : "down"}">${
+    price <= x ? t("vv.priceBelow", { pct: pct(1 - price / x, 0) }) : t("vv.priceAbove", { pct: pct(price / x - 1, 0) })}</div>`;
   const tileV = (label, value, detail, extra = "") => `<div class="card tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   const tiles = [
-    tileV("Graham Number", v.grahamNumber ? ps(v.grahamNumber) : "–", "√(22.5 × EPS × book value per share): Graham's ceiling price for a defensive investor", vs(v.grahamNumber)),
-    tileV("Owner-earnings value", v.iv ? ps(v.iv) : "–", v.iv ? `Free cash flow ${ps(v.oe)}/share, growing ${pct(v.g, 0)} for 10 years, then 3%, discounted at 10%` : "Needs positive free cash flow", vs(v.iv)),
-    tileV("Book value per share", v.bvps != null ? ps(v.bvps) : "–", v.pb ? `Price to book ${v.pb.toFixed(2)}` : "Equity ÷ shares outstanding"),
-    tileV("P/E on 3-year average EPS", v.pe3 ? v.pe3.toFixed(1) : "–", price ? (v.pe3 ? "Graham's limit is 15" : "Average earnings are negative") : "Enter a price to calculate"),
+    tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail"), vs(v.grahamNumber)),
+    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 0) }) : t("vv.oe.none"), vs(v.iv)),
+    tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", v.pb ? t("vv.bvps.pb", { pb: fixed(v.pb, 2) }) : t("vv.bvps.detail")),
+    tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : t("vv.pe.enter")),
   ].join("");
 
   const ICON = { pass: "✓", fail: "✗", na: "–", price: "$" };
-  const TAG = { pass: "Met", fail: "Not met", na: "N/A", price: "Needs price" };
+
   const list = (rows) => rows.map((c) => `<div class="check ${c.status}">
       <div class="st" aria-hidden="true">${ICON[c.status]}</div>
-      <div><div class="name">${c.name}<span class="tag">${TAG[c.status]}</span></div><div class="rule">${c.rule}</div><div class="actual">${c.actual}</div></div></div>`).join("");
+      <div><div class="name">${c.name}<span class="tag">${t(`vv.tag.${c.status}`)}</span></div><div class="rule">${c.rule}</div><div class="actual">${c.actual}</div></div></div>`).join("");
   const score = (rows) => {
     const n = (k) => rows.filter((c) => c.status === k).length, judged = n("pass") + n("fail");
-    const extra = [n("price") && `${n("price")} need a price`, n("na") && `${n("na")} not applicable`].filter(Boolean).join(", ");
+    const extra = [n("price") && tn("vv.score.needPrice", n("price")), n("na") && tn("vv.score.na", n("na"))].filter(Boolean).join(", ");
     const share = judged ? Math.round((n("pass") / judged) * 100) : 0;
-    return `Meets <b>${n("pass")}</b> of ${judged} criteria${extra ? ` <span class="muted">(${extra})</span>` : ""}`
-      + `<div class="meter" role="img" aria-label="${n("pass")} of ${judged} criteria met"><span style="width:${share}%"></span></div>`;
+    return t("vv.score", { met: n("pass"), judged }) + (extra ? ` <span class="muted">(${extra})</span>` : "")
+      + `<div class="meter" role="img" aria-label="${t("vv.score.aria", { met: n("pass"), judged })}"><span style="width:${share}%"></span></div>`;
   };
 
   const so = d.sharesOutstanding;
-  const priceHint = cur === "USD"
-    ? "Needed for the valuation tests."
-    : `Enter the price per ordinary share in ${cur}. ADRs often represent several shares, so an ADR price in USD won't match.`;
-  const note = `Book value per share uses ${so ? `${num(so.value)} shares outstanding as of ${so.asOf}` : "the latest diluted share count"}. Thresholds follow Graham's and Buffett's published rules of thumb, simplified to what annual filings report. The value estimates are rough models that depend heavily on their assumptions; they are not price targets. Not affiliated with or endorsed by Warren Buffett, Berkshire Hathaway or the Graham estate.`;
+  const priceHint = cur === "USD" ? t("vv.hint.usd") : t("vv.hint.foreign", { cur });
+  const note = t("vv.note", { shares: so ? t("vv.note.shares", { n: num(so.value), date: so.asOf }) : t("vv.note.diluted") });
   return {
     tiles, priceHint, note, links: priceLinks(d.ticker),
     graham: list(v.graham), grahamScore: score(v.graham),
@@ -131,19 +130,18 @@ function trendRow(what, arr, tab) {
   const c = classify(arr);
   const recentLoss = arr.slice(-3).some((x) => x != null && x < 0);
   const sev = recentLoss ? "critical" : c.cls === "up" ? "good" : c.cls === "down" ? "warning" : "info";
-  const say = c.g != null ? `${c.label}, ${pct(c.g)} a year` : c.label;
+  const say = c.g != null ? t("glance.trend", { label: c.label, rate: pct(c.g) }) : c.label;
   return { what, say, sev, icon: TREND_ICON[c.cls] || GLANCE_ICON[sev], tab };
 }
 
 // Filing-record counts that count against a company (routine SEC letters don't).
 export function filingProblems(h) {
   if (!h) return null;
-  const n = (t) => h.counts[t] || 0;
-  const plural = (k, one, many) => `${k} ${k === 1 ? one : many}`;
+  const n = (type) => h.counts[type] || 0;
   const parts = [
-    n("non_reliance") && plural(n("non_reliance"), "restatement", "restatements"),
-    n("auditor_change") && plural(n("auditor_change"), "auditor change", "auditor changes"),
-    n("late_filing") && plural(n("late_filing"), "late filing", "late filings"),
+    n("non_reliance") && tn("problems.restatement", n("non_reliance")),
+    n("auditor_change") && tn("problems.auditor", n("auditor_change")),
+    n("late_filing") && tn("problems.late", n("late_filing")),
   ].filter(Boolean);
   const total = n("non_reliance") + n("auditor_change") + n("late_filing");
   const sev = !total ? "good" : n("non_reliance") || n("late_filing") >= 3 ? "critical" : "warning";
@@ -152,36 +150,37 @@ export function filingProblems(h) {
 
 export function glanceRows(d, r, v) {
   const s = d.series, rows = [];
-  rows.push(trendRow("Revenue", s.revenue, "overview"));
-  rows.push(trendRow("Earnings", s.netIncome, "overview"));
+  rows.push(trendRow(t("glance.revenue"), s.revenue, "overview"));
+  rows.push(trendRow(t("glance.earnings"), s.netIncome, "overview"));
+  const DIV = t("glance.dividend");
 
   const dps = s.dps.filter((x) => x != null);
-  if (!dps.some((x) => x > 0)) rows.push({ what: "Dividend", say: "No dividend paid", sev: "info", icon: "–", tab: "overview" });
-  else if (dps[dps.length - 1] === 0) rows.push({ what: "Dividend", say: "Cut to zero (suspended)", sev: "critical", icon: "✗", tab: "overview" });
-  else rows.push(trendRow("Dividend", s.dps, "overview"));
+  if (!dps.some((x) => x > 0)) rows.push({ what: DIV, say: t("glance.noDividend"), sev: "info", icon: "–", tab: "overview" });
+  else if (dps[dps.length - 1] === 0) rows.push({ what: DIV, say: t("glance.suspended"), sev: "critical", icon: "✗", tab: "overview" });
+  else rows.push(trendRow(DIV, s.dps, "overview"));
 
   const cnt = (k) => r.flags.filter((f) => f.sev === k).length;
   const crit = r.flags.filter((f) => f.sev === "critical");
   const flagSev = crit.length ? "critical" : cnt("warning") ? "warning" : "good";
-  rows.push({ what: "Red flags", sev: flagSev, icon: GLANCE_ICON[flagSev], tab: "flags",
-              say: `${crit.length} critical · ${cnt("warning")} warnings · ${cnt("good")} strengths${crit.length ? ` — ${crit[0].title}` : ""}` });
+  rows.push({ what: t("glance.flags"), sev: flagSev, icon: GLANCE_ICON[flagSev], tab: "flags",
+              say: t("glance.flagCounts", { c: crit.length, w: cnt("warning"), g: cnt("good") }) + (crit.length ? ` — ${crit[0].title}` : "") });
 
   const fp = filingProblems(d.secHistory);
-  if (fp) rows.push({ what: "SEC record", sev: fp.sev, icon: GLANCE_ICON[fp.sev], tab: "history",
-                      say: fp.total ? fp.text : `Clean since ${d.secHistory.since.slice(0, 4)}` });
+  if (fp) rows.push({ what: t("glance.sec"), sev: fp.sev, icon: GLANCE_ICON[fp.sev], tab: "history",
+                      say: fp.total ? fp.text : t("glance.clean", { year: d.secHistory.since.slice(0, 4) }) });
 
   const score = (list) => {
     const met = list.filter((c) => c.status === "pass").length, judged = list.filter((c) => c.status === "pass" || c.status === "fail").length;
     return { met, judged, needPrice: list.some((c) => c.status === "price") };
   };
   const g = score(v.graham), b = score(v.buffett);
-  rows.push({ what: "Graham & Buffett", sev: "info", icon: "★", tab: "value",
-              say: `Graham ${g.met} of ${g.judged} · Buffett ${b.met} of ${b.judged}${g.needPrice || b.needPrice ? " · add a price for valuation tests" : ""}` });
+  rows.push({ what: t("glance.value"), sev: "info", icon: "★", tab: "value",
+              say: t("glance.scores", { g: g.met, gj: g.judged, b: b.met, bj: b.judged }) + (g.needPrice || b.needPrice ? t("glance.addPrice") : "") });
   return rows;
 }
 
 export function glanceView(d, r, v) {
   return glanceRows(d, r, v).map((row) => `<button type="button" class="glance-row ${row.sev}" data-tab="${row.tab}">
       <span class="st" aria-hidden="true">${row.icon}</span><span class="what">${row.what}</span>
-      <span class="say">${row.say}</span><span class="go">Details →</span></button>`).join("");
+      <span class="say">${row.say}</span><span class="go">${t("glance.details")}</span></button>`).join("");
 }

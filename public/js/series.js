@@ -1,4 +1,5 @@
 // Helpers for yearly series: arrays with one value per fiscal year, null where not reported.
+import { t } from "./i18n.js";
 
 export const lastIdx = (arr) => { for (let i = arr.length - 1; i >= 0; i--) if (arr[i] != null) return i; return -1; };
 export const firstIdx = (arr) => arr.findIndex((v) => v != null);
@@ -31,17 +32,17 @@ export function slopeSign(arr) {
 
 export function classify(arr) {
   const vals = arr.filter((v) => v != null);
-  if (vals.length < 3) return { label: "Not enough data", cls: "flat", icon: "·", g: null };
+  if (vals.length < 3) return { label: t("trend.notEnough"), cls: "flat", icon: "·", g: null };
   const g = cagr(arr);
   const ups = yoy(arr).filter((v) => v != null);
   const downs = ups.filter((v) => v < -0.02).length;
   const rate = g != null ? g : slopeSign(arr);
   let label, cls, icon;
-  if (rate >= 0.10) { label = "Strong growth"; cls = "up"; icon = "▲"; }
-  else if (rate >= 0.03) { label = "Growing"; cls = "up"; icon = "▲"; }
-  else if (rate > -0.03) { label = "Flat"; cls = "flat"; icon = "▶"; }
-  else { label = "Declining"; cls = "down"; icon = "▼"; }
-  if (downs >= 3 && cls !== "down") label += ", volatile";
-  if (vals.some((v) => v < 0)) label += " (had losses)";
+  if (rate >= 0.10) { label = t("trend.strong"); cls = "up"; icon = "▲"; }
+  else if (rate >= 0.03) { label = t("trend.growing"); cls = "up"; icon = "▲"; }
+  else if (rate > -0.03) { label = t("trend.flat"); cls = "flat"; icon = "▶"; }
+  else { label = t("trend.declining"); cls = "down"; icon = "▼"; }
+  if (downs >= 3 && cls !== "down") label = t("trend.volatile", { label });
+  if (vals.some((v) => v < 0)) label = t("trend.losses", { label });
   return { label, cls, icon, g, downs, n: ups.length };
 }

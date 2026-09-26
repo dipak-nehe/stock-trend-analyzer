@@ -199,8 +199,8 @@
   .gi-title { font-weight: 700; font-size: 15px; }
   .gi-text { color: var(--text-2); font-size: 14px; line-height: 1.45; }
   .gi-go { color: var(--accent); font-size: 13px; font-weight: 600; margin-top: 2px; }
-  .gi-go::after { content: "See an example →"; }
-  .guide.has-results .gi-go::after { content: "Open →"; }
+  .gi-go .go-open, .guide.has-results .gi-go .go-example { display: none; }
+  .guide.has-results .gi-go .go-open { display: inline; }
   .guide-notes { list-style: none; margin: 14px 18px 18px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; }
   .guide-notes li { padding: 10px 12px; border-radius: 10px; background: var(--page); color: var(--text-2); font-size: 13px; line-height: 1.45; }
   .guide-notes strong { display: block; color: var(--text-1); font-size: 13px; margin-bottom: 2px; }
@@ -276,6 +276,10 @@
   .glossary dt { font-weight: 600; }
   .glossary dd { margin: 0; color: var(--text-2); }
   @media (max-width: 600px) { .glossary dl { grid-template-columns: 1fr; gap: 2px; } .glossary dd { margin-bottom: 8px; } }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .lang-switch { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 2px; background: var(--surface); }
+  .lang-switch button { background: none; color: var(--text-2); font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
+  .lang-switch button[aria-pressed="true"] { background: var(--accent); color: #fff; }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -298,19 +302,25 @@
   <symbol id="i-charts" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
   <symbol id="i-data" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
 </svg>
-  <h1>Stock Trend Analyzer</h1>
-  <p class="sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
+  <header class="top">
+    <h1>Stock Trend Analyzer</h1>
+    <div class="lang-switch" role="group" aria-label="Language / Idioma">
+      <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+    </div>
+  </header>
+  <p class="sub" data-i18n="ui.sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
 
   <section class="search card" aria-label="Search">
-    <div class="search-label"><label for="ticker">Look up a company</label><span class="kbd-hint" aria-hidden="true">Press <kbd>/</kbd> to search</span></div>
+    <div class="search-label"><label for="ticker" data-i18n="ui.search.label">Look up a company</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
     <form id="form" role="search">
       <div class="search-field">
         <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="ticker" type="text" placeholder="Enter a ticker, e.g. AAPL" autocomplete="off" autocapitalize="characters" spellcheck="false" autofocus>
+        <input id="ticker" type="text" placeholder="Enter a ticker, e.g. AAPL" data-i18n-placeholder="ui.search.placeholder" autocomplete="off" autocapitalize="characters" spellcheck="false" autofocus>
       </div>
-      <button id="go" type="submit">Analyze</button>
+      <button id="go" type="submit" data-i18n="ui.search.go">Analyze</button>
     </form>
-    <div class="chips">Try:
+    <div class="chips"><span data-i18n="ui.try">Try:</span>
       <button class="chip" type="button" data-t="AAPL">AAPL</button>
       <button class="chip" type="button" data-t="KO">KO</button>
       <button class="chip" type="button" data-t="MSFT">MSFT</button>
@@ -319,83 +329,83 @@
       <button class="chip" type="button" data-t="T">T</button>
     </div>
   </section>
-  <p class="disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
+  <p class="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <details class="guide card" id="guide" open>
-    <summary><span class="guide-title">What you'll see in the results</span></summary>
+    <summary><span class="guide-title" data-i18n="ui.guide.title">What you'll see in the results</span></summary>
     <ol class="how">
-      <li><span class="how-n">1</span><span><strong>Enter a ticker</strong> or pick an example</span></li>
-      <li><span class="how-n">2</span><span><strong>Read the at-a-glance summary</strong>: six one-line verdicts</span></li>
-      <li><span class="how-n">3</span><span><strong>Open a tab</strong> for the detail behind each verdict</span></li>
+      <li><span class="how-n">1</span><span data-i18n="ui.how.1"><strong>Enter a ticker</strong> or pick an example</span></li>
+      <li><span class="how-n">2</span><span data-i18n="ui.how.2"><strong>Read the at-a-glance summary</strong>: six one-line verdicts</span></li>
+      <li><span class="how-n">3</span><span data-i18n="ui.how.3"><strong>Open a tab</strong> for the detail behind each verdict</span></li>
     </ol>
-    <p class="guide-intro">The tabs, and what each one shows. <span class="guide-try">Click a card to see it with a real company.</span></p>
+    <p class="guide-intro" data-i18n="ui.guide.intro">The tabs, and what each one shows. <span class="guide-try">Click a card to see it with a real company.</span></p>
     <div class="guide-grid">
       <button type="button" class="guide-item" data-tab="overview">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-overview"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Overview</span><span class="gi-text">10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.overview.title">Overview</span><span class="gi-text" data-i18n="ui.card.overview.text">10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="flags">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-flags"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Red flags</span><span class="gi-text">20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.flags.title">Red flags</span><span class="gi-text" data-i18n="ui.card.flags.text">20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="history">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-history"/></svg></span>
-        <span class="gi-body"><span class="gi-title">SEC history</span><span class="gi-text">Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.history.title">SEC history</span><span class="gi-text" data-i18n="ui.card.history.text">Restatements, auditor changes, late filings, amended reports and SEC comment letters from the company's own record, each linked to the original document.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="value">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Graham &amp; Buffett-style analysis</span><span class="gi-text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.value.title">Graham &amp; Buffett-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="charts">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-charts"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Charts</span><span class="gi-text">Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.charts.title">Charts</span><span class="gi-text" data-i18n="ui.card.charts.text">Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="data">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-data"/></svg></span>
-        <span class="gi-body"><span class="gi-title">Data</span><span class="gi-text">Every figure by fiscal year, straight from the annual reports.</span><span class="gi-go"></span></span>
+        <span class="gi-body"><span class="gi-title" data-i18n="ui.card.data.title">Data</span><span class="gi-text" data-i18n="ui.card.data.text">Every figure by fiscal year, straight from the annual reports.</span><span class="gi-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
     </div>
     <ul class="guide-notes">
-      <li><strong>Which companies</strong> Any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Up to 10 fiscal years.</li>
-      <li><strong>Accuracy</strong> Figures come from the companies' 10-K / 20-F filings. Per-share numbers are split-adjusted; banks and insurers get checks suited to them.</li>
-      <li><strong>Sharing</strong> The page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
+      <li data-i18n="ui.guideNote.1"><strong>Which companies</strong> Any company that files annual reports with the SEC, including US-listed companies and many foreign ones. Up to 10 fiscal years.</li>
+      <li data-i18n="ui.guideNote.2"><strong>Accuracy</strong> Figures come from the companies' 10-K / 20-F filings. Per-share numbers are split-adjusted; banks and insurers get checks suited to them.</li>
+      <li data-i18n="ui.guideNote.3"><strong>Sharing</strong> The page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
     </ul>
   </details>
 
-  <div id="loading" class="loading hidden">Fetching filings from SEC EDGAR…</div>
+  <div id="loading" class="loading hidden" data-i18n="ui.loading">Fetching filings from SEC EDGAR…</div>
   <div id="error" class="card error hidden"></div>
 
   <section id="result" class="hidden">
     <div class="company card">
       <div><h2 id="coName"></h2><div class="meta" id="coMeta"></div></div>
-      <a id="secLink" target="_blank" rel="noopener">View filings on SEC ↗</a>
+      <a id="secLink" target="_blank" rel="noopener" data-i18n="ui.secLink">View filings on SEC ↗</a>
     </div>
 
     <section class="card glance" aria-labelledby="glanceTitle">
-      <div class="glance-head"><h2 id="glanceTitle">At a glance</h2><span class="muted">Click any line for the details</span></div>
+      <div class="glance-head"><h2 id="glanceTitle" data-i18n="ui.glance.title">At a glance</h2><span class="muted" data-i18n="ui.glance.hint">Click any line for the details</span></div>
       <div id="glance"></div>
     </section>
 
     <div class="tabbar" role="tablist" aria-label="Result sections" id="tabs">
-      <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview"><svg class="tab-icon" aria-hidden="true"><use href="#i-overview"/></svg>Overview</button>
-      <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg>Red flags <span class="badge" id="flagsBadge"></span></button>
-      <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg>SEC history <span class="badge" id="historyBadge"></span></button>
-      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg>Graham &amp; Buffett</button>
-      <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg>Charts</button>
-      <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg>Data</button>
+      <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview"><svg class="tab-icon" aria-hidden="true"><use href="#i-overview"/></svg><span data-i18n="ui.tab.overview">Overview</span></button>
+      <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg><span data-i18n="ui.tab.flags">Red flags</span> <span class="badge" id="flagsBadge"></span></button>
+      <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg><span data-i18n="ui.tab.history">SEC history</span> <span class="badge" id="historyBadge"></span></button>
+      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg><span data-i18n="ui.tab.value">Graham &amp; Buffett</span></button>
+      <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg><span data-i18n="ui.tab.charts">Charts</span></button>
+      <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg><span data-i18n="ui.tab.data">Data</span></button>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-overview" aria-labelledby="tab-overview">
-      <p class="section-note">The latest annual figure, its average growth per year (<abbr title="Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one">CAGR</abbr>) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
+      <p class="section-note" data-i18n="ui.note.overview">The latest annual figure, its average growth per year (<abbr title="Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one">CAGR</abbr>) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
       <div class="tiles" id="tiles"></div>
-      <h3 class="panel-h">Growth from first to latest year</h3>
+      <h3 class="panel-h" data-i18n="ui.growth.title">Growth from first to latest year</h3>
       <div class="card table-wrap"><table id="growthTable" class="growth"></table></div>
       <p class="note" id="growthIntro"></p>
       <nav class="panel-nav" data-for="overview" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-flags" aria-labelledby="tab-flags" hidden>
-      <p class="section-note">Automated checks on growth, profitability, debt, liquidity, cash flow, dilution, dividends and the SEC filing record, most serious first. Critical items are worth a close look in the filings; strengths show what's going well.</p>
+      <p class="section-note" data-i18n="ui.note.flags">Automated checks on growth, profitability, debt, liquidity, cash flow, dilution, dividends and the SEC filing record, most serious first. Critical items are worth a close look in the filings; strengths show what's going well.</p>
       <div class="score" id="score"></div>
       <div class="flags" id="flags"></div>
       <nav class="panel-nav" data-for="flags" aria-label="Move between sections"></nav>
@@ -413,23 +423,23 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>
-      <p class="section-note"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
+      <p class="section-note" data-i18n="ui.note.value"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
     <div class="card price-row">
-      <label for="price">Current share price <span class="muted">(optional)</span></label>
-      <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50">
+      <label for="price" data-i18n="ui.price.label">Current share price <span class="muted">(optional)</span></label>
+      <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50" data-i18n-placeholder="ui.price.placeholder">
       <span class="price-hint"><span id="priceHint">Needed for the valuation tests.</span> <span class="price-links" id="priceLinks"></span></span>
     </div>
     <div class="tiles value-tiles" id="valueTiles"></div>
     <div class="value-grid">
       <div class="card checklist">
-        <h3>Benjamin Graham: the defensive investor</h3>
-        <p class="src">From <em>The Intelligent Investor</em>, chapter 14</p>
+        <h3 data-i18n="ui.graham.title">Benjamin Graham: the defensive investor</h3>
+        <p class="src" data-i18n="ui.graham.src">From <em>The Intelligent Investor</em>, chapter 14</p>
         <div class="checks-score" id="grahamScore"></div>
         <div id="grahamChecks"></div>
       </div>
       <div class="card checklist">
-        <h3>Warren Buffett: a wonderful business at a fair price</h3>
-        <p class="src">Quantitative tests drawn from his shareholder letters</p>
+        <h3 data-i18n="ui.buffett.title">Warren Buffett: a wonderful business at a fair price</h3>
+        <p class="src" data-i18n="ui.buffett.src">Quantitative tests drawn from his shareholder letters</p>
         <div class="checks-score" id="buffettScore"></div>
         <div id="buffettChecks"></div>
       </div>
@@ -439,52 +449,52 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-charts" aria-labelledby="tab-charts" hidden>
-      <p class="section-note">Hover over or tap a chart to see each year's values.</p>
+      <p class="section-note" data-i18n="ui.note.charts">Hover over or tap a chart to see each year's values.</p>
     <div class="charts">
-      <div class="card chart-card"><h3>Revenue and net income</h3><p>Annual totals</p><div class="chart-box"><canvas id="cRevenue"></canvas></div></div>
-      <div class="card chart-card"><h3>Earnings per share (diluted)</h3><p>Split-adjusted</p><div class="chart-box"><canvas id="cEps"></canvas></div></div>
-      <div class="card chart-card"><h3>Dividend per share</h3><p>Declared per year, split-adjusted</p><div class="chart-box"><canvas id="cDps"></canvas></div></div>
-      <div class="card chart-card"><h3>Payout ratio</h3><p>Dividends paid ÷ net income</p><div class="chart-box"><canvas id="cPayout"></canvas></div></div>
-      <div class="card chart-card"><h3>Balance sheet</h3><p>Total assets, liabilities and shareholders' equity</p><div class="chart-box"><canvas id="cBalance"></canvas></div></div>
-      <div class="card chart-card"><h3>Debt vs cash</h3><p>Total debt (all borrowings) and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
-      <div class="card chart-card"><h3>Cash flow vs earnings</h3><p>Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
-      <div class="card chart-card"><h3>Margins</h3><p>Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cRevenue.title">Revenue and net income</h3><p data-i18n="ui.chart.cRevenue.sub">Annual totals</p><div class="chart-box"><canvas id="cRevenue"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cEps.title">Earnings per share (diluted)</h3><p data-i18n="ui.chart.cEps.sub">Split-adjusted</p><div class="chart-box"><canvas id="cEps"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cDps.title">Dividend per share</h3><p data-i18n="ui.chart.cDps.sub">Declared per year, split-adjusted</p><div class="chart-box"><canvas id="cDps"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cPayout.title">Payout ratio</h3><p data-i18n="ui.chart.cPayout.sub">Dividends paid ÷ net income</p><div class="chart-box"><canvas id="cPayout"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cBalance.title">Balance sheet</h3><p data-i18n="ui.chart.cBalance.sub">Total assets, liabilities and shareholders' equity</p><div class="chart-box"><canvas id="cBalance"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cDebt.title">Debt vs cash</h3><p data-i18n="ui.chart.cDebt.sub">Total debt (all borrowings) and cash &amp; equivalents</p><div class="chart-box"><canvas id="cDebt"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cCash.title">Cash flow vs earnings</h3><p data-i18n="ui.chart.cCash.sub">Operating cash flow, free cash flow and net income</p><div class="chart-box"><canvas id="cCash"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.chart.cMargin.title">Margins</h3><p data-i18n="ui.chart.cMargin.sub">Operating and net margin, % of revenue</p><div class="chart-box"><canvas id="cMargin"></canvas></div></div>
     </div>
       <nav class="panel-nav" data-for="charts" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-data" aria-labelledby="tab-data" hidden>
-      <p class="section-note">Every figure used on this page, by fiscal year, as reported in the company's annual filings. A dash means the company didn't report that item for that year.</p>
+      <p class="section-note" data-i18n="ui.note.data">Every figure used on this page, by fiscal year, as reported in the company's annual filings. A dash means the company didn't report that item for that year.</p>
       <div class="card table-wrap"><table id="table"></table></div>
       <p class="note" id="note"></p>
       <nav class="panel-nav" data-for="data" aria-label="Move between sections"></nav>
     </div>
 
     <details class="card glossary" id="glossary">
-      <summary>Terms explained</summary>
+      <summary data-i18n="ui.gloss.summary">Terms explained</summary>
       <dl>
-        <dt>CAGR</dt><dd>Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one.</dd>
-        <dt>EPS (diluted)</dt><dd>Earnings per share: net income divided by the number of shares, counting options and convertibles.</dd>
-        <dt>Payout ratio</dt><dd>The share of net income paid out as dividends.</dd>
-        <dt>Operating cash flow</dt><dd>Cash the business actually generated from its operations in the year.</dd>
-        <dt>Free cash flow</dt><dd>Operating cash flow minus capital spending (new equipment, buildings): the cash left for dividends, buybacks or debt.</dd>
-        <dt>Current ratio</dt><dd>Current assets divided by current liabilities: can the company pay bills due within a year?</dd>
-        <dt>Debt / equity</dt><dd>Total debt divided by shareholders' equity: how much the company borrows relative to what shareholders own.</dd>
-        <dt>Interest coverage</dt><dd>Operating income divided by interest expense: how many times profits cover the interest bill.</dd>
-        <dt>ROE</dt><dd>Return on equity: net income as a percentage of shareholders' equity.</dd>
-        <dt>P/E and P/B</dt><dd>Share price divided by earnings per share, or by book value per share. Lower means you pay less for each dollar of profit or assets.</dd>
-        <dt>Graham Number</dt><dd>√(22.5 × EPS × book value per share): the highest price Benjamin Graham would pay under his defensive rules.</dd>
-        <dt>Margin of safety</dt><dd>How far the price sits below an estimate of value, as a cushion against mistakes in the estimate.</dd>
-        <dt>Goodwill</dt><dd>The amount paid for acquisitions above the value of their assets; written off if a deal disappoints.</dd>
-        <dt>Dilution / buybacks</dt><dd>Issuing new shares shrinks each shareholder's slice; buying shares back grows it.</dd>
-        <dt>10-K, 20-F, 8-K</dt><dd>SEC filings: the annual report (US companies), the annual report (foreign companies), and a report of a major event.</dd>
+        <dt data-i18n="ui.gloss.1.term">CAGR</dt><dd data-i18n="ui.gloss.1.def">Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one.</dd>
+        <dt data-i18n="ui.gloss.2.term">EPS (diluted)</dt><dd data-i18n="ui.gloss.2.def">Earnings per share: net income divided by the number of shares, counting options and convertibles.</dd>
+        <dt data-i18n="ui.gloss.3.term">Payout ratio</dt><dd data-i18n="ui.gloss.3.def">The share of net income paid out as dividends.</dd>
+        <dt data-i18n="ui.gloss.4.term">Operating cash flow</dt><dd data-i18n="ui.gloss.4.def">Cash the business actually generated from its operations in the year.</dd>
+        <dt data-i18n="ui.gloss.5.term">Free cash flow</dt><dd data-i18n="ui.gloss.5.def">Operating cash flow minus capital spending (new equipment, buildings): the cash left for dividends, buybacks or debt.</dd>
+        <dt data-i18n="ui.gloss.6.term">Current ratio</dt><dd data-i18n="ui.gloss.6.def">Current assets divided by current liabilities: can the company pay bills due within a year?</dd>
+        <dt data-i18n="ui.gloss.7.term">Debt / equity</dt><dd data-i18n="ui.gloss.7.def">Total debt divided by shareholders' equity: how much the company borrows relative to what shareholders own.</dd>
+        <dt data-i18n="ui.gloss.8.term">Interest coverage</dt><dd data-i18n="ui.gloss.8.def">Operating income divided by interest expense: how many times profits cover the interest bill.</dd>
+        <dt data-i18n="ui.gloss.9.term">ROE</dt><dd data-i18n="ui.gloss.9.def">Return on equity: net income as a percentage of shareholders' equity.</dd>
+        <dt data-i18n="ui.gloss.10.term">P/E and P/B</dt><dd data-i18n="ui.gloss.10.def">Share price divided by earnings per share, or by book value per share. Lower means you pay less for each dollar of profit or assets.</dd>
+        <dt data-i18n="ui.gloss.11.term">Graham Number</dt><dd data-i18n="ui.gloss.11.def">√(22.5 × EPS × book value per share): the highest price Benjamin Graham would pay under his defensive rules.</dd>
+        <dt data-i18n="ui.gloss.12.term">Margin of safety</dt><dd data-i18n="ui.gloss.12.def">How far the price sits below an estimate of value, as a cushion against mistakes in the estimate.</dd>
+        <dt data-i18n="ui.gloss.13.term">Goodwill</dt><dd data-i18n="ui.gloss.13.def">The amount paid for acquisitions above the value of their assets; written off if a deal disappoints.</dd>
+        <dt data-i18n="ui.gloss.14.term">Dilution / buybacks</dt><dd data-i18n="ui.gloss.14.def">Issuing new shares shrinks each shareholder's slice; buying shares back grows it.</dd>
+        <dt data-i18n="ui.gloss.15.term">10-K, 20-F, 8-K</dt><dd data-i18n="ui.gloss.15.def">SEC filings: the annual report (US companies), the annual report (foreign companies), and a report of a major event.</dd>
       </dl>
     </details>
   </section>
 </main>
 <footer>
-  <span>Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
-  <span>Built by Dipak Nehe · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
+  <span data-i18n="ui.footer.data">Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
+  <span data-i18n="ui.footer.built">Built by Dipak Nehe · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
 </footer>
 
 <script type="module" src="js/app.js"></script>

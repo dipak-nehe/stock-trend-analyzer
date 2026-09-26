@@ -93,7 +93,6 @@ test("filing problems ignore routine SEC letters and grade severity", () => {
   assert.deepEqual(smci, { total: 3, sev: "critical", text: "1 restatement · 2 late filings" });
 });
 
-import { FLAG_HELP } from "../../public/js/help.js";
 import { DATA_GROUPS, dataTable, flagsList, sparkline } from "../../public/js/views.js";
 import { YEARS } from "./company.js";
 
@@ -112,14 +111,16 @@ test("every warning, critical or strength flag has a plain-English 'why it matte
               operatingIncome: YEARS.map(() => 20e6), capex: YEARS.map(() => 200e6) }),
     company({ totalDebt: YEARS.map(() => 1500e6), cash: YEARS.map(() => 5000e6) }),
   ];
-  const titles = new Set(scenarios.flatMap((d) => analyze(d).flags.filter((f) => f.sev !== "info").map((f) => f.title)));
-  assert.ok(titles.size >= 20, `only ${titles.size} distinct flags exercised`);
-  for (const t of titles) assert.ok(FLAG_HELP[t], `no "why it matters" text for: ${t}`);
+  const flags = scenarios.flatMap((d) => analyze(d).flags.filter((f) => f.sev !== "info"));
+  const ids = new Set(flags.map((f) => f.id));
+  assert.ok(ids.size >= 20, `only ${ids.size} distinct flags exercised`);
+  for (const f of flags) assert.ok(f.help && !f.help.startsWith("flag."), `no "why it matters" text for: ${f.id}`);
 });
 
 test("flags are grouped into needs attention, going well and notes", () => {
-  const flags = [{ sev: "good", title: "Growing dividend", why: "x" }, { sev: "critical", title: "Recent net losses", why: "y" },
-                 { sev: "info", title: "Some data missing", why: "z" }, { sev: "warning", title: "High payout ratio", why: "w" }];
+  const flags = [{ sev: "good", title: "Growing dividend", why: "x", help: "Regular raises show management's confidence in future cash flow." },
+                 { sev: "critical", title: "Recent net losses", why: "y", help: "The company recently spent more than it earned; losses eat into cash." },
+                 { sev: "info", title: "Some data missing", why: "z" }, { sev: "warning", title: "High payout ratio", why: "w", help: "h" }];
   const html = text(flagsList(flags));
   assert.match(html, /^Needs attention 2 .*Recent net losses.*High payout ratio.* Going well 1 .*Growing dividend.* Notes 1 .*Some data missing/);
   assert.match(html, /Why it matters: The company recently spent more than it earned/);
@@ -138,7 +139,7 @@ test("data table groups rows by statement and highlights the latest year", () =>
   const d = company();
   const html = dataTable(d, analyze(d));
   const groups = [...html.matchAll(/<tr class="group"><th[^>]*>([^<]+)</g)].map((m) => m[1]);
-  assert.deepEqual(groups, DATA_GROUPS.map(([name]) => name));
+  assert.deepEqual(groups, ["Income statement", "Per share", "Cash flow", "Balance sheet"]);
   assert.equal((html.match(/class="latest"/g) || []).length, 1 + DATA_GROUPS.reduce((n, [, rows]) => n + rows.length, 0));
 });
 

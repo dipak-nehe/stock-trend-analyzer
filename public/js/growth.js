@@ -3,23 +3,24 @@ import { money, num, pct, perShare } from "./format.js";
 import { firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
 import { abbr } from "./help.js";
+import { t } from "./i18n.js";
 
 // Returns { table: <thead>/<tbody> HTML, intro: plain text }.
 export function growthView(d, r) {
   const s = d.series, cur = d.currency, Y = d.years, y0 = Y[0], yN = Y[Y.length - 1];
   const rows = [
-    "Income statement", ["revenue", money], ["operatingIncome", money], ["netIncome", money],
-    "Per share", ["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)],
-    "Cash flow", ["operatingCashFlow", money], ["fcf", money],
-    "Balance sheet", ["totalAssets", money], ["equity", money], ["totalDebt", money], ["cash", money],
+    "group.income", ["revenue", money], ["operatingIncome", money], ["netIncome", money],
+    "group.perShare", ["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)],
+    "group.cashFlow", ["operatingCashFlow", money], ["fcf", money],
+    "group.balance", ["totalAssets", money], ["equity", money], ["totalDebt", money], ["cash", money],
   ];
   const PROFIT = new Set(["netIncome", "operatingIncome", "eps"]);
   const body = rows.map((row) => {
-    if (typeof row === "string") return `<tr class="group"><th colspan="6">${row}</th></tr>`;
+    if (typeof row === "string") return `<tr class="group"><th colspan="6">${t(row)}</th></tr>`;
     const [k, fmt] = row;
     const arr = k === "fcf" ? r.fcf : s[k];
     const i = firstIdx(arr), j = lastIdx(arr);
-    if (i < 0 || i === j) return `<tr><td>${labelOf(k)}</td><td>–</td><td>–</td><td class="nm" colspan="3">Not enough data</td></tr>`;
+    if (i < 0 || i === j) return `<tr><td>${labelOf(k)}</td><td>–</td><td>–</td><td class="nm" colspan="3">${t("growth.notEnough")}</td></tr>`;
     const a = arr[i], b = arr[j], n = j - i;
     const cell = (v, idx, headerYear) => `${fmt(v, cur)}${Y[idx] !== headerYear ? `<span class="yr">(${Y[idx]})</span>` : ""}`;
     const change = b - a;
@@ -31,16 +32,16 @@ export function growthView(d, r) {
       perYear = `${pct(Math.pow(b / a, 1 / n) - 1)}`;
     } else {
       const p = PROFIT.has(k);
-      const why = a === 0 ? (b > 0 ? "Started from zero" : "From zero")
-        : a < 0 && b > 0 ? (p ? "From loss to profit" : "From negative to positive")
-        : a > 0 && b === 0 ? "Fell to zero"
-        : a > 0 && b < 0 ? (p ? "From profit to loss" : "From positive to negative")
-        : (p ? "Loss in both years" : "Negative in both years");
-      total = `<span class="nm">${why}</span>`; perYear = `<span class="nm">n/m</span>`;
+      const why = a === 0 ? (b > 0 ? "startedZero" : "fromZero")
+        : a < 0 && b > 0 ? (p ? "lossToProfit" : "negToPos")
+        : a > 0 && b === 0 ? "fellToZero"
+        : a > 0 && b < 0 ? (p ? "profitToLoss" : "posToNeg")
+        : (p ? "lossBoth" : "negBoth");
+      total = `<span class="nm">${t(`growth.${why}`)}</span>`; perYear = `<span class="nm">${t("growth.nm")}</span>`;
     }
     return `<tr><td>${labelOf(k)}</td><td>${cell(a, i, y0)}</td><td class="latest">${cell(b, j, yN)}</td><td>${changeTxt}</td><td>${total}</td><td>${perYear}</td></tr>`;
   }).join("");
-  const table = `<thead><tr><th>Metric</th><th>${y0}</th><th class="latest">${yN}</th><th>Change</th><th>Total growth</th><th>Per year (${abbr("CAGR")})</th></tr></thead><tbody>${body}</tbody>`;
-  const intro = `How much each figure changed from fiscal ${y0} to fiscal ${yN}. A year in brackets means the company first or last reported that item in a different year. Percentages aren't meaningful (n/m) when a value is zero or negative.`;
+  const table = `<thead><tr><th>${t("table.metric")}</th><th>${y0}</th><th class="latest">${yN}</th><th>${t("growth.change")}</th><th>${t("growth.total")}</th><th>${t("growth.perYear", { cagr: abbr("CAGR") })}</th></tr></thead><tbody>${body}</tbody>`;
+  const intro = t("growth.intro", { y0, yN });
   return { table, intro };
 }

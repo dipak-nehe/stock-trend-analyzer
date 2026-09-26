@@ -417,3 +417,77 @@ def test_price_box_links_to_public_quote_pages(open_ticker):
     expect(links).to_have_text(["Google ↗", "Yahoo Finance ↗"])
     expect(links.nth(1)).to_have_attribute("href", "https://finance.yahoo.com/quote/KO/")
     expect(links.nth(0)).to_have_attribute("target", "_blank")
+
+
+# ---------- Spanish ----------
+
+def test_spanish_link_shows_the_whole_page_in_spanish(page, app_url):
+    page.goto(f"{app_url}/?t=SMCI&lang=es")
+    page.locator("#glance .glance-row").first.wait_for()
+    expect(page.locator("html")).to_have_attribute("lang", "es")
+    expect(page.get_by_label("Buscar una empresa")).to_be_visible()
+    expect(page.locator("#glanceTitle")).to_have_text("De un vistazo")
+    expect(page.locator("#tab-flags")).to_contain_text("Señales de alerta")
+    expect(page.locator("#glance .glance-row", has_text="Historial SEC")).to_contain_text("13 presentaciones tardías")
+    expect(page.locator("#tiles .tile").first).to_contain_text("39,1 mil M US$")     # Spain's number format
+    expect(page.locator(".disclaimer")).to_contain_text("No es asesoramiento de inversión")
+    open_tab(page, "flags")
+    expect(page.locator("#flags .flag-group h3").first).to_contain_text("Requiere atención")
+    expect(page.locator("#flags .flag").first).to_contain_text("Por qué importa:")
+
+
+def test_spanish_browser_gets_spanish_automatically(browser, app_url):
+    ctx = browser.new_context(locale="es-ES")
+    page = ctx.new_page()
+    page.goto(app_url)
+    expect(page.locator(".lang-switch [data-lang=es]")).to_have_attribute("aria-pressed", "true")
+    expect(page.locator(".search-label label")).to_have_text("Buscar una empresa")
+    ctx.close()
+
+
+def test_english_browser_gets_english(page, app_url):
+    page.goto(app_url)
+    expect(page.locator(".lang-switch [data-lang=en]")).to_have_attribute("aria-pressed", "true")
+    expect(page.locator(".search-label label")).to_have_text("Look up a company")
+
+
+def test_switching_language_keeps_tab_price_and_updates_the_link(open_ticker, console_errors):
+    page = open_ticker("KO", price=68)
+    open_tab(page, "value")
+    page.click(".lang-switch [data-lang=es]")
+    expect(page.locator("#tab-value")).to_have_text("Graham y Buffett")
+    expect(page.locator("#panel-value")).to_be_visible()
+    expect(page.locator("#price")).to_have_value("68")
+    expect(check_row(page, "PER moderado")).to_contain_text("PER de 25,6")
+    expect(page).to_have_url(re.compile(r"\?t=KO&p=68&lang=es#value$"))
+    page.click(".lang-switch [data-lang=en]")                  # and back: the English is exactly restored
+    expect(check_row(page, "Moderate P/E")).to_contain_text("P/E 25.6")
+    expect(page.locator(".guide-intro")).to_contain_text("The tabs, and what each one shows.")
+    expect(page).to_have_url(re.compile(r"\?t=KO&p=68#value$"))
+    assert console_errors == []
+
+
+def test_language_choice_is_remembered(page, app_url):
+    page.goto(app_url)
+    page.click(".lang-switch [data-lang=es]")
+    page.goto(app_url)                                         # new visit, no ?lang in the link
+    expect(page.locator(".search-label label")).to_have_text("Buscar una empresa")
+
+
+def test_errors_are_translated(page, app_url):
+    page.goto(f"{app_url}/?t=ZZZZQ&lang=es")
+    expect(page.locator("#error")).to_contain_text("No se encuentra el ticker «ZZZZQ»")
+
+
+def test_no_english_left_in_spanish_results(page, app_url):
+    page.goto(f"{app_url}/?t=INTC&lang=es&p=24")
+    page.locator("#glance .glance-row").first.wait_for()
+    english = re.compile(r"\b(the|and|with|Revenue|Earnings|Needs|Why it matters|years? of|Price is|Not met|Show all)\b")
+    allowed = ("INTEL CORP", "Semiconductors", "Stock Trend Analyzer", "Yahoo Finance", "Google")
+    found = []
+    for tab in ("overview", "flags", "history", "value", "charts", "data"):
+        open_tab(page, tab)
+        for line in page.inner_text("main").splitlines():
+            if english.search(line) and not any(a in line for a in allowed):
+                found.append(f"{tab}: {line.strip()[:80]}")
+    assert found == []

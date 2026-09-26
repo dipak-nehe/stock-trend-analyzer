@@ -7,6 +7,7 @@ import { historyView } from "./history.js";
 import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
+import { detectLang, dictionaries, getLang, setLang, t } from "./i18n.js";
 
 const $ = (id) => document.getElementById(id);
 // Bump when the API response format changes, so no cache serves an older shape to newer code.
@@ -15,7 +16,6 @@ const API_VERSION = 4;
 let current = null;  // { data: API response, result: analyze(data) }
 let historyFilter = "all", historyExpanded = false;
 const TABS = ["overview", "flags", "history", "value", "charts", "data"];
-const TAB_NAMES = { overview: "Overview", flags: "Red flags", history: "SEC history", value: "Graham & Buffett", charts: "Charts", data: "Data" };
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
 let chartsStale = true;  // charts are drawn when their tab is first shown (a hidden canvas has no size)
 
@@ -26,14 +26,15 @@ function render(d) {
 
   $("coName").textContent = `${d.name} (${d.ticker})`;
   const industry = d.secHistory && d.secHistory.industry;
-  $("coMeta").textContent = `${industry ? industry + " · " : ""}Fiscal years ${d.years[0]}–${d.years[d.years.length - 1]} · reported in ${cur} · CIK ${d.cik}`;
+  $("coMeta").textContent = (industry ? industry + " · " : "")
+    + t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur, cik: d.cik });
   $("secLink").href = d.secUrl;
 
   $("tiles").innerHTML = [
-    trendTile("Revenue", s.revenue, money, cur),
-    trendTile("Net income (earnings)", s.netIncome, money, cur),
-    trendTile("Earnings per share", s.eps, perShare, cur),
-    trendTile("Dividend per share", s.dps, perShare, cur),
+    trendTile(t("tile.revenue"), s.revenue, money, cur),
+    trendTile(t("tile.netIncome"), s.netIncome, money, cur),
+    trendTile(t("tile.eps"), s.eps, perShare, cur),
+    trendTile(t("tile.dps"), s.dps, perShare, cur),
   ].join("");
   $("score").innerHTML = flagCounts(r.flags);
   $("flags").innerHTML = flagsList(r.flags);
@@ -55,7 +56,8 @@ function render(d) {
   $("result").classList.remove("hidden");
   $("guide").open = false;  // keep the results in view; the guide stays one click away
   $("guide").classList.add("has-results");  // guide cards now open their tab
-  $("guide").querySelector(".guide-title").textContent = "How to read these results";
+  $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
+  document.title = `${d.ticker} · Stock Trend Analyzer`;
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   renderValue();
@@ -65,12 +67,12 @@ function render(d) {
 
 // "← Previous / Next →" at the bottom of each tab, skipping tabs hidden for this company.
 function renderPanelNav() {
-  const visible = TABS.filter((t) => !$(`tab-${t}`).hidden);
+  const visible = TABS.filter((tab) => !$(`tab-${tab}`).hidden);
   document.querySelectorAll(".panel-nav").forEach((nav) => {
     const i = visible.indexOf(nav.dataset.for);
     const prev = visible[i - 1], next = visible[i + 1];
-    nav.innerHTML = (prev ? `<button type="button" class="prev" data-tab="${prev}">← ${TAB_NAMES[prev]}</button>` : "")
-      + (next ? `<button type="button" class="next" data-tab="${next}">Next: ${TAB_NAMES[next]} →</button>` : "");
+    nav.innerHTML = (prev ? `<button type="button" class="prev" data-tab="${prev}">${t("nav.prev", { name: t(`tab.${prev}`) })}</button>` : "")
+      + (next ? `<button type="button" class="next" data-tab="${next}">${t("nav.next", { name: t(`tab.${next}`) })}</button>` : "");
   });
 }
 
@@ -94,11 +96,11 @@ function updateTabFades() {
 
 function showTab(name, { focus = false } = {}) {
   activeTab = name;
-  for (const t of TABS) {
-    const selected = t === name;
-    $(`tab-${t}`).setAttribute("aria-selected", selected);
-    $(`tab-${t}`).tabIndex = selected ? 0 : -1;
-    $(`panel-${t}`).hidden = !selected;
+  for (const tab of TABS) {
+    const selected = tab === name;
+    $(`tab-${tab}`).setAttribute("aria-selected", selected);
+    $(`tab-${tab}`).tabIndex = selected ? 0 : -1;
+    $(`panel-${tab}`).hidden = !selected;
   }
   if (focus) $(`tab-${name}`).focus();
   revealTab($(`tab-${name}`));
@@ -136,6 +138,16 @@ function renderValue() {
   $("valueNote").textContent = view.note;
 }
 
+// The server answers in English; show its message as-is in English, otherwise translate by type.
+function errorText(status, message, ticker) {
+  if (getLang() === "en") return message;
+  const key = status === 400 ? (/enter a ticker/i.test(message) ? "error.empty" : "error.badTicker")
+    : status === 404 ? (/no financial data/i.test(message) ? "error.noData" : "error.notFound")
+    : status === 502 ? (/limiting/i.test(message) ? "error.busy" : "error.upstream")
+    : status === 504 ? "error.timeout" : "error.generic";
+  return t(key, { ticker });
+}
+
 async function run(ticker) {
   ticker = ticker.trim().toUpperCase();
   if (!ticker) return;
@@ -146,7 +158,7 @@ async function run(ticker) {
   try {
     const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}&v=${API_VERSION}`);
     const body = await res.json();
-    if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`);
+    if (!res.ok) throw new Error(errorText(res.status, body.error || `HTTP ${res.status}`, ticker));
     render(body);
     updateUrl();
   } catch (e) {
@@ -160,10 +172,46 @@ async function run(ticker) {
 }
 
 function updateUrl() {
-  if (!current) return;
+  const q = new URLSearchParams();
+  if (current) q.set("t", current.data.ticker);
   const p = parseFloat($("price").value);
-  const hash = activeTab === "overview" ? "" : `#${activeTab}`;
-  history.replaceState(null, "", `?t=${encodeURIComponent(current.data.ticker)}${p > 0 ? `&p=${p}` : ""}${hash}`);
+  if (current && p > 0) q.set("p", p);
+  if (getLang() !== "en") q.set("lang", getLang());
+  const hash = current && activeTab !== "overview" ? `#${activeTab}` : "";
+  history.replaceState(null, "", `${location.pathname}${q.toString() ? `?${q}` : ""}${hash}`);
+}
+
+// ---------- language ----------
+// Static text: the English stays in index.html (kept in data-en the first time) and other languages
+// come from the "ui.*" keys in strings/<lang>.js.
+function applyStaticText() {
+  const lang = getLang(), dict = dictionaries[lang];
+  document.documentElement.lang = lang;
+  for (const el of document.querySelectorAll("[data-i18n]")) {
+    if (!("en" in el.dataset)) el.dataset.en = el.innerHTML;
+    el.innerHTML = lang === "en" ? el.dataset.en : (dict[el.dataset.i18n] ?? el.dataset.en);
+  }
+  for (const el of document.querySelectorAll("[data-i18n-placeholder]")) {
+    if (!("enPlaceholder" in el.dataset)) el.dataset.enPlaceholder = el.placeholder;
+    el.placeholder = lang === "en" ? el.dataset.enPlaceholder : (dict[el.dataset.i18nPlaceholder] ?? el.dataset.enPlaceholder);
+  }
+  document.querySelectorAll(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+  if (current) $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
+}
+
+function switchLang(lang) {
+  if (lang === getLang()) return;
+  setLang(lang);
+  try { localStorage.setItem("lang", lang); } catch { /* storage unavailable: the link still carries ?lang */ }
+  applyStaticText();
+  if (current) render(current.data);  // keeps the open tab and any price
+  updateUrl();
+}
+
+function initialLang(params) {
+  if (params.get("lang") && dictionaries[params.get("lang")]) return params.get("lang");
+  try { const saved = localStorage.getItem("lang"); if (saved && dictionaries[saved]) return saved; } catch { /* ignore */ }
+  return detectLang(navigator.languages || [navigator.language]);
 }
 
 // ---------- events ----------
@@ -189,7 +237,7 @@ $("tabs").addEventListener("click", (e) => {
 $("tabs").addEventListener("scroll", updateTabFades, { passive: true });
 addEventListener("resize", updateTabFades);
 $("tabs").addEventListener("keydown", (e) => {
-  const visible = TABS.filter((t) => !$(`tab-${t}`).hidden);
+  const visible = TABS.filter((tab) => !$(`tab-${tab}`).hidden);
   const i = visible.indexOf(activeTab);
   const next = { ArrowRight: visible[(i + 1) % visible.length], ArrowLeft: visible[(i - 1 + visible.length) % visible.length],
                  Home: visible[0], End: visible[visible.length - 1] }[e.key];
@@ -228,5 +276,8 @@ let priceTimer;
 $("price").addEventListener("input", () => { clearTimeout(priceTimer); priceTimer = setTimeout(() => { renderValue(); updateUrl(); }, 250); });
 
 const params = new URLSearchParams(location.search);
+setLang(initialLang(params));
+applyStaticText();
+document.querySelectorAll(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
 if (params.get("p")) $("price").value = params.get("p");
 if (params.get("t")) run(params.get("t"));

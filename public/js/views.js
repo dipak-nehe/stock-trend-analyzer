@@ -77,6 +77,15 @@ export function footnote(d) {
   return `Source: SEC EDGAR XBRL company facts (10-K / 20-F / 40-F). Years are labeled by the calendar year the fiscal year ends. "Total debt" is long-term debt including the part due within a year, plus short-term borrowings (leases excluded). "Long-term debt" excludes the part due within a year.${splitNote}`;
 }
 
+// Links to look up today's price on public quote pages. The site doesn't fetch or show prices itself:
+// free price feeds only allow personal use, so the visitor looks the price up and types it in.
+export function priceLinks(ticker) {
+  const t = encodeURIComponent(ticker);
+  const q = encodeURIComponent(`${ticker} stock price`);
+  return `Look up today's price: <a href="https://www.google.com/search?q=${q}" target="_blank" rel="noopener noreferrer">Google ↗</a>`
+    + ` · <a href="https://finance.yahoo.com/quote/${t}/" target="_blank" rel="noopener noreferrer">Yahoo Finance ↗</a>`;
+}
+
 export function valueView(d, price, v) {
   const cur = d.currency;
   const ps = (x) => perShare(x, cur);
@@ -104,11 +113,11 @@ export function valueView(d, price, v) {
 
   const so = d.sharesOutstanding;
   const priceHint = cur === "USD"
-    ? "Needed for the valuation tests. Look it up on any quote site or your broker."
+    ? "Needed for the valuation tests."
     : `Enter the price per ordinary share in ${cur}. ADRs often represent several shares, so an ADR price in USD won't match.`;
   const note = `Book value per share uses ${so ? `${num(so.value)} shares outstanding as of ${so.asOf}` : "the latest diluted share count"}. Thresholds follow Graham's and Buffett's published rules of thumb, simplified to what annual filings report. The value estimates are rough models that depend heavily on their assumptions; they are not price targets. Not affiliated with or endorsed by Warren Buffett, Berkshire Hathaway or the Graham estate.`;
   return {
-    tiles, priceHint, note,
+    tiles, priceHint, note, links: priceLinks(d.ticker),
     graham: list(v.graham), grahamScore: score(v.graham),
     buffett: list(v.buffett), buffettScore: score(v.buffett),
   };

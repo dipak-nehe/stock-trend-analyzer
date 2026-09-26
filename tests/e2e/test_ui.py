@@ -408,3 +408,12 @@ def test_phone_tab_bar_keeps_the_active_tab_in_view(page, app_url):
     bar, tab = page.locator("#tabs").bounding_box(), page.locator("#tab-value").bounding_box()
     assert tab["x"] >= bar["x"] and tab["x"] + tab["width"] <= bar["x"] + bar["width"] + 1
     expect(page.locator("#tabs")).to_have_class(re.compile("more-(left|right)"))  # fade hints at hidden tabs
+
+
+def test_price_box_links_to_public_quote_pages(open_ticker):
+    page = open_ticker("KO")
+    open_tab(page, "value")
+    links = page.locator("#priceLinks a")
+    expect(links).to_have_text(["Google ↗", "Yahoo Finance ↗"])
+    expect(links.nth(1)).to_have_attribute("href", "https://finance.yahoo.com/quote/KO/")
+    expect(links.nth(0)).to_have_attribute("target", "_blank")

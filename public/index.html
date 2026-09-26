@@ -138,6 +138,9 @@
   .price-row label { font-weight: 600; font-size: 14px; }
   .price-row input { width: 160px; padding: 8px 12px; font-size: 15px; border: 1px solid var(--axis); border-radius: 8px; background: var(--page); color: var(--text-1); }
   .price-hint { color: var(--text-2); font-size: 13px; flex: 1 1 240px; }
+  .price-links { white-space: nowrap; }
+  .price-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .price-links a:hover { text-decoration: underline; }
   .value-tiles { margin-bottom: 12px; }
   .value-tiles .value { font-size: 24px; }
   .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 12px; }
@@ -414,7 +417,7 @@
     <div class="card price-row">
       <label for="price">Current share price <span class="muted">(optional)</span></label>
       <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50">
-      <span class="price-hint" id="priceHint">Needed for the valuation tests. Look it up on any quote site or your broker.</span>
+      <span class="price-hint"><span id="priceHint">Needed for the valuation tests.</span> <span class="price-links" id="priceLinks"></span></span>
     </div>
     <div class="tiles value-tiles" id="valueTiles"></div>
     <div class="value-grid">

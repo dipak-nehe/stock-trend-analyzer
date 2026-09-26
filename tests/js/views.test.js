@@ -148,3 +148,12 @@ test("footnote only mentions stock splits that affect the years shown", () => {
   assert.match(footnote(d), /stock splits \(4-for-1\)/);
   assert.doesNotMatch(footnote(d), /2-for-1/);
 });
+
+import { priceLinks } from "../../public/js/views.js";
+
+test("price lookup links open public quote pages for the ticker", () => {
+  const html = priceLinks("BRK-B");
+  assert.match(html, /href="https:\/\/www\.google\.com\/search\?q=BRK-B%20stock%20price"/);
+  assert.match(html, /href="https:\/\/finance\.yahoo\.com\/quote\/BRK-B\/"/);
+  assert.equal((html.match(/target="_blank" rel="noopener noreferrer"/g) || []).length, 2);
+});

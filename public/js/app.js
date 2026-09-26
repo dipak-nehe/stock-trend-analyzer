@@ -132,6 +132,7 @@ function renderValue() {
   $("grahamChecks").innerHTML = view.graham; $("grahamScore").innerHTML = view.grahamScore;
   $("buffettChecks").innerHTML = view.buffett; $("buffettScore").innerHTML = view.buffettScore;
   $("priceHint").textContent = view.priceHint;
+  $("priceLinks").innerHTML = view.links;
   $("valueNote").textContent = view.note;
 }
 

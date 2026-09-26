@@ -1,5 +1,7 @@
 # Stock Trend Analyzer
 
+[![tests](https://github.com/dipak-nehe/stock-trend-analyzer/actions/workflows/tests.yml/badge.svg)](https://github.com/dipak-nehe/stock-trend-analyzer/actions/workflows/tests.yml)
+
 **Live site: [stock-value-analysis.vercel.app](https://stock-value-analysis.vercel.app/)** · try [AAPL](https://stock-value-analysis.vercel.app/?t=AAPL), [KO](https://stock-value-analysis.vercel.app/?t=KO), [SMCI](https://stock-value-analysis.vercel.app/?t=SMCI)
 
 Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, plus an automated check of the balance sheet and cash flows for red flags. All data comes from the company's own annual filings through the free **SEC EDGAR** API.
@@ -44,6 +46,28 @@ To use a different port, run `PORT=8001 python3 server.py`.
 
 API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat lookups never reach SEC.
 
+## Tests
+
+121 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+
+| Layer | What it covers |
+|---|---|
+| **Unit** (`tests/test_stock_data.py`, 46 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
+| **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
+| **HTTP** (`tests/test_server.py`, 17 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
+| **End-to-end** (`tests/e2e/`, 16 tests) | Playwright drives the real page in Chromium: search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+
+```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python -m playwright install chromium
+
+.venv/bin/pytest                 # everything, about 6 seconds
+.venv/bin/pytest -m "not e2e"    # skip the browser tests
+```
+
+To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
+
 ## Project structure
 
 ```
@@ -53,6 +77,8 @@ api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAP
 stock_data.py         SEC EDGAR fetching and normalization, shared by both servers
 server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
+tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)
+.github/workflows/    CI: runs the tests on every push
 ```
 
 ## How it works

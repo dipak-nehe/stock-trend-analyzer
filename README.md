@@ -65,7 +65,7 @@ python3 -m venv .venv
 
 .venv/bin/pytest                 # everything, about 6 seconds
 .venv/bin/pytest -m "not e2e"    # skip the browser tests
-node --test tests/js/            # JavaScript unit tests (Node 20+)
+node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 ```
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.

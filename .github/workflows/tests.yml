@@ -22,7 +22,7 @@ jobs:
           node-version: "22"
 
       - name: JavaScript unit tests
-        run: node --test tests/js/
+        run: node --test tests/js/*.test.js
 
       - name: Install test tools
         run: |

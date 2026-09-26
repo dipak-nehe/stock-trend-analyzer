@@ -28,6 +28,10 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.
 - **Foreign filers** (20-F / 40-F, IFRS) are pinned to their reporting currency, so USD convenience translations are never mixed in.
 
+## Privacy
+
+The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/analytics): page views, country, device and referrer, with no cookies and no personal data. It isn't loaded when running locally, and the footer says so.
+
 ## Run it locally
 
 Requires Python 3.9+. It has no third-party dependencies.
@@ -51,7 +55,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-231 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+232 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
@@ -59,7 +63,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
 | **HTTP** (`tests/test_server.py`, 19 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 49 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
-| **End-to-end** (`tests/e2e/test_ui.py`, 51 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+| **End-to-end** (`tests/e2e/test_ui.py`, 52 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
 | **Accessibility** (`tests/e2e/test_accessibility.py`, 24 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page and every results tab, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
 ```bash
@@ -76,7 +80,7 @@ node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 231 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+Every CI run builds an [Allure](https://allurereport.org) report covering all 232 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
 - **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.

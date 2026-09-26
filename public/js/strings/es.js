@@ -515,5 +515,6 @@ export default {
   "ui.gloss.15.term": "10-K, 20-F, 8-K",
   "ui.gloss.15.def": "Presentaciones ante la SEC: el informe anual (empresas de EE. UU.), el informe anual (empresas extranjeras) y el aviso de un hecho relevante.",
   "ui.footer.data": "Datos: presentaciones de empresas en <a href=\"https://www.sec.gov/edgar/sec-api-documentation\" target=\"_blank\" rel=\"noopener\">SEC EDGAR</a>. Sin relación con la SEC ni con ninguna de las empresas mostradas.",
+  "ui.footer.privacy": "Las visitas se cuentan de forma anónima con Vercel Web Analytics: sin cookies ni datos personales.",
   "ui.footer.built": "Creado por Dipak Nehe · <a href=\"https://github.com/dipak-nehe/stock-trend-analyzer\" target=\"_blank\" rel=\"noopener\">Código en GitHub</a>",
 };

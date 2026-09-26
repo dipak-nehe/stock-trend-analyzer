@@ -491,3 +491,13 @@ def test_no_english_left_in_spanish_results(page, app_url):
             if english.search(line) and not any(a in line for a in allowed):
                 found.append(f"{tab}: {line.strip()[:80]}")
     assert found == []
+
+
+def test_analytics_script_is_not_loaded_locally(page, app_url):
+    # Vercel Web Analytics only exists on the deployed site; locally it must not load (or count visits).
+    requests = []
+    page.on("request", lambda req: requests.append(req.url))
+    page.goto(f"{app_url}/?t=KO")
+    page.locator("#glance .glance-row").first.wait_for()
+    assert not [u for u in requests if "/_vercel/insights" in u]
+    expect(page.locator("footer")).to_contain_text("no cookies, no personal data")

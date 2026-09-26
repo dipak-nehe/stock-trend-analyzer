@@ -24,10 +24,15 @@ test("every English string has a Spanish translation with the same placeholders 
   assert.deepEqual(extra, [], `Spanish keys with no English: ${extra.join(", ")}`);
 });
 
-test("every translatable element in the page has a Spanish entry, and no Spanish entry is unused", () => {
-  const html = readFileSync(new URL("../../public/index.html", import.meta.url), "utf8");
-  const keys = [...html.matchAll(/data-i18n(?:-placeholder)?="([^"]+)"/g)].map((m) => m[1]);
-  assert.ok(keys.length > 100, `only ${keys.length} tagged elements`);
+test("every translatable element in both pages has a Spanish entry, and no Spanish entry is unused", () => {
+  const tagged = (/** @type {string} */ page) => {
+    const html = readFileSync(new URL(`../../public/${page}`, import.meta.url), "utf8");
+    return [...html.matchAll(/data-i18n(?:-placeholder)?="([^"]+)"/g)].map((m) => m[1]);
+  };
+  const index = tagged("index.html"), compare = tagged("compare.html");
+  assert.ok(index.length > 100, `only ${index.length} tagged elements in index.html`);
+  assert.ok(compare.length > 20, `only ${compare.length} tagged elements in compare.html`);
+  const keys = [...index, ...compare];
   const missing = keys.filter((k) => !(k in ES));
   assert.deepEqual(missing, [], `untranslated page text: ${missing.join(", ")}`);
   const unused = Object.keys(ES).filter((k) => k.startsWith("ui.") && !keys.includes(k));

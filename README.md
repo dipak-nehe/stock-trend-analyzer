@@ -23,6 +23,7 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 - **Growth over the period** table: first year vs latest year for revenue, earnings, EPS, dividends, cash flow, balance-sheet items and share count, with the change, total % growth and per-year growth (CAGR). Sign changes such as "from profit to loss" are spelled out.
 - **Plain-English explanations:** every red flag says why it matters; flags are grouped into *Needs attention*, *Going well* and *Notes*; jargon has hover definitions and a "Terms explained" glossary; trend tiles show a 10-year sparkline; tables are grouped by statement with the latest year highlighted.
 - **English and Spanish (Spain).** An EN | ES switch sits in the header. Spanish browsers get Spanish automatically, the choice is remembered, and it's kept in the link (`?lang=es`). Numbers follow Spain's conventions (416,2 mil M US$, 7,6 %, PER, BPA). All text lives in `public/js/strings/`, and tests check that every English string has a Spanish version with the same placeholders.
+- **Compare two stocks.** After a result, *Compare with another stock →* opens `compare.html` with the first company already loaded; enter a second ticker and both are analysed exactly as on their own pages. The comparison shows the at-a-glance verdicts side by side, a key-figures table (growth, margins, balance sheet, shareholder measures, red-flag counts, checklist scores), revenue and EPS growth indexed to 100 in the first common year, each company's *needs attention* points and the full Graham & Buffett grid. A small ● marks the more favourable value only where the direction is clear-cut (e.g. lower debt/equity); sizes get no mark and there is no overall winner. Optional prices per stock add valuation rows. Everything is kept in the link (`compare.html?a=KO&b=PEP&pa=68`), with swap, per-side errors and notes when currencies or fiscal year-ends differ.
 - **Eight charts** (Chart.js) and a full data table, in light and dark mode.
 - **Stock-split adjustment.** EDGAR never restates old per-share values, so the server detects splits from restated EPS in later filings and adjusts older EPS, dividends, and share counts.
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.
@@ -74,16 +75,16 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-269 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+301 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
 | **Unit** (`tests/test_stock_data.py`, `tests/test_store.py`, 78 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
-| **HTTP** (`tests/test_server.py`, 21 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
-| **JavaScript unit** (`tests/js/`, 49 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
-| **End-to-end** (`tests/e2e/test_ui.py`, 55 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
-| **Accessibility** (`tests/e2e/test_accessibility.py`, 24 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page and every results tab, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
+| **HTTP** (`tests/test_server.py`, 22 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
+| **JavaScript unit** (`tests/js/`, 60 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views, and the comparison rules (mark directions, bank and negative-equity n/a, indexed growth, caveats) |
+| **End-to-end** (`tests/e2e/test_ui.py` and `test_compare.py`, 68 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. `tests/e2e/test_compare.py` (13 tests) covers the compare page: the link appearing only after a result, the first stock pre-loaded, loading the second, marks, prices, swap, deep links, same-ticker and unknown-ticker errors, language carry-over and phone width. |
+| **Accessibility** (`tests/e2e/test_accessibility.py`, 31 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page, every results tab and the compare page, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
 ```bash
 python3 -m venv .venv
@@ -99,7 +100,7 @@ node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 269 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+Every CI run builds an [Allure](https://allurereport.org) report covering all 301 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
 - **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.
@@ -125,10 +126,12 @@ To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 
 ## Project structure
 
 ```
-public/index.html     page layout and styles
+public/index.html     results page; public/compare.html is the compare page
+public/styles.css     styles shared by both pages
 public/vendor/        Chart.js 4.4.1 (MIT), served from the site so no third-party request can block the page
 public/js/strings/    en.js and es.js translations (static page text uses data-i18n keys)
-public/js/            ES modules: app.js wires the page; flags.js (red-flag rules),
+public/js/            ES modules: app.js and compare-app.js wire the two pages (page.js holds
+                      what they share; compare.js builds the comparison); flags.js (red-flag rules),
                       valuation.js (Graham/Buffett), growth.js, history.js, views.js and
                       charts.js; format.js, series.js and labels.js hold shared helpers
 public/favicon.svg    icon; public/og.png is the link-preview image
@@ -152,7 +155,7 @@ Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financi
 ```
 
 - **`stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
-- **`public/js/`** holds plain-JavaScript ES modules with no build step. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node. Only `app.js` and `charts.js` touch the page.
+- **`public/js/`** holds plain-JavaScript ES modules with no build step. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node. Only `app.js`, `compare-app.js`, `page.js` and `charts.js` touch the page.
 
 ## Limitations
 

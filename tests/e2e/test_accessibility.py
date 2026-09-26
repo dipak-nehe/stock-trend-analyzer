@@ -114,3 +114,17 @@ def test_every_interactive_element_has_a_name(page, app_url):
         .filter(el => !(el.getAttribute('aria-label') || el.labels?.length || el.textContent.trim() || el.title))
         .map(el => el.outerHTML.slice(0, 80))""")
     assert unnamed == []
+
+
+@pytest.mark.parametrize("scheme", ["light", "dark"])
+@pytest.mark.parametrize("query", ["a=KO", "a=KO&b=SMCI&pa=60&pb=30", "a=JPM&b=INTC&lang=es"], ids=["one-side", "both-priced", "spanish"])
+def test_compare_page(page, app_url, query, scheme):
+    load(page, app_url, f"/compare.html?{query}", scheme=scheme)
+    page.locator("#cmpResult" if "b=" in query else "#statusA:not(:empty)").wait_for()
+    assert violations(page) == []
+
+
+def test_compare_page_phone(page, app_url):
+    load(page, app_url, "/compare.html?a=KO&b=AAPL", width=375)
+    page.locator("#cmpResult").wait_for()
+    assert violations(page) == []

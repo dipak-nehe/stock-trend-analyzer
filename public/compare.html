@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare stocks · Stock Trend Analyzer</title>
+<meta name="description" content="Compare two companies side by side: 10-year trends, red flags and Graham &amp; Buffett checks from their SEC filings.">
+<meta name="theme-color" content="#2a78d6">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://stock-value-analysis.vercel.app/compare.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Compare stocks · Stock Trend Analyzer">
+<meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
+<meta property="og:url" content="https://stock-value-analysis.vercel.app/compare.html">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Chart.js 4.4.1 (MIT), served from this site; deferred so a slow download never blocks the page -->
+<script defer src="vendor/chart.umd.min.js"></script>
+<script>
+  // Vercel Web Analytics: cookieless page-view counts. The script is served by Vercel, so load it only on the
+  // deployed site (never on localhost, where it doesn't exist and visits shouldn't count).
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+    const s = document.createElement("script");
+    s.defer = true;
+    s.src = "/_vercel/insights/script.js";
+    document.head.appendChild(s);
+  }
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="compare-page">
+  <header class="top">
+    <h1><a class="home-link" href="index.html">Stock Trend Analyzer</a></h1>
+    <div class="lang-switch" role="group" aria-label="Language / Idioma">
+      <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+    </div>
+  </header>
+  <p class="sub" data-i18n="ui.cmp.sub">Compare two companies side by side: 10-year trends, red flags and Graham &amp; Buffett checks from their SEC filings.</p>
+  <a class="back-link" id="backLink" href="index.html" data-i18n="ui.cmp.back">← Back to the full analysis</a>
+
+  <section class="search card cmp-pickers">
+    <div class="cmp-slot">
+      <div class="search-label"><label for="tickerA" data-i18n="ui.cmp.first">First stock</label></div>
+      <form id="formA" class="cmp-form" role="search">
+        <div class="search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="tickerA" type="text" placeholder="Enter a ticker, e.g. KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        </div>
+        <button type="submit" data-i18n="ui.cmp.load">Load</button>
+      </form>
+      <p class="cmp-status" id="statusA" role="status"></p>
+    </div>
+    <button type="button" class="cmp-swap" id="swap" data-i18n="ui.cmp.swap">⇄ Swap</button>
+    <div class="cmp-slot">
+      <div class="search-label"><label for="tickerB" data-i18n="ui.cmp.second">Second stock</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
+      <form id="formB" class="cmp-form" role="search">
+        <div class="search-field">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="tickerB" type="text" placeholder="Ticker to compare, e.g. PEP" data-i18n-placeholder="ui.cmp.placeholderB" autocomplete="off" autocapitalize="characters" spellcheck="false">
+        </div>
+        <button type="submit" id="goB" data-i18n="ui.cmp.go">Compare</button>
+      </form>
+      <div class="chips"><span data-i18n="ui.try">Try:</span>
+        <button class="chip" type="button" data-b="PEP">PEP</button>
+        <button class="chip" type="button" data-b="MSFT">MSFT</button>
+        <button class="chip" type="button" data-b="JPM">JPM</button>
+        <button class="chip" type="button" data-b="INTC">INTC</button>
+      </div>
+      <p class="cmp-status" id="statusB" role="status"></p>
+    </div>
+  </section>
+  <p class="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
+
+
+  <div class="card cmp-empty" id="cmpEmpty" data-i18n="ui.cmp.empty">Enter a second ticker to see the two companies side by side.</div>
+
+  <section id="cmpResult" class="cmp-result" hidden>
+    <div class="cmp-caveats" id="cmpCaveats"></div>
+    <div class="cmp-cards" id="cmpCards"></div>
+
+    <h2 id="glanceH" data-i18n="ui.cmp.glance">At a glance</h2>
+    <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="glanceH"><table class="cmp-table" id="cmpGlance"></table></div>
+
+    <h2 id="figuresH" data-i18n="ui.cmp.figures">Key figures</h2>
+    <p class="section-note" data-i18n="ui.cmp.legend"><span class="fav-dot" aria-hidden="true">●</span> marks the more favourable value on that single measure, where the direction is clear-cut. It isn't a verdict on which stock to buy.</p>
+    <div class="card cmp-prices">
+      <span class="cmp-prices-label" data-i18n="ui.cmp.prices">Share prices <span class="muted">(optional, for the valuation rows)</span></span>
+      <div class="cmp-price"><label for="priceA" id="priceALabel">A</label><input id="priceA" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185" data-i18n-placeholder="ui.price.placeholder"><span class="price-links" id="linksA"></span></div>
+      <div class="cmp-price"><label for="priceB" id="priceBLabel">B</label><input id="priceB" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185" data-i18n-placeholder="ui.price.placeholder"><span class="price-links" id="linksB"></span></div>
+    </div>
+    <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="figuresH"><table class="cmp-table" id="cmpTable"></table></div>
+
+    <h2 id="growthTitle"></h2>
+    <div class="charts">
+      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartRevenue">Revenue</h3><p id="revenueNote"></p><div class="chart-box"><canvas id="cmpRevenue"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartEps">Earnings per share</h3><p id="epsNote"></p><div class="chart-box"><canvas id="cmpEps"></canvas></div></div>
+    </div>
+
+    <h2 data-i18n="ui.cmp.attention">Needs attention</h2>
+    <div class="cmp-two" id="cmpAttention"></div>
+
+    <h2 id="gridH" data-i18n="ui.cmp.checklists">Graham &amp; Buffett criteria</h2>
+    <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="gridH"><table class="cmp-table" id="cmpGrid"></table></div>
+    <p class="note" data-i18n="ui.cmp.note">An educational side-by-side view of public filings, not investment advice. Each company is analysed exactly as on its own results page.</p>
+  </section>
+</main>
+<footer>
+  <span data-i18n="ui.footer.data">Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
+  <span data-i18n="ui.footer.privacy">Visits are counted anonymously with Vercel Web Analytics: no cookies, no personal data.</span>
+  <span data-i18n="ui.footer.built">Built by Dipak Nehe · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
+</footer>
+<script type="module" src="js/compare-app.js"></script>
+</body>
+</html>

@@ -7,17 +7,8 @@ import { historyView } from "./history.js";
 import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
-import { detectLang, dictionaries, getLang, getLocale, setLang, t } from "./i18n.js";
-
-// Element lookups by id. Typed loosely (inputs, buttons, details…): every id used here exists in index.html.
-/** @param {string} id @returns {any} */
-const $ = (id) => document.getElementById(id);
-/** @param {string} selector @returns {HTMLElement[]} */
-const $$ = (selector) => [...document.querySelectorAll(selector)].map((el) => /** @type {HTMLElement} */ (el));
-/** @param {Event} e */
-const targetOf = (e) => /** @type {HTMLElement} */ (e.target);
-// Bump when the API response format changes, so no cache serves an older shape to newer code.
-const API_VERSION = 4;
+import { getLang, getLocale, setLang, t } from "./i18n.js";
+import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, initialLang, targetOf, useLang } from "./page.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let historyFilter = "all", historyExpanded = false;
@@ -35,6 +26,7 @@ function render(d) {
   $("coMeta").textContent = (industry ? industry + " · " : "")
     + t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur, cik: d.cik });
   $("secLink").href = d.secUrl;
+  $("compareLink").href = compareHref(d.ticker);
   // When the data was fetched from SEC (results are stored and reused for up to a day)
   const asOf = d.dataAsOf ? new Date(d.dataAsOf).toLocaleString(getLocale(), { dateStyle: "medium", timeStyle: "short" }) : "";
   $("coAsOf").textContent = asOf ? t("company.asOf", { date: asOf }) : "";
@@ -149,16 +141,6 @@ function renderValue() {
   $("valueNote").textContent = view.note;
 }
 
-// The server answers in English; show its message as-is in English, otherwise translate by type.
-function errorText(status, message, ticker) {
-  if (getLang() === "en") return message;
-  const key = status === 400 ? (/enter a ticker/i.test(message) ? "error.empty" : "error.badTicker")
-    : status === 404 ? (/no financial data/i.test(message) ? "error.noData" : "error.notFound")
-    : status === 502 ? (/limiting/i.test(message) ? "error.busy" : "error.upstream")
-    : status === 504 ? "error.timeout" : "error.generic";
-  return t(key, { ticker });
-}
-
 async function run(ticker) {
   ticker = ticker.trim().toUpperCase();
   if (!ticker) return;
@@ -167,10 +149,7 @@ async function run(ticker) {
   $("loading").classList.remove("hidden");
   $("go").disabled = true;
   try {
-    const res = await fetch(`/api/financials?ticker=${encodeURIComponent(ticker)}&v=${API_VERSION}`);
-    const body = await res.json();
-    if (!res.ok) throw new Error(errorText(res.status, body.error || `HTTP ${res.status}`, ticker));
-    render(body);
+    render(await fetchFinancials(ticker));
     updateUrl();
   } catch (e) {
     $("result").classList.add("hidden");
@@ -193,47 +172,16 @@ function updateUrl() {
 }
 
 // ---------- language ----------
-// Static text: the English stays in index.html (kept in data-en the first time) and other languages
-// come from the "ui.*" keys in strings/<lang>.js.
-function applyStaticText() {
-  const lang = getLang(), dict = dictionaries[lang];
-  document.documentElement.lang = lang;
-  for (const el of $$("[data-i18n]")) {
-    if (!("en" in el.dataset)) el.dataset.en = el.innerHTML;
-    el.innerHTML = lang === "en" ? el.dataset.en : (dict[el.dataset.i18n] ?? el.dataset.en);
-  }
-  for (const el of /** @type {HTMLInputElement[]} */ ($$("[data-i18n-placeholder]"))) {
-    if (!("enPlaceholder" in el.dataset)) el.dataset.enPlaceholder = el.placeholder;
-    el.placeholder = lang === "en" ? el.dataset.enPlaceholder : (dict[el.dataset.i18nPlaceholder] ?? el.dataset.enPlaceholder);
-  }
-  $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  if (current) $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
-}
-
 function switchLang(lang) {
-  if (lang === getLang()) return;
-  setLang(lang);
-  try { localStorage.setItem("lang", lang); } catch { /* storage unavailable: the link still carries ?lang */ }
-  applyStaticText();
-  if (current) render(current.data);  // keeps the open tab and any price
+  if (!useLang(lang)) return;
+  if (current) render(current.data);  // re-renders in the new language, keeping the open tab and any price
   updateUrl();
-}
-
-function initialLang(params) {
-  if (params.get("lang") && dictionaries[params.get("lang")]) return params.get("lang");
-  try { const saved = localStorage.getItem("lang"); if (saved && dictionaries[saved]) return saved; } catch { /* ignore */ }
-  return detectLang(navigator.languages || [navigator.language]);
 }
 
 // ---------- events ----------
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
-document.addEventListener("keydown", (e) => {
-  if (e.key !== "/" || e.metaKey || e.ctrlKey || e.altKey || targetOf(e).closest("input, textarea, select")) return;
-  e.preventDefault();
-  $("ticker").focus();
-  $("ticker").select();
-});
+bindSlashShortcut("ticker");
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

@@ -51,7 +51,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-207 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+231 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
@@ -59,7 +59,8 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
 | **HTTP** (`tests/test_server.py`, 19 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 49 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
-| **End-to-end** (`tests/e2e/`, 51 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+| **End-to-end** (`tests/e2e/test_ui.py`, 51 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. |
+| **Accessibility** (`tests/e2e/test_accessibility.py`, 24 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page and every results tab, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
 ```bash
 python3 -m venv .venv
@@ -70,6 +71,19 @@ python3 -m venv .venv
 .venv/bin/pytest -m "not e2e"    # skip the browser tests
 node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 ```
+
+### Test report (Allure)
+
+Every CI run builds an [Allure](https://allurereport.org) report covering all 231 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+
+- **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
+- **On Vercel (optional):** add a `VERCEL_TOKEN` repository secret, and every push to `main` also publishes the latest report to its own site. The link appears in the run summary and the log.
+- **Locally:**
+  ```bash
+  npm install                          # once: installs the Allure CLI (Node only, no Java)
+  rm -rf allure-results && npm run test:js:allure && .venv/bin/pytest --alluredir=allure-results
+  npm run report                       # writes allure-report/index.html
+  ```
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
 

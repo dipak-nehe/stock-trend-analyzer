@@ -3,10 +3,28 @@
 Tests never call SEC: `sec_fixtures` swaps stock_data.sec_get for a reader of the trimmed real
 filings in tests/fixtures/, and `fake_sec` serves hand-built data for precise unit tests.
 """
+import allure
 import pytest
 
 import stock_data
 from helpers import _not_found, fixture_sec_get
+
+
+# Group tests in the Allure report by layer (the report's "Suites" view).
+LAYERS = {
+    "test_stock_data": "1 · Unit: data rules",
+    "test_regression": "2 · Regression: real SEC filings",
+    "test_server": "3 · HTTP: API and static files",
+    "test_ui": "4 · End-to-end: user journeys",
+    "test_accessibility": "5 · Accessibility: axe-core and keyboard",
+}
+
+
+@pytest.fixture(autouse=True)
+def _allure_layer(request):
+    layer = LAYERS.get(request.module.__name__.rsplit(".", 1)[-1])
+    if layer:
+        allure.dynamic.parent_suite(layer)
 
 
 @pytest.fixture

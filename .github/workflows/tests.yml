@@ -7,7 +7,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    env:
+      # Optional: a Vercel token (repo Settings → Secrets and variables → Actions → VERCEL_TOKEN) publishes the
+      # Allure report to its own Vercel site on every push to main. Without it, the report is still
+      # available as a downloadable artifact.
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v7
 
@@ -20,20 +25,36 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-
-      - name: JavaScript unit tests
-        run: node --test tests/js/*.test.js
+          cache: npm
 
       - name: Install test tools
         run: |
           pip install -r requirements-dev.txt
           python -m playwright install --with-deps chromium
+          npm ci
 
-      - name: Unit, regression and server tests
-        run: pytest -m "not e2e" -v
+      # Each test step runs even if an earlier one failed, so the report always covers every layer.
+      - name: JavaScript unit tests
+        run: npm run test:js:allure
 
-      - name: End-to-end browser tests
-        run: pytest tests/e2e -v --tracing retain-on-failure --output test-results
+      - name: Unit, regression and HTTP tests
+        if: success() || failure()
+        run: pytest -m "not e2e" -v --alluredir=allure-results
+
+      - name: End-to-end and accessibility tests
+        if: success() || failure()
+        run: pytest tests/e2e -v --alluredir=allure-results --tracing retain-on-failure --output test-results
+
+      - name: Build the Allure report
+        if: always()
+        run: npm run report
+
+      - name: Upload the Allure report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: allure-report
+          path: allure-report/
 
       - name: Upload Playwright traces on failure
         if: failure()
@@ -41,3 +62,41 @@ jobs:
         with:
           name: playwright-traces
           path: test-results/
+
+      - name: Publish the report to Vercel
+        id: publish
+        if: always() && github.ref == 'refs/heads/main' && env.VERCEL_TOKEN != ''
+        run: |
+          mkdir -p site/stock-trend-test-report
+          cp allure-report/index.html site/stock-trend-test-report/
+          cd site/stock-trend-test-report
+          if ! npx --yes vercel@60.1.3 deploy --prod --yes --token "$VERCEL_TOKEN" > ../deploy-url.txt 2> ../deploy.log; then
+            cat ../deploy.log; exit 1
+          fi
+          # Prefer the stable production address (e.g. https://stock-trend-test-report.vercel.app).
+          alias=$(grep -Eo 'Aliased: https://[^ ]+' ../deploy.log | head -1 | cut -d' ' -f2)
+          url="${alias:-$(cat ../deploy-url.txt)}"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "::notice title=Allure report::$url"
+
+      - name: Test summary
+        if: always()
+        env:
+          REPORT_URL: ${{ steps.publish.outputs.url }}
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          try:
+              stats = json.load(open("allure-report/summary.json"))["stats"]
+          except Exception:
+              stats = {}
+          total, passed = stats.get("total", 0), stats.get("passed", 0)
+          other = ", ".join(f"{v} {k}" for k, v in stats.items() if k not in ("total", "passed") and v)
+          print("## Test results")
+          print(f"**{passed} of {total} passed**" + (f" · {other}" if other else ""))
+          print()
+          if os.environ.get("REPORT_URL"):
+              print(f"📊 **Allure report:** {os.environ['REPORT_URL']}")
+          run = f"{os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}#artifacts"
+          print(f"📦 **Download:** [allure-report]({run}), a single index.html that opens in any browser")
+          EOF

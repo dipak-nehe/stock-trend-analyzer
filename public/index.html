@@ -25,11 +25,12 @@
     --surface: #fcfcfb;
     --text-1: #0b0b0b;
     --text-2: #52514e;
-    --muted: #898781;
+    --muted: #6b6a65;  /* AA contrast (4.5:1+) on every light surface */
     --grid: #e1e0d9;
     --axis: #c3c2b7;
     --border: rgba(11,11,11,0.10);
-    --accent: #2a78d6;
+    --accent: #2166b8;         /* text, links, borders: 5:1+ on light surfaces */
+    --accent-strong: #2166b8;  /* backgrounds under white text: 5.7:1 */
     --series-1: #2a78d6;
     --series-2: #eb6834;
     --series-3: #1baf7a;
@@ -37,6 +38,7 @@
     --good-text: #006300;
     --warning: #fab219;
     --critical: #d03b3b;
+    --critical-text: #c22f2f;
     --info: #898781;
   }
   @media (prefers-color-scheme: dark) {
@@ -44,7 +46,7 @@
       color-scheme: dark;
       --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
       --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
-      --accent: #3987e5; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+      --accent: #6da7ec; --accent-strong: #256abf; --muted: #9a988f; --critical-text: #ef7f7f; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
       --good-text: #0ca30c;
     }
   }
@@ -52,7 +54,7 @@
     color-scheme: dark;
     --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
-    --accent: #3987e5; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --accent: #6da7ec; --accent-strong: #256abf; --muted: #9a988f; --critical-text: #ef7f7f; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
     --good-text: #0ca30c;
   }
   * { box-sizing: border-box; }
@@ -91,7 +93,7 @@
   }
   button {
     padding: 10px 20px; font-size: 15px; font-weight: 600; border: 0; border-radius: 8px;
-    background: var(--accent); color: #fff; cursor: pointer;
+    background: var(--accent-strong); color: #fff; cursor: pointer;
   }
   button:disabled { opacity: .6; cursor: progress; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--muted); align-items: center; }
@@ -108,7 +110,7 @@
   .tile .value { font-size: 28px; font-weight: 650; margin: 4px 0 2px; }
   .tile .trend { font-weight: 600; font-size: 14px; }
   .tile .detail { color: var(--text-2); font-size: 13px; }
-  .up { color: var(--good-text); } .down { color: var(--critical); } .flat { color: var(--text-2); }
+  .up { color: var(--good-text); } .down { color: var(--critical-text); } .flat { color: var(--text-2); }
   .score { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 14px; color: var(--text-2); }
   .flags { display: grid; gap: 8px; }
   .flag { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; padding: 12px 14px; }
@@ -161,7 +163,7 @@
   .history-tiles .value { font-size: 24px; }
   .history-tiles .status { font-size: 13px; font-weight: 600; }
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
-  .chip[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .chip[aria-pressed="true"] { background: var(--accent-strong); color: #fff; border-color: var(--accent-strong); }
   .event { display: grid; grid-template-columns: 92px 1fr auto; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--grid); align-items: baseline; font-size: 14px; }
   .event .date { color: var(--text-2); font-variant-numeric: tabular-nums; }
   .event .kind { font-weight: 600; }
@@ -185,7 +187,7 @@
   .how li { flex: 1 1 0; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); position: relative; }
   .how li + li::before { content: "›"; color: var(--muted); font-size: 22px; margin-right: 6px; }
   .how strong { color: var(--text-1); }
-  .how-n { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; background: var(--accent); }
+  .how-n { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; background: var(--accent-strong); }
   .guide-intro { margin: 0 18px 10px; color: var(--text-2); font-size: 14px; }
   .guide-try { color: var(--accent); font-weight: 600; }
   .guide.has-results .guide-try { display: none; }
@@ -218,7 +220,7 @@
   .panel-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--grid); }
   .panel-nav button { background: var(--surface); color: var(--text-1); border: 1px solid var(--border); font-weight: 600; font-size: 14px; padding: 10px 14px; }
   .panel-nav button:hover { border-color: var(--axis); }
-  .panel-nav .next { margin-left: auto; background: var(--accent); color: #fff; border-color: var(--accent); }
+  .panel-nav .next { margin-left: auto; background: var(--accent-strong); color: #fff; border-color: var(--accent-strong); }
   #glance { display: grid; }
   .glance-row { width: 100%; display: grid; grid-template-columns: 26px 150px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; border: 0; background: none; color: var(--text-1); font: inherit; text-align: left; cursor: pointer; border-radius: 8px; }
   #glance .glance-row { border-top: 1px solid var(--grid); border-radius: 0; }
@@ -238,7 +240,7 @@
   .tabbar.more-left.more-right { -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent); }
   .tabbar [role=tab] { flex: 0 0 auto; background: none; color: var(--text-2); font-weight: 600; font-size: 14px; padding: 8px 12px; border-radius: 8px; }
   .tabbar [role=tab]:hover { color: var(--text-1); background: var(--surface); }
-  .tabbar [role=tab][aria-selected=true] { color: #fff; background: var(--accent); }
+  .tabbar [role=tab][aria-selected=true] { color: #fff; background: var(--accent-strong); }
   .tabbar .badge:empty { display: none; }
   .tabbar .badge { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 4px; border-radius: 9px; font-size: 12px; line-height: 18px; background: var(--critical); color: #fff; }
   .panel-h { font-size: 15px; margin: 24px 0 8px; }
@@ -279,7 +281,8 @@
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .lang-switch { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 2px; background: var(--surface); }
   .lang-switch button { background: none; color: var(--text-2); font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
-  .lang-switch button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .lang-switch button[aria-pressed="true"] { background: var(--accent-strong); color: #fff; }
+  .table-wrap:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   .hidden { display: none; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
@@ -398,8 +401,8 @@
     <div role="tabpanel" class="panel" id="panel-overview" aria-labelledby="tab-overview">
       <p class="section-note" data-i18n="ui.note.overview">The latest annual figure, its average growth per year (<abbr title="Compound annual growth rate: the steady yearly growth that would turn the first value into the latest one">CAGR</abbr>) over the period, and a trend label. "Volatile" means the figure fell in three or more years.</p>
       <div class="tiles" id="tiles"></div>
-      <h3 class="panel-h" data-i18n="ui.growth.title">Growth from first to latest year</h3>
-      <div class="card table-wrap"><table id="growthTable" class="growth"></table></div>
+      <h3 class="panel-h" id="growthTableTitle" data-i18n="ui.growth.title">Growth from first to latest year</h3>
+      <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="growthTableTitle"><table id="growthTable" class="growth"></table></div>
       <p class="note" id="growthIntro"></p>
       <nav class="panel-nav" data-for="overview" aria-label="Move between sections"></nav>
     </div>
@@ -465,7 +468,7 @@
 
     <div role="tabpanel" class="panel" id="panel-data" aria-labelledby="tab-data" hidden>
       <p class="section-note" data-i18n="ui.note.data">Every figure used on this page, by fiscal year, as reported in the company's annual filings. A dash means the company didn't report that item for that year.</p>
-      <div class="card table-wrap"><table id="table"></table></div>
+      <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="tab-data"><table id="table"></table></div>
       <p class="note" id="note"></p>
       <nav class="panel-nav" data-for="data" aria-label="Move between sections"></nav>
     </div>

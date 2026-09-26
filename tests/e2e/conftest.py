@@ -2,11 +2,25 @@
 import threading
 from http.server import ThreadingHTTPServer
 
+import allure
 import pytest
 
 import server
 import stock_data
 from helpers import fixture_sec_get
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Attach a full-page screenshot to the Allure report when a browser test fails."""
+    outcome = yield
+    report = outcome.get_result()
+    page = item.funcargs.get("page")
+    if report.when == "call" and report.failed and page is not None:
+        try:
+            allure.attach(page.screenshot(full_page=True), name="screenshot on failure", attachment_type=allure.attachment_type.PNG)
+        except Exception:  # noqa: BLE001 - a screenshot must never hide the real failure
+            pass
 
 
 @pytest.fixture(scope="session")

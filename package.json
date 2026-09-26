@@ -2,8 +2,14 @@
   "name": "stock-trend-analyzer",
   "private": true,
   "type": "module",
-  "description": "Lets Node run the browser ES modules in public/js for unit tests. No dependencies.",
+  "description": "Front-end unit tests run in Node; the Allure report generator. Not deployed (see .vercelignore).",
   "scripts": {
-    "test": "node --test tests/js/*.test.js"
+    "test": "node --test tests/js/*.test.js",
+    "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
+    "report": "allure generate allure-results",
+    "report:open": "allure open allure-report"
+  },
+  "devDependencies": {
+    "allure": "3.18.0"
   }
 }

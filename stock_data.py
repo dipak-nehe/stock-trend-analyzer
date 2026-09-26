@@ -32,8 +32,9 @@ CACHE_NONE = "no-store"
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/app.js),
 # so stored entries in the old format are simply ignored.
 CACHE_VERSION = "v4"
-FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC for this long
-KEEP_SECONDS = 30 * 24 * 3600      # keep it this long as a fallback for when SEC is unavailable
+FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
+FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
+KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
 TICKERS_SECONDS = 7 * 24 * 3600    # ticker -> company lookup table
 log = logging.getLogger("stock_data")
 store = None                       # set at the bottom of this module (tests replace it)
@@ -353,6 +354,21 @@ def latest_shares_outstanding(facts):
 
 # ---------- SEC filing history ("remarks") ----------
 AMENDMENT_FORMS = {"10-K/A", "20-F/A", "40-F/A"}
+# Reports that can change the figures we show: annual reports (the yearly numbers) and quarterly reports
+# (the latest share count). A new one of these means the stored figures must be refreshed.
+FINANCIAL_FORMS = ANNUAL_FORMS | {"10-Q", "10-Q/A", "10-QT"}
+
+
+def submissions(cik):
+    return sec_get(f"https://data.sec.gov/submissions/CIK{cik:010d}.json")
+
+
+def financial_marker(sub):
+    """Identifies the latest annual or quarterly report, e.g. "2026-08-01:0000320193-26-000020"."""
+    t = sub["filings"]["recent"]
+    latest = max(((t["filingDate"][i], t["accessionNumber"][i]) for i, form in enumerate(t["form"]) if form in FINANCIAL_FORMS),
+                 default=None)
+    return f"{latest[0]}:{latest[1]}" if latest else None
 
 
 def _classify_filing(form, items):
@@ -373,10 +389,10 @@ def _classify_filing(form, items):
     return None
 
 
-def filing_history(cik, since):
-    """Notable filings on or after `since` (YYYY-MM-DD) from EDGAR's submissions index."""
+def filing_history(cik, since, sub=None):
+    """Notable filings on or after `since` (YYYY-MM-DD) from EDGAR's submissions index (pass `sub` if already fetched)."""
     base = "https://data.sec.gov/submissions/"
-    sub = sec_get(f"{base}CIK{cik:010d}.json")
+    sub = sub or submissions(cik)
     tables = [sub["filings"]["recent"]]
     for f in sub["filings"].get("files", []):
         if f.get("filingTo", "") >= since:  # older pages, only if they overlap the window
@@ -458,9 +474,11 @@ def build_financials(ticker):
 
     shares = latest_shares_outstanding(facts)
     try:
-        history = filing_history(cik, f"{years[0]}-01-01")
+        sub = submissions(cik)
+        history = filing_history(cik, f"{years[0]}-01-01", sub)
+        marker = financial_marker(sub)
     except Exception:  # noqa: BLE001 - the financials are still useful without it
-        history = None
+        history, marker = None, None
 
     # Derived series
     total_debt, lt_debt = [], []
@@ -502,6 +520,7 @@ def build_financials(ticker):
         "sources": sources,
         "splits": [{"detectedInFiling": d, "ratio": round(f, 4)} for d, f in splits],
         "secHistory": history,
+        "_marker": marker,  # latest annual/quarterly report; kept in storage, removed from the response
         "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
         "secUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=10-K",
     }
@@ -523,6 +542,10 @@ def api_response(ticker, now=time.time):
     stored = safe_get(key)
     if stored and now() - stored["fetchedTs"] < FRESH_SECONDS:
         return 200, stored["data"], CACHE_OK, "HIT"
+    # Stored figures can be re-checked cheaply (filing list only) if they're under 90 days old and we know
+    # which report they came from; otherwise do a full refresh.
+    recheck = bool(stored and stored.get("marker")
+                   and now() - stored.get("factsTs", stored["fetchedTs"]) < FACTS_MAX_SECONDS)
 
     def stale_or(status, body, cache):
         # SEC failed: a stored copy (even an old one) beats an error page
@@ -531,7 +554,12 @@ def api_response(ticker, now=time.time):
         return status, body, cache, None
 
     try:
-        data = build_financials(ticker)
+        data = revalidate(stored) if recheck else None
+        if data is not None:
+            source, marker, facts_ts = "REVALIDATED", stored["marker"], stored.get("factsTs", stored["fetchedTs"])
+        else:
+            data = build_financials(ticker)
+            source, marker, facts_ts = "MISS", data.pop("_marker", None), now()
     except ConfigError as e:
         return stale_or(500, {"error": str(e)}, CACHE_NONE)
     except LookupError as e:
@@ -551,9 +579,20 @@ def api_response(ticker, now=time.time):
         return stale_or(500, {"error": "Something went wrong while processing this company's filings."}, CACHE_NONE)
 
     ts = now()
-    data["dataAsOf"] = datetime.fromtimestamp(ts, timezone.utc).isoformat(timespec="seconds")
-    safe_set(key, {"fetchedTs": ts, "data": data}, KEEP_SECONDS)
-    return 200, data, CACHE_OK, "MISS"
+    data["dataAsOf"] = datetime.fromtimestamp(ts, timezone.utc).isoformat(timespec="seconds")  # last checked with SEC
+    safe_set(key, {"fetchedTs": ts, "factsTs": facts_ts, "marker": marker, "data": data}, KEEP_SECONDS)
+    return 200, data, CACHE_OK, source
+
+
+def revalidate(stored):
+    """Download only the filing list. If no annual or quarterly report has appeared since the stored figures,
+    reuse them with a refreshed filing history; return None when a full refresh is needed."""
+    d = stored["data"]
+    sub = submissions(d["cik"])
+    if financial_marker(sub) != stored["marker"]:
+        return None
+    since = (d.get("secHistory") or {}).get("since") or f"{d['years'][0]}-01-01"
+    return {**d, "secHistory": filing_history(d["cik"], since, sub)}
 
 
 store = store_module.from_environment(ssl_context=SSL_CTX)

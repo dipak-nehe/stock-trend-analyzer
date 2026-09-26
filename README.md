@@ -33,8 +33,9 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 Each ticker is fetched from SEC once, and the finished result is stored and reused (`store.py`):
 
 - **Fresh for 24 hours:** repeat lookups are served from storage (a few milliseconds instead of 1–3 s) without calling SEC.
-- **After 24 hours:** the next lookup fetches from SEC again and replaces the stored copy.
-- **If SEC is unreachable,** a saved copy up to 30 days old is shown, with a notice, instead of an error.
+- **After 24 hours, a cheap re-check:** only the company's filing list is downloaded (about 0.5 MB instead of about 6 MB for Microsoft). If no new annual or quarterly report (10-K, 10-Q, 20-F, 40-F or an amendment) has been filed, the stored figures are kept and only the SEC filing history is refreshed, so new red flags such as late filings still appear within a day (`X-Data-Cache: REVALIDATED`).
+- **A new annual or quarterly report** triggers a full refresh. So do stored figures more than 90 days old, as a safety net.
+- **If SEC is unreachable,** the saved copy is shown with a notice instead of an error.
 - **The ticker lookup table** is stored for a week, instead of downloading SEC's multi-MB list each time.
 - **Stored data is gzip-compressed** (a company is about 2–15 KB) and keyed with a format version (`CACHE_VERSION`), so a format change never serves old-shaped data.
 
@@ -44,7 +45,7 @@ Each ticker is fetched from SEC once, and the finished result is stored and reus
 | Live site without Redis | In memory, per server instance |
 | Your machine | Files in `.cache/` (set `STOCK_CACHE=off` to disable) |
 
-Responses carry `X-Data-Cache: HIT | MISS | STALE`, and the page shows "Data from SEC as of …".
+Responses carry `X-Data-Cache: HIT | REVALIDATED | MISS | STALE` and `X-Data-Store: redis | memory | file`, and the page shows "Data from SEC as of …".
 
 ## Privacy
 
@@ -73,11 +74,11 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-259 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+268 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
 
 | Layer | What it covers |
 |---|---|
-| **Unit** (`tests/test_stock_data.py`, `tests/test_store.py`, 69 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
+| **Unit** (`tests/test_stock_data.py`, `tests/test_store.py`, 78 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
 | **Regression** (`tests/test_regression.py`, 42 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
 | **HTTP** (`tests/test_server.py`, 21 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 49 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views |
@@ -98,7 +99,7 @@ node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 259 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+Every CI run builds an [Allure](https://allurereport.org) report covering all 268 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
 - **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.

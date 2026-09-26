@@ -1,5 +1,6 @@
 """Stored results: the three storage backends, backend selection, and the caching rules in api_response."""
 import base64
+import copy
 import json
 import threading
 import urllib.error
@@ -113,13 +114,21 @@ def test_backend_is_chosen_from_the_environment(monkeypatch, tmp_path, env, expe
 def sec(monkeypatch):
     """Offline SEC data with a call counter and a switch to make SEC fail."""
     monkeypatch.setenv("SEC_USER_AGENT", "StockTrendTests tests@example.com")
-    state = {"calls": [], "fail": None}
+    state = {"calls": [], "fail": None, "new": []}
 
     def sec_get(url):
         state["calls"].append(url)
         if state["fail"]:
             raise state["fail"]
-        return fixture_sec_get(url)
+        data = fixture_sec_get(url)
+        if "submissions" in url and state["new"]:
+            data = copy.deepcopy(data)
+            recent = data["filings"]["recent"]
+            for n, (form, date, items) in enumerate(state["new"]):
+                for field, value in (("form", form), ("filingDate", date), ("items", items),
+                                     ("accessionNumber", f"9999999999-26-{n:06d}"), ("primaryDocument", "new.htm")):
+                    recent[field].insert(0, value)
+        return data
     monkeypatch.setattr(stock_data, "sec_get", sec_get)
     return state
 
@@ -139,14 +148,88 @@ def test_class_share_spellings_share_one_stored_result():
     assert keys == {"BRK-B"}
 
 
-def test_stored_result_is_refreshed_after_24_hours(sec):
+def add_filing(sec, form, date="2026-09-25", items=""):
+    """Make a new filing appear at the top of every company's filing list."""
+    sec["new"].append((form, date, items))
+
+
+FACTS, FILING_LIST = "companyfacts", "submissions"
+
+
+def downloads(sec, since):
+    calls = sec["calls"][since:]
+    return {"facts": sum(FACTS in c for c in calls), "filing_list": sum(FILING_LIST in c for c in calls)}
+
+
+def test_after_24_hours_only_the_filing_list_is_checked(sec):
+    clock = Clock()
+    first = stock_data.api_response("KO", now=clock)[1]
+    clock.t += stock_data.FRESH_SECONDS + 1
+    mark = len(sec["calls"])
+    status, body, _, source = stock_data.api_response("KO", now=clock)
+    assert (status, source) == (200, "REVALIDATED")
+    assert downloads(sec, mark) == {"facts": 0, "filing_list": 1}          # the large download is skipped
+    assert body["series"] == first["series"] and body["dataAsOf"] > first["dataAsOf"]
+    clock.t += 60
+    assert stock_data.api_response("KO", now=clock)[3] == "HIT"             # and it's fresh again for a day
+
+
+def test_new_red_flag_filings_show_up_without_a_full_refresh(sec):
+    clock = Clock()
+    stock_data.api_response("KO", now=clock)
+    add_filing(sec, "NT 10-Q")                                             # a late-filing notice appears
+    clock.t += stock_data.FRESH_SECONDS + 1
+    mark = len(sec["calls"])
+    body, source = stock_data.api_response("KO", now=clock)[1::2]
+    assert source == "REVALIDATED" and downloads(sec, mark)["facts"] == 0
+    assert body["secHistory"]["counts"].get("late_filing") == 1
+
+
+@pytest.mark.parametrize("form", ["10-K", "10-K/A", "10-Q", "20-F"])
+def test_a_new_annual_or_quarterly_report_triggers_a_full_refresh(sec, form):
+    clock = Clock()
+    stock_data.api_response("KO", now=clock)
+    add_filing(sec, form)
+    clock.t += stock_data.FRESH_SECONDS + 1
+    mark = len(sec["calls"])
+    assert stock_data.api_response("KO", now=clock)[3] == "MISS"
+    assert downloads(sec, mark)["facts"] == 1
+
+
+def test_figures_are_re_downloaded_at_least_every_90_days(sec):
+    clock = Clock()
+    stock_data.api_response("KO", now=clock)
+    for _ in range(3):                                                     # re-checked cheaply for a while...
+        clock.t += 30 * 24 * 3600 - 1
+        assert stock_data.api_response("KO", now=clock)[3] == "REVALIDATED"
+    clock.t += 24 * 3600
+    mark = len(sec["calls"])
+    assert stock_data.api_response("KO", now=clock)[3] == "MISS"           # ...then fully refreshed after 90 days
+    assert downloads(sec, mark)["facts"] == 1
+
+
+def test_entries_stored_before_this_change_get_a_full_refresh(sec, fresh_store):
+    clock = Clock()
+    stock_data.api_response("KO", now=clock)
+    key = f"{stock_data.CACHE_VERSION}:fin:KO"
+    old = stock_data.safe_get(key)
+    stock_data.safe_set(key, {"fetchedTs": old["fetchedTs"], "data": old["data"]}, 3600)   # no marker yet
+    clock.t += stock_data.FRESH_SECONDS + 1
+    assert stock_data.api_response("KO", now=clock)[3] == "MISS"
+
+
+def test_the_marker_is_not_sent_to_the_browser(sec):
+    body = stock_data.api_response("KO")[1]
+    assert "_marker" not in body and "marker" not in body
+
+
+def test_sec_down_during_the_recheck_serves_the_stored_copy(sec):
     clock = Clock()
     stock_data.api_response("KO", now=clock)
     clock.t += stock_data.FRESH_SECONDS + 1
+    sec["fail"] = urllib.error.URLError("down")
     status, body, _, source = stock_data.api_response("KO", now=clock)
-    assert source == "MISS"                                               # fetched again, stored again
-    clock.t += 60
-    assert stock_data.api_response("KO", now=clock)[3] == "HIT"
+    assert (status, source) == (200, "STALE") and body["stale"] is True
 
 
 @pytest.mark.parametrize("failure", [urllib.error.URLError("down"), TimeoutError(),

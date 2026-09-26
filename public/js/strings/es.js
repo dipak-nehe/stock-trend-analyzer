@@ -426,6 +426,8 @@ export default {
   "ui.try": "Prueba:",
   "ui.disclaimer": "<strong>No es asesoramiento de inversión.</strong> Es un análisis automático de información pública con fines educativos. Las cifras pueden estar incompletas o mal etiquetadas; consulta siempre las presentaciones originales antes de tomar decisiones.",
   "ui.guide.title": "Qué verás en los resultados",
+  "ui.guide.show": "Mostrar guía",
+  "ui.guide.hide": "Ocultar",
   "ui.how.1": "<strong>Introduce un ticker</strong> o elige un ejemplo",
   "ui.how.2": "<strong>Lee el resumen de un vistazo</strong>: seis conclusiones de una línea",
   "ui.how.3": "<strong>Abre una pestaña</strong> para ver el detalle de cada conclusión",

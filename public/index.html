@@ -189,11 +189,25 @@
   .growth td:nth-child(n+4) { font-weight: 600; }
   .growth .yr { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
   .growth .nm { color: var(--text-2); font-weight: 400; }
-  .guide { margin-top: 16px; padding: 0; overflow: hidden; }
-  .guide summary { cursor: pointer; padding: 14px 18px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 8px; }
+  .guide { margin-top: 16px; padding: 0; overflow: hidden; transition: border-color .15s; }
+  .guide:has(summary:hover) { border-color: var(--accent); }
+  .guide summary { cursor: pointer; padding: 12px 14px 12px 16px; font-weight: 600; font-size: 15px; list-style: none;
+    display: flex; align-items: center; gap: 12px; border-radius: 12px; }
   .guide summary::-webkit-details-marker { display: none; }
-  .guide summary::before { content: "▸"; color: var(--muted); transition: transform .15s; }
-  .guide[open] summary::before { transform: rotate(90deg); }
+  .guide summary:hover { background: color-mix(in srgb, var(--accent) 7%, var(--surface)); }
+  .guide summary:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .guide-icon { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent-strong); color: #fff; font: 700 15px/1 system-ui, sans-serif; }
+  .guide-title { flex: 1 1 auto; }
+  .guide-toggle { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--accent); color: var(--accent); font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .guide summary:hover .guide-toggle { background: var(--accent-strong); border-color: var(--accent-strong); color: #fff; }
+  .guide-toggle svg { transition: transform .2s; }
+  .guide[open] .guide-toggle svg { transform: rotate(180deg); }
+  .guide .when-open, .guide[open] .when-closed { display: none; }
+  .guide[open] .when-open { display: inline; }
+  .guide[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  @media (prefers-reduced-motion: reduce) { .guide-toggle svg, .guide { transition: none; } }
   .how { list-style: none; margin: 0 18px 16px; padding: 12px; display: flex; gap: 8px; border-radius: 10px; background: var(--page); counter-reset: none; }
   .how li { flex: 1 1 0; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); position: relative; }
   .how li + li::before { content: "›"; color: var(--muted); font-size: 22px; margin-right: 6px; }
@@ -347,7 +361,14 @@
   <p class="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <details class="guide card" id="guide" open>
-    <summary><span class="guide-title" data-i18n="ui.guide.title">What you'll see in the results</span></summary>
+    <summary>
+      <span class="guide-icon" aria-hidden="true">?</span>
+      <span class="guide-title" data-i18n="ui.guide.title">What you'll see in the results</span>
+      <span class="guide-toggle" aria-hidden="true">
+        <span class="when-closed" data-i18n="ui.guide.show">Show guide</span><span class="when-open" data-i18n="ui.guide.hide">Hide</span>
+        <svg viewBox="0 0 12 12" width="12" height="12"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </summary>
     <ol class="how">
       <li><span class="how-n">1</span><span data-i18n="ui.how.1"><strong>Enter a ticker</strong> or pick an example</span></li>
       <li><span class="how-n">2</span><span data-i18n="ui.how.2"><strong>Read the at-a-glance summary</strong>: six one-line verdicts</span></li>

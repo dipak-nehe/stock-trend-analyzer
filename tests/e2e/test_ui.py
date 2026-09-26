@@ -523,3 +523,17 @@ def test_saved_copy_notice_when_sec_is_unreachable(page, app_url):
     page.goto(f"{app_url}/?t=KO")
     expect(page.locator("#staleNote")).to_be_visible()
     expect(page.locator("#staleNote")).to_contain_text("SEC couldn't be reached")
+
+
+def test_guide_toggle_looks_and_reads_like_a_control(open_ticker):
+    page = open_ticker("KO")                                       # guide is collapsed after a search
+    summary = page.locator("#guide summary")
+    expect(summary.locator(".when-closed")).to_be_visible()
+    expect(summary.locator(".when-closed")).to_have_text("Show guide")
+    assert summary.evaluate("el => getComputedStyle(el).cursor") == "pointer"
+    summary.focus()
+    page.keyboard.press("Enter")                                   # opens with the keyboard
+    expect(page.locator("#guide")).to_have_attribute("open", "")
+    expect(summary.locator(".when-open")).to_have_text("Hide")
+    page.click(".lang-switch [data-lang=es]")
+    expect(summary.locator(".when-open")).to_have_text("Ocultar")

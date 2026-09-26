@@ -74,10 +74,12 @@ node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
 
 ### Test report (Allure)
 
+**Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
+
 Every CI run builds an [Allure](https://allurereport.org) report covering all 231 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
-- **On Vercel (optional):** add a `VERCEL_TOKEN` repository secret, and every push to `main` also publishes the latest report to its own site. The link appears in the run summary and the log.
+- **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.
 - **Locally:**
   ```bash
   npm install                          # once: installs the Allure CLI (Node only, no Java)

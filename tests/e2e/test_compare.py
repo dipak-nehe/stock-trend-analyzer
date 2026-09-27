@@ -2,6 +2,7 @@
 import re
 
 import pytest
+from helpers import slow_script
 from playwright.sync_api import expect
 
 pytestmark = pytest.mark.e2e
@@ -169,3 +170,13 @@ def test_home_leaves_the_compare_page(page, app_url):
     expect(page).to_have_url(f"{app_url}/")
     expect(page.locator("#result")).to_be_hidden()
     expect(page.locator("#ticker")).to_have_value("")
+
+
+def test_a_quick_submit_before_the_script_loads_is_not_lost(page, app_url):
+    slow_script(page, "js/compare-app.js")
+    page.goto(f"{app_url}/compare.html?a=KO")
+    expect(page.locator("#goB")).to_be_disabled()      # an early submit would reload the page and drop both tickers
+    page.fill("#tickerB", "AAPL")
+    page.click("#goB")                                  # waits until the script has enabled the button
+    expect(page.locator("#cmpResult")).to_be_visible()
+    expect(page).to_have_url(re.compile(r"\?a=KO&b=AAPL$"))

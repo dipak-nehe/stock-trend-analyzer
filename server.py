@@ -51,13 +51,20 @@ class Handler(BaseHTTPRequestHandler):
         print(f"[{self.log_date_time_string()}] {fmt % args}")
 
 
+class Server(ThreadingHTTPServer):
+    # A page asks for ~15 script files at once. The default listen queue of 5 overflows when the machine is busy,
+    # and macOS then resets the extra connections, so a module fails to load and the page script never runs.
+    request_queue_size = 128
+    daemon_threads = True
+
+
 if __name__ == "__main__":
     try:
         stock_data.user_agent()
     except stock_data.ConfigError as e:
         raise SystemExit(f"{e}\nExample: export SEC_USER_AGENT=\"StockTrendAnalyzer you@example.com\"") from None
     try:
-        httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+        httpd = Server(("127.0.0.1", PORT), Handler)
     except OSError as e:
         if e.errno not in (48, 98):  # EADDRINUSE on macOS / Linux
             raise

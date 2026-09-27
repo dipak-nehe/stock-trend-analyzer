@@ -183,6 +183,7 @@ function switchLang(lang) {
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
 bindSlashShortcut("ticker");
+$("go").disabled = false;  // disabled in the HTML until this script runs (an early submit would just reload the page)
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

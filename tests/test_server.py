@@ -5,7 +5,7 @@ import os
 import threading
 import urllib.error
 import urllib.request
-from http.server import HTTPServer, ThreadingHTTPServer
+from http.server import HTTPServer
 
 import pytest
 from helpers import ROOT
@@ -27,7 +27,7 @@ def serve(sec_fixtures):
     servers = []
 
     def start(handler_cls, threading_server=True):
-        cls = ThreadingHTTPServer if threading_server else HTTPServer
+        cls = server.Server if threading_server else HTTPServer
         httpd = cls(("127.0.0.1", 0), handler_cls)
         threading.Thread(target=httpd.serve_forever, kwargs={"poll_interval": 0.05}, daemon=True).start()
         servers.append(httpd)
@@ -120,3 +120,8 @@ def test_vercel_function_sends_the_data_cache_header(serve):
     assert vercel("/api/financials?ticker=KO")[1]["X-Data-Cache"] == "MISS"
     assert vercel("/api/financials?ticker=KO")[1]["X-Data-Cache"] == "HIT"
     assert "X-Data-Cache" not in vercel("/api/financials?ticker=ZZZZQ")[1]
+
+
+def test_local_server_queues_a_burst_of_requests():
+    # the page loads ~15 modules at once; with Python's default queue of 5, macOS resets the overflow
+    assert server.Server.request_queue_size >= 64

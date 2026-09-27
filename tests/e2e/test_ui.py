@@ -2,6 +2,7 @@
 import re
 
 import pytest
+from helpers import slow_script
 from playwright.sync_api import expect
 
 pytestmark = pytest.mark.e2e
@@ -575,3 +576,12 @@ def test_home_button_appears_only_after_a_lookup(page, app_url):
     page.click("#go")
     expect(page.locator("#error")).to_be_visible()
     expect(page.locator(".home-btn")).to_be_visible()   # an error also counts: Home clears it
+
+
+def test_search_button_waits_for_the_script(page, app_url):
+    slow_script(page, "js/app.js")
+    page.goto(app_url)
+    expect(page.locator("#go")).to_be_disabled()
+    page.fill("#ticker", "KO")
+    page.click("#go")
+    expect(page.locator("#coName")).to_have_text("COCA COLA CO (KO)")

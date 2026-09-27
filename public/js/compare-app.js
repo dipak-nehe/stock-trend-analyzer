@@ -161,6 +161,8 @@ $$(".lang-switch [data-lang]").forEach((btn) => btn.addEventListener("click", ()
 }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => state.a && state.b && renderGrowth());
 bindSlashShortcut("tickerB");
+// The buttons start disabled in the HTML: a submit before this script runs would reload the page and lose the tickers.
+$("goA").disabled = $("goB").disabled = false;
 
 // ---------- start ----------
 const params = new URLSearchParams(location.search);

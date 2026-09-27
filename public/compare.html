@@ -54,7 +54,7 @@
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input id="tickerA" type="text" placeholder="Enter a ticker, e.g. KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" autocapitalize="characters" spellcheck="false">
         </div>
-        <button type="submit" data-i18n="ui.cmp.load">Load</button>
+        <button type="submit" id="goA" disabled data-i18n="ui.cmp.load">Load</button>
       </form>
       <p class="cmp-status" id="statusA" role="status"></p>
     </div>
@@ -66,7 +66,7 @@
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input id="tickerB" type="text" placeholder="Ticker to compare, e.g. PEP" data-i18n-placeholder="ui.cmp.placeholderB" autocomplete="off" autocapitalize="characters" spellcheck="false">
         </div>
-        <button type="submit" id="goB" data-i18n="ui.cmp.go">Compare</button>
+        <button type="submit" id="goB" disabled data-i18n="ui.cmp.go">Compare</button>
       </form>
       <div class="chips"><span data-i18n="ui.try">Try:</span>
         <button class="chip" type="button" data-b="PEP">PEP</button>

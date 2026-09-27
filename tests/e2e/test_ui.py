@@ -483,7 +483,7 @@ def test_no_english_left_in_spanish_results(page, app_url):
     page.goto(f"{app_url}/?t=INTC&lang=es&p=24")
     page.locator("#glance .glance-row").first.wait_for()
     english = re.compile(r"\b(the|and|with|Revenue|Earnings|Needs|Why it matters|years? of|Price is|Not met|Show all)\b")
-    allowed = ("INTEL CORP", "Semiconductors", "Stock Value Analyzer", "Yahoo Finance", "Google")
+    allowed = ("INTEL CORP", "Semiconductors", "10-Year Stock Value Analysis", "Yahoo Finance", "Google")
     found = []
     for tab in ("overview", "flags", "history", "value", "charts", "data"):
         open_tab(page, tab)
@@ -547,7 +547,7 @@ def test_home_button_returns_to_a_fresh_landing_page(open_ticker, app_url, conso
     expect(page.locator("#result")).to_be_hidden()
     expect(page.locator("#ticker")).to_have_value("")
     expect(page.locator("#price")).to_have_value("")
-    expect(page).to_have_title("Stock Value Analyzer")
+    expect(page).to_have_title("10-Year Stock Value Analysis")
     expect(page.locator(".home-btn")).to_be_hidden()   # nothing to go back from on the start page
     # and a new search works normally from there
     page.fill("#ticker", "KO")

@@ -48,7 +48,7 @@ def test_second_stock_is_fetched_and_compared(page, app_url, console_errors):
     page.click("#goB")
     expect(page.locator("#cmpResult")).to_be_visible()
     expect(page).to_have_url(re.compile(r"\?a=KO&b=AAPL$"))
-    expect(page).to_have_title("KO vs AAPL · Stock Value Analyzer")
+    expect(page).to_have_title("KO vs AAPL · 10-Year Stock Value Analysis")
     expect(page.locator("#cmpCards .cmp-card")).to_have_count(2)
     expect(page.locator("#cmpCards")).to_contain_text("Apple Inc. (AAPL)")
     expect(page.locator("#cmpTable thead")).to_contain_text("KO")

@@ -1,4 +1,4 @@
-# Stock Value Analyzer
+# 10-Year Stock Value Analysis
 
 [![tests](https://github.com/dipak-nehe/stock-trend-analyzer/actions/workflows/tests.yml/badge.svg)](https://github.com/dipak-nehe/stock-trend-analyzer/actions/workflows/tests.yml)
 

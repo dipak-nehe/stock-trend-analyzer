@@ -434,7 +434,7 @@ export default {
   "cmp.caveat.fiscal": "Sus ejercicios terminan en meses distintos; los años se emparejan por el año natural en que termina cada ejercicio.",
   "cmp.app.loading": "Cargando {ticker}…",
   "cmp.app.sameTicker": "Es la misma empresa que la del otro lado. Elige otro ticker.",
-  "cmp.app.title": "{a} frente a {b} · Stock Value Analyzer",
+  "cmp.app.title": "{a} frente a {b} · 10-Year Stock Value Analysis",
   "cmp.app.measure": "Medida",
   "cmp.app.openFull": "Ver el análisis completo →",
   "cmp.app.more": "(más favorable)",

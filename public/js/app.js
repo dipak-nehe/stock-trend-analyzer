@@ -60,7 +60,7 @@ function render(d) {
   $("guide").open = false;  // keep the results in view; the guide stays one click away
   $("guide").classList.add("has-results");  // guide cards now open their tab
   $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
-  document.title = `${d.ticker} · Stock Value Analyzer`;
+  document.title = `${d.ticker} · 10-Year Stock Value Analysis`;
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   renderValue();

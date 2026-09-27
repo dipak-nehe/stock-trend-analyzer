@@ -434,7 +434,7 @@ export default {
   "cmp.caveat.fiscal": "Their fiscal years end in different months; years are matched by the calendar year each fiscal year ends.",
   "cmp.app.loading": "Loading {ticker}…",
   "cmp.app.sameTicker": "That's the same company as the other side. Pick a different ticker.",
-  "cmp.app.title": "{a} vs {b} · Stock Value Analyzer",
+  "cmp.app.title": "{a} vs {b} · 10-Year Stock Value Analysis",
   "cmp.app.measure": "Measure",
   "cmp.app.openFull": "Open full analysis →",
   "cmp.app.more": "(more favourable)",

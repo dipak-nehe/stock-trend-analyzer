@@ -56,7 +56,7 @@ def local(serve):
 def test_home_page_is_served(local):
     status, headers, body = local("/")
     assert status == 200 and headers["Content-Type"].startswith("text/html")
-    assert b"Stock Value Analyzer" in body
+    assert b"10-Year Stock Value Analysis" in body
 
 
 @pytest.mark.parametrize("path, ctype", [("/favicon.svg", "image/svg+xml"), ("/og.png", "image/png"),

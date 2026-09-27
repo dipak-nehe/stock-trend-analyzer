@@ -1,4 +1,4 @@
-"""Stock Value Analyzer - data layer.
+"""10-Year Stock Value Analysis - data layer.
 
 Pulls up to 10 years of annual (10-K / 20-F / 40-F) financials for a ticker
 from SEC EDGAR's free XBRL API. Shared by the local server (server.py) and the

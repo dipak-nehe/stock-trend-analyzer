@@ -1,11 +1,10 @@
 """Unit tests for the SEC data layer, using small hand-built filings."""
-import socket
 import urllib.error
 
 import pytest
+from helpers import REAL_SEC_GET, concept, fact, net_income_years, year
 
 from backend import stock_data
-from helpers import REAL_SEC_GET, concept, fact, net_income_years, year
 
 YEARS = list(range(2016, 2026))  # a fixed decade so expectations don't change with the calendar; the app uses the latest 10 filed years
 
@@ -19,7 +18,7 @@ def build(fake_sec, **tags):
 
 
 def by_year(result, metric):
-    return dict(zip(result["years"], result["series"][metric]))
+    return dict(zip(result["years"], result["series"][metric], strict=True))
 
 
 # ---------- picking the right annual value ----------
@@ -265,7 +264,7 @@ def test_success_is_cached_on_the_cdn_only(fake_sec):
     (urllib.error.HTTPError("u", 429, "Too Many", {}, None), 502, "limiting requests"),
     (urllib.error.HTTPError("u", 500, "Error", {}, None), 502, "HTTP 500"),
     (urllib.error.URLError("down"), 504, "too long"),
-    (socket.timeout(), 504, "too long"),
+    (TimeoutError(), 504, "too long"),
     (ValueError("boom"), 500, "Something went wrong"),
 ])
 def test_sec_failures_become_friendly_uncached_errors(monkeypatch, exc, status, text):

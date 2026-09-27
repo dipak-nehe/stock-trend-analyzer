@@ -8,10 +8,10 @@ import urllib.request
 from http.server import HTTPServer, ThreadingHTTPServer
 
 import pytest
+from helpers import ROOT
 
 import server
 from backend import stock_data
-from helpers import ROOT
 
 
 def load_vercel_handler():
@@ -60,7 +60,8 @@ def test_home_page_is_served(local):
 
 
 @pytest.mark.parametrize("path, ctype", [("/favicon.svg", "image/svg+xml"), ("/og.png", "image/png"),
-                                         ("/js/app.js", "text/javascript"), ("/styles.css", "text/css"), ("/js/flags.js", "text/javascript")])
+                                         ("/js/app.js", "text/javascript"), ("/styles.css", "text/css"),
+                                         ("/js/flags.js", "text/javascript")])
 def test_static_assets_are_served(local, path, ctype):
     status, headers, _ = local(path)
     assert status == 200 and headers["Content-Type"].startswith(ctype)

@@ -1,13 +1,14 @@
 """End-to-end setup: run the real local server on a free port, with SEC replaced by offline fixtures."""
+import contextlib
 import threading
 from http.server import ThreadingHTTPServer
 
 import allure
 import pytest
+from helpers import fixture_sec_get
 
 import server
 from backend import stock_data, store
-from helpers import fixture_sec_get
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -17,10 +18,8 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     page = item.funcargs.get("page")
     if report.when == "call" and report.failed and page is not None:
-        try:
+        with contextlib.suppress(Exception):  # a screenshot must never hide the real failure
             allure.attach(page.screenshot(full_page=True), name="screenshot on failure", attachment_type=allure.attachment_type.PNG)
-        except Exception:  # noqa: BLE001 - a screenshot must never hide the real failure
-            pass
 
 
 @pytest.fixture(scope="session")

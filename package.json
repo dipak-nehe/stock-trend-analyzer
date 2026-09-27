@@ -5,8 +5,9 @@
   "description": "Front-end unit tests run in Node; the Allure report generator. Not deployed (see .vercelignore).",
   "scripts": {
     "lint": "eslint .",
+    "lint:py": "sh -c 'R=.venv/bin/ruff; [ -x \"$R\" ] || R=ruff; \"$R\" check .'",
     "typecheck": "tsc -p tsconfig.json",
-    "check": "npm run lint && npm run typecheck",
+    "check": "npm run lint && npm run lint:py && npm run typecheck",
     "test": "node --test tests/js/*.test.js",
     "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
     "report": "allure generate allure-results",

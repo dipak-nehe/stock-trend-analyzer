@@ -5,10 +5,9 @@ filings in tests/fixtures/, and `fake_sec` serves hand-built data for precise un
 """
 import allure
 import pytest
-
-from backend import stock_data, store
 from helpers import _not_found, fixture_sec_get
 
+from backend import stock_data, store
 
 # Group tests in the Allure report by layer (the report's "Suites" view).
 LAYERS = {

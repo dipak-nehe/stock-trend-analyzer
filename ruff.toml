@@ -1,0 +1,11 @@
+# Python lint settings (run with `npm run lint:py`, also part of `npm run check`).
+line-length = 140
+target-version = "py312"
+extend-exclude = ["node_modules", "allure-results", "allure-report"]
+
+[lint]
+# pycodestyle, pyflakes, import order, bugbear (likely bugs), pyupgrade, simplify, naming
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "N"]
+
+[lint.per-file-ignores]
+"api/*.py" = ["N801"]  # Vercel requires the class to be named `handler`

@@ -48,6 +48,11 @@ Each ticker is fetched from SEC once, and the finished result is stored and reus
 
 Responses carry `X-Data-Cache: HIT | REVALIDATED | MISS | STALE` and `X-Data-Store: redis | memory | file`, and the page shows "Data from SEC as of …".
 
+## Keeping it healthy
+
+- **Live-site check:** a scheduled GitHub Action (`.github/workflows/health.yml`) loads both pages and asks the API for a fresh answer every 6 hours. If anything fails, GitHub emails the repo owner. It can also be run by hand from the Actions tab.
+- **Dependency updates:** Dependabot opens one grouped pull request per week for each of Python, npm and GitHub Actions. CI runs the full test suite on each, so an update is merged only when everything passes.
+
 ## Privacy
 
 The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/analytics): page views, country, device and referrer, with no cookies and no personal data. It isn't loaded when running locally, and the footer says so.
@@ -115,8 +120,9 @@ Every CI run builds an [Allure](https://allurereport.org) report covering all 30
 
 ```bash
 npm run lint        # ESLint: recommended rules plus no-shadow, eqeqeq (null-aware), prefer-const
+npm run lint:py     # Ruff lints the Python (pyflakes, pycodestyle, import order, bugbear, pyupgrade); settings in ruff.toml
 npm run typecheck   # TypeScript 7 checks the plain JavaScript (checkJs); no build step, nothing emitted
-npm run check       # both; CI runs this before the tests
+npm run check       # all three; CI runs this before the tests
 ```
 
 The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics).
@@ -142,7 +148,8 @@ server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
 tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)
 tsconfig.json, eslint.config.js, types/   type checking and lint settings (not deployed)
-.github/workflows/    CI: runs the tests on every push
+.github/workflows/    tests.yml runs the checks and tests on every push; health.yml checks the live site every 6 hours
+.github/dependabot.yml  weekly grouped update pull requests for Python, npm and GitHub Actions dependencies
 ```
 
 ## How it works

@@ -4,6 +4,8 @@ Expected values were cross-checked against a public financial data site (stockan
 companies' own 10-K filings for fiscal 2021-2025. If a code change breaks accuracy, these fail.
 Figures are in millions unless noted.
 """
+from itertools import pairwise
+
 import pytest
 
 from backend import stock_data
@@ -69,7 +71,7 @@ def company(sec_fixtures):
 
 
 def values(result, metric, scale=1e6, digits=0):
-    by_year = dict(zip(result["years"], result["series"][metric]))
+    by_year = dict(zip(result["years"], result["series"][metric], strict=True))
     return [None if by_year.get(y) is None else round(by_year[y] / scale, digits) for y in FY]
 
 
@@ -87,14 +89,14 @@ def test_per_share_figures_match_published_values(company, ticker, metric):
 def test_apple_history_is_split_adjusted(company):
     aapl = company("AAPL")
     assert [s["ratio"] for s in aapl["splits"]] == [7, 4]
-    eps = dict(zip(aapl["years"], aapl["series"]["eps"]))
+    eps = dict(zip(aapl["years"], aapl["series"]["eps"], strict=True))
     assert eps[2016] == pytest.approx(2.08, abs=0.01)  # $8.31 as originally reported, before the 2020 4-for-1 split
 
 
 def test_apple_debt_has_no_jump_when_its_tags_change(company):
     # Apple reports total long-term debt only from fiscal 2022; before that only the parts
     debt = company("AAPL")["series"]["totalDebt"]
-    changes = [abs(b / a - 1) for a, b in zip(debt, debt[1:])]
+    changes = [abs(b / a - 1) for a, b in pairwise(debt)]
     assert max(changes) < 0.35
 
 

@@ -175,7 +175,8 @@ def test_guide_explains_the_results_before_a_search(page, app_url):
     guide = page.locator("#guide")
     expect(guide).to_have_attribute("open", "")
     # the guide's cards are named after the tabs, so the guide maps directly onto the results
-    expect(guide.locator(".guide-item .gi-title")).to_have_text(["Overview", "Red flags", "SEC history", "Graham & Buffett-style analysis", "Charts", "Data"])
+    expect(guide.locator(".guide-item .gi-title")).to_have_text(
+        ["Overview", "Red flags", "SEC history", "Graham & Buffett-style analysis", "Charts", "Data"])
     expect(guide.locator(".how li")).to_have_count(3)                    # the three-step "how it works" strip
     expect(guide.locator(".guide-item .gi-go").first).to_be_visible()
 

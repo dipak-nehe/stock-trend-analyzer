@@ -1,0 +1,30 @@
+# Checks the live site every 6 hours. A failed run makes GitHub email the repo owner.
+# (Every 6 hours keeps this private repo well within the free Actions minutes.)
+name: live site check
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://stock-value-analysis.vercel.app
+    steps:
+      - name: Pages load
+        run: |
+          for page in / /compare.html; do
+            curl -fsS --retry 2 --max-time 20 "$SITE$page" | grep -q "10-Year Stock Value Analysis" \
+              || { echo "::error::$page did not load"; exit 1; }
+            echo "$page OK"
+          done
+      - name: API answers
+        run: |
+          # a random extra parameter skips the CDN, so the function and SEC/Redis path really run
+          body=$(curl -fsS --retry 2 --max-time 30 "$SITE/api/financials?ticker=KO&v=4&check=$RANDOM") \
+            || { echo "::error::API request failed"; exit 1; }
+          echo "$body" | grep -q '"ticker": *"KO"' || { echo "::error::API returned unexpected data"; exit 1; }
+          echo "API OK"

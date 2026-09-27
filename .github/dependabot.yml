@@ -1,0 +1,19 @@
+# Weekly pull requests for outdated dependencies (security fixes arrive as soon as they're published).
+# Each ecosystem's updates are grouped into one pull request, so CI runs once per group.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    groups:
+      python-dev-tools: { patterns: ["*"] }
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    groups:
+      node-dev-tools: { patterns: ["*"] }
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: { interval: weekly, day: monday }
+    groups:
+      actions: { patterns: ["*"] }

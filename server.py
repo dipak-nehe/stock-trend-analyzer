@@ -15,7 +15,8 @@ from backend import stock_data, store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
-STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
+STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript",
+                ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -47,20 +48,20 @@ class Handler(BaseHTTPRequestHandler):
         self._send(404, json.dumps({"error": "Not found"}))
 
     def log_message(self, fmt, *args):
-        print("[%s] %s" % (self.log_date_time_string(), fmt % args))
+        print(f"[{self.log_date_time_string()}] {fmt % args}")
 
 
 if __name__ == "__main__":
     try:
         stock_data.user_agent()
     except stock_data.ConfigError as e:
-        raise SystemExit(f"{e}\nExample: export SEC_USER_AGENT=\"StockTrendAnalyzer you@example.com\"")
+        raise SystemExit(f"{e}\nExample: export SEC_USER_AGENT=\"StockTrendAnalyzer you@example.com\"") from None
     try:
         httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     except OSError as e:
         if e.errno not in (48, 98):  # EADDRINUSE on macOS / Linux
             raise
         raise SystemExit(f"Port {PORT} is already in use. Stop the other server (lsof -iTCP:{PORT} -sTCP:LISTEN) "
-                         f"or pick another port: PORT=8001 python3 server.py")
+                         f"or pick another port: PORT=8001 python3 server.py") from None
     print(f"10-Year Stock Value Analysis running at http://localhost:{PORT}")
     httpd.serve_forever()

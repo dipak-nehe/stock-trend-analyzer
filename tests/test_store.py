@@ -7,9 +7,9 @@ import urllib.error
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import pytest
+from helpers import fixture_sec_get
 
 from backend import stock_data, store
-from helpers import fixture_sec_get
 
 
 class Clock:

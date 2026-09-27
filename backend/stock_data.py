@@ -9,12 +9,12 @@ import json
 import logging
 import os
 import re
-import socket
 import ssl
 import time
 import urllib.error
 import urllib.request
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
+from itertools import pairwise
 
 from . import store as store_module
 
@@ -314,7 +314,7 @@ def split_events(facts, currency):
                 by_end.setdefault(f["end"], []).append((f["filed"], f["val"]))
         for reports in by_end.values():
             reports.sort()
-            for (_, old), (filed, new) in zip(reports, reports[1:]):
+            for (_, old), (filed, new) in pairwise(reports):
                 r = old / new
                 if r <= 0:
                     continue
@@ -572,14 +572,14 @@ def api_response(ticker, now=time.time):
         else:
             msg = f"SEC EDGAR returned an error (HTTP {e.code}). Please try again shortly."
         return stale_or(502, {"error": msg}, CACHE_NONE)
-    except (urllib.error.URLError, socket.timeout, TimeoutError):
+    except (urllib.error.URLError, TimeoutError):
         return stale_or(504, {"error": "SEC EDGAR took too long to respond. Please try again."}, CACHE_NONE)
     except Exception:  # noqa: BLE001
         log.exception("failed to build financials for %s", ticker)
         return stale_or(500, {"error": "Something went wrong while processing this company's filings."}, CACHE_NONE)
 
     ts = now()
-    data["dataAsOf"] = datetime.fromtimestamp(ts, timezone.utc).isoformat(timespec="seconds")  # last checked with SEC
+    data["dataAsOf"] = datetime.fromtimestamp(ts, UTC).isoformat(timespec="seconds")  # last checked with SEC
     safe_set(key, {"fetchedTs": ts, "factsTs": facts_ts, "marker": marker, "data": data}, KEEP_SECONDS)
     return 200, data, CACHE_OK, source
 

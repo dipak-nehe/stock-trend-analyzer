@@ -17,3 +17,4 @@ tsconfig.json
 eslint.config.js
 types/
 .cache/
+ruff.toml

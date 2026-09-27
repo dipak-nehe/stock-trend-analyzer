@@ -61,7 +61,8 @@ def find_team():
 
 def main(path):
     team = find_team()
-    blob = open(path, "rb").read()
+    with open(path, "rb") as fh:
+        blob = fh.read()
     sha = hashlib.sha1(blob).hexdigest()
 
     status, res = call("POST", "/v2/files", data=blob, team=team,

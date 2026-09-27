@@ -56,7 +56,7 @@
         </div>
         <button type="submit" id="goA" disabled data-i18n="ui.cmp.load">Load</button>
       </form>
-      <p class="cmp-status" id="statusA" role="status"></p>
+      <p class="cmp-status" id="statusA" role="status" data-testid="status-a"></p>
     </div>
     <button type="button" class="cmp-swap" id="swap" data-i18n="ui.cmp.swap">⇄ Swap</button>
     <div class="cmp-slot">
@@ -74,17 +74,17 @@
         <button class="chip" type="button" data-b="JPM">JPM</button>
         <button class="chip" type="button" data-b="INTC">INTC</button>
       </div>
-      <p class="cmp-status" id="statusB" role="status"></p>
+      <p class="cmp-status" id="statusB" role="status" data-testid="status-b"></p>
     </div>
   </section>
-  <p class="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
+  <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
 
-  <div class="card cmp-empty" id="cmpEmpty" data-i18n="ui.cmp.empty">Enter a second ticker to see the two companies side by side.</div>
+  <div class="card cmp-empty" id="cmpEmpty" data-testid="compare-empty" data-i18n="ui.cmp.empty">Enter a second ticker to see the two companies side by side.</div>
 
-  <section id="cmpResult" class="cmp-result" hidden>
+  <section id="cmpResult" class="cmp-result" data-testid="comparison" hidden>
     <div class="cmp-caveats" id="cmpCaveats"></div>
-    <div class="cmp-cards" id="cmpCards"></div>
+    <div class="cmp-cards" id="cmpCards" data-testid="company-cards"></div>
 
     <h2 id="glanceH" data-i18n="ui.cmp.glance">At a glance</h2>
     <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="glanceH"><table class="cmp-table" id="cmpGlance"></table></div>
@@ -100,8 +100,8 @@
 
     <h2 id="growthTitle"></h2>
     <div class="charts">
-      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartRevenue">Revenue</h3><p id="revenueNote"></p><div class="chart-box"><canvas id="cmpRevenue"></canvas></div></div>
-      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartEps">Earnings per share</h3><p id="epsNote"></p><div class="chart-box"><canvas id="cmpEps"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartRevenue">Revenue</h3><p id="revenueNote"></p><div class="chart-box"><canvas id="cmpRevenue" data-testid="chart-cmpRevenue"></canvas></div></div>
+      <div class="card chart-card"><h3 data-i18n="ui.cmp.chartEps">Earnings per share</h3><p id="epsNote"></p><div class="chart-box"><canvas id="cmpEps" data-testid="chart-cmpEps"></canvas></div></div>
     </div>
 
     <h2 data-i18n="ui.cmp.attention">Needs attention</h2>

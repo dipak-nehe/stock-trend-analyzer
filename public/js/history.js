@@ -30,7 +30,7 @@ export function historyView(h, filter = "all", expanded = false) {
   const tile = (label, n, badSev, okText, badText, detail) => {
     const sev = n ? badSev : "good";
     const status = n ? `<span class="status ${sev === "critical" ? "down" : "flat"}">${sev === "critical" ? "✗" : "!"} ${badText}</span>` : `<span class="status up">✓ ${okText}</span>`;
-    return `<div class="card tile"><div class="label">${label}</div><div class="value">${n}</div>${status}<div class="detail">${detail}</div></div>`;
+    return `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${n}</div>${status}<div class="detail">${detail}</div></div>`;
   };
   const none = t("history.status.none"), look = t("history.status.look"), late = c("late_filing");
   const tiles = [
@@ -38,7 +38,7 @@ export function historyView(h, filter = "all", expanded = false) {
     tile(t("history.tile.auditor"), c("auditor_change"), "warning", none, look, t("history.tile.auditor.detail")),
     tile(t("history.tile.late"), late, late >= 3 ? "critical" : "warning", none, late >= 3 ? t("history.status.repeated") : look, t("history.tile.late.detail")),
     tile(t("history.tile.amended"), c("amendment"), "info", none, t("history.status.checkWhy"), t("history.tile.amended.detail")),
-    `<div class="card tile"><div class="label">${t("history.tile.letters")}</div><div class="value">${c("sec_letter")}</div><span class="status flat">${
+    `<div class="card tile" data-testid="tile"><div class="label">${t("history.tile.letters")}</div><div class="value">${c("sec_letter")}</div><span class="status flat">${
       t("history.tile.letters.replies", { n: c("company_response") })}</span><div class="detail">${t("history.tile.letters.detail")}</div></div>`,
   ].join("");
 
@@ -47,7 +47,7 @@ export function historyView(h, filter = "all", expanded = false) {
 
   const list = h.events.filter(HISTORY_FILTERS.find((f) => f[0] === filter)[1]);
   const shown = expanded ? list : list.slice(0, 10);
-  const events = shown.length ? shown.map((e) => `<div class="event ${HISTORY_TYPES[e.type].sev}"><span class="date">${e.date}</span>
+  const events = shown.length ? shown.map((e) => `<div class="event ${HISTORY_TYPES[e.type].sev}" data-testid="history-event"><span class="date">${e.date}</span>
       <div><div class="kind">${t(`history.type.${e.type}`)} <span class="muted">· ${e.form}</span></div><div class="desc">${describe(e)}</div></div>
       <a href="${e.url}" target="_blank" rel="noopener">${t("history.open")}</a></div>`).join("")
     : `<div class="empty">${t("history.empty", { since })}</div>`;

@@ -103,6 +103,8 @@ npm run test:e2e                 # browser and accessibility tests (Playwright, 
 npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 ```
 
+**Page objects and locators.** Every element the browser tests use is defined once, in `e2e/pages/` (`BasePage` for the header, disclaimer and footer; `AnalysisPage` for the start and results page; `ComparePage` for the compare page). The specs only call those classes. Locators follow Playwright's recommended order: `getByRole` → `getByText` → `getByLabel` → `getByPlaceholder` → `getByTitle` → `getByTestId` → CSS, never XPath. Controls people use (search box, buttons, tabs, links, language switch) are found by role or label, which also proves they're real, correctly named buttons, tabs and labelled fields; names match English or Spanish (`e2e/pages/names.ts`), so one page object serves both languages. Content the tests read (company name, tiles, tables, flags, checklists) is found by `data-testid`. The few CSS locators left are decorative parts with no role (icons, sparklines, the ● mark), each commented in the page object.
+
 The backend tests stay in pytest because they test Python code directly; the browser tests are TypeScript, like the Android app's end-to-end suite. `npm run typecheck` checks them in strict mode (with unused variables as errors, since typescript-eslint doesn't support TypeScript 7 yet).
 
 ### Test report (Allure)

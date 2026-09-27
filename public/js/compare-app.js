@@ -55,7 +55,7 @@ function render() {
   $("cmpCaveats").innerHTML = caveats(a, b).map((n) => `<p class="stale-note">${esc(n)}</p>`).join("");
 
   const asOf = (/** @type {any} */ d) => (d.dataAsOf ? new Date(d.dataAsOf).toLocaleString(getLocale(), { dateStyle: "medium", timeStyle: "short" }) : "");
-  $("cmpCards").innerHTML = [a, b].map((d) => `<div class="card cmp-card">
+  $("cmpCards").innerHTML = [a, b].map((d) => `<div class="card cmp-card" data-testid="company-card">
       <h2>${esc(d.name)} (${esc(d.ticker)})</h2>
       <div class="meta">${esc([d.secHistory && d.secHistory.industry, t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur: d.currency, cik: d.cik })].filter(Boolean).join(" · "))}</div>
       <div class="meta">${esc(asOf(d) ? t("company.asOf", { date: asOf(d) }) : "")}</div>

@@ -25,7 +25,7 @@ export function trendTile(title, arr, fmt, cur) {
   const detail = c.g != null
     ? t("tile.growth", { rate: pct(c.g), cagr: abbr("CAGR"), first: fmt(arr[f], cur), latest })
     : (i >= 0 ? t("tile.fromTo", { first: fmt(arr[f], cur), latest }) : t("tile.notReported"));
-  return `<div class="card tile">
+  return `<div class="card tile" data-testid="tile">
     <div class="label">${title}</div>
     <div class="value">${latest}</div>
     <div class="trend ${c.cls}">${c.icon} ${c.label}</div>
@@ -40,10 +40,10 @@ export function flagCounts(flags) {
 
 export function flagsList(flags) {
   const ICON = { critical: "!", warning: "!", good: "✓", info: "i" };
-  const card = (f) => `<div class="card flag ${f.sev}">
+  const card = (f) => `<div class="card flag ${f.sev}" data-testid="flag">
       <div class="icon" aria-hidden="true">${ICON[f.sev]}</div>
-      <div><div class="title"><span class="sev">${t(`flags.sev.${f.sev}`)}</span>${f.title}</div><div class="why">${f.why}</div>${
-        f.help ? `<div class="help"><strong>${t("flags.whyItMatters")}</strong> ${f.help}</div>` : ""}</div></div>`;
+      <div><div class="title" data-testid="flag-title"><span class="sev">${t(`flags.sev.${f.sev}`)}</span>${f.title}</div><div class="why">${f.why}</div>${
+        f.help ? `<div class="help" data-testid="flag-help"><strong>${t("flags.whyItMatters")}</strong> ${f.help}</div>` : ""}</div></div>`;
   const group = (title, list, empty) => (list.length || empty)
     ? `<div class="flag-group"><h3>${title}${list.length ? ` <span class="count">${list.length}</span>` : ""}</h3>${list.length ? list.map(card).join("") : `<div class="card empty-group">${empty}</div>`}</div>`
     : "";
@@ -92,7 +92,7 @@ export function valueView(d, price, v) {
   const ps = (x) => perShare(x, cur);
   const vs = (x) => !price || x == null ? "" : `<div class="trend ${price <= x ? "up" : "down"}">${
     price <= x ? t("vv.priceBelow", { pct: pct(1 - price / x, 0) }) : t("vv.priceAbove", { pct: pct(price / x - 1, 0) })}</div>`;
-  const tileV = (label, value, detail, extra = "") => `<div class="card tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
+  const tileV = (label, value, detail, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   const tiles = [
     tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail"), vs(v.grahamNumber)),
     tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 0) }) : t("vv.oe.none"), vs(v.iv)),
@@ -102,7 +102,7 @@ export function valueView(d, price, v) {
 
   const ICON = { pass: "✓", fail: "✗", na: "–", price: "$" };
 
-  const list = (rows) => rows.map((c) => `<div class="check ${c.status}">
+  const list = (rows) => rows.map((c) => `<div class="check ${c.status}" data-testid="check">
       <div class="st" aria-hidden="true">${ICON[c.status]}</div>
       <div><div class="name">${c.name}<span class="tag">${t(`vv.tag.${c.status}`)}</span></div><div class="rule">${c.rule}</div><div class="actual">${c.actual}</div></div></div>`).join("");
   const score = (rows) => {
@@ -182,6 +182,6 @@ export function glanceRows(d, r, v) {
 
 export function glanceView(d, r, v) {
   return glanceRows(d, r, v).map((row) => `<button type="button" class="glance-row ${row.sev}" data-tab="${row.tab}">
-      <span class="st" aria-hidden="true">${row.icon}</span><span class="what">${row.what}</span>
+      <span class="st" aria-hidden="true">${row.icon}</span><span class="what" data-testid="glance-what">${row.what}</span>
       <span class="say">${row.say}</span><span class="go">${t("glance.details")}</span></button>`).join("");
 }

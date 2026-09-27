@@ -1,193 +1,182 @@
-// The results page, driven in Chromium against offline SEC fixtures (ported from tests/e2e/test_ui.py).
-import { anyContains, checkRow, expect, flagTitles, openTab, slowScript, step, TABS, test } from './fixtures';
+// The results page, driven in Chromium against offline SEC fixtures. Elements come from the AnalysisPage object.
+import { anyContains, expect, slowScript, TABS, test } from './fixtures';
 import { BASE_URL, url } from './env';
 
-test('search shows company trends and charts', async ({ page, consoleErrors }) => {
-  await step(page, 'open the start page', () => page.goto('/'));
-  await step(page, 'search for aapl', async () => {
-    await page.fill('#ticker', 'aapl');
-    await page.click('#go');
-    await expect(page.locator('#coName')).toHaveText('Apple Inc. (AAPL)');
-  });
-  await expect(page.locator('#coMeta')).toContainText('Electronic Computers');
-  await expect(page.locator('#tiles .tile').first()).toContainText('$416.2B');
-  await expect(page.locator('#tiles')).toContainText('Growing');
+test('search shows company trends and charts', async ({ analysis, page, consoleErrors }) => {
+  await analysis.goto('/');
+  await analysis.search('aapl');
+  await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');
+  await expect(analysis.companyMeta).toContainText('Electronic Computers');
+  await expect(analysis.tiles.first()).toContainText('$416.2B');
+  await expect(analysis.trendTiles).toContainText('Growing');
   await expect(page).toHaveURL(/\?t=AAPL$/);
-  await openTab(page, 'charts');
+  await analysis.openTab('charts');
   await expect(page).toHaveURL(/\?t=AAPL#charts$/);
   // all eight charts are drawn
   for (const id of ['cRevenue', 'cEps', 'cDps', 'cPayout', 'cBalance', 'cDebt', 'cCash', 'cMargin']) {
-    const box = await page.locator(`#${id}`).boundingBox();
+    const box = await analysis.chart(id).boundingBox();
     expect(box?.height, id).toBeGreaterThan(100);
   }
   expect(consoleErrors).toEqual([]);
 });
 
-test('chips load a company', async ({ page }) => {
-  await page.goto('/');
-  await page.click('.chip[data-t=KO]');
-  await expect(page.locator('#coName')).toHaveText('COCA COLA CO (KO)');
+test('chips load a company', async ({ analysis }) => {
+  await analysis.goto('/');
+  await analysis.exampleButton('KO').click();
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
 });
 
-test('growth table compares first and latest year', async ({ openTicker }) => {
-  const page = await openTicker('AAPL');
-  const revenue = page.locator('#growthTable tr', { hasText: 'Revenue' });
+test('growth table compares first and latest year', async ({ analysis }) => {
+  await analysis.open('AAPL');
+  const revenue = analysis.growthRow('Revenue');
   await expect(revenue).toContainText('$215.6B');
   await expect(revenue).toContainText('$416.2B');
   await expect(revenue).toContainText('93.0%');
   await expect(revenue).toContainText('7.6%');
 });
 
-test('loss-making company is described in words', async ({ openTicker }) => {
-  const page = await openTicker('INTC');
-  await expect(page.locator('#growthTable tr', { hasText: 'Net income' })).toContainText('From profit to loss');
-  await expect(page.locator('#growthTable tr', { hasText: 'Dividend / share' })).toContainText('Fell to zero');
-  const titles = await flagTitles(page);
+test('loss-making company is described in words', async ({ analysis }) => {
+  await analysis.open('INTC');
+  await expect(analysis.growthRow('Net income')).toContainText('From profit to loss');
+  await expect(analysis.growthRow('Dividend / share')).toContainText('Fell to zero');
+  const titles = await analysis.flagTitles.allInnerTexts();
   expect(anyContains(titles, 'Recent net losses')).toBe(true);
   expect(anyContains(titles, 'Dividend cut, then suspended')).toBe(true);
 });
 
-test('restatements and late filings are flagged', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  const critical = await page.locator('.flag.critical .title').allInnerTexts();
+test('restatements and late filings are flagged', async ({ analysis }) => {
+  await analysis.open('SMCI');
+  const critical = await analysis.criticalFlagTitles.allInnerTexts();
   expect(anyContains(critical, 'Financial statements were restated')).toBe(true);
   expect(anyContains(critical, 'Late SEC filings')).toBe(true);
-  const tiles = page.locator('#historyTiles .tile');
-  await expect(tiles.filter({ hasText: 'Late filings' })).toContainText('13');
-  await expect(tiles.filter({ hasText: 'Restatement warnings' })).toContainText('Serious');
+  await expect(analysis.historyTiles.filter({ hasText: 'Late filings' })).toContainText('13');
+  await expect(analysis.historyTiles.filter({ hasText: 'Restatement warnings' })).toContainText('Serious');
 });
 
-test('filing history filters and expands', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  await openTab(page, 'history');
-  const events = page.locator('#historyList .event');
-  await expect(events).toHaveCount(10); // first ten shown
-  await step(page, 'show all 17 filings', async () => {
-    await page.click('#historyMore');
-    await expect(events).toHaveCount(17);
+test('filing history filters and expands', async ({ analysis }) => {
+  await analysis.open('SMCI');
+  await analysis.openTab('history');
+  await expect(analysis.historyEvents).toHaveCount(10); // first ten shown
+  await analysis.step('show all 17 filings', async () => {
+    await analysis.showAllFilings.click();
+    await expect(analysis.historyEvents).toHaveCount(17);
   });
-  await step(page, 'filter: SEC letters (none)', async () => {
-    await page.click('#historyFilters button[data-f=letters]');
-    await expect(page.locator('#historyList')).toContainText('No filings of this kind');
+  await analysis.step('filter: SEC letters (none)', async () => {
+    await analysis.historyFilter(/^SEC letters/).click();
+    await expect(analysis.historyList).toContainText('No filings of this kind');
   });
-  await step(page, 'filter: red-flag filings', () => page.click('#historyFilters button[data-f=flags]'));
-  await expect(page.locator('#historyFilters button[data-f=flags]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('#historyList .event a').first()).toHaveAttribute(
+  await analysis.step('filter: red-flag filings', () => analysis.historyFilter(/^Red flags/).click());
+  await expect(analysis.historyFilter(/^Red flags/)).toHaveAttribute('aria-pressed', 'true');
+  await expect(analysis.historyEvents.first().getByRole('link').first()).toHaveAttribute(
     'href', /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/1375365\//);
 });
 
-test('clean filer gets a strength', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  expect(anyContains(await flagTitles(page), 'Clean filing record')).toBe(true);
+test('clean filer gets a strength', async ({ analysis }) => {
+  await analysis.open('KO');
+  expect(anyContains(await analysis.flagTitles.allInnerTexts(), 'Clean filing record')).toBe(true);
 });
 
-test('price runs valuation tests and is kept in the URL', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await expect(checkRow(page, 'Moderate P/E')).toContainText('Needs price');
-  await openTab(page, 'value');
-  await step(page, 'enter a share price of 68', async () => {
-    await page.fill('#price', '68');
-    await expect(checkRow(page, 'Moderate P/E')).toContainText('Not met');
+test('price runs valuation tests and is kept in the URL', async ({ analysis, page }) => {
+  await analysis.open('KO');
+  await expect(analysis.checkRow('Moderate P/E')).toContainText('Needs price');
+  await analysis.openTab('value');
+  await analysis.step('enter a share price of 68', async () => {
+    await analysis.price.fill('68');
+    await expect(analysis.checkRow('Moderate P/E')).toContainText('Not met');
   });
-  await expect(checkRow(page, 'Moderate P/E')).toContainText('P/E 25.6');
-  await expect(checkRow(page, 'Margin of safety')).toContainText('Not met');
-  await expect(page.locator('#valueTiles')).toContainText('Price is');
+  await expect(analysis.checkRow('Moderate P/E')).toContainText('P/E 25.6');
+  await expect(analysis.checkRow('Margin of safety')).toContainText('Not met');
+  await expect(analysis.valueTiles).toContainText('Price is');
   await expect(page).toHaveURL(/\?t=KO&p=68#value$/);
 });
 
-test('price from link is applied on load', async ({ openTicker }) => {
-  const page = await openTicker('KO', 68);
-  await expect(page.locator('#price')).toHaveValue('68');
-  await expect(checkRow(page, 'Moderate P/E')).toContainText('P/E 25.6');
+test('price from link is applied on load', async ({ analysis }) => {
+  await analysis.open('KO', 68);
+  await expect(analysis.price).toHaveValue('68');
+  await expect(analysis.checkRow('Moderate P/E')).toContainText('P/E 25.6');
 });
 
-test('new search clears the previous price', async ({ openTicker }) => {
-  const page = await openTicker('KO', 68);
-  await step(page, 'search for AAPL', async () => {
-    await page.fill('#ticker', 'AAPL');
-    await page.click('#go');
-    await expect(page.locator('#coName')).toHaveText('Apple Inc. (AAPL)');
-  });
-  await expect(page.locator('#price')).toHaveValue('');
+test('new search clears the previous price', async ({ analysis }) => {
+  await analysis.open('KO', 68);
+  await analysis.search('AAPL');
+  await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');
+  await expect(analysis.price).toHaveValue('');
 });
 
-test('checklist scores add up', async ({ openTicker }) => {
-  const page = await openTicker('KO', 68);
-  await expect(page.locator('#grahamScore')).toContainText('Meets 4 of 8');
-  await expect(page.locator('#buffettScore')).toContainText('Meets 6 of 7');
+test('checklist scores add up', async ({ analysis }) => {
+  await analysis.open('KO', 68);
+  await expect(analysis.grahamScore).toContainText('Meets 4 of 8');
+  await expect(analysis.buffettScore).toContainText('Meets 6 of 7');
 });
 
-test('bank-specific rules are skipped', async ({ openTicker }) => {
-  const page = await openTicker('JPM');
-  expect(anyContains(await flagTitles(page), 'Looks like a bank')).toBe(true);
-  await expect(checkRow(page, 'Strong current position')).toContainText('N/A');
-  await expect(checkRow(page, 'Low capital needs')).toContainText('N/A');
+test('bank-specific rules are skipped', async ({ analysis }) => {
+  await analysis.open('JPM');
+  expect(anyContains(await analysis.flagTitles.allInnerTexts(), 'Looks like a bank')).toBe(true);
+  await expect(analysis.checkRow('Strong current position')).toContainText('N/A');
+  await expect(analysis.checkRow('Low capital needs')).toContainText('N/A');
 });
 
-test('unknown ticker shows a friendly error', async ({ page }) => {
-  await page.goto('/?t=ZZZZQ');
-  await expect(page.locator('#error')).toBeVisible();
-  await expect(page.locator('#error')).toContainText('not found in SEC EDGAR');
-  await expect(page.locator('#result')).toBeHidden();
+test('unknown ticker shows a friendly error', async ({ analysis }) => {
+  await analysis.goto('/?t=ZZZZQ');
+  await expect(analysis.error).toBeVisible();
+  await expect(analysis.error).toContainText('not found in SEC EDGAR');
+  await expect(analysis.result).toBeHidden();
 });
 
-test('invalid input is rejected', async ({ page }) => {
-  await page.goto('/');
-  await page.fill('#ticker', '<b>x');
-  await page.click('#go');
-  await expect(page.locator('#error')).toContainText("doesn't look like a ticker");
-  await expect(page.locator('#error b')).toHaveCount(0); // shown as text, never as HTML
+test('invalid input is rejected', async ({ analysis }) => {
+  await analysis.goto('/');
+  await analysis.search('<b>x');
+  await expect(analysis.error).toContainText("doesn't look like a ticker");
+  await expect(analysis.error.getByText('x', { exact: true })).toHaveCount(0); // shown as text, never as HTML (no <b>x</b>)
 });
 
-test('disclaimer is always visible', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('.disclaimer')).toContainText('Not investment advice');
+test('disclaimer is always visible', async ({ analysis }) => {
+  await analysis.goto('/');
+  await expect(analysis.disclaimer).toContainText('Not investment advice');
 });
 
-test('phone layout has no horizontal scroll', async ({ page, openTicker }) => {
+test('phone layout has no horizontal scroll', async ({ analysis, page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await openTicker('AAPL');
+  await analysis.open('AAPL');
   const [scroll, client] = await page.evaluate(() => [
     document.documentElement.scrollWidth, document.documentElement.clientWidth]);
   expect(scroll).toBeLessThanOrEqual(client);
 });
 
-test('"Show all" keeps the price and raises no errors', async ({ openTicker, consoleErrors }) => {
+test('"Show all" keeps the price and raises no errors', async ({ analysis, consoleErrors }) => {
   // Regression: the "Show all" button shares the .chip style with the ticker buttons and used to
   // be wired as one, which cleared the price and threw a JavaScript error.
-  const page = await openTicker('SMCI', 30);
-  await openTab(page, 'history');
-  await page.click('#historyMore');
-  await expect(page.locator('#historyList .event')).toHaveCount(17);
-  await expect(page.locator('#price')).toHaveValue('30');
+  await analysis.open('SMCI', 30);
+  await analysis.openTab('history');
+  await analysis.step('show all filings', () => analysis.showAllFilings.click());
+  await expect(analysis.historyEvents).toHaveCount(17);
+  await expect(analysis.price).toHaveValue('30');
   expect(consoleErrors).toEqual([]);
 });
 
-test('guide explains the results before a search', async ({ page }) => {
-  await page.goto('/');
-  const guide = page.locator('#guide');
-  await expect(guide).toHaveAttribute('open', '');
+test('guide explains the results before a search', async ({ analysis }) => {
+  await analysis.goto('/');
+  await expect(analysis.guide).toHaveAttribute('open', '');
   // the guide's cards are named after the tabs, so the guide maps directly onto the results
-  await expect(guide.locator('.guide-item .gi-title')).toHaveText(
+  await expect(analysis.guideCardTitles).toHaveText(
     ['Overview', 'Red flags', 'SEC history', 'Graham & Buffett-style analysis', 'Charts', 'Data']);
-  await expect(guide.locator('.how li')).toHaveCount(3); // the three-step "how it works" strip
-  await expect(guide.locator('.guide-item .gi-go').first()).toBeVisible();
+  await expect(analysis.howItWorksSteps).toHaveCount(3); // the three-step "how it works" strip
+  await expect(analysis.guideCardArrows.first()).toBeVisible();
 });
 
-test('guide collapses after a search and can be reopened', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  const guide = page.locator('#guide');
-  await expect(guide).not.toHaveAttribute('open', '');
-  await expect(guide.locator('.guide-grid')).toBeHidden();
-  await page.click('#guide summary');
-  await expect(guide.locator('.guide-grid')).toBeVisible();
+test('guide collapses after a search and can be reopened', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.guide).not.toHaveAttribute('open', '');
+  await expect(analysis.guideCards).toBeHidden();
+  await analysis.step('open the guide', () => analysis.guideToggle.click());
+  await expect(analysis.guideCards).toBeVisible();
 });
 
-test('each tab has a short explanation', async ({ openTicker }) => {
-  const page = await openTicker('KO');
+test('each tab has a short explanation', async ({ analysis }) => {
+  await analysis.open('KO');
   for (const tab of TABS) {
-    await openTab(page, tab);
-    const note = page.locator(`#panel-${tab} .section-note`).first();
+    await analysis.openTab(tab);
+    const note = analysis.sectionNote(tab);
     await expect(note).toBeVisible();
     const length = (await note.innerText()).length;
     expect(length > 30 && length < 260, `${tab}: ${length} characters`).toBe(true); // a sentence or two
@@ -196,330 +185,322 @@ test('each tab has a short explanation', async ({ openTicker }) => {
 
 // ---------- at a glance + tabs ----------
 
-test('glance summarises each area in one line', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  const rows = page.locator('#glance .glance-row');
-  await expect(rows).toHaveCount(6);
-  await expect(rows.locator('.what')).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
-  await expect(rows.filter({ hasText: 'Red flags' })).toContainText('2 critical');
-  await expect(rows.filter({ hasText: 'Red flags' })).toContainText('Financial statements were restated');
-  await expect(rows.filter({ hasText: 'SEC record' })).toContainText('1 restatement · 3 auditor changes · 13 late filings');
-  await expect(rows.filter({ hasText: 'Dividend' })).toContainText('No dividend paid');
+test('glance summarises each area in one line', async ({ analysis }) => {
+  await analysis.open('SMCI');
+  await expect(analysis.glanceRows).toHaveCount(6);
+  await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
+  await expect(analysis.glanceRow('Red flags')).toContainText('2 critical');
+  await expect(analysis.glanceRow('Red flags')).toContainText('Financial statements were restated');
+  await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement · 3 auditor changes · 13 late filings');
+  await expect(analysis.glanceRow('Dividend')).toContainText('No dividend paid');
 });
 
-test('glance rows open their tab', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  await step(page, 'click the "SEC record" line', () => page.locator('#glance .glance-row', { hasText: 'SEC record' }).click());
-  await expect(page.locator('#tab-history')).toHaveAttribute('aria-selected', 'true');
-  await expect(page.locator('#panel-history')).toBeVisible();
-  await expect(page.locator('#panel-overview')).toBeHidden();
+test('glance rows open their tab', async ({ analysis, page }) => {
+  await analysis.open('SMCI');
+  await analysis.step('click the "SEC record" line', () => analysis.glanceRow('SEC record').click());
+  await expect(analysis.tab('history')).toHaveAttribute('aria-selected', 'true');
+  await expect(analysis.panel('history')).toBeVisible();
+  await expect(analysis.panel('overview')).toBeHidden();
   await expect(page).toHaveURL(/#history$/);
 });
 
-test('clean company glance and badges', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await expect(page.locator('#glance .glance-row', { hasText: 'SEC record' })).toContainText('Clean since 2016');
-  await expect(page.locator('#flagsBadge')).toHaveText('');
-  await expect(page.locator('#historyBadge')).toHaveText('');
+test('clean company glance and badges', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.glanceRow('SEC record')).toContainText('Clean since 2016');
+  await expect(analysis.flagsBadge).toHaveText('');
+  await expect(analysis.historyBadge).toHaveText('');
 });
 
-test('badges count serious problems', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  await expect(page.locator('#flagsBadge')).toHaveText('2');
-  await expect(page.locator('#historyBadge')).toHaveText('17');
+test('badges count serious problems', async ({ analysis }) => {
+  await analysis.open('SMCI');
+  await expect(analysis.flagsBadge).toHaveText('2');
+  await expect(analysis.historyBadge).toHaveText('17');
 });
 
-test('link with a tab opens that tab', async ({ page }) => {
-  await page.goto('/?t=SMCI#flags');
-  await expect(page.locator('#panel-flags')).toBeVisible();
-  await expect(page.locator('#tab-flags')).toHaveAttribute('aria-selected', 'true');
+test('link with a tab opens that tab', async ({ analysis }) => {
+  await analysis.goto('/?t=SMCI#flags');
+  await expect(analysis.panel('flags')).toBeVisible();
+  await expect(analysis.tab('flags')).toHaveAttribute('aria-selected', 'true');
 });
 
-test('tabs work with the keyboard', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await page.focus('#tab-overview');
+test('tabs work with the keyboard', async ({ analysis, page }) => {
+  await analysis.open('KO');
+  await analysis.tab('overview').focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.locator('#tab-flags')).toBeFocused();
-  await expect(page.locator('#panel-flags')).toBeVisible();
+  await expect(analysis.tab('flags')).toBeFocused();
+  await expect(analysis.panel('flags')).toBeVisible();
   await page.keyboard.press('End');
-  await expect(page.locator('#panel-data')).toBeVisible();
+  await expect(analysis.panel('data')).toBeVisible();
   await page.keyboard.press('ArrowRight'); // wraps around
-  await expect(page.locator('#panel-overview')).toBeVisible();
+  await expect(analysis.panel('overview')).toBeVisible();
 });
 
-test('charts are drawn only when their tab opens', async ({ openTicker }) => {
-  const page = await openTicker('AAPL');
-  const drawn = () => page.evaluate(() =>
-    [...document.querySelectorAll('#panel-charts canvas')]
-      // @ts-expect-error Chart is the page's global Chart.js
-      .filter((c) => window.Chart.getChart(c)).length);
+test('charts are drawn only when their tab opens', async ({ analysis, page }) => {
+  await analysis.open('AAPL');
+  const ids = ['cRevenue', 'cEps', 'cDps', 'cPayout', 'cBalance', 'cDebt', 'cCash', 'cMargin'];
+  const drawn = () => page.evaluate((list) =>
+    // @ts-expect-error Chart is the page's global Chart.js
+    list.filter((id) => window.Chart.getChart(document.querySelector(`[data-testid="chart-${id}"]`))).length, ids);
   expect(await drawn()).toBe(0);
-  await openTab(page, 'charts');
+  await analysis.openTab('charts');
   expect(await drawn()).toBe(8);
 });
 
-test('new search stays on the current tab', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await openTab(page, 'flags');
-  await step(page, 'search for INTC', async () => {
-    await page.fill('#ticker', 'INTC');
-    await page.click('#go');
-    await expect(page.locator('#coName')).toHaveText('INTEL CORP (INTC)');
-  });
-  await expect(page.locator('#panel-flags')).toBeVisible();
-  expect(anyContains(await flagTitles(page), 'Recent net losses')).toBe(true);
+test('new search stays on the current tab', async ({ analysis }) => {
+  await analysis.open('KO');
+  await analysis.openTab('flags');
+  await analysis.search('INTC');
+  await expect(analysis.companyName).toHaveText('INTEL CORP (INTC)');
+  await expect(analysis.panel('flags')).toBeVisible();
+  expect(anyContains(await analysis.flagTitles.allInnerTexts(), 'Recent net losses')).toBe(true);
 });
 
-test('page loads nothing from other sites', async ({ page }) => {
+test('page loads nothing from other sites', async ({ analysis, page }) => {
   // Everything (including Chart.js) is served by the app itself, so a slow third-party site can never block the page.
   const requests: string[] = [];
   page.on('request', (req) => requests.push(req.url()));
-  await page.goto('/?t=AAPL#charts');
-  await page.locator('#panel-charts canvas').first().waitFor();
+  await analysis.goto('/?t=AAPL#charts');
+  await analysis.chart('cRevenue').waitFor();
   expect(requests.filter((u) => !u.startsWith(BASE_URL))).toEqual([]);
 });
 
-test('glance has a title and hint', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await expect(page.locator('#glanceTitle')).toHaveText('At a glance');
-  await expect(page.locator('.glance-head')).toContainText('Click any line for the details');
+test('glance has a title and hint', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.glanceTitle).toHaveText('At a glance');
+  await expect(analysis.glanceHead).toContainText('Click any line for the details');
 });
 
-test('previous and next buttons walk through the tabs', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  const nav = page.locator('#panel-overview .panel-nav');
-  await expect(nav.locator('button')).toHaveText(['Next: Red flags →']); // no "previous" on the first tab
-  await step(page, 'click "Next: Red flags"', () => nav.locator('button.next').click());
-  await expect(page.locator('#panel-flags')).toBeVisible();
-  await expect(page.locator('#panel-flags .panel-nav button')).toHaveText(['← Overview', 'Next: SEC history →']);
-  await step(page, 'click "← Overview"', () => page.locator('#panel-flags .panel-nav button.prev').click());
-  await expect(page.locator('#panel-overview')).toBeVisible();
-  await openTab(page, 'data');
-  await expect(page.locator('#panel-data .panel-nav button')).toHaveText(['← Charts']); // no "next" on the last tab
+test('previous and next buttons walk through the tabs', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.panelNavButtons('overview')).toHaveText(['Next: Red flags →']); // no "previous" on the first tab
+  await analysis.step('click "Next: Red flags"', () => analysis.nextButton('overview').click());
+  await expect(analysis.panel('flags')).toBeVisible();
+  await expect(analysis.panelNavButtons('flags')).toHaveText(['← Overview', 'Next: SEC history →']);
+  await analysis.step('click "← Overview"', () => analysis.previousButton('flags').click());
+  await expect(analysis.panel('overview')).toBeVisible();
+  await analysis.openTab('data');
+  await expect(analysis.panelNavButtons('data')).toHaveText(['← Charts']); // no "next" on the last tab
 });
 
-test('guide card before a search shows an example on that tab', async ({ page }) => {
-  await step(page, 'open the start page', () => page.goto('/'));
-  await step(page, 'click the "Red flags" guide card', async () => {
-    await page.locator('.guide-item', { hasText: 'Red flags' }).click();
-    await expect(page.locator('#coName')).toHaveText('Apple Inc. (AAPL)');
+test('guide card before a search shows an example on that tab', async ({ analysis, page }) => {
+  await analysis.goto('/');
+  await analysis.step('click the "Red flags" guide card', async () => {
+    await analysis.guideCard('flags').click();
+    await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');
   });
-  await expect(page.locator('#panel-flags')).toBeVisible();
+  await expect(analysis.panel('flags')).toBeVisible();
   await expect(page).toHaveURL(/\?t=AAPL#flags$/);
-  await expect(page.locator('.guide-title')).toHaveText('How to read these results');
+  await expect(analysis.guideTitle).toHaveText('How to read these results');
 });
 
-test('guide card after a search opens its tab for that company', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await page.click('#guide summary');
-  await page.locator('.guide-item[data-tab="value"]').click();
-  await expect(page.locator('#panel-value')).toBeVisible();
-  await expect(page.locator('#coName')).toHaveText('COCA COLA CO (KO)'); // stays on the searched company
+test('guide card after a search opens its tab for that company', async ({ analysis }) => {
+  await analysis.open('KO');
+  await analysis.guideToggle.click();
+  await analysis.step('click the "Graham & Buffett" guide card', () => analysis.guideCard('value').click());
+  await expect(analysis.panel('value')).toBeVisible();
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)'); // stays on the searched company
 });
 
-test('tabs carry the same icons as the guide', async ({ openTicker }) => {
-  const page = await openTicker('KO');
+test('tabs carry the same icons as the guide', async ({ analysis }) => {
+  await analysis.open('KO');
   for (const tab of TABS) {
-    await expect(page.locator(`#tab-${tab} use`)).toHaveAttribute('href', `#i-${tab}`);
-    await expect(page.locator(`.guide-item[data-tab="${tab}"] use`)).toHaveAttribute('href', `#i-${tab}`);
+    await expect(analysis.tabIcon(tab)).toHaveAttribute('href', `#i-${tab}`);
+    await expect(analysis.guideCardIcon(tab)).toHaveAttribute('href', `#i-${tab}`);
   }
 });
 
 // ---------- search box ----------
 
-test('search box has a visible label and works by label', async ({ page }) => {
-  await page.goto('/');
-  const box = page.getByLabel('Look up a company');
-  await expect(box).toBeFocused(); // ready to type on arrival
-  await expect(box).toHaveAttribute('placeholder', 'Enter a ticker, e.g. AAPL');
-  await box.fill('ko');
-  await box.press('Enter');
-  await expect(page.locator('#coName')).toHaveText('COCA COLA CO (KO)');
+test('search box has a visible label and works by label', async ({ analysis }) => {
+  await analysis.goto('/');
+  await expect(analysis.searchBox).toBeFocused(); // ready to type on arrival
+  await expect(analysis.searchBox).toHaveAttribute('placeholder', 'Enter a ticker, e.g. AAPL');
+  await analysis.searchBox.fill('ko');
+  await analysis.searchBox.press('Enter');
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
 });
 
-test('slash jumps to search but not while typing elsewhere', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await openTab(page, 'value');
-  await page.fill('#price', '68');
-  await page.locator('#price').press('/'); // typing in another field: no jump
-  await expect(page.locator('#price')).toBeFocused();
-  await page.locator('body').click({ position: { x: 5, y: 5 } });
+test('slash jumps to search but not while typing elsewhere', async ({ analysis, page }) => {
+  await analysis.open('KO');
+  await analysis.openTab('value');
+  await analysis.price.fill('68');
+  await analysis.price.press('/'); // typing in another field: no jump
+  await expect(analysis.price).toBeFocused();
+  await page.mouse.click(5, 5); // somewhere neutral on the page
   await page.keyboard.press('/');
-  await expect(page.locator('#ticker')).toBeFocused();
-  // existing text selected, ready to replace
-  expect(await page.evaluate(() => (document.getElementById('ticker') as HTMLInputElement).selectionEnd)).toBe(2);
+  await expect(analysis.searchBox).toBeFocused();
+  expect(await analysis.searchBox.evaluate((el: HTMLInputElement) => el.selectionEnd)).toBe(2); // text selected, ready to replace
 });
 
 // ---------- readability ----------
 
-test('previous/next buttons sit at the bottom of every tab', async ({ openTicker }) => {
+test('previous/next buttons sit at the bottom of every tab', async ({ analysis }) => {
   // Regression: on the Value and Charts tabs the buttons had ended up inside the price box / chart grid.
-  const page = await openTicker('KO');
+  await analysis.open('KO');
   for (const tab of TABS) {
-    const isLast = await page.evaluate(
-      (t) => document.getElementById(`panel-${t}`)!.lastElementChild!.classList.contains('panel-nav'), tab);
-    expect(isLast, tab).toBe(true);
+    await analysis.openTab(tab); // a hidden panel isn't found by role, so open each one
+    const last = await analysis.panel(tab).evaluate((panel) => panel.lastElementChild?.getAttribute('aria-label'));
+    expect(last, tab).toBe('Move between sections');
   }
 });
 
-test('red flags are grouped with explanations', async ({ openTicker }) => {
-  const page = await openTicker('SMCI');
-  await openTab(page, 'flags');
-  const groups = page.locator('#flags .flag-group h3');
-  await expect(groups).toHaveCount(2);
-  await expect(groups.nth(0)).toContainText('Needs attention');
-  await expect(groups.nth(1)).toContainText('Going well');
-  const first = page.locator('#flags .flag').first();
+test('red flags are grouped with explanations', async ({ analysis }) => {
+  await analysis.open('SMCI');
+  await analysis.openTab('flags');
+  await expect(analysis.flagGroupHeadings).toHaveCount(2);
+  await expect(analysis.flagGroupHeadings.nth(0)).toContainText('Needs attention');
+  await expect(analysis.flagGroupHeadings.nth(1)).toContainText('Going well');
+  const first = analysis.flagCards.first();
   await expect(first).toContainText('Financial statements were restated');
-  await expect(first.locator('.help')).toContainText('Why it matters:');
+  await expect(first.getByTestId('flag-help')).toContainText('Why it matters:');
 });
 
-test('trend tiles show a sparkline', async ({ openTicker }) => {
-  const page = await openTicker('AAPL');
-  await expect(page.locator('#tiles .tile svg.spark')).toHaveCount(4);
+test('trend tiles show a sparkline', async ({ analysis }) => {
+  await analysis.open('AAPL');
+  await expect(analysis.sparklines).toHaveCount(4);
 });
 
-test('jargon is explained', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  const cagr = page.locator('#panel-overview abbr', { hasText: 'CAGR' }).first();
-  await expect(cagr).toHaveAttribute('title', /Compound annual growth rate/);
-  const glossary = page.locator('#glossary');
-  await expect(glossary).toBeVisible();
-  await glossary.locator('summary').click();
-  await expect(glossary.locator('dt')).toContainText(['CAGR', 'Free cash flow', 'Graham Number']);
+test('jargon is explained', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.jargon(/Compound annual growth rate/).first()).toHaveText('CAGR');
+  await expect(analysis.glossary).toBeVisible();
+  await analysis.step('open "Terms explained"', () => analysis.glossaryToggle.click());
+  await expect(analysis.glossaryTerms).toContainText(['CAGR', 'Free cash flow', 'Graham Number']);
 });
 
-test('checklist scores have a bar', async ({ openTicker }) => {
-  const page = await openTicker('KO', 68);
-  await expect(page.locator('#grahamScore .meter')).toHaveAttribute('aria-label', '4 of 8 criteria met');
-  expect(await page.evaluate(() => (document.querySelector('#grahamScore .meter span') as HTMLElement).style.width)).toBe('50%');
+test('checklist scores have a bar', async ({ analysis }) => {
+  await analysis.open('KO', 68);
+  await analysis.openTab('value');
+  await expect(analysis.grahamMeter).toHaveAccessibleName('4 of 8 criteria met');
+  expect(await analysis.grahamMeterFill.evaluate((el: HTMLElement) => el.style.width)).toBe('50%'); // the bar's width is the score
 });
 
-test('value tab is named after Graham and Buffett', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await expect(page.locator('#tab-value')).toHaveText('Graham & Buffett');
-  await expect(page.locator('#panel-charts .panel-nav button.prev')).toHaveText('← Graham & Buffett');
-  await expect(page.locator('#valueNote')).toContainText('Not affiliated with or endorsed by');
+test('value tab is named after Graham and Buffett', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.tab('value')).toHaveText('Graham & Buffett');
+  await analysis.openTab('charts');
+  await expect(analysis.previousButton('charts')).toHaveText('← Graham & Buffett');
+  await expect(analysis.valueNote).toContainText('Not affiliated with or endorsed by');
 });
 
-test('phone tab bar keeps the active tab in view', async ({ page }) => {
+test('phone tab bar keeps the active tab in view', async ({ analysis, page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
-  await page.goto('/?t=KO#value');
-  await page.locator('#panel-value').waitFor();
-  const bar = (await page.locator('#tabs').boundingBox())!;
-  const tab = (await page.locator('#tab-value').boundingBox())!;
+  await analysis.goto('/?t=KO#value');
+  await analysis.panel('value').waitFor();
+  const bar = (await analysis.tabList.boundingBox())!;
+  const tab = (await analysis.tab('value').boundingBox())!;
   expect(tab.x >= bar.x && tab.x + tab.width <= bar.x + bar.width + 1).toBe(true);
-  await expect(page.locator('#tabs')).toHaveClass(/more-(left|right)/); // fade hints at hidden tabs
+  await expect(analysis.tabList).toHaveClass(/more-(left|right)/); // fade hints at hidden tabs
 });
 
-test('price box links to public quote pages', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await openTab(page, 'value');
-  const links = page.locator('#priceLinks a');
-  await expect(links).toHaveText(['Google ↗', 'Yahoo Finance ↗']);
-  await expect(links.nth(1)).toHaveAttribute('href', 'https://finance.yahoo.com/quote/KO/');
-  await expect(links.nth(0)).toHaveAttribute('target', '_blank');
+test('price box links to public quote pages', async ({ analysis }) => {
+  await analysis.open('KO');
+  await analysis.openTab('value');
+  await expect(analysis.priceLinks).toHaveText(['Google ↗', 'Yahoo Finance ↗']);
+  await expect(analysis.priceLinks.nth(1)).toHaveAttribute('href', 'https://finance.yahoo.com/quote/KO/');
+  await expect(analysis.priceLinks.nth(0)).toHaveAttribute('target', '_blank');
 });
 
 // ---------- Spanish ----------
 
-test('Spanish link shows the whole page in Spanish', async ({ page }) => {
-  await page.goto('/?t=SMCI&lang=es');
-  await page.locator('#glance .glance-row').first().waitFor();
-  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-  await expect(page.getByLabel('Buscar una empresa')).toBeVisible();
-  await expect(page.locator('#glanceTitle')).toHaveText('De un vistazo');
-  await expect(page.locator('#tab-flags')).toContainText('Señales de alerta');
-  await expect(page.locator('#glance .glance-row', { hasText: 'Historial SEC' })).toContainText('13 presentaciones tardías');
-  await expect(page.locator('#tiles .tile').first()).toContainText('39,1 mil M US$'); // Spain's number format
-  await expect(page.locator('.disclaimer')).toContainText('No es asesoramiento de inversión');
-  await openTab(page, 'flags');
-  await expect(page.locator('#flags .flag-group h3').first()).toContainText('Requiere atención');
-  await expect(page.locator('#flags .flag').first()).toContainText('Por qué importa:');
+test('Spanish link shows the whole page in Spanish', async ({ analysis }) => {
+  await analysis.goto('/?t=SMCI&lang=es');
+  await analysis.glanceRows.first().waitFor();
+  await expect(analysis.root).toHaveAttribute('lang', 'es');
+  await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+  await expect(analysis.searchBox).toBeVisible();
+  await expect(analysis.glanceTitle).toHaveText('De un vistazo');
+  await expect(analysis.tab('flags')).toContainText('Señales de alerta');
+  await expect(analysis.glanceRow('Historial SEC')).toContainText('13 presentaciones tardías');
+  await expect(analysis.tiles.first()).toContainText('39,1 mil M US$'); // Spain's number format
+  await expect(analysis.disclaimer).toContainText('No es asesoramiento de inversión');
+  await analysis.openTab('flags');
+  await expect(analysis.flagGroupHeadings.first()).toContainText('Requiere atención');
+  await expect(analysis.flagCards.first()).toContainText('Por qué importa:');
 });
 
 test.describe('a Spanish browser', () => {
   test.use({ locale: 'es-ES' });
 
-  test('gets Spanish automatically', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.locator('.lang-switch [data-lang=es]')).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('.search-label label')).toHaveText('Buscar una empresa');
+  test('gets Spanish automatically', async ({ analysis }) => {
+    await analysis.goto('/');
+    await expect(analysis.languageButton('es')).toHaveAttribute('aria-pressed', 'true');
+    await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
   });
 });
 
-test('English browser gets English', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('.lang-switch [data-lang=en]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('.search-label label')).toHaveText('Look up a company');
+test('English browser gets English', async ({ analysis }) => {
+  await analysis.goto('/');
+  await expect(analysis.languageButton('en')).toHaveAttribute('aria-pressed', 'true');
+  await expect(analysis.searchLabel).toHaveText('Look up a company');
 });
 
-test('switching language keeps tab and price and updates the link', async ({ openTicker, consoleErrors }) => {
-  const page = await openTicker('KO', 68);
-  await openTab(page, 'value');
-  await step(page, 'switch to Spanish', async () => {
-    await page.click('.lang-switch [data-lang=es]');
-    await expect(page.locator('#tab-value')).toHaveText('Graham y Buffett');
+test('switching language keeps tab and price and updates the link', async ({ analysis, page, consoleErrors }) => {
+  await analysis.open('KO', 68);
+  await analysis.openTab('value');
+  await analysis.step('switch to Spanish', async () => {
+    await analysis.switchLanguage('es');
+    await expect(analysis.tab('value')).toHaveText('Graham y Buffett');
   });
-  await expect(page.locator('#panel-value')).toBeVisible();
-  await expect(page.locator('#price')).toHaveValue('68');
-  await expect(checkRow(page, 'PER moderado')).toContainText('PER de 25,6');
+  await expect(analysis.panel('value')).toBeVisible();
+  await expect(analysis.price).toHaveValue('68');
+  await expect(analysis.checkRow('PER moderado')).toContainText('PER de 25,6');
   await expect(page).toHaveURL(/\?t=KO&p=68&lang=es#value$/);
-  await step(page, 'switch back to English', async () => { // the English is exactly restored
-    await page.click('.lang-switch [data-lang=en]');
-    await expect(checkRow(page, 'Moderate P/E')).toContainText('P/E 25.6');
+  await analysis.step('switch back to English', async () => { // the English is exactly restored
+    await analysis.switchLanguage('en');
+    await expect(analysis.checkRow('Moderate P/E')).toContainText('P/E 25.6');
   });
-  await expect(page.locator('.guide-intro')).toContainText('The tabs, and what each one shows.');
+  await expect(analysis.guideIntro).toContainText('The tabs, and what each one shows.');
   await expect(page).toHaveURL(/\?t=KO&p=68#value$/);
   expect(consoleErrors).toEqual([]);
 });
 
-test('language choice is remembered', async ({ page }) => {
-  await page.goto('/');
-  await page.click('.lang-switch [data-lang=es]');
-  await page.goto('/'); // new visit, no ?lang in the link
-  await expect(page.locator('.search-label label')).toHaveText('Buscar una empresa');
+test('language choice is remembered', async ({ analysis }) => {
+  await analysis.goto('/');
+  await analysis.switchLanguage('es');
+  await analysis.goto('/'); // new visit, no ?lang in the link
+  await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
 });
 
-test('errors are translated', async ({ page }) => {
-  await page.goto('/?t=ZZZZQ&lang=es');
-  await expect(page.locator('#error')).toContainText('No se encuentra el ticker «ZZZZQ»');
+test('errors are translated', async ({ analysis }) => {
+  await analysis.goto('/?t=ZZZZQ&lang=es');
+  await expect(analysis.error).toContainText('No se encuentra el ticker «ZZZZQ»');
 });
 
-test('no English left in Spanish results', async ({ page }) => {
-  await page.goto('/?t=INTC&lang=es&p=24');
-  await page.locator('#glance .glance-row').first().waitFor();
+test('no English left in Spanish results', async ({ analysis }) => {
+  await analysis.goto('/?t=INTC&lang=es&p=24');
+  await analysis.glanceRows.first().waitFor();
   const english = /\b(the|and|with|Revenue|Earnings|Needs|Why it matters|years? of|Price is|Not met|Show all)\b/;
   const allowed = ['INTEL CORP', 'Semiconductors', '10-Year Stock Value Analysis', 'Yahoo Finance', 'Google'];
   const found: string[] = [];
   for (const tab of TABS) {
-    await openTab(page, tab);
-    for (const line of (await page.innerText('main')).split('\n')) {
+    await analysis.openTab(tab);
+    for (const line of (await analysis.main.innerText()).split('\n')) {
       if (english.test(line) && !allowed.some((a) => line.includes(a))) found.push(`${tab}: ${line.trim().slice(0, 80)}`);
     }
   }
   expect(found).toEqual([]);
 });
 
-test('analytics script is not loaded locally', async ({ page }) => {
+test('analytics script is not loaded locally', async ({ analysis, page }) => {
   // Vercel Web Analytics only exists on the deployed site; locally it must not load (or count visits).
   const requests: string[] = [];
   page.on('request', (req) => requests.push(req.url()));
-  await page.goto('/?t=KO');
-  await page.locator('#glance .glance-row').first().waitFor();
+  await analysis.goto('/?t=KO');
+  await analysis.glanceRows.first().waitFor();
   expect(requests.filter((u) => u.includes('/_vercel/insights'))).toEqual([]);
-  await expect(page.locator('footer')).toContainText('no cookies, no personal data');
+  await expect(analysis.footer).toContainText('no cookies, no personal data');
 });
 
-test('company header says when the data was fetched', async ({ openTicker }) => {
-  const page = await openTicker('KO');
-  await expect(page.locator('#coAsOf')).toContainText('Data from SEC as of');
-  await expect(page.locator('#staleNote')).toBeHidden();
-  await page.click('.lang-switch [data-lang=es]');
-  await expect(page.locator('#coAsOf')).toContainText('Datos de la SEC a');
+test('company header says when the data was fetched', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.dataAsOf).toContainText('Data from SEC as of');
+  await expect(analysis.staleNote).toBeHidden();
+  await analysis.switchLanguage('es');
+  await expect(analysis.dataAsOf).toContainText('Datos de la SEC a');
 });
 
-test('saved-copy notice when SEC is unreachable', async ({ page }) => {
+test('saved-copy notice when SEC is unreachable', async ({ analysis, page }) => {
   const metrics = ['revenue', 'netIncome', 'operatingIncome', 'grossProfit', 'eps', 'dps', 'dividendsPaid',
     'operatingCashFlow', 'capex', 'interestExpense', 'dilutedShares', 'totalAssets', 'totalLiabilities', 'equity',
     'liabilitiesAndEquity', 'currentAssets', 'currentLiabilities', 'cash', 'goodwill', 'receivables', 'inventory',
@@ -531,71 +512,64 @@ test('saved-copy notice when SEC is unreachable', async ({ page }) => {
     series: Object.fromEntries(metrics.map((k) => [k, [1e9, 1.1e9]])),
   };
   await page.route('**/api/financials*', (route) => route.fulfill({ status: 200, json: stale }));
-  await page.goto('/?t=KO');
-  await expect(page.locator('#staleNote')).toBeVisible();
-  await expect(page.locator('#staleNote')).toContainText("SEC couldn't be reached");
+  await analysis.goto('/?t=KO');
+  await expect(analysis.staleNote).toBeVisible();
+  await expect(analysis.staleNote).toContainText("SEC couldn't be reached");
 });
 
-test('guide toggle looks and reads like a control', async ({ openTicker }) => {
-  const page = await openTicker('KO'); // guide is collapsed after a search
-  const summary = page.locator('#guide summary');
-  await expect(summary.locator('.when-closed')).toBeVisible();
-  await expect(summary.locator('.when-closed')).toHaveText('Show guide');
-  expect(await summary.evaluate((el) => getComputedStyle(el).cursor)).toBe('pointer');
-  await summary.focus();
+test('guide toggle looks and reads like a control', async ({ analysis, page }) => {
+  await analysis.open('KO'); // guide is collapsed after a search
+  await expect(analysis.guideShowText).toBeVisible();
+  await expect(analysis.guideShowText).toHaveText('Show guide');
+  expect(await analysis.guideToggle.evaluate((el) => getComputedStyle(el).cursor)).toBe('pointer');
+  await analysis.guideToggle.focus();
   await page.keyboard.press('Enter'); // opens with the keyboard
-  await expect(page.locator('#guide')).toHaveAttribute('open', '');
-  await expect(summary.locator('.when-open')).toHaveText('Hide');
-  await page.click('.lang-switch [data-lang=es]');
-  await expect(summary.locator('.when-open')).toHaveText('Ocultar');
+  await expect(analysis.guide).toHaveAttribute('open', '');
+  await expect(analysis.guideHideText).toHaveText('Hide');
+  await analysis.switchLanguage('es');
+  await expect(analysis.guideHideText).toHaveText('Ocultar');
 });
 
-test('Home button returns to a fresh landing page', async ({ openTicker, consoleErrors }) => {
-  const page = await openTicker('SMCI', 30);
-  await openTab(page, 'flags');
-  await step(page, 'press Home', async () => {
-    await page.click('.home-btn');
+test('Home button returns to a fresh landing page', async ({ analysis, page, consoleErrors }) => {
+  await analysis.open('SMCI', 30);
+  await analysis.openTab('flags');
+  await analysis.step('press Home', async () => {
+    await analysis.homeButton.click();
     await expect(page).toHaveURL(url('/'));
   });
-  await expect(page.locator('#result')).toBeHidden();
-  await expect(page.locator('#ticker')).toHaveValue('');
-  await expect(page.locator('#price')).toHaveValue('');
+  await expect(analysis.result).toBeHidden();
+  await expect(analysis.searchBox).toHaveValue('');
+  await expect(analysis.price).toHaveValue('');
   await expect(page).toHaveTitle('10-Year Stock Value Analysis');
-  await expect(page.locator('.home-btn')).toBeHidden(); // nothing to go back from on the start page
+  await expect(analysis.homeButton).toBeHidden(); // nothing to go back from on the start page
   // and a new search works normally from there
-  await step(page, 'search for KO from the fresh page', async () => {
-    await page.fill('#ticker', 'KO');
-    await page.click('#go');
-    await expect(page.locator('#coName')).toHaveText('COCA COLA CO (KO)');
-  });
+  await analysis.search('KO');
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
   expect(consoleErrors).toEqual([]);
 });
 
-test('Home keeps the language', async ({ page }) => {
-  await page.goto('/?t=KO&lang=es');
-  await page.locator('#result').waitFor({ state: 'visible' });
-  const home = page.locator('.home-btn');
-  await expect(home).toHaveText('Inicio');
-  await home.click();
+test('Home keeps the language', async ({ analysis, page }) => {
+  await analysis.goto('/?t=KO&lang=es');
+  await analysis.result.waitFor({ state: 'visible' });
+  await expect(analysis.homeButton).toHaveText('Inicio');
+  await analysis.step('press Inicio (Home)', () => analysis.homeButton.click());
   await expect(page).toHaveURL(url('/?lang=es'));
-  await expect(page.locator('#result')).toBeHidden();
-  await expect(page.locator('#go')).toHaveText('Analizar');
+  await expect(analysis.result).toBeHidden();
+  await expect(analysis.analyzeButton).toHaveText('Analizar');
 });
 
-test('Home button appears only after a lookup', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('.home-btn')).toBeHidden();
-  await page.fill('#ticker', 'ZZZZQ');
-  await page.click('#go');
-  await expect(page.locator('#error')).toBeVisible();
-  await expect(page.locator('.home-btn')).toBeVisible(); // an error also counts: Home clears it
+test('Home button appears only after a lookup', async ({ analysis }) => {
+  await analysis.goto('/');
+  await expect(analysis.homeButton).toBeHidden();
+  await analysis.search('ZZZZQ');
+  await expect(analysis.error).toBeVisible();
+  await expect(analysis.homeButton).toBeVisible(); // an error also counts: Home clears it
 });
 
-test('search button waits for the script', async ({ page }) => {
+test('search button waits for the script', async ({ analysis, page }) => {
   await slowScript(page, 'js/app.js');
-  await page.goto('/');
-  await expect(page.locator('#go')).toBeDisabled();
-  await page.fill('#ticker', 'KO');
-  await page.click('#go');
-  await expect(page.locator('#coName')).toHaveText('COCA COLA CO (KO)');
+  await analysis.goto('/');
+  await expect(analysis.analyzeButton).toBeDisabled();
+  await analysis.search('KO'); // the click waits until the script has enabled the button
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
 });

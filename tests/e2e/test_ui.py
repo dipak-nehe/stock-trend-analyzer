@@ -548,6 +548,7 @@ def test_home_button_returns_to_a_fresh_landing_page(open_ticker, app_url, conso
     expect(page.locator("#ticker")).to_have_value("")
     expect(page.locator("#price")).to_have_value("")
     expect(page).to_have_title("Stock Value Analyzer")
+    expect(page.locator(".home-btn")).to_be_hidden()   # nothing to go back from on the start page
     # and a new search works normally from there
     page.fill("#ticker", "KO")
     page.click("#go")
@@ -564,3 +565,12 @@ def test_home_keeps_the_language(page, app_url):
     expect(page).to_have_url(f"{app_url}/?lang=es")
     expect(page.locator("#result")).to_be_hidden()
     expect(page.locator("#go")).to_have_text("Analizar")
+
+
+def test_home_button_appears_only_after_a_lookup(page, app_url):
+    page.goto(app_url)
+    expect(page.locator(".home-btn")).to_be_hidden()
+    page.fill("#ticker", "ZZZZQ")
+    page.click("#go")
+    expect(page.locator("#error")).to_be_visible()
+    expect(page.locator(".home-btn")).to_be_visible()   # an error also counts: Home clears it

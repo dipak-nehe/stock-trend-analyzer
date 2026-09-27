@@ -145,6 +145,7 @@ async function run(ticker) {
   ticker = ticker.trim().toUpperCase();
   if (!ticker) return;
   $("ticker").value = ticker;
+  $("homeBtn").hidden = false;  // after any lookup (result or error) Home leads back to the start page
   $("error").classList.add("hidden");
   $("loading").classList.remove("hidden");
   $("go").disabled = true;

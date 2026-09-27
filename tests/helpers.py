@@ -63,11 +63,3 @@ def concept(rows, unit="USD"):
 def net_income_years(years, val=100):
     """Net income for each year: it defines the fiscal years build_financials analyses."""
     return concept([year(y, val) for y in years])
-
-
-def slow_script(page, path):
-    """Make a page script start 1.5 s late, as on a slow connection."""
-    def delay(route):
-        body = route.fetch().text()
-        route.fulfill(body="await new Promise((r) => setTimeout(r, 1500));\n" + body, content_type="text/javascript")
-    page.route(f"**/{path}", delay)

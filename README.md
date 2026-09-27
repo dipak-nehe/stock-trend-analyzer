@@ -88,31 +88,35 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | **Regression** (`tests/test_regression.py`, 47 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
 | **HTTP** (`tests/test_server.py`, 24 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 60 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views, and the comparison rules (mark directions, bank and negative-equity n/a, indexed growth, caveats) |
-| **End-to-end** (`tests/e2e/test_ui.py` and `test_compare.py`, 74 tests) | Playwright drives the real page in Chromium: the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. `tests/e2e/test_compare.py` (15 tests) covers the compare page: the link appearing only after a result, the first stock pre-loaded, loading the second, marks, prices, swap, deep links, same-ticker and unknown-ticker errors, language carry-over and phone width. |
-| **Accessibility** (`tests/e2e/test_accessibility.py`, 31 tests) | axe-core checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page, every results tab and the compare page, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
+| **End-to-end** (`e2e/ui.spec.ts` and `compare.spec.ts`, 74 tests) | [Playwright Test](https://playwright.dev) in TypeScript drives the real page in Chromium, against the real Python server running on the saved filings (`tests/e2e_server.py`, started by `playwright.config.ts`): the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, charts, red flags, filing-history filters, price-based valuation, bank handling, errors, disclaimer, phone layout, and no JavaScript errors. `e2e/compare.spec.ts` (15 tests) covers the compare page: the link appearing only after a result, the first stock pre-loaded, loading the second, marks, prices, swap, deep links, same-ticker and unknown-ticker errors, language carry-over and phone width. |
+| **Accessibility** (`e2e/accessibility.spec.ts`, 31 tests) | axe-core (`@axe-core/playwright`) checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page, every results tab and the compare page, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m playwright install chromium
+npm install
+npx playwright install chromium
 
-.venv/bin/pytest                 # everything, about 6 seconds
-.venv/bin/pytest -m "not e2e"    # skip the browser tests
+.venv/bin/pytest                 # unit, regression and HTTP tests (Python backend), about 2 seconds
 node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
+npm run test:e2e                 # browser and accessibility tests (Playwright, TypeScript), about 30 seconds
+npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 ```
+
+The backend tests stay in pytest because they test Python code directly; the browser tests are TypeScript, like the Android app's end-to-end suite. `npm run typecheck` checks them in strict mode (with unused variables as errors, since typescript-eslint doesn't support TypeScript 7 yet).
 
 ### Test report (Allure)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 316 tests, grouped by layer. Failed browser tests carry a screenshot, and accessibility failures carry the full axe output.
+Every CI run builds an [Allure](https://allurereport.org) report covering all 316 tests, grouped by layer. Failed browser tests carry a screenshot and a Playwright trace, and accessibility failures carry the full axe output. (On failure CI also uploads Playwright's own HTML report as the **playwright-report** artifact.)
 
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
 - **On Vercel:** every push to `main` publishes the latest report to its own site (above), through the Vercel REST API (`.github/scripts/publish_report.py`). This needs a `VERCEL_TOKEN` repository secret with access to the whole account or team; a token limited to specific projects can't create the report site. The link appears in the run summary and the log.
 - **Locally:**
   ```bash
   npm install                          # once: installs the Allure CLI (Node only, no Java)
-  rm -rf allure-results && npm run test:js:allure && .venv/bin/pytest --alluredir=allure-results
+  rm -rf allure-results && npm run test:js:allure && .venv/bin/pytest --alluredir=allure-results && npm run test:e2e
   npm run report                       # writes allure-report/index.html
   ```
 
@@ -146,7 +150,8 @@ backend/stock_data.py SEC EDGAR fetching and normalization, shared by both serve
 backend/store.py      stored results: Redis (live), files (local) or memory (tests)
 server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
-tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)
+tests/                unit, regression and HTTP tests (pytest) + saved SEC fixtures + tests/e2e_server.py
+e2e/                  Playwright Test browser and accessibility tests (TypeScript); playwright.config.ts at the root
 tsconfig.json, eslint.config.js, types/   type checking and lint settings (not deployed)
 .github/workflows/    tests.yml runs the checks and tests on every push; health.yml checks the live site every 6 hours
 .github/dependabot.yml  weekly grouped update pull requests for Python, npm and GitHub Actions dependencies

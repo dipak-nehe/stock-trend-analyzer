@@ -3,7 +3,7 @@ import js from "@eslint/js";
 import globals from "globals";
 
 export default [
-  { ignores: ["public/vendor/**", "node_modules/**", "allure-report/**", "allure-results/**", ".venv/**", "test-results/**"] },
+  { ignores: ["public/vendor/**", "node_modules/**", "allure-report/**", "allure-results/**", ".venv/**", "test-results/**", "playwright-report/**"] },
   js.configs.recommended,
   {
     files: ["**/*.js", "**/*.mjs"],

@@ -48,8 +48,8 @@
 
   <section class="search card cmp-pickers">
     <div class="cmp-slot">
-      <div class="search-label"><label for="tickerA" data-i18n="ui.cmp.first">First stock</label></div>
-      <form id="formA" class="cmp-form" role="search">
+      <div class="search-label"><label for="tickerA" id="labelA" data-i18n="ui.cmp.first">First stock</label></div>
+      <form id="formA" class="cmp-form" role="search" aria-labelledby="labelA">
         <div class="search-field">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input id="tickerA" type="text" placeholder="Enter a ticker, e.g. KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" autocapitalize="characters" spellcheck="false">
@@ -60,8 +60,8 @@
     </div>
     <button type="button" class="cmp-swap" id="swap" data-i18n="ui.cmp.swap">⇄ Swap</button>
     <div class="cmp-slot">
-      <div class="search-label"><label for="tickerB" data-i18n="ui.cmp.second">Second stock</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
-      <form id="formB" class="cmp-form" role="search">
+      <div class="search-label"><label for="tickerB" id="labelB" data-i18n="ui.cmp.second">Second stock</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
+      <form id="formB" class="cmp-form" role="search" aria-labelledby="labelB">
         <div class="search-field">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <input id="tickerB" type="text" placeholder="Ticker to compare, e.g. PEP" data-i18n-placeholder="ui.cmp.placeholderB" autocomplete="off" autocapitalize="characters" spellcheck="false">

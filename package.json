@@ -6,17 +6,22 @@
   "scripts": {
     "lint": "eslint .",
     "lint:py": "sh -c 'R=.venv/bin/ruff; [ -x \"$R\" ] || R=ruff; \"$R\" check .'",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json && tsc -p e2e/tsconfig.json",
     "check": "npm run lint && npm run lint:py && npm run typecheck",
     "test": "node --test tests/js/*.test.js",
     "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
     "report": "allure generate allure-results",
-    "report:open": "allure open allure-report"
+    "report:open": "allure open allure-report",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@types/node": "22.20.4",
     "allure": "3.18.0",
+    "allure-playwright": "3.12.2",
     "eslint": "10.11.0",
     "globals": "17.12.0",
     "typescript": "7.0.2"

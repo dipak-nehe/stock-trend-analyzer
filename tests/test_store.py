@@ -257,7 +257,7 @@ def test_unknown_tickers_are_not_stored(sec, fresh_store):
 
 def test_results_from_an_older_format_version_are_ignored(sec, monkeypatch):
     stock_data.api_response("KO")
-    monkeypatch.setattr(stock_data, "CACHE_VERSION", "v5")
+    monkeypatch.setattr(stock_data, "CACHE_VERSION", "v6")
     assert stock_data.api_response("KO")[3] == "MISS"
 
 

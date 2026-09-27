@@ -288,3 +288,22 @@ def test_sec_contact_is_required(monkeypatch, value):
     monkeypatch.setattr(stock_data, "sec_get", REAL_SEC_GET)  # fails on the contact check before any network call
     code, body, _, _ = stock_data.api_response("AAPL")
     assert code == 500 and "SEC_USER_AGENT" in body["error"]
+
+
+def test_latest_report_is_the_newest_annual_or_quarterly_filing(fake_sec):
+    recent = submissions([
+        ("0001-25-000009", "2025-11-01", "8-K", "2.02", "earnings.htm"),     # newer, but not a report
+        ("0001-25-000008", "2025-10-30", "10-Q", "", "q3.htm"),
+        ("0001-25-000004", "2025-02-20", "10-K", "", "annual.htm"),
+        ("0001-24-000007", "2024-10-30", "10-Q/A", "", "q3a.htm"),
+    ])
+    fake_sec(us_gaap={"NetIncomeLoss": net_income_years(YEARS)}, submissions={"filings": {"recent": recent}})
+    report = stock_data.build_financials("TEST")["latestReport"]
+    assert report == {"form": "10-Q", "date": "2025-10-30", "accession": "0001-25-000008",
+                      "url": "https://www.sec.gov/Archives/edgar/data/1/000125000008/q3.htm"}
+
+
+def test_latest_report_is_none_without_reports(fake_sec):
+    fake_sec(us_gaap={"NetIncomeLoss": net_income_years(YEARS)},
+             submissions={"filings": {"recent": submissions([("0001-25-000001", "2025-01-01", "8-K", "5.02", "x.htm")])}})
+    assert stock_data.build_financials("TEST")["latestReport"] is None

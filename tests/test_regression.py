@@ -126,3 +126,14 @@ def test_clean_filers_have_no_red_flag_filings(company):
     for t in ("KO", "INTC"):
         counts = company(t)["secHistory"]["counts"]
         assert not {"non_reliance", "auditor_change", "late_filing"} & counts.keys(), t
+
+
+@pytest.mark.parametrize("ticker", ["AAPL", "KO", "INTC", "JPM", "SMCI"])
+def test_latest_report_matches_the_filing_list(company, ticker):
+    # the Android app's "new report filed" alerts compare this between checks
+    d = company(ticker)
+    sub = stock_data.submissions(d["cik"])
+    t = sub["filings"]["recent"]
+    reports = [(t["filingDate"][i], t["accessionNumber"][i]) for i, f in enumerate(t["form"]) if f in stock_data.FINANCIAL_FORMS]
+    assert (d["latestReport"]["date"], d["latestReport"]["accession"]) == max(reports)
+    assert d["latestReport"]["url"].startswith(f"https://www.sec.gov/Archives/edgar/data/{d['cik']}/")

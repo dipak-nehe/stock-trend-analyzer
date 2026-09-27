@@ -26,6 +26,9 @@ export default defineConfig({
     viewport: { width: 1280, height: 720 },
     screenshot: 'off', // e2e/fixtures.ts attaches named step screenshots and a final (or failure) screen instead
     trace: 'retain-on-failure',
+    // A video of every test, attached to the Allure report by allure-playwright. Small (640×360) because the report
+    // is a single HTML file with everything embedded.
+    video: { mode: 'on', size: { width: 640, height: 360 } },
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } } }],
   webServer: {

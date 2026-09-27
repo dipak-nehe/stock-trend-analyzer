@@ -3,13 +3,14 @@
 // plus keyboard-only checks. Full axe results are attached to the report when something fails.
 import AxeBuilder from '@axe-core/playwright';
 import type { Page, TestInfo } from '@playwright/test';
-import { expect, TABS, test } from './fixtures';
+import { expect, snap, TABS, test } from './fixtures';
 
 const WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 const SCHEMES = ['light', 'dark'] as const;
 
 /** Run axe and return a short, readable list of violations (the full details are attached to the report). */
 async function violations(page: Page, testInfo: TestInfo): Promise<string[]> {
+  await snap(page, 'page checked by axe-core');
   const { violations: found } = await new AxeBuilder({ page }).withTags(WCAG).analyze();
   if (found.length) await testInfo.attach('axe violations', { body: JSON.stringify(found, null, 2), contentType: 'application/json' });
   return found.map((v) => `[${v.impact}] ${v.id}: ${v.help} → ${v.nodes.slice(0, 3).map((n) => n.target[0]).join(', ')}`);

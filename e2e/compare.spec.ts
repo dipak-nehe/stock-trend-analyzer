@@ -1,13 +1,15 @@
 // The compare page (ported from tests/e2e/test_compare.py): the link from a result, loading both sides,
 // URL state, marks, prices, swap, errors and languages.
 import type { Page } from '@playwright/test';
-import { expect, slowScript, test } from './fixtures';
+import { expect, slowScript, step, test } from './fixtures';
 import { url } from './env';
 
 async function openCompare(page: Page, query: string): Promise<Page> {
-  await page.goto(`/compare.html?${query}`);
-  if (query.includes('b=')) await page.locator('#cmpResult').waitFor({ state: 'visible' });
-  return page;
+  return step(page, `open compare.html?${query}`, async () => {
+    await page.goto(`/compare.html?${query}`);
+    if (query.includes('b=')) await page.locator('#cmpResult').waitFor({ state: 'visible' });
+    return page;
+  });
 }
 
 const figureRow = (page: Page, label: string) =>
@@ -24,9 +26,11 @@ test('compare link appears only after a result', async ({ page }) => {
 });
 
 test('compare link opens with the first stock loaded', async ({ page, consoleErrors }) => {
-  await page.goto('/?t=KO');
-  await page.click('#compareLink');
-  await expect(page).toHaveURL(/\/compare\.html\?a=KO$/);
+  await step(page, 'open KO', () => page.goto('/?t=KO'));
+  await step(page, 'click "Compare with another stock"', async () => {
+    await page.click('#compareLink');
+    await expect(page).toHaveURL(/\/compare\.html\?a=KO$/);
+  });
   await expect(page.locator('#tickerA')).toHaveValue('KO');
   await expect(page.locator('#statusA')).toHaveText('COCA COLA CO (KO)');
   await expect(page.locator('#cmpEmpty')).toBeVisible();
@@ -39,9 +43,11 @@ test('compare link opens with the first stock loaded', async ({ page, consoleErr
 test('second stock is fetched and compared', async ({ page, consoleErrors }) => {
   await openCompare(page, 'a=KO');
   await expect(page.locator('#statusA')).toHaveText('COCA COLA CO (KO)');
-  await page.fill('#tickerB', 'aapl');
-  await page.click('#goB');
-  await expect(page.locator('#cmpResult')).toBeVisible();
+  await step(page, 'compare with aapl', async () => {
+    await page.fill('#tickerB', 'aapl');
+    await page.click('#goB');
+    await expect(page.locator('#cmpResult')).toBeVisible();
+  });
   await expect(page).toHaveURL(/\?a=KO&b=AAPL$/);
   await expect(page).toHaveTitle('KO vs AAPL · 10-Year Stock Value Analysis');
   await expect(page.locator('#cmpCards .cmp-card')).toHaveCount(2);
@@ -81,13 +87,17 @@ test('marks follow direction and sizes get none', async ({ page }) => {
 test('valuation rows need prices', async ({ page }) => {
   await openCompare(page, 'a=KO&b=AAPL');
   await expect(page.locator('#cmpTable')).not.toContainText('Valuation');
-  await page.fill('#priceA', '60');
   const pe = figureRow(page, 'P/E on 3-year average EPS');
-  await expect(pe).toContainText('add a price');
+  await step(page, "enter KO's price: 60", async () => {
+    await page.fill('#priceA', '60');
+    await expect(pe).toContainText('add a price');
+  });
   await expect(pe.locator('.fav-dot')).toHaveCount(0);
   await expect(page).toHaveURL(/pa=60/);
-  await page.fill('#priceB', '200');
-  await expect(pe).not.toContainText('add a price');
+  await step(page, "enter AAPL's price: 200", async () => {
+    await page.fill('#priceB', '200');
+    await expect(pe).not.toContainText('add a price');
+  });
   await expect(pe.locator('.fav-dot')).toHaveCount(1);
   await expect(page).toHaveURL(/pa=60&pb=200/);
 });
@@ -101,8 +111,10 @@ test('deep link with prices restores everything', async ({ page }) => {
 
 test('swap switches sides and prices', async ({ page }) => {
   await openCompare(page, 'a=KO&b=AAPL&pa=60');
-  await page.click('#swap');
-  await expect(page).toHaveURL(/\?a=AAPL&b=KO&pb=60$/);
+  await step(page, 'swap the two sides', async () => {
+    await page.click('#swap');
+    await expect(page).toHaveURL(/\?a=AAPL&b=KO&pb=60$/);
+  });
   await expect(page.locator('#tickerA')).toHaveValue('AAPL');
   await expect(page.locator('#priceB')).toHaveValue('60');
   await expect(page.locator('#cmpTable thead th').nth(1)).toHaveText('AAPL');
@@ -111,37 +123,45 @@ test('swap switches sides and prices', async ({ page }) => {
 test('same ticker is rejected', async ({ page }) => {
   await openCompare(page, 'a=KO');
   await expect(page.locator('#statusA')).toHaveText('COCA COLA CO (KO)');
-  await page.fill('#tickerB', 'ko');
-  await page.click('#goB');
-  await expect(page.locator('#statusB')).toContainText('same company');
+  await step(page, 'try KO again as the second stock', async () => {
+    await page.fill('#tickerB', 'ko');
+    await page.click('#goB');
+    await expect(page.locator('#statusB')).toContainText('same company');
+  });
   await expect(page.locator('#cmpResult')).toBeHidden();
 });
 
 test('unknown second ticker keeps the first', async ({ page }) => {
   await openCompare(page, 'a=KO');
   await expect(page.locator('#statusA')).toHaveText('COCA COLA CO (KO)');
-  await page.fill('#tickerB', 'ZZZZQ');
-  await page.click('#goB');
-  await expect(page.locator('#statusB')).toHaveClass(/error-text/);
+  await step(page, 'try an unknown second ticker', async () => {
+    await page.fill('#tickerB', 'ZZZZQ');
+    await page.click('#goB');
+    await expect(page.locator('#statusB')).toHaveClass(/error-text/);
+  });
   await expect(page.locator('#statusA')).toHaveText('COCA COLA CO (KO)');
   await expect(page.locator('#cmpResult')).toBeHidden();
   await expect(page).toHaveURL(/\?a=KO$/);
 });
 
 test('language carries over and switches', async ({ page, consoleErrors }) => {
-  await page.goto('/?t=KO&lang=es');
+  await step(page, 'open KO in Spanish', () => page.goto('/?t=KO&lang=es'));
   const link = page.locator('#compareLink');
   await expect(link).toHaveText('Comparar con otra acción →');
   await expect(link).toHaveAttribute('href', 'compare.html?a=KO&lang=es');
-  await link.click();
-  await page.fill('#tickerB', 'AAPL');
-  await page.click('#goB');
-  await expect(page.locator('#cmpResult')).toBeVisible();
+  await step(page, 'open the compare page and add AAPL', async () => {
+    await link.click();
+    await page.fill('#tickerB', 'AAPL');
+    await page.click('#goB');
+    await expect(page.locator('#cmpResult')).toBeVisible();
+  });
   await expect(page.locator('#goB')).toHaveText('Comparar');
   await expect(page.locator('#cmpTable')).toContainText('Deuda / patrimonio');
   await expect(page).toHaveURL(/lang=es/);
-  await page.click('.lang-switch [data-lang=en]');
-  await expect(page.locator('#cmpTable')).toContainText('Debt / equity');
+  await step(page, 'switch to English', async () => {
+    await page.click('.lang-switch [data-lang=en]');
+    await expect(page.locator('#cmpTable')).toContainText('Debt / equity');
+  });
   await expect(page).not.toHaveURL(/lang=/);
   expect(consoleErrors).toEqual([]);
 });

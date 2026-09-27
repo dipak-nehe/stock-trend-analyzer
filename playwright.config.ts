@@ -24,7 +24,7 @@ export default defineConfig({
     baseURL: BASE_URL,
     locale: 'en-US',
     viewport: { width: 1280, height: 720 },
-    screenshot: 'only-on-failure',
+    screenshot: 'off', // e2e/fixtures.ts attaches named step screenshots and a final (or failure) screen instead
     trace: 'retain-on-failure',
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } } }],

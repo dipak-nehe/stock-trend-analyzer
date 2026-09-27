@@ -7,7 +7,8 @@ import { either } from './names';
  * Locator order in all page objects: getByRole → getByText → getByLabel → getByPlaceholder → getByTitle →
  * getByTestId → CSS (only for sub-parts with no role, each marked "CSS:" with the reason). No XPath.
  * Controls people use are found by role/label (so the tests also prove they're real buttons, tabs, links and
- * labelled fields); content the tests read is found by data-testid.
+ * labelled fields); content the tests read is found by data-testid. Exception: when a control's name is only
+ * incidental hard-coded text (arrows, counts, hidden aria-labels), its #id is used instead ("#id:" comments).
  */
 export class BasePage {
   constructor(readonly page: Page) {}

@@ -62,11 +62,11 @@ test('filing history filters and expands', async ({ analysis }) => {
     await expect(analysis.historyEvents).toHaveCount(17);
   });
   await analysis.step('filter: SEC letters (none)', async () => {
-    await analysis.historyFilter(/^SEC letters/).click();
+    await analysis.historyFilter('letters').click();
     await expect(analysis.historyList).toContainText('No filings of this kind');
   });
-  await analysis.step('filter: red-flag filings', () => analysis.historyFilter(/^Red flags/).click());
-  await expect(analysis.historyFilter(/^Red flags/)).toHaveAttribute('aria-pressed', 'true');
+  await analysis.step('filter: red-flag filings', () => analysis.historyFilter('flags').click());
+  await expect(analysis.historyFilter('flags')).toHaveAttribute('aria-pressed', 'true');
   await expect(analysis.historyEvents.first().getByRole('link').first()).toHaveAttribute(
     'href', /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/1375365\//);
 });

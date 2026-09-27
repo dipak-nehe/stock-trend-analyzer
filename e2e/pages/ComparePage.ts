@@ -25,8 +25,9 @@ export class ComparePage extends BasePage {
     return this.page.getByRole('button', { name: either('Compare', 'Comparar') });
   }
 
+  /** #id: the name is a symbol plus hard-coded copy ("⇄ Swap"). */
   get swapButton(): Locator {
-    return this.page.getByRole('button', { name: either('⇄ Swap', '⇄ Intercambiar') });
+    return this.page.locator('#swap');
   }
 
   /** One of the "Try:" example tickers for the second slot. */
@@ -49,8 +50,9 @@ export class ComparePage extends BasePage {
     return this.page.getByTestId('status-b');
   }
 
+  /** #id: hard-coded copy with an arrow; the tests check its address. */
   get backLink(): Locator {
-    return this.page.getByRole('link', { name: either('← Back to the full analysis', '← Volver al análisis completo') });
+    return this.page.locator('#backLink');
   }
 
   // ---------- results ----------
@@ -70,9 +72,9 @@ export class ComparePage extends BasePage {
     return this.page.getByTestId('company-cards');
   }
 
-  /** The key-figures table (inside the region named by its heading). */
+  /** #id: the table's region is named after a hard-coded heading ("Key figures"). */
   get figuresTable(): Locator {
-    return this.page.getByRole('region', { name: either('Key figures', 'Cifras clave') }).getByRole('table');
+    return this.page.locator('#cmpTable');
   }
 
   get figureHeaders(): Locator {
@@ -93,8 +95,9 @@ export class ComparePage extends BasePage {
     return row.getByText(either('(more favourable)', '(más favorable)'));
   }
 
+  /** #id: the table's region is named after a hard-coded heading ("Graham & Buffett criteria"). */
   get criteriaTable(): Locator {
-    return this.page.getByRole('region', { name: either('Graham & Buffett criteria', 'Criterios de Graham y Buffett') }).getByRole('table');
+    return this.page.locator('#cmpGrid');
   }
 
   /** A company's price field: its label is the company's ticker once loaded (e.g. "KO"). */

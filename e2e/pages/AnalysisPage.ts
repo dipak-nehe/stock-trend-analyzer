@@ -67,8 +67,9 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('stale-note');
   }
 
+  /** #id: the link text is hard-coded copy with an arrow; the tests check its text and address separately. */
   get compareLink(): Locator {
-    return this.page.getByRole('link', { name: either('Compare with another stock →', 'Comparar con otra acción →') });
+    return this.page.locator('#compareLink');
   }
 
   // ---------- at a glance ----------
@@ -131,9 +132,9 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('history-badge');
   }
 
-  /** "← Previous" / "Next: … →" at the bottom of a tab. */
+  /** "← Previous" / "Next: … →" at the bottom of a tab (the panel's only navigation). */
   panelNav(name: Tab): Locator {
-    return this.panel(name).getByRole('navigation', { name: 'Move between sections' });
+    return this.panel(name).getByRole('navigation');
   }
 
   panelNavButtons(name: Tab): Locator {
@@ -214,12 +215,14 @@ export class AnalysisPage extends BasePage {
     return this.historyList.getByTestId('history-event');
   }
 
-  historyFilter(name: RegExp): Locator {
-    return this.page.getByRole('group', { name: 'Filter filings' }).getByRole('button', { name });
+  /** #id: the filter buttons' names include counts ("SEC letters & replies (0)"); pick them by their filter key. */
+  historyFilter(key: 'all' | 'flags' | 'letters' | 'amendments'): Locator {
+    return this.page.locator(`#historyFilters [data-f="${key}"]`);
   }
 
+  /** #id: its name includes the count ("Show all 17"). */
   get showAllFilings(): Locator {
-    return this.page.getByRole('button', { name: /^(Show all|Mostrar las) \d+$/ });
+    return this.page.locator('#historyMore');
   }
 
   // ---------- Graham & Buffett ----------

@@ -10,7 +10,7 @@ from http.server import HTTPServer, ThreadingHTTPServer
 import pytest
 
 import server
-import stock_data
+from backend import stock_data
 from helpers import ROOT
 
 
@@ -66,7 +66,7 @@ def test_static_assets_are_served(local, path, ctype):
     assert status == 200 and headers["Content-Type"].startswith(ctype)
 
 
-@pytest.mark.parametrize("path", ["/server.py", "/stock_data.py", "/../server.py", "/%2e%2e/server.py",
+@pytest.mark.parametrize("path", ["/server.py", "/stock_data.py", "/backend/stock_data.py", "/../server.py", "/%2e%2e/server.py",
                                   "/api/financials.py", "/README.md", "/nope.html"])
 def test_source_files_and_unknown_paths_are_not_served(local, path):
     assert local(path)[0] == 404
@@ -101,7 +101,7 @@ def test_vercel_config_bundles_the_shared_module():
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
     for fn in config["functions"].values():
-        assert fn["includeFiles"] == "{stock_data,store}.py"  # every module the function imports
+        assert fn["includeFiles"] == "backend/**"  # every module the function imports
     assert os.path.exists(os.path.join(ROOT, "public", "index.html"))
 
 

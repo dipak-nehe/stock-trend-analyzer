@@ -12,7 +12,7 @@ import urllib.error
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-import stock_data  # noqa: E402
+from backend import stock_data  # noqa: E402
 
 REAL_SEC_GET = stock_data.sec_get  # captured before any test swaps it out
 

@@ -8,8 +8,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import pytest
 
-import stock_data
-import store
+from backend import stock_data, store
 from helpers import fixture_sec_get
 
 

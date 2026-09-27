@@ -11,8 +11,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
-import stock_data
-import store
+from backend import stock_data, store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")

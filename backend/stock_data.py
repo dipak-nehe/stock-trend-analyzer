@@ -16,7 +16,7 @@ import urllib.error
 import urllib.request
 from datetime import date, datetime, timezone
 
-import store as store_module
+from . import store as store_module
 
 YEARS = 10
 TICKER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]{0,9}$")

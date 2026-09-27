@@ -6,8 +6,7 @@ from http.server import BaseHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import stock_data  # noqa: E402
-import store  # noqa: E402
+from backend import stock_data, store  # noqa: E402
 
 
 class handler(BaseHTTPRequestHandler):

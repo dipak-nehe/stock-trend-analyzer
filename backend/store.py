@@ -92,7 +92,7 @@ def from_environment(ssl_context=None):
         return RedisStore(url, token, ssl_context=ssl_context)
     if os.environ.get("VERCEL"):
         return MemoryStore()
-    return FileStore(os.environ.get("STOCK_CACHE_DIR", os.path.join(os.path.dirname(os.path.abspath(__file__)), ".cache")))
+    return FileStore(os.environ.get("STOCK_CACHE_DIR", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".cache")))
 
 
 def describe(store):

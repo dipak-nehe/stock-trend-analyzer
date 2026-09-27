@@ -31,7 +31,7 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 
 ## Stored results
 
-Each ticker is fetched from SEC once, and the finished result is stored and reused (`store.py`):
+Each ticker is fetched from SEC once, and the finished result is stored and reused (`backend/store.py`):
 
 - **Fresh for 24 hours:** repeat lookups are served from storage (a few milliseconds instead of 1–3 s) without calling SEC.
 - **After 24 hours, a cheap re-check:** only the company's filing list is downloaded (about 0.5 MB instead of about 6 MB for Microsoft). If no new annual or quarterly report (10-K, 10-Q, 20-F, 40-F or an amendment) has been filed, the stored figures are kept and only the SEC filing history is refreshed, so new red flags such as late filings still appear within a day (`X-Data-Cache: REVALIDATED`).
@@ -136,8 +136,8 @@ public/js/            ES modules: app.js and compare-app.js wire the two pages (
                       charts.js; format.js, series.js and labels.js hold shared helpers
 public/favicon.svg    icon; public/og.png is the link-preview image
 api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL
-stock_data.py         SEC EDGAR fetching and normalization, shared by both servers
-store.py              stored results: Redis (live), files (local) or memory (tests)
+backend/stock_data.py SEC EDGAR fetching and normalization, shared by both servers
+backend/store.py      stored results: Redis (live), files (local) or memory (tests)
 server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
 tests/                unit, regression, HTTP and Playwright end-to-end tests (+ saved SEC fixtures)
@@ -154,7 +154,7 @@ Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financi
                                                            10-K facts → 10 fiscal years
 ```
 
-- **`stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
+- **`backend/stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests.
 - **`public/js/`** holds plain-JavaScript ES modules with no build step. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node. Only `app.js`, `compare-app.js`, `page.js` and `charts.js` touch the page.
 
 ## Limitations

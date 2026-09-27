@@ -8,7 +8,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import stock_data  # noqa: E402
+from backend import stock_data  # noqa: E402
 
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 TICKERS = ["AAPL", "KO", "INTC", "JPM", "SMCI"]

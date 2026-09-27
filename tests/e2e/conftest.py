@@ -6,8 +6,7 @@ import allure
 import pytest
 
 import server
-import stock_data
-import store
+from backend import stock_data, store
 from helpers import fixture_sec_get
 
 

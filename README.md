@@ -80,7 +80,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-316 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable.
+335 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable. **[Test plan](docs/test-plan.md)** (scope, layers, risks, traceability, exit criteria) and **[every end-to-end test, by feature](docs/e2e-tests.md)**.
 
 | Layer | What it covers |
 |---|---|

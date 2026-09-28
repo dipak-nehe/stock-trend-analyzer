@@ -1,6 +1,8 @@
 // Shared fixtures for the browser tests: the page objects, JavaScript-error collection and the final screenshot.
 // Element definitions live in the page objects (e2e/pages/), not here or in the specs.
+import { basename } from 'node:path';
 import { test as base, expect, type Page } from '@playwright/test';
+import { parentSuite } from 'allure-js-commons';
 import { AnalysisPage } from './pages/AnalysisPage';
 import { ComparePage } from './pages/ComparePage';
 
@@ -13,6 +15,8 @@ type Fixtures = {
   consoleErrors: string[];
   /** A screenshot at the end of a test that failed, or that has no step screenshots of its own. */
   finalScreenshot: void;
+  /** The test's group in the Allure report, after the Python and JavaScript layers (0–3). */
+  allureLayer: void;
 };
 
 export const test = base.extend<Fixtures>({
@@ -30,6 +34,15 @@ export const test = base.extend<Fixtures>({
     });
     await use(errors);
   },
+  allureLayer: [
+    // eslint-disable-next-line no-empty-pattern -- Playwright fixtures must destructure their first argument
+    async ({}, use, testInfo) => {
+      const accessibility = basename(testInfo.file).startsWith('accessibility');
+      await parentSuite(accessibility ? '5 · Accessibility: axe-core and keyboard' : '4 · End-to-end: user journeys');
+      await use();
+    },
+    { auto: true },
+  ],
   finalScreenshot: [
     async ({ analysis }, use, testInfo) => {
       await use();

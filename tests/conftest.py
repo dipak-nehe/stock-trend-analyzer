@@ -12,11 +12,11 @@ from backend import stock_data, store
 # Group tests in the Allure report by layer (the report's "Suites" view).
 LAYERS = {
     "test_stock_data": "1 · Unit: data rules",
+    "test_store": "1 · Unit: data rules",
     "test_regression": "2 · Regression: real SEC filings",
     "test_server": "3 · HTTP: API and static files",
-    "test_ui": "4 · End-to-end: user journeys",
-    "test_accessibility": "5 · Accessibility: axe-core and keyboard",
 }
+# The browser tests (Playwright, e2e/) name their own groups, 4 and 5, in e2e/fixtures.ts.
 
 
 @pytest.fixture(autouse=True)

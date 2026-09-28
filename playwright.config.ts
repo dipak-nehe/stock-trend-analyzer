@@ -18,7 +18,9 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { open: 'never', outputFolder: 'playwright-report' }],
-    ['allure-playwright', { resultsDir: 'allure-results', suiteTitle: true }],
+    // detail: false reports only our named steps (each with its screenshot), not every internal Playwright call
+    // and assertion, which buried the screenshots among 100+ steps per test.
+    ['allure-playwright', { resultsDir: 'allure-results', suiteTitle: true, detail: false }],
   ],
   use: {
     baseURL: BASE_URL,

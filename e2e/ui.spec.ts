@@ -265,8 +265,7 @@ test('tab tour: each tab opens alone, updates the address and shows its content'
       await expect(analysis.tab(other)).toHaveAttribute('aria-selected', 'false');
     }
     await expect(page).toHaveURL(tab === 'overview' ? /\?t=SMCI&p=30$/ : new RegExp(`\\?t=SMCI&p=30#${tab}$`));
-    await content[tab]();
-    await analysis.snap(`${tab} tab`);
+    await content[tab](); // openTab's step already has the tab's screenshot
   }
   expect(consoleErrors).toEqual([]);
 });

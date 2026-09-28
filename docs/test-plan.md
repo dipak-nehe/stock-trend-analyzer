@@ -2,7 +2,7 @@
 
 How the web app is tested: what is covered, at which level, with what data, and what "done" means. The companion list of every browser test is [e2e-tests.md](e2e-tests.md). The Android and iOS apps have their own plan in [stock-value-mobile](https://github.com/dipak-nehe/stock-value-mobile/blob/main/docs/test-plan.md).
 
-**At a glance:** 342 automated tests in five layers, all run on every push by GitHub Actions in about 3 minutes. None of them calls SEC: they use trimmed real filings saved in `tests/fixtures/`. Latest report: https://stock-trend-test-report.vercel.app.
+**At a glance:** 345 automated tests in five layers, all run on every push by GitHub Actions in about 3 minutes. None of them calls SEC: they use trimmed real filings saved in `tests/fixtures/`. Latest report: https://stock-trend-test-report.vercel.app.
 
 ## 1. Scope
 
@@ -36,9 +36,9 @@ How the web app is tested: what is covered, at which level, with what data, and 
 | 1 · Unit | pytest | `tests/test_stock_data.py`, `tests/test_store.py` | 86 | Hand-built filings for tricky rules: restatements, splits, currency, minority interest, debt tags, 8-K item classification, input validation, errors, cache headers, stored results |
 | 2 · Regression | pytest | `tests/test_regression.py` | 47 | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings; figures pinned to values checked against published financials (fiscal 2021–2025) |
 | 3 · HTTP | pytest | `tests/test_server.py` | 24 | Local server and Vercel function answer identically; source files can't be downloaded; bad input rejected |
-| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 85 | The two pages driven like a person, against the real server on saved filings |
+| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 88 | The two pages driven like a person, against the real server on saved filings |
 | 5 · Accessibility | Playwright + axe-core | `e2e/accessibility.spec.ts` | 35 | No WCAG A/AA violations on every page state, light and dark, English and Spanish, desktop and phone; keyboard-only use |
-| | | | **342** | |
+| | | | **345** | |
 
 Static checks run first: ESLint and TypeScript (checkJs) for the JavaScript, Ruff for the Python, strict TypeScript for the browser tests (`npm run check`).
 
@@ -69,7 +69,7 @@ Static checks run first: ESLint and TypeScript (checkJs) for the JavaScript, Ruf
 | SEC filing history | 8-K classification, multi-item filings (unit), real counts (regression) | tiles, filters, official SEC titles, exchange notices | history tab |
 | Graham & Buffett, price valuation | checklists and estimates (JS) | price in URL, cleared on new search, scores add up, bank rules | value tab |
 | Compare page | compare rules (JS) | link, pre-load, marks, prices, swap, deep links, same/unknown ticker, empty boxes, phone width | compare states |
-| Language (EN/ES) | i18n (JS) | Spanish link, browser language, switching keeps state, remembered choice, no English left | Spanish page |
+| Language (EN/ES) | i18n (JS) | Spanish link, browser language, switching keeps state, remembered choice (from the button or a link) across every page, no English left | Spanish page |
 | Caching and stored results | cache headers, store versions and fallback (unit) | data-fetched time | — |
 | Disclaimer (short notice and full page) | — | notice always visible, links from both pages, Spanish, language switch | disclaimer page, EN/ES, light/dark |
 | Security and privacy | source files blocked (HTTP) | nothing loaded from other sites, analytics off locally | — |

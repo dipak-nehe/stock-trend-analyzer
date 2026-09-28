@@ -560,6 +560,53 @@ test('language choice is remembered', async ({ analysis }) => {
   await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
 });
 
+// Spanish must stay on across every page, whether it was chosen with the ES button or came from a Spanish link.
+// Regression: arriving from a ?lang=es link, the disclaimer's "Back to the analysis" link dropped the language, and
+// a language from a link wasn't remembered, so every page after that was English.
+for (const entry of ['pressing ES', 'a Spanish link'] as const) {
+  test(`Spanish stays on across every page after ${entry}`, async ({ analysis, compare, disclaimer, page }) => {
+    const spanish = async (where: string) => {
+      await expect(analysis.root, where).toHaveAttribute('lang', 'es');
+      await expect(analysis.footerDisclaimerLink, where).toHaveText('Aviso legal'); // the footer is on every page
+    };
+    if (entry === 'pressing ES') {
+      await analysis.open('KO');
+      await analysis.step('press ES', () => analysis.switchLanguage('es'));
+    } else {
+      await analysis.goto('/?t=KO&lang=es');
+      await analysis.glanceRows.first().waitFor();
+    }
+    await spanish('results page');
+    await analysis.step('open the compare page', () => analysis.compareLink.click());
+    await spanish('compare page');
+    await compare.step('back to the full analysis', () => compare.backLink.click());
+    await analysis.glanceRows.first().waitFor();
+    await spanish('back on the results page');
+    await analysis.step('open the full disclaimer', () => analysis.fullDisclaimerLink.click());
+    await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
+    await disclaimer.step('back to the analysis', () => disclaimer.backLink.click());
+    await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+    await analysis.step('footer: disclaimer', () => analysis.footerDisclaimerLink.click());
+    await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
+    await disclaimer.step('Home', () => disclaimer.homeButton.click());
+    await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+    // A new visit with no ?lang in the address, on each page.
+    for (const path of ['/', '/compare.html', '/disclaimer.html']) {
+      await analysis.step(`open ${path} directly`, () => page.goto(path).then(() => undefined));
+      await spanish(`${path} opened directly`);
+    }
+  });
+}
+
+test('switching back to English is remembered the same way', async ({ analysis, disclaimer, page }) => {
+  await analysis.goto('/?lang=es');
+  await analysis.step('press EN', () => analysis.switchLanguage('en'));
+  await disclaimer.goto();
+  await expect(disclaimer.heading).toHaveText('Investment risk disclaimer');
+  await analysis.step('open the start page directly', () => page.goto('/').then(() => undefined));
+  await expect(analysis.searchLabel).toHaveText('Look up a company');
+});
+
 test('errors are translated', async ({ analysis }) => {
   await analysis.goto('/?t=ZZZZQ&lang=es');
   await expect(analysis.error).toContainText('No se encuentra el ticker «ZZZZQ»');

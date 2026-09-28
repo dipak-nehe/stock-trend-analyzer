@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**120 tests:** 69 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 35 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**123 tests:** 72 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 35 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one test with `npx playwright test -g "<name>"`.
 
@@ -100,7 +100,7 @@ Regenerate the list with `npx playwright test --list`. Run one test with `npx pl
 | 56 | the compare page links to the full disclaimer too |
 | 57 | the disclaimer reads in Spanish, from Spanish pages and by switching |
 
-### Language (English and Spanish) (7)
+### Language (English and Spanish) (10)
 
 | # | Test |
 |---|---|
@@ -111,42 +111,45 @@ Regenerate the list with `npx playwright test --list`. Run one test with `npx pl
 | 62 | language choice is remembered |
 | 63 | errors are translated |
 | 64 | no English left in Spanish results |
+| 65 | Spanish stays on across every page after pressing ES |
+| 66 | Spanish stays on across every page after a Spanish link |
+| 67 | switching back to English is remembered the same way |
 
 ### Home button (3)
 
 | # | Test |
 |---|---|
-| 65 | Home button returns to a fresh landing page |
-| 66 | Home keeps the language |
-| 67 | Home button appears only after a lookup |
+| 68 | Home button returns to a fresh landing page |
+| 69 | Home keeps the language |
+| 70 | Home button appears only after a lookup |
 
 ### Privacy (2)
 
 | # | Test |
 |---|---|
-| 68 | page loads nothing from other sites |
-| 69 | analytics script is not loaded locally |
+| 71 | page loads nothing from other sites |
+| 72 | analytics script is not loaded locally |
 
 ## Compare page (`e2e/compare.spec.ts`, 16)
 
 | # | Test |
 |---|---|
-| 70 | compare link appears only after a result |
-| 71 | compare link opens with the first stock loaded |
-| 72 | second stock is fetched and compared |
-| 73 | chip loads the second stock |
-| 74 | marks follow direction and sizes get none |
-| 75 | valuation rows need prices |
-| 76 | deep link with prices restores everything |
-| 77 | swap switches sides and prices |
-| 78 | same ticker is rejected |
-| 79 | unknown second ticker keeps the first |
-| 80 | language carries over and switches |
-| 81 | bank shows n/a for current ratio |
-| 82 | phone width has no sideways scroll |
-| 83 | Home leaves the compare page |
-| 84 | Compare and Load need a ticker in their box |
-| 85 | a quick submit before the script loads is not lost |
+| 73 | compare link appears only after a result |
+| 74 | compare link opens with the first stock loaded |
+| 75 | second stock is fetched and compared |
+| 76 | chip loads the second stock |
+| 77 | marks follow direction and sizes get none |
+| 78 | valuation rows need prices |
+| 79 | deep link with prices restores everything |
+| 80 | swap switches sides and prices |
+| 81 | same ticker is rejected |
+| 82 | unknown second ticker keeps the first |
+| 83 | language carries over and switches |
+| 84 | bank shows n/a for current ratio |
+| 85 | phone width has no sideways scroll |
+| 86 | Home leaves the compare page |
+| 87 | Compare and Load need a ticker in their box |
+| 88 | a quick submit before the script loads is not lost |
 
 ## Accessibility (`e2e/accessibility.spec.ts`, 35)
 
@@ -154,38 +157,38 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 
 | # | Test |
 |---|---|
-| 86 | landing page (desktop, light) |
-| 87 | landing page (desktop, dark) |
-| 88 | landing page (phone, light) |
-| 89 | landing page (phone, dark) |
-| 90 | results tab: overview (light) |
-| 91 | results tab: overview (dark) |
-| 92 | results tab: flags (light) |
-| 93 | results tab: flags (dark) |
-| 94 | results tab: history (light) |
-| 95 | results tab: history (dark) |
-| 96 | results tab: value (light) |
-| 97 | results tab: value (dark) |
-| 98 | results tab: charts (light) |
-| 99 | results tab: charts (dark) |
-| 100 | results tab: data (light) |
-| 101 | results tab: data (dark) |
-| 102 | phone-width results: overview |
-| 103 | phone-width results: data |
-| 104 | Spanish page |
-| 105 | error state |
-| 106 | guide before and after a search |
-| 107 | search and results work with the keyboard |
-| 108 | wide tables can be scrolled with the keyboard |
-| 109 | every interactive element has a name |
-| 110 | compare page: one-side (light) |
-| 111 | compare page: one-side (dark) |
-| 112 | compare page: both-priced (light) |
-| 113 | compare page: both-priced (dark) |
-| 114 | compare page: spanish (light) |
-| 115 | compare page: spanish (dark) |
-| 116 | compare page at phone width |
-| 117 | disclaimer page (en, light) |
-| 118 | disclaimer page (en, dark) |
-| 119 | disclaimer page (es, light) |
-| 120 | disclaimer page (es, dark) |
+| 89 | landing page (desktop, light) |
+| 90 | landing page (desktop, dark) |
+| 91 | landing page (phone, light) |
+| 92 | landing page (phone, dark) |
+| 93 | results tab: overview (light) |
+| 94 | results tab: overview (dark) |
+| 95 | results tab: flags (light) |
+| 96 | results tab: flags (dark) |
+| 97 | results tab: history (light) |
+| 98 | results tab: history (dark) |
+| 99 | results tab: value (light) |
+| 100 | results tab: value (dark) |
+| 101 | results tab: charts (light) |
+| 102 | results tab: charts (dark) |
+| 103 | results tab: data (light) |
+| 104 | results tab: data (dark) |
+| 105 | phone-width results: overview |
+| 106 | phone-width results: data |
+| 107 | Spanish page |
+| 108 | error state |
+| 109 | guide before and after a search |
+| 110 | search and results work with the keyboard |
+| 111 | wide tables can be scrolled with the keyboard |
+| 112 | every interactive element has a name |
+| 113 | compare page: one-side (light) |
+| 114 | compare page: one-side (dark) |
+| 115 | compare page: both-priced (light) |
+| 116 | compare page: both-priced (dark) |
+| 117 | compare page: spanish (light) |
+| 118 | compare page: spanish (dark) |
+| 119 | compare page at phone width |
+| 120 | disclaimer page (en, light) |
+| 121 | disclaimer page (en, dark) |
+| 122 | disclaimer page (es, light) |
+| 123 | disclaimer page (es, dark) |

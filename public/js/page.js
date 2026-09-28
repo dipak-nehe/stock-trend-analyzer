@@ -45,13 +45,21 @@ export function applyStaticText() {
     el.placeholder = lang === "en" ? el.dataset.enPlaceholder : (dict[el.dataset.i18nPlaceholder] ?? el.dataset.enPlaceholder);
   }
   $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  // Home goes back to a fresh landing page (a full page load, so nothing from the last lookup is left over)
-  $$("a.home-btn, a.home-link").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
+  // Home (and other links back to the start page) go to a fresh landing page in the same language
+  $$("a.home-btn, a.home-link, a[data-start-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
 }
 
-/** Language from the link, then the remembered choice, then the browser. @param {URLSearchParams} params */
+/**
+ * Language from the link, then the remembered choice, then the browser. A language that comes from the link is
+ * remembered too, so it stays on across pages and later visits (a Spanish link would otherwise be forgotten at the
+ * first page without ?lang). @param {URLSearchParams} params
+ */
 export function initialLang(params) {
-  if (params.get("lang") && dictionaries[params.get("lang")]) return params.get("lang");
+  const fromLink = params.get("lang");
+  if (fromLink && dictionaries[fromLink]) {
+    try { localStorage.setItem("lang", fromLink); } catch { /* storage unavailable: links still carry ?lang */ }
+    return fromLink;
+  }
   try { const saved = localStorage.getItem("lang"); if (saved && dictionaries[saved]) return saved; } catch { /* ignore */ }
   return detectLang(navigator.languages || [navigator.language]);
 }

@@ -182,21 +182,26 @@ def test_shares_outstanding_sums_share_classes_from_the_latest_filing(fake_sec):
 # ---------- SEC filing history ----------
 
 @pytest.mark.parametrize("form, items, expected", [
-    ("8-K", "4.02,9.01", "non_reliance"),
-    ("8-K/A", "4.01", "auditor_change"),
-    ("8-K", "2.02,9.01", None),
-    ("NT 10-K", "", "late_filing"),
-    ("NT 10-Q", "", "late_filing"),
-    ("10-K/A", "", "amendment"),
-    ("20-F/A", "", "amendment"),
-    ("UPLOAD", "", "sec_letter"),
-    ("CORRESP", "", "company_response"),
-    ("10-K", "", None),
-    ("4", "", None),
+    ("8-K", "4.02,9.01", ["non_reliance"]),
+    ("8-K/A", "4.01", ["auditor_change"]),
+    ("8-K", "2.02,9.01", []),                          # an earnings release
+    ("8-K", "5.02,9.01", []),                          # officer and pay changes: too routine to report
+    ("8-K", "1.03", ["bankruptcy"]),
+    ("8-K", "3.01,9.01", ["delisting_notice"]),
+    ("8-K", "1.05", ["cyber_incident"]),
+    ("8-K", "2.01,9.01", ["acquisition"]),
+    ("8-K", "4.02,2.06,9.01", ["non_reliance", "impairment"]),  # one filing, two events
+    ("NT 10-K", "", ["late_filing"]),
+    ("NT 10-Q", "", ["late_filing"]),
+    ("10-K/A", "", ["amendment"]),
+    ("20-F/A", "", ["amendment"]),
+    ("UPLOAD", "", ["sec_letter"]),
+    ("CORRESP", "", ["company_response"]),
+    ("10-K", "", []),
+    ("4", "", []),
 ])
 def test_filing_classification(form, items, expected):
-    result = stock_data._classify_filing(form, items)
-    assert (result[0] if result else None) == expected
+    assert [kind for kind, _ in stock_data._classify_filing(form, items)] == expected
 
 
 def submissions(rows):
@@ -207,7 +212,7 @@ def submissions(rows):
 def test_filing_history_window_links_and_older_pages(fake_sec):
     recent = submissions([
         ("0001-24-000001", "2024-05-01", "NT 10-Q", "", "nt.htm"),
-        ("0001-23-000002", "2023-03-01", "8-K", "4.01", "auditor.htm"),
+        ("0001-23-000002", "2023-03-01", "8-K", "4.01,2.06", "auditor.htm"),
         ("0001-23-000003", "2023-01-01", "4", "", "form4.xml"),
     ])
     old_page = submissions([
@@ -221,8 +226,8 @@ def test_filing_history_window_links_and_older_pages(fake_sec):
              ]}},
              pages={"CIK0000000001-submissions-001.json": {**old_page}})
     history = stock_data.filing_history(1, "2016-01-01")
-    assert [e["type"] for e in history["events"]] == ["late_filing", "auditor_change", "non_reliance"]  # newest first
-    assert history["counts"] == {"late_filing": 1, "auditor_change": 1, "non_reliance": 1}
+    assert [e["type"] for e in history["events"]] == ["late_filing", "auditor_change", "impairment", "non_reliance"]  # newest first
+    assert history["counts"] == {"late_filing": 1, "auditor_change": 1, "impairment": 1, "non_reliance": 1}
     assert history["industry"] == "Widgets"
     assert history["events"][0]["url"] == "https://www.sec.gov/Archives/edgar/data/1/000124000001/nt.htm"
     calls = fake_sec.state["calls"]

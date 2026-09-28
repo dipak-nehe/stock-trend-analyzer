@@ -31,7 +31,7 @@ CACHE_NONE = "no-store"
 # ---------- stored results (see store.py) ----------
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
 # so stored entries in the old format are simply ignored.
-CACHE_VERSION = "v5"
+CACHE_VERSION = "v6"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
 FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
 KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
@@ -384,22 +384,34 @@ def latest_report(cik, sub):
             "url": folder + doc if doc else folder}
 
 
+# 8-K items reported as events, in the order a filing's events are listed. Items not here (earnings releases,
+# votes, routine officer and pay changes under 5.02) are too frequent to be signals.
+EIGHT_K_ITEMS = {
+    "4.02": ("non_reliance", "Company said earlier financial statements can't be relied on (restatement)"),
+    "4.01": ("auditor_change", "Change in the company's independent auditor"),
+    "1.03": ("bankruptcy", "Bankruptcy or receivership"),
+    "3.01": ("delisting_notice", "Stock exchange notice: delisting, or a listing rule not met"),
+    "1.05": ("cyber_incident", "Material cybersecurity incident"),
+    "2.06": ("impairment", "Material impairment (a large write-down of assets)"),
+    "2.01": ("acquisition", "Completed a significant acquisition or sale of assets"),
+}
+
+
 def _classify_filing(form, items):
-    """Map one filing to a notable event type, or None."""
-    items = {i.strip() for i in (items or "").split(",")}
-    if form in ("8-K", "8-K/A") and "4.02" in items:
-        return "non_reliance", "Company said earlier financial statements can't be relied on (restatement)"
-    if form in ("8-K", "8-K/A") and "4.01" in items:
-        return "auditor_change", "Change in the company's independent auditor"
+    """Map one filing to its notable events: a list of (type, description), empty if none.
+    An 8-K can report several items at once (a restatement with a write-down, say), so each counts."""
+    if form in ("8-K", "8-K/A"):
+        found = {i.strip() for i in (items or "").split(",")}
+        return [event for item, event in EIGHT_K_ITEMS.items() if item in found]
     if form.startswith("NT "):
-        return "late_filing", f"Notice of late filing: couldn't file its {form[3:]} on time"
+        return [("late_filing", f"Notice of late filing: couldn't file its {form[3:]} on time")]
     if form in AMENDMENT_FORMS:
-        return "amendment", f"Amended annual report ({form[:-2]})"
+        return [("amendment", f"Amended annual report ({form[:-2]})")]
     if form == "UPLOAD":
-        return "sec_letter", "SEC staff letter from a filing review"
+        return [("sec_letter", "SEC staff letter from a filing review")]
     if form == "CORRESP":
-        return "company_response", "Company letter to SEC staff (usually a response to review comments)"
-    return None
+        return [("company_response", "Company letter to SEC staff (usually a response to review comments)")]
+    return []
 
 
 def filing_history(cik, since, sub=None):
@@ -416,14 +428,15 @@ def filing_history(cik, since, sub=None):
             filed = t["filingDate"][i]
             if filed < since:
                 continue
-            kind = _classify_filing(form, t["items"][i] if "items" in t else "")
-            if not kind:
+            kinds = _classify_filing(form, t["items"][i] if "items" in t else "")
+            if not kinds:
                 continue
             accn = t["accessionNumber"][i].replace("-", "")
             doc = t["primaryDocument"][i]
             folder = f"https://www.sec.gov/Archives/edgar/data/{cik}/{accn}/"
-            events.append({"date": filed, "type": kind[0], "form": form, "description": kind[1],
-                           "url": folder + doc if doc else folder})
+            for kind, description in kinds:
+                events.append({"date": filed, "type": kind, "form": form, "description": description,
+                               "url": folder + doc if doc else folder})
     events.sort(key=lambda e: e["date"], reverse=True)
     counts = {}
     for e in events:

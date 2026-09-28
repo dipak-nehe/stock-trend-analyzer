@@ -5,6 +5,7 @@ import { t, tn } from "./i18n.js";
 import { classify, firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
 import { abbr } from "./help.js";
+import { OTHER_SERIOUS } from "./history.js";
 
 // A small trend line of the yearly values (decorative: the tile's text carries the meaning).
 export function sparkline(arr) {
@@ -139,13 +140,16 @@ function trendRow(what, arr, tab) {
 export function filingProblems(h) {
   if (!h) return null;
   const n = (type) => h.counts[type] || 0;
+  const other = OTHER_SERIOUS.reduce((sum, k) => sum + n(k), 0);
   const parts = [
     n("non_reliance") && tn("problems.restatement", n("non_reliance")),
     n("auditor_change") && tn("problems.auditor", n("auditor_change")),
     n("late_filing") && tn("problems.late", n("late_filing")),
+    other && tn("problems.other", other), // bankruptcy, exchange notices, cyber incidents, write-downs: one item
   ].filter(Boolean);
-  const total = n("non_reliance") + n("auditor_change") + n("late_filing");
-  const sev = !total ? "good" : n("non_reliance") || n("late_filing") >= 3 ? "critical" : "warning";
+  const total = n("non_reliance") + n("auditor_change") + n("late_filing") + other;
+  const serious = n("non_reliance") || n("bankruptcy") || n("late_filing") >= 3 || n("delisting_notice") >= 3;
+  const sev = !total ? "good" : serious ? "critical" : "warning";
   return { total, sev, text: parts.join(" · ") };
 }
 

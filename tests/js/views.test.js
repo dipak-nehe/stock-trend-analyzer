@@ -158,3 +158,23 @@ test("price lookup links open public quote pages for the ticker", () => {
   assert.match(html, /href="https:\/\/finance\.yahoo\.com\/quote\/BRK-B\/"/);
   assert.equal((html.match(/target="_blank" rel="noopener noreferrer"/g) || []).length, 2);
 });
+
+test("filing history: the rarer serious events share one tile, and unknown event types don't break the list", () => {
+  const h = history(events(["delisting_notice", "2025-01-01"], ["delisting_notice", "2024-01-01"], ["impairment", "2023-01-01"],
+                           ["acquisition", "2022-01-01"], ["something_new", "2021-01-01"]));
+  const v = historyView(h, "all", true);
+  assert.match(text(v.tiles), /Other serious events 3 ! Worth a look 2 × exchange notice · 1 × write-down/);
+  assert.equal(historyView(h, "flags").total, 3); // acquisitions and unknown types are information only
+  assert.equal((v.events.match(/class="event info"/g) || []).length, 2);
+  assert.match(text(historyView(history(events(["bankruptcy", "2020-01-01"]))).tiles), /Other serious events 1 ✗ Serious/);
+  assert.match(text(historyView(history(events())).tiles), /Other serious events 0 ✓ None/);
+  const repeated = events(...["2025-01-01", "2024-01-01", "2023-01-01"].map((d) => ["delisting_notice", d]));
+  assert.match(text(historyView(history(repeated)).tiles), /Other serious events 3 ✗ Repeated/);
+});
+
+test("filing problems count the other serious events as one item", () => {
+  const fp = filingProblems(history(events(["auditor_change", "2024-01-01"], ["impairment", "2023-01-01"], ["cyber_incident", "2023-02-01"])));
+  assert.deepEqual(fp, { total: 3, sev: "warning", text: "1 auditor change · 2 other serious events" });
+  assert.equal(filingProblems(history(events(["bankruptcy", "2020-01-01"]))).sev, "critical");
+  assert.equal(filingProblems(history(events(["acquisition", "2020-01-01"]))).total, 0);
+});

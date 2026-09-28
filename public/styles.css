@@ -139,7 +139,7 @@
   .check .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); margin-left: 6px; }
   .check .rule { color: var(--muted); font-size: 13px; }
   .check .actual { color: var(--text-2); font-size: 13px; }
-  .history-tiles { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin-bottom: 12px; }
+  .history-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-bottom: 12px; } /* six tiles: 3 + 3 on a desktop */
   .history-tiles .value { font-size: 24px; }
   .history-tiles .status { font-size: 13px; font-weight: 600; }
   .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }

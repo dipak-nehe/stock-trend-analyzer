@@ -122,11 +122,16 @@ export function analyze(d) {
   if (h) {
     const on = (type) => h.events.filter((e) => e.type === type).map((e) => e.date);
     const nr = on("non_reliance"), ac = on("auditor_change"), lf = on("late_filing");
+    const bk = on("bankruptcy"), dl = on("delisting_notice"), cy = on("cyber_incident"), im = on("impairment");
     const since = h.since.slice(0, 4);
+    if (bk.length) add("critical", "bankruptcy", say("bankruptcy", { dates: bk.join(", ") }));
     if (nr.length) add("critical", "restated", say("restated", { dates: nr.join(", ") }));
+    if (dl.length) add(dl.length >= 3 ? "critical" : "warning", "delistingNotice", tn("flag.delistingNotice.why", dl.length, { since, latest: dl[0] }));
     if (ac.length) add("warning", "auditorChanged", say("auditorChanged", { dates: ac.join(", ") }));
     if (lf.length) add(lf.length >= 3 ? "critical" : "warning", "lateFilings", tn("flag.lateFilings.why", lf.length, { since, latest: lf[0] }));
-    if (!nr.length && !ac.length && !lf.length) add("good", "cleanRecord", say("cleanRecord", { since }));
+    if (cy.length) add("warning", "cyberIncident", say("cyberIncident", { dates: cy.join(", ") }));
+    if (im.length) add("warning", "writeDowns", tn("flag.writeDowns.why", im.length, { latest: im[0] }));
+    if (![nr, ac, lf, bk, dl, cy, im].some((x) => x.length)) add("good", "cleanRecord", say("cleanRecord", { since }));
   }
 
   // Data coverage

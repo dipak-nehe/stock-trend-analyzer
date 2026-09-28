@@ -87,3 +87,21 @@ test("free cash flow and net margin are returned for the other views", () => {
   assert.ok(Math.abs(r.nm[0] - 0.1) < 1e-9);
   assert.equal(r.financial, false);
 });
+
+test("other serious 8-K events: bankruptcy, exchange notices, cyber incidents and write-downs", () => {
+  const h = history(events(["delisting_notice", "2025-03-01"], ["delisting_notice", "2024-09-01"], ["delisting_notice", "2019-05-01"],
+                           ["cyber_incident", "2024-02-01"], ["impairment", "2023-06-01"], ["bankruptcy", "2022-01-01"], ["acquisition", "2021-01-01"]));
+  const d = company({}, { secHistory: h });
+  assert.equal(flag(d, "Bankruptcy filing").sev, "critical");
+  const notices = flag(d, "Stock exchange warnings");
+  assert.equal(notices.sev, "critical"); // repeated
+  assert.match(notices.why, /3 notices from its stock exchange \(8-K item 3.01\) since 2016, most recently 2025-03-01/);
+  assert.equal(flag(d, "Cybersecurity incident").sev, "warning");
+  assert.match(flag(d, "Large write-downs").why, /1 material write-down of assets \(8-K item 2.06\), on 2023-06-01/);
+  assert.ok(!titles(d).includes("Clean filing record"));
+});
+
+test("a single exchange notice is a warning, and an acquisition alone keeps the record clean", () => {
+  assert.equal(flag(company({}, { secHistory: history(events(["delisting_notice", "2025-01-01"])) }), "Stock exchange warnings").sev, "warning");
+  assert.ok(titles(company({}, { secHistory: history(events(["acquisition", "2025-01-01"])) })).includes("Clean filing record"));
+});

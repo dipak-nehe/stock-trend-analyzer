@@ -119,13 +119,16 @@ def test_smci_filing_history(company):
     assert h["counts"]["late_filing"] == 13
     assert h["counts"]["auditor_change"] == 3
     assert h["counts"]["non_reliance"] == 1
+    assert h["counts"]["delisting_notice"] == 14  # Nasdaq notices that came with its late reports
     assert h["industry"] == "Electronic Computers"
 
 
 def test_clean_filers_have_no_red_flag_filings(company):
     for t in ("KO", "INTC"):
         counts = company(t)["secHistory"]["counts"]
-        assert not {"non_reliance", "auditor_change", "late_filing"} & counts.keys(), t
+        assert not {"non_reliance", "auditor_change", "late_filing",
+                    "bankruptcy", "delisting_notice", "cyber_incident", "impairment"} & counts.keys(), t
+    assert company("INTC")["secHistory"]["counts"]["acquisition"] == 3  # information only, e.g. selling units
 
 
 @pytest.mark.parametrize("ticker", ["AAPL", "KO", "INTC", "JPM", "SMCI"])

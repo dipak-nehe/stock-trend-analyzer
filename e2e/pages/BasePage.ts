@@ -39,6 +39,16 @@ export class BasePage {
     return this.page.getByTestId('disclaimer');
   }
 
+  /** The "Full disclaimer" link at the end of the short notice. */
+  get fullDisclaimerLink(): Locator {
+    return this.disclaimer.getByRole('link', { name: either('Full disclaimer', 'Aviso legal completo') });
+  }
+
+  /** The footer's link to the disclaimer page. */
+  get footerDisclaimerLink(): Locator {
+    return this.footer.getByRole('link', { name: either('Disclaimer', 'Aviso legal') });
+  }
+
   /** CSS: the document root has no role; used for its lang attribute. */
   get root(): Locator {
     return this.page.locator('html');

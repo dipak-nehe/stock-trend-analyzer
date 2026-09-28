@@ -5,12 +5,15 @@ import { test as base, expect, type Page } from '@playwright/test';
 import { parentSuite } from 'allure-js-commons';
 import { AnalysisPage } from './pages/AnalysisPage';
 import { ComparePage } from './pages/ComparePage';
+import { DisclaimerPage } from './pages/DisclaimerPage';
 
 type Fixtures = {
   /** The start and results page (index.html). */
   analysis: AnalysisPage;
   /** The compare page (compare.html). */
   compare: ComparePage;
+  /** The disclaimer page (disclaimer.html). */
+  disclaimer: DisclaimerPage;
   /** JavaScript errors and console errors raised while the test runs. */
   consoleErrors: string[];
   /** A screenshot at the end of a test that failed, or that has no step screenshots of its own. */
@@ -25,6 +28,9 @@ export const test = base.extend<Fixtures>({
   },
   compare: async ({ page }, use) => {
     await use(new ComparePage(page));
+  },
+  disclaimer: async ({ page }, use) => {
+    await use(new DisclaimerPage(page));
   },
   consoleErrors: async ({ page }, use) => {
     const errors: string[] = [];

@@ -146,3 +146,14 @@ test('compare page at phone width', async ({ compare, page }, testInfo) => {
   await compare.goto('a=KO&b=AAPL');
   expect(await violations(compare, testInfo)).toEqual([]);
 });
+
+for (const lang of ['en', 'es'] as const) {
+  for (const scheme of SCHEMES) {
+    test(`disclaimer page (${lang}, ${scheme})`, async ({ disclaimer, page }, testInfo) => {
+      await prepare(page, 1100, scheme);
+      await disclaimer.goto(lang === 'es' ? 'lang=es' : '');
+      await disclaimer.heading.waitFor();
+      expect(await violations(disclaimer, testInfo)).toEqual([]);
+    });
+  }
+}

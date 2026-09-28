@@ -692,3 +692,40 @@ test('search button waits for the script', async ({ analysis, page }) => {
   await analysis.search('KO'); // the click waits until the script has enabled the button
   await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
 });
+
+// ---------- full disclaimer ----------
+
+const DISCLAIMER_SECTIONS_EN = ['Not advice', 'Risk of loss', 'Your responsibility', 'No guarantee', 'Limitation of liability'];
+
+test('the short notice and the footer link to the full disclaimer', async ({ analysis, disclaimer, page }) => {
+  await analysis.open('KO');
+  await expect(analysis.footerDisclaimerLink).toHaveAttribute('href', 'disclaimer.html');
+  await analysis.step('open "Full disclaimer"', () => analysis.fullDisclaimerLink.click());
+  await expect(page).toHaveURL(/\/disclaimer\.html$/);
+  await expect(disclaimer.heading).toBeVisible();
+  await expect(disclaimer.sectionHeadings).toHaveText(DISCLAIMER_SECTIONS_EN);
+  await expect(disclaimer.main).toContainText('possible loss of some or all of your invested capital');
+  await expect(disclaimer.main).toContainText('not liable for any loss or damage');
+  await disclaimer.step('back to the analysis', () => disclaimer.backLink.click());
+  await expect(page).toHaveURL(/\/$/);
+});
+
+test('the compare page links to the full disclaimer too', async ({ compare }) => {
+  await compare.goto('a=KO');
+  await expect(compare.fullDisclaimerLink).toHaveAttribute('href', 'disclaimer.html');
+  await expect(compare.footerDisclaimerLink).toHaveAttribute('href', 'disclaimer.html');
+});
+
+test('the disclaimer reads in Spanish, from Spanish pages and by switching', async ({ analysis, disclaimer, page }) => {
+  await analysis.goto('/?t=KO&lang=es');
+  await analysis.glanceRows.first().waitFor();
+  await analysis.step('open "Aviso legal completo"', () => analysis.fullDisclaimerLink.click());
+  await expect(page).toHaveURL(/\/disclaimer\.html\?lang=es$/);
+  await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
+  await expect(disclaimer.sectionHeadings).toHaveText(['No es asesoramiento', 'Riesgo de pérdida', 'Tu responsabilidad', 'Sin garantía', 'Limitación de responsabilidad']);
+  await expect(page).toHaveTitle(/^Aviso legal/);
+  await expect(disclaimer.root).toHaveAttribute('lang', 'es');
+  await disclaimer.step('switch to English', () => disclaimer.switchLanguage('en'));
+  await expect(disclaimer.sectionHeadings).toHaveText(DISCLAIMER_SECTIONS_EN);
+  await expect(page).toHaveURL(/\/disclaimer\.html$/);
+});

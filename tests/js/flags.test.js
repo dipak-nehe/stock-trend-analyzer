@@ -68,7 +68,7 @@ test("SEC filing record: restatement, auditor change and repeated late filings",
   const h = history(events(["late_filing", "2025-02-11"], ["late_filing", "2024-11-13"], ["late_filing", "2024-08-30"],
                            ["auditor_change", "2024-10-30"], ["non_reliance", "2018-11-15"], ["sec_letter", "2020-01-01"]));
   const d = company({}, { secHistory: h });
-  assert.equal(flag(d, "Financial statements were restated").sev, "critical");
+  assert.equal(flag(d, "Restatement warning").sev, "critical");
   assert.equal(flag(d, "Auditor changed").sev, "warning");
   const late = flag(d, "Late SEC filings");
   assert.equal(late.sev, "critical");

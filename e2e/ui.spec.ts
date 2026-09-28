@@ -47,13 +47,17 @@ test('loss-making company is described in words', async ({ analysis }) => {
 test('restatements and late filings are flagged', async ({ analysis }) => {
   await analysis.open('SMCI');
   const critical = await analysis.criticalFlagTitles.allInnerTexts();
-  expect(anyContains(critical, 'Financial statements were restated')).toBe(true);
+  expect(anyContains(critical, 'Restatement warning')).toBe(true);
   expect(anyContains(critical, 'Late SEC filings')).toBe(true);
   await expect(analysis.historyTiles.filter({ hasText: 'Late filings' })).toContainText('13');
   await expect(analysis.historyTiles.filter({ hasText: 'Restatement warnings' })).toContainText('Serious');
   // Exchange notices (8-K item 3.01) share the "Other serious events" tile and get their own flag.
   expect(anyContains(critical, 'Stock exchange warnings')).toBe(true);
   await expect(analysis.historyTiles.filter({ hasText: 'Other serious events' })).toContainText('14 × exchange notice');
+  // Under our plain-English text, each event shows the SEC's own title word for word.
+  await analysis.openTab('history');
+  await expect(analysis.historyList).toContainText(
+    'SEC 8-K item 3.01: Notice of Delisting or Failure to Satisfy a Continued Listing Rule or Standard; Transfer of Listing');
 });
 
 test('filing history filters and expands', async ({ analysis }) => {
@@ -193,8 +197,8 @@ test('glance summarises each area in one line', async ({ analysis }) => {
   await expect(analysis.glanceRows).toHaveCount(6);
   await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
   await expect(analysis.glanceRow('Red flags')).toContainText('3 critical');
-  await expect(analysis.glanceRow('Red flags')).toContainText('Financial statements were restated');
-  await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement · 3 auditor changes · 13 late filings · 14 other serious events');
+  await expect(analysis.glanceRow('Red flags')).toContainText('Restatement warning');
+  await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement warning · 3 auditor changes · 13 late filings · 14 other serious events');
   await expect(analysis.glanceRow('Dividend')).toContainText('No dividend paid');
 });
 
@@ -354,7 +358,7 @@ test('red flags are grouped with explanations', async ({ analysis }) => {
   await expect(analysis.flagGroupHeadings.nth(0)).toContainText('Needs attention');
   await expect(analysis.flagGroupHeadings.nth(1)).toContainText('Going well');
   const first = analysis.flagCards.first();
-  await expect(first).toContainText('Financial statements were restated');
+  await expect(first).toContainText('Restatement warning');
   await expect(first.getByTestId('flag-help')).toContainText('Why it matters:');
 });
 

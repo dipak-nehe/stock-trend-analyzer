@@ -151,6 +151,7 @@
   .event.critical .kind::before { background: var(--critical); }
   .event.warning .kind::before { background: var(--warning); }
   .event .desc { color: var(--text-2); font-size: 13px; }
+  .event .official { color: var(--muted); font-size: 12px; margin-top: 2px; } /* the SEC's own title, word for word */
   .event a { color: var(--accent); white-space: nowrap; font-size: 13px; }
   .empty { color: var(--text-2); padding: 12px 0; border-top: 1px solid var(--grid); }
   .more { margin-top: 10px; }

@@ -14,6 +14,26 @@ export const HISTORY_TYPES = {
   impairment: { sev: "warning", other: true },
   acquisition: { sev: "info" },
 };
+// The SEC's official title for each event, word for word (English, as published), shown in small print under our
+// plain-English description so readers can see exactly what the company filed.
+const OFFICIAL = {
+  non_reliance: ["4.02", "Non-Reliance on Previously Issued Financial Statements or a Related Audit Report or Completed Interim Review"],
+  auditor_change: ["4.01", "Changes in Registrant's Certifying Accountant"],
+  bankruptcy: ["1.03", "Bankruptcy or Receivership"],
+  delisting_notice: ["3.01", "Notice of Delisting or Failure to Satisfy a Continued Listing Rule or Standard; Transfer of Listing"],
+  cyber_incident: ["1.05", "Material Cybersecurity Incidents"],
+  impairment: ["2.06", "Material Impairments"],
+  acquisition: ["2.01", "Completion of Acquisition or Disposition of Assets"],
+};
+function official(e) {
+  if (OFFICIAL[e.type]) {
+    const [item, title] = OFFICIAL[e.type];
+    return t("history.official.item", { item, title: `<span lang="en">${title}</span>` });
+  }
+  if (e.type === "late_filing") return t("history.official.form", { form: "12b-25", title: `<span lang="en">Notification of Late Filing</span>` });
+  return "";
+}
+
 // Types this page doesn't know yet (a newer server) show as plain information rather than breaking the list.
 const typeOf = (e) => HISTORY_TYPES[e.type] || { sev: "info" };
 // The rarer serious 8-K events share one tile ("Other serious events") to keep the section compact.
@@ -73,7 +93,7 @@ export function historyView(h, filter = "all", expanded = false) {
   const list = h.events.filter(HISTORY_FILTERS.find((f) => f[0] === filter)[1]);
   const shown = expanded ? list : list.slice(0, 10);
   const events = shown.length ? shown.map((e) => `<div class="event ${typeOf(e).sev}" data-testid="history-event"><span class="date">${e.date}</span>
-      <div><div class="kind">${typeName(e)} <span class="muted">· ${e.form}</span></div><div class="desc">${describe(e)}</div></div>
+      <div><div class="kind">${typeName(e)} <span class="muted">· ${e.form}</span></div><div class="desc">${describe(e)}</div>${official(e) ? `<div class="official" data-testid="official-title">${official(e)}</div>` : ""}</div>
       <a href="${e.url}" target="_blank" rel="noopener">${t("history.open")}</a></div>`).join("")
     : `<div class="empty">${t("history.empty", { since })}</div>`;
   return { intro, tiles, filters, events, total: list.length,

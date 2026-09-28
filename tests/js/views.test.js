@@ -90,7 +90,7 @@ test("filing problems ignore routine SEC letters and grade severity", () => {
   assert.deepEqual(filingProblems(history(events(["sec_letter", "2020-01-01"]))), { total: 0, sev: "good", text: "" });
   assert.equal(filingProblems(history(events(["auditor_change", "2024-01-01"]))).sev, "warning");
   const smci = filingProblems(history(events(["non_reliance", "2018-01-01"], ["late_filing", "2019-01-01"], ["late_filing", "2020-01-01"])));
-  assert.deepEqual(smci, { total: 3, sev: "critical", text: "1 restatement · 2 late filings" });
+  assert.deepEqual(smci, { total: 3, sev: "critical", text: "1 restatement warning · 2 late filings" });
 });
 
 import { DATA_GROUPS, dataTable, flagsList, sparkline } from "../../public/js/views.js";
@@ -177,4 +177,12 @@ test("filing problems count the other serious events as one item", () => {
   assert.deepEqual(fp, { total: 3, sev: "warning", text: "1 auditor change · 2 other serious events" });
   assert.equal(filingProblems(history(events(["bankruptcy", "2020-01-01"]))).sev, "critical");
   assert.equal(filingProblems(history(events(["acquisition", "2020-01-01"]))).total, 0);
+});
+
+test("each 8-K event and late-filing notice shows the SEC's official title word for word", () => {
+  const v = historyView(history(events(["delisting_notice", "2025-01-01"], ["late_filing", "2024-01-01"], ["sec_letter", "2023-01-01"])), "all", true);
+  assert.match(text(v.events), /SEC 8-K item 3\.01: Notice of Delisting or Failure to Satisfy a Continued Listing Rule or Standard; Transfer of Listing/);
+  assert.match(text(v.events), /SEC Form 12b-25: Notification of Late Filing/);
+  assert.equal((v.events.match(/data-testid="official-title"/g) || []).length, 2); // SEC letters have no item title
+  assert.match(v.events, /<span lang="en">Notice of Delisting/); // read as English on the Spanish page too
 });

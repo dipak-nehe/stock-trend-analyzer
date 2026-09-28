@@ -387,7 +387,7 @@ def latest_report(cik, sub):
 # 8-K items reported as events, in the order a filing's events are listed. Items not here (earnings releases,
 # votes, routine officer and pay changes under 5.02) are too frequent to be signals.
 EIGHT_K_ITEMS = {
-    "4.02": ("non_reliance", "Company said earlier financial statements can't be relied on (restatement)"),
+    "4.02": ("non_reliance", "Company said earlier financial statements should no longer be relied on"),
     "4.01": ("auditor_change", "Change in the company's independent auditor"),
     "1.03": ("bankruptcy", "Bankruptcy or receivership"),
     "3.01": ("delisting_notice", "Stock exchange notice: delisting, or a listing rule not met"),

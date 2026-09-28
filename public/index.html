@@ -71,6 +71,9 @@
       <button class="chip" type="button" data-t="T">T</button>
     </div>
   </section>
+  <!-- Right under the search box, where people are looking: on the start page the guide below would push them off-screen. -->
+  <div id="loading" class="loading hidden" data-i18n="ui.loading">Fetching filings from SEC EDGAR…</div>
+  <div id="error" class="card error hidden" role="alert" data-testid="error"></div>
   <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions.</p>
 
   <details class="guide card" id="guide" data-testid="guide" open>
@@ -120,9 +123,6 @@
       <li data-i18n="ui.guideNote.3"><strong>Sharing</strong> The page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
     </ul>
   </details>
-
-  <div id="loading" class="loading hidden" data-i18n="ui.loading">Fetching filings from SEC EDGAR…</div>
-  <div id="error" class="card error hidden" role="alert" data-testid="error"></div>
 
   <section id="result" class="hidden" data-testid="result">
     <div class="company card">

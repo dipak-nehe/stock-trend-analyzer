@@ -11,6 +11,7 @@ import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, initialLang, targetOf, useLang } from "./page.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
+let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
 let historyFilter = "all", historyExpanded = false;
 const TABS = ["overview", "flags", "history", "value", "charts", "data"];
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
@@ -151,12 +152,17 @@ async function run(ticker) {
   $("go").disabled = true;
   try {
     render(await fetchFinancials(ticker));
-    updateUrl();
+    failed = null;
   } catch (e) {
+    // Forget the previous company: its results are hidden, and the address, language switch and price box
+    // must not bring them back while the error shows.
+    current = null;
+    failed = ticker;
     $("result").classList.add("hidden");
     $("error").textContent = e.message;
     $("error").classList.remove("hidden");
   } finally {
+    updateUrl();
     $("loading").classList.add("hidden");
     $("go").disabled = false;
   }
@@ -165,6 +171,7 @@ async function run(ticker) {
 function updateUrl() {
   const q = new URLSearchParams();
   if (current) q.set("t", current.data.ticker);
+  else if (failed) q.set("t", failed); // reloading shows the same error, not the previous company
   const p = parseFloat($("price").value);
   if (current && p > 0) q.set("p", String(p));
   if (getLang() !== "en") q.set("lang", getLang());
@@ -176,6 +183,7 @@ function updateUrl() {
 function switchLang(lang) {
   if (!useLang(lang)) return;
   if (current) render(current.data);  // re-renders in the new language, keeping the open tab and any price
+  else if (failed) return void run(failed);  // shows the error again, in the new language
   updateUrl();
 }
 

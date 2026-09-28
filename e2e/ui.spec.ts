@@ -123,6 +123,50 @@ test('bank-specific rules are skipped', async ({ analysis }) => {
   await expect(analysis.checkRow('Low capital needs')).toContainText('N/A');
 });
 
+// ---------- a wrong ticker ----------
+// Regression: on the start page the error was drawn below the guide, off-screen on a laptop, so a wrong ticker
+// seemed to do nothing. After a result, the address kept the previous company.
+
+test('a wrong ticker typed on the start page shows its error on screen', async ({ analysis, page }) => {
+  await analysis.goto('/');
+  await analysis.search('ZZZZQ');
+  await expect(analysis.error).toContainText("Ticker 'ZZZZQ' not found in SEC EDGAR");
+  await expect(analysis.error).toBeInViewport(); // right under the search box, not below the guide
+  await expect(analysis.result).toBeHidden();
+  await expect(page).toHaveURL(/\?t=ZZZZQ$/);
+  await analysis.snap('error under the search box');
+});
+
+test('a wrong ticker after a result replaces it, and the address follows', async ({ analysis, page, consoleErrors }) => {
+  await analysis.open('KO');
+  await analysis.search('ZZZZQ');
+  await expect(analysis.error).toBeInViewport();
+  await expect(analysis.result).toBeHidden();
+  await expect(page).toHaveURL(/\?t=ZZZZQ$/); // not ?t=KO
+  await analysis.step('reload the page', () => page.reload().then(() => undefined));
+  await expect(analysis.error).toContainText("Ticker 'ZZZZQ' not found"); // the same error, not Coca-Cola
+  await expect(analysis.result).toBeHidden();
+  // The browser logs the API's 404 for an unknown ticker; anything else would be a real error.
+  expect(consoleErrors.filter((e) => !/status of 404/.test(e))).toEqual([]);
+});
+
+test('switching language after a wrong ticker translates the error and never brings back the old result', async ({ analysis, page }) => {
+  await analysis.open('KO');
+  await analysis.search('ZZZZQ');
+  await expect(analysis.error).toBeVisible();
+  await analysis.switchLanguage('es');
+  await expect(analysis.error).toContainText('No se encuentra el ticker «ZZZZQ»');
+  await expect(analysis.result).toBeHidden();
+  await expect(page).toHaveURL(/\?t=ZZZZQ&lang=es$/);
+});
+
+test('a badly formed ticker shows its error on screen', async ({ analysis }) => {
+  await analysis.goto('/');
+  await analysis.search('x y');
+  await expect(analysis.error).toContainText("doesn't look like a ticker");
+  await expect(analysis.error).toBeInViewport();
+});
+
 test('unknown ticker shows a friendly error', async ({ analysis }) => {
   await analysis.goto('/?t=ZZZZQ');
   await expect(analysis.error).toBeVisible();
@@ -177,6 +221,54 @@ test('guide collapses after a search and can be reopened', async ({ analysis }) 
   await expect(analysis.guideCards).toBeHidden();
   await analysis.step('open the guide', () => analysis.guideToggle.click());
   await expect(analysis.guideCards).toBeVisible();
+});
+
+test('tab tour: each tab opens alone, updates the address and shows its content', async ({ analysis, page, consoleErrors }) => {
+  // SMCI with a price shows the most: critical flags, filing history, and every checklist status.
+  await analysis.open('SMCI', 30);
+  const content: Record<(typeof TABS)[number], () => Promise<void>> = {
+    overview: async () => {
+      await expect(analysis.tiles).toHaveCount(4);
+      await expect(analysis.sparklines.first()).toBeVisible();
+      await expect(analysis.growthTable).toBeVisible();
+    },
+    flags: async () => {
+      await expect(analysis.criticalFlagTitles).toHaveCount(3); // matches the tab's badge
+      await expect(analysis.flagsBadge).toHaveText('3');
+      expect(await analysis.flagCards.count()).toBeGreaterThan(5);
+    },
+    history: async () => {
+      await expect(analysis.historyTiles).toHaveCount(6);
+      await expect(analysis.historyEvents).toHaveCount(10); // the first ten, newest first
+    },
+    value: async () => {
+      await expect(analysis.valueTiles).toBeVisible();
+      await expect(analysis.grahamScore).toContainText(/\d of \d/);
+      await expect(analysis.buffettScore).toContainText(/\d of \d/);
+    },
+    charts: async () => {
+      for (const id of ['cRevenue', 'cEps', 'cDps', 'cPayout', 'cBalance', 'cDebt', 'cCash', 'cMargin']) {
+        const box = await analysis.chart(id).boundingBox();
+        expect(box?.height, `${id} is drawn`).toBeGreaterThan(100);
+      }
+    },
+    data: async () => {
+      await expect(analysis.dataTableRegion).toBeVisible();
+      await expect(analysis.dataTableRegion.getByRole('columnheader', { name: /^\d{4}$/ })).toHaveCount(10); // ten fiscal years
+    },
+  };
+  for (const tab of TABS) {
+    await analysis.openTab(tab);
+    await expect(analysis.tab(tab)).toHaveAttribute('aria-selected', 'true');
+    for (const other of TABS.filter((o) => o !== tab)) {
+      await expect(analysis.panel(other), `${other} hidden while ${tab} is open`).toBeHidden();
+      await expect(analysis.tab(other)).toHaveAttribute('aria-selected', 'false');
+    }
+    await expect(page).toHaveURL(tab === 'overview' ? /\?t=SMCI&p=30$/ : new RegExp(`\\?t=SMCI&p=30#${tab}$`));
+    await content[tab]();
+    await analysis.snap(`${tab} tab`);
+  }
+  expect(consoleErrors).toEqual([]);
 });
 
 test('each tab has a short explanation', async ({ analysis }) => {

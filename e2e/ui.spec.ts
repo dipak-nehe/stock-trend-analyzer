@@ -664,6 +664,27 @@ test('Home button appears only after a lookup', async ({ analysis }) => {
   await expect(analysis.homeButton).toBeVisible(); // an error also counts: Home clears it
 });
 
+test('Analyze needs a ticker: it stays disabled while the search box is empty', async ({ analysis, page }) => {
+  // Regression: an empty box could be submitted (the button did nothing).
+  await analysis.goto('/');
+  await analysis.step('type a ticker', () => analysis.searchBox.fill('K'));
+  await expect(analysis.analyzeButton).toBeEnabled(); // the page's script is running
+  await analysis.step('clear the box', () => analysis.searchBox.fill(''));
+  await expect(analysis.analyzeButton).toBeDisabled();
+  await analysis.step('type only spaces', () => analysis.searchBox.fill('   '));
+  await expect(analysis.analyzeButton).toBeDisabled();
+  await analysis.step('press Enter in the empty box', () => analysis.searchBox.press('Enter'));
+  await expect(analysis.error).toBeHidden();
+  await expect(analysis.result).toBeHidden();
+  await expect(page).toHaveURL(/\/$/); // nothing was looked up
+});
+
+test('Analyze is ready right away when the page opens with a ticker, and after a lookup', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.searchBox).toHaveValue('KO');
+  await expect(analysis.analyzeButton).toBeEnabled();
+});
+
 test('search button waits for the script', async ({ analysis, page }) => {
   await slowScript(page, 'js/app.js');
   await analysis.goto('/');

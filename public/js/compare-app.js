@@ -1,6 +1,6 @@
 // Compare page wiring: two ticker slots, URL state, and putting the comparison on the page.
 // The comparison itself is built by compare.js from the same analysis the results page uses.
-import { $, $$, applyStaticText, bindSlashShortcut, fetchFinancials, initialLang, useLang } from "./page.js";
+import { $, $$, applyStaticText, bindSlashShortcut, enableWhenFilled, fetchFinancials, initialLang, useLang } from "./page.js";
 import { attention, caveats, checklistGrid, compareRows, glancePairs, indexedSeries, prepare } from "./compare.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { priceLinks } from "./views.js";
@@ -20,6 +20,7 @@ async function load(side, ticker) {
   const other = state[side === "a" ? "b" : "a"];
   const status = $(`status${side.toUpperCase()}`);
   $(`ticker${side.toUpperCase()}`).value = ticker;
+  syncButtons.forEach((sync) => sync()); // set in code: no input event
   if (!ticker) return;
   if (other && normalize(other.ticker) === normalize(ticker)) {
     status.textContent = t("cmp.app.sameTicker");
@@ -161,8 +162,9 @@ $$(".lang-switch [data-lang]").forEach((btn) => btn.addEventListener("click", ()
 }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => state.a && state.b && renderGrowth());
 bindSlashShortcut("tickerB");
-// The buttons start disabled in the HTML: a submit before this script runs would reload the page and lose the tickers.
-$("goA").disabled = $("goB").disabled = false;
+// The buttons start disabled in the HTML (a submit before this script runs would reload the page and lose the tickers),
+// then need a ticker in their box.
+const syncButtons = [enableWhenFilled("tickerA", "goA"), enableWhenFilled("tickerB", "goB")];
 
 // ---------- start ----------
 const params = new URLSearchParams(location.search);

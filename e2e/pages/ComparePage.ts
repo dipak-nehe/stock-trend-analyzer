@@ -21,6 +21,11 @@ export class ComparePage extends BasePage {
     return this.page.getByRole('textbox', { name: either('Second stock', 'Segunda acción') });
   }
 
+  /** The first stock's "Load" button. */
+  get loadButton(): Locator {
+    return this.page.getByRole('button', { name: either('Load', 'Cargar') });
+  }
+
   get compareButton(): Locator {
     return this.page.getByRole('button', { name: either('Compare', 'Comparar') });
   }

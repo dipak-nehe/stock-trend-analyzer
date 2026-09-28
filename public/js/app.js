@@ -8,7 +8,7 @@ import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, initialLang, targetOf, useLang } from "./page.js";
+import { $, $$, applyStaticText, bindSlashShortcut, compareHref, enableWhenFilled, fetchFinancials, initialLang, targetOf, useLang } from "./page.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -164,7 +164,7 @@ async function run(ticker) {
   } finally {
     updateUrl();
     $("loading").classList.add("hidden");
-    $("go").disabled = false;
+    syncGo();
   }
 }
 
@@ -191,7 +191,8 @@ function switchLang(lang) {
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
 bindSlashShortcut("ticker");
-$("go").disabled = false;  // disabled in the HTML until this script runs (an early submit would just reload the page)
+// Analyze starts disabled in the HTML (an early submit would just reload the page) and then needs a ticker in the box.
+const syncGo = enableWhenFilled("ticker", "go");
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

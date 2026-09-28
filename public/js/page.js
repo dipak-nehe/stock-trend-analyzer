@@ -75,6 +75,20 @@ export function bindSlashShortcut(inputId) {
   });
 }
 
+/**
+ * Keep a search button clickable only while its box has something in it (an empty search did nothing). The buttons
+ * start disabled in the HTML, so this also enables them once the page's script has loaded. Returns the update function,
+ * for callers that change the box's value in code (which fires no input event).
+ * @param {string} inputId @param {string} buttonId
+ */
+export function enableWhenFilled(inputId, buttonId) {
+  const update = () => { /** @type {HTMLButtonElement} */ ($(buttonId)).disabled = !$(inputId).value.trim(); };
+  $(inputId).addEventListener("input", update);
+  window.addEventListener("pageshow", update); // the browser can restore a typed value on Back
+  update();
+  return update;
+}
+
 /** Link to the compare page for a ticker, keeping the language. @param {string} ticker */
 export function compareHref(ticker) {
   const q = new URLSearchParams({ a: ticker });

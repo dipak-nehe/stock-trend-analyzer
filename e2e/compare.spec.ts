@@ -159,6 +159,18 @@ test('Home leaves the compare page', async ({ analysis, compare, page }) => {
   await expect(analysis.searchBox).toHaveValue('');
 });
 
+test('Compare and Load need a ticker in their box', async ({ compare, page }) => {
+  // Regression: an empty box could be submitted (the button did nothing).
+  await page.goto('/compare.html?a=KO');
+  await expect(compare.statusA).toHaveText('COCA COLA CO (KO)');
+  await expect(compare.loadButton).toBeEnabled(); // filled from the address
+  await expect(compare.compareButton).toBeDisabled(); // second box still empty
+  await compare.step('type a second ticker', () => compare.secondTicker.fill('AAPL'));
+  await expect(compare.compareButton).toBeEnabled();
+  await compare.step('clear the first box', () => compare.firstTicker.fill(''));
+  await expect(compare.loadButton).toBeDisabled();
+});
+
 test('a quick submit before the script loads is not lost', async ({ compare, page }) => {
   await slowScript(page, 'js/compare-app.js');
   await page.goto('/compare.html?a=KO');

@@ -10,12 +10,14 @@ import logging
 import os
 import re
 import ssl
+import threading
 import time
 import urllib.error
 import urllib.request
 from datetime import UTC, date, datetime
 from itertools import pairwise
 
+from . import insiders as insiders_module
 from . import store as store_module
 
 YEARS = 10
@@ -31,7 +33,7 @@ CACHE_NONE = "no-store"
 # ---------- stored results (see store.py) ----------
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
 # so stored entries in the old format are simply ignored.
-CACHE_VERSION = "v6"
+CACHE_VERSION = "v7"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
 FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
 KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
@@ -231,6 +233,42 @@ def sec_get(url):
         data = json.loads(resp.read().decode("utf-8"))
     _cache[url] = (time.time(), data)
     return data
+
+
+_rate_lock = threading.Lock()
+_last_request = [0.0]
+MIN_INTERVAL = 0.125  # at most 8 requests a second, under SEC's limit of 10, even with parallel downloads
+
+
+def sec_get_text(url):
+    """Download a text document (e.g. a Form 4's XML), spacing requests to stay within SEC's rate limit."""
+    with _rate_lock:
+        wait = _last_request[0] + MIN_INTERVAL - time.monotonic()
+        if wait > 0:
+            time.sleep(wait)
+        _last_request[0] = time.monotonic()
+    req = urllib.request.Request(url, headers={"User-Agent": user_agent(), "Accept-Encoding": "identity"})
+    with urllib.request.urlopen(req, timeout=20, context=SSL_CTX) as resp:
+        return resp.read().decode("utf-8")
+
+
+def today():
+    """Today's date; STOCK_DATA_TODAY (YYYY-MM-DD) fixes it for tests on saved filings."""
+    fixed = os.environ.get("STOCK_DATA_TODAY")
+    return date.fromisoformat(fixed) if fixed else date.today()
+
+
+FORM4_KEEP_SECONDS = 400 * 24 * 3600  # a filed Form 4 never changes
+
+
+def insider_activity(cik, sub):
+    """Open-market insider buys and sales in the last 12 months (backend/insiders.py). Parsed filings are stored
+    under their own version, so a CACHE_VERSION bump doesn't download them all again."""
+    return insiders_module.insider_activity(
+        cik, sub, fetch_text=lambda url: sec_get_text(url),
+        cache_get=lambda accession: safe_get(f"f4v1:{accession}"),
+        cache_set=lambda accession, value: safe_set(f"f4v1:{accession}", value, FORM4_KEEP_SECONDS),
+        today=today())
 
 
 def ticker_table():
@@ -505,7 +543,12 @@ def build_financials(ticker):
         marker = financial_marker(sub)
         report = latest_report(cik, sub)
     except Exception:  # noqa: BLE001 - the financials are still useful without it
-        history, marker, report = None, None, None
+        sub, history, marker, report = None, None, None, None
+    try:
+        insiders = insider_activity(cik, sub) if sub else None
+    except Exception:  # noqa: BLE001 - nor without the insider summary
+        log.exception("insider activity failed for %s", sec_ticker)
+        insiders = None
 
     # Derived series
     total_debt, lt_debt = [], []
@@ -547,6 +590,7 @@ def build_financials(ticker):
         "sources": sources,
         "splits": [{"detectedInFiling": d, "ratio": round(f, 4)} for d, f in splits],
         "secHistory": history,
+        "insiders": insiders,
         "latestReport": report,
         "_marker": marker,  # latest annual/quarterly report; kept in storage, removed from the response
         "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
@@ -620,7 +664,11 @@ def revalidate(stored):
     if financial_marker(sub) != stored["marker"]:
         return None
     since = (d.get("secHistory") or {}).get("since") or f"{d['years'][0]}-01-01"
-    return {**d, "secHistory": filing_history(d["cik"], since, sub)}
+    try:
+        insiders = insider_activity(d["cik"], sub)  # only new Form 4s are downloaded
+    except Exception:  # noqa: BLE001
+        insiders = d.get("insiders")
+    return {**d, "secHistory": filing_history(d["cik"], since, sub), "insiders": insiders}
 
 
 store = store_module.from_environment(ssl_context=SSL_CTX)

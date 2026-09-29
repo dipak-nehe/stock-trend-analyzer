@@ -2,10 +2,15 @@
 
 Run from the repo root:  SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py
 The trimmed files are committed so the tests run offline and never hit SEC.
+
+`--form4-only` refreshes just the insider filings (form4_<cik>.json) for the 12 months up to FIXTURE_TODAY, leaving
+the other fixtures (and the values pinned from them) as they are.
 """
 import json
 import os
 import sys
+import xml.etree.ElementTree as ET
+from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from backend import stock_data  # noqa: E402
@@ -17,6 +22,8 @@ EXTRA_CONCEPTS = {("dei", "EntityCommonStockSharesOutstanding"), ("us-gaap", "Co
                   ("ifrs-full", "NumberOfSharesOutstanding")}
 KEEP_FORMS = {"UPLOAD", "CORRESP", "8-K", "8-K/A", "10-K", "10-K/A", "NT 10-K", "NT 10-Q", "20-F", "20-F/A"}
 SUB_FIELDS = ["accessionNumber", "filingDate", "form", "items", "primaryDocument"]
+FIXTURE_TODAY = "2026-09-26"  # the tests fix "today" to this date (STOCK_DATA_TODAY), so the 12-month window never moves
+FORM4_DROP = ("reportingOwnerAddress", "derivativeTable", "footnotes", "remarks", "ownerSignature")
 
 
 def save(name, data):
@@ -59,5 +66,40 @@ def main():
                                          "filings": {"recent": merged, "files": []}})
 
 
+def trim_form4(xml_text):
+    """Keep only what backend/insiders.py reads: the issuer, owners and their roles, the 10b5-1 flag, and each
+    non-derivative transaction's date, code, shares, price and direction."""
+    root = ET.fromstring(xml_text)
+    for tag in FORM4_DROP:
+        for parent in root.iter():
+            for child in parent.findall(tag):
+                parent.remove(child)
+    for t in root.iter("nonDerivativeTransaction"):
+        for tag in ("securityTitle", "postTransactionAmounts", "ownershipNature", "transactionTimeliness", "deemedExecutionDate"):
+            for child in t.findall(tag):
+                t.remove(child)
+    return ET.tostring(root, encoding="unicode")
+
+
+def save_form4(cik):
+    """The company's Form 4s in the 12 months up to FIXTURE_TODAY: their filing-list rows and trimmed XML."""
+    since = (date.fromisoformat(FIXTURE_TODAY) - timedelta(days=365)).isoformat()
+    recent = stock_data.sec_get(f"https://data.sec.gov/submissions/CIK{cik:010d}.json")["filings"]["recent"]
+    rows = [{k: recent[k][i] for k in SUB_FIELDS} for i, form in enumerate(recent["form"])
+            if form in ("4", "4/A") and since <= recent["filingDate"][i] <= FIXTURE_TODAY]
+    documents = {}
+    for r in rows:
+        doc = r["primaryDocument"].split("/", 1)[1] if r["primaryDocument"].startswith("xsl") else r["primaryDocument"]
+        url = f"https://www.sec.gov/Archives/edgar/data/{cik}/{r['accessionNumber'].replace('-', '')}/{doc}"
+        documents[r["accessionNumber"]] = trim_form4(stock_data.sec_get_text(url))
+    save(f"form4_{cik}.json", {"today": FIXTURE_TODAY, "filings": rows, "documents": documents})
+
+
 if __name__ == "__main__":
-    main()
+    if "--form4-only" in sys.argv:
+        for t in TICKERS:
+            save_form4(stock_data.lookup_cik(t)[0])
+    else:
+        main()
+        for t in TICKERS:
+            save_form4(stock_data.lookup_cik(t)[0])

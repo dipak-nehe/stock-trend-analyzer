@@ -11,7 +11,7 @@ sys.path[:0] = [os.path.dirname(HERE), HERE]
 
 os.environ.setdefault("SEC_USER_AGENT", "StockTrendTests tests@example.com")
 
-from helpers import fixture_sec_get  # noqa: E402
+from helpers import FIXTURE_TODAY, fixture_sec_get, fixture_sec_get_text  # noqa: E402
 
 import server  # noqa: E402
 from backend import stock_data, store  # noqa: E402
@@ -19,6 +19,8 @@ from backend import stock_data, store  # noqa: E402
 
 def main():
     stock_data.sec_get = fixture_sec_get
+    stock_data.sec_get_text = fixture_sec_get_text
+    os.environ["STOCK_DATA_TODAY"] = FIXTURE_TODAY  # the insider window matches the saved Form 4s
     stock_data.store = store.MemoryStore()
     server.Handler.log_message = lambda *a: None
     port = int(os.environ.get("PORT", "8799"))

@@ -5,7 +5,7 @@ filings in tests/fixtures/, and `fake_sec` serves hand-built data for precise un
 """
 import allure
 import pytest
-from helpers import _not_found, fixture_sec_get
+from helpers import FIXTURE_TODAY, _not_found, fixture_sec_get, fixture_sec_get_text
 
 from backend import stock_data, store
 
@@ -13,6 +13,7 @@ from backend import stock_data, store
 LAYERS = {
     "test_stock_data": "1 · Unit: data rules",
     "test_store": "1 · Unit: data rules",
+    "test_insiders": "1 · Unit: data rules",
     "test_regression": "2 · Regression: real SEC filings",
     "test_server": "3 · HTTP: API and static files",
 }
@@ -24,6 +25,15 @@ def _allure_layer(request):
     layer = LAYERS.get(request.module.__name__.rsplit(".", 1)[-1])
     if layer:
         allure.dynamic.parent_suite(layer)
+
+
+@pytest.fixture(autouse=True)
+def offline(monkeypatch):
+    """No test downloads a document from SEC, and "today" is the saved filings' date (the insider window)."""
+    def refuse(url):
+        raise _not_found(url)
+    monkeypatch.setattr(stock_data, "sec_get_text", refuse)
+    monkeypatch.setenv("STOCK_DATA_TODAY", FIXTURE_TODAY)
 
 
 @pytest.fixture(autouse=True)
@@ -39,6 +49,7 @@ def sec_fixtures(monkeypatch):
     """Real (trimmed) SEC data for AAPL, KO, INTC, JPM and SMCI, served offline."""
     monkeypatch.setenv("SEC_USER_AGENT", "StockTrendTests tests@example.com")
     monkeypatch.setattr(stock_data, "sec_get", fixture_sec_get)
+    monkeypatch.setattr(stock_data, "sec_get_text", fixture_sec_get_text)
 
 
 @pytest.fixture

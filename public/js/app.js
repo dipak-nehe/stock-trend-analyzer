@@ -4,6 +4,7 @@ import { analyze } from "./flags.js";
 import { valueChecks } from "./valuation.js";
 import { growthView } from "./growth.js";
 import { historyView } from "./history.js";
+import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
@@ -116,6 +117,7 @@ function showTab(name, { focus = false } = {}) {
 }
 
 function renderHistory() {
+  $("insiders").innerHTML = insiderView(current.data.insiders, current.data.cik);
   const h = current.data.secHistory;
   if (!h) return;
   const view = historyView(h, historyFilter, historyExpanded);

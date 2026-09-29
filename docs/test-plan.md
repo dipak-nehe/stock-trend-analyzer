@@ -2,7 +2,7 @@
 
 How the web app is tested: what is covered, at which level, with what data, and what "done" means. The companion list of every browser test is [e2e-tests.md](e2e-tests.md). The Android and iOS apps have their own plan in [stock-value-mobile](https://github.com/dipak-nehe/stock-value-mobile/blob/main/docs/test-plan.md).
 
-**At a glance:** 345 automated tests in five layers, all run on every push by GitHub Actions in about 3 minutes. None of them calls SEC: they use trimmed real filings saved in `tests/fixtures/`. Latest report: https://stock-trend-test-report.vercel.app.
+**At a glance:** 373 automated tests in five layers, all run on every push by GitHub Actions in about 3 minutes. None of them calls SEC: they use trimmed real filings saved in `tests/fixtures/`. Latest report: https://stock-trend-test-report.vercel.app.
 
 ## 1. Scope
 
@@ -32,19 +32,19 @@ How the web app is tested: what is covered, at which level, with what data, and 
 
 | Layer | Tool | Files | Tests | What it proves |
 |---|---|---|---|---|
-| 0 · JavaScript unit | Node's built-in test runner | `tests/js/*.test.js` | 65 | Formatting, CAGR and trend labels, every red-flag rule, checklists and value estimate, history and compare views, translations |
-| 1 · Unit | pytest | `tests/test_stock_data.py`, `tests/test_store.py` | 86 | Hand-built filings for tricky rules: restatements, splits, currency, minority interest, debt tags, 8-K item classification, input validation, errors, cache headers, stored results |
+| 0 · JavaScript unit | Node's built-in test runner | `tests/js/*.test.js` | 69 | Formatting, CAGR and trend labels, every red-flag rule, checklists and value estimate, history and compare views, translations |
+| 1 · Unit | pytest | `tests/test_stock_data.py`, `tests/test_store.py`, `tests/test_insiders.py` | 107 | Hand-built filings for tricky rules: restatements, splits, currency, minority interest, debt tags, 8-K item classification, input validation, errors, cache headers, stored results |
 | 2 · Regression | pytest | `tests/test_regression.py` | 47 | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings; figures pinned to values checked against published financials (fiscal 2021–2025) |
 | 3 · HTTP | pytest | `tests/test_server.py` | 24 | Local server and Vercel function answer identically; source files can't be downloaded; bad input rejected |
-| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 88 | The two pages driven like a person, against the real server on saved filings |
+| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 91 | The two pages driven like a person, against the real server on saved filings |
 | 5 · Accessibility | Playwright + axe-core | `e2e/accessibility.spec.ts` | 35 | No WCAG A/AA violations on every page state, light and dark, English and Spanish, desktop and phone; keyboard-only use |
-| | | | **345** | |
+| | | | **373** | |
 
 Static checks run first: ESLint and TypeScript (checkJs) for the JavaScript, Ruff for the Python, strict TypeScript for the browser tests (`npm run check`).
 
 ## 4. Environments and test data
 
-- **Offline and repeatable:** `tests/fixtures/` holds trimmed real SEC data for five companies chosen for coverage: AAPL (large, splits), KO (clean record, dividends), INTC (losses, minority interest, acquisitions), JPM (a bank: different rules), SMCI (restatement, auditor changes, 13 late filings, 14 exchange notices). Refresh with `tests/make_fixtures.py`, then update pinned values.
+- **Offline and repeatable:** `tests/fixtures/` holds trimmed real SEC data for five companies, plus their Form 4 filings for the 12 months to 26 September 2026 (the tests fix "today" to that date with `STOCK_DATA_TODAY`, so the insider window never moves) chosen for coverage: AAPL (large, splits), KO (clean record, dividends), INTC (losses, minority interest, acquisitions), JPM (a bank: different rules), SMCI (restatement, auditor changes, 13 late filings, 14 exchange notices). Refresh with `tests/make_fixtures.py`, then update pinned values.
 - **Browser tests** start the real Python server with SEC replaced by the fixtures and an in-memory store (`tests/e2e_server.py`, via `playwright.config.ts`). Chromium, 1280 × 720 by default; phone tests at 375 px.
 - **Regression values** were cross-checked by hand against a public financial site before being pinned; a changed value needs a reason (e.g. a restatement), not just an update.
 
@@ -72,6 +72,7 @@ Static checks run first: ESLint and TypeScript (checkJs) for the JavaScript, Ruf
 | Language (EN/ES) | i18n (JS) | Spanish link, browser language, switching keeps state, remembered choice (from the button or a link) across every page, no English left | Spanish page |
 | Caching and stored results | cache headers, store versions and fallback (unit) | data-fetched time | — |
 | Disclaimer (short notice and full page) | — | notice always visible, links from both pages, Spanish, language switch | disclaimer page, EN/ES, light/dark |
+| Insider trades (Form 4) | parsing, codes, roles, pre-planned flag, 12-month window, cap and partial summaries, stored filings, other-issuer filings ignored (unit); real counts for KO, INTC, AAPL, SMCI, JPM (regression); summary, section, strength (JS) | totals, trades and links for KO, cluster-buying strength for INTC, Spanish | history tab |
 | Security and privacy | source files blocked (HTTP) | nothing loaded from other sites, analytics off locally | — |
 
 ## 7. CI and reporting

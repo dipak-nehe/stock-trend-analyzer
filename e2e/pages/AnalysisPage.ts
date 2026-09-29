@@ -68,6 +68,36 @@ export class AnalysisPage extends BasePage {
   }
 
   /** #id: the link text is hard-coded copy with an arrow; the tests check its text and address separately. */
+  // ---------- insider trades (SEC history tab) ----------
+  get insiders(): Locator {
+    return this.page.getByTestId('insiders');
+  }
+
+  get insidersHeading(): Locator {
+    return this.page.getByRole('heading', { name: either('Insider trades · last 12 months', 'Operaciones de directivos · últimos 12 meses') });
+  }
+
+  get insiderBuys(): Locator {
+    return this.page.getByTestId('insider-buys');
+  }
+
+  get insiderSells(): Locator {
+    return this.page.getByTestId('insider-sells');
+  }
+
+  get insiderTrades(): Locator {
+    return this.page.getByTestId('insider-trade');
+  }
+
+  get allInsiderFilingsLink(): Locator {
+    return this.insiders.getByRole('link', { name: either('All insider filings on SEC ↗', 'Todas las presentaciones de directivos en la SEC ↗') });
+  }
+
+  /** CSS: text quoted from SEC filings in English (e.g. insiders' job titles) is marked lang="en" on any page. */
+  get sourceEnglish(): Locator {
+    return this.main.locator('[lang="en"]');
+  }
+
   get compareLink(): Locator {
     return this.page.locator('#compareLink');
   }

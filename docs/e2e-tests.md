@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**123 tests:** 72 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 35 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**126 tests:** 75 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 35 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one test with `npx playwright test -g "<name>"`.
 
@@ -67,89 +67,97 @@ Regenerate the list with `npx playwright test --list`. Run one test with `npx pl
 | 38 | filing history filters and expands |
 | 39 | "Show all" keeps the price and raises no errors |
 
+### Insider trades (3)
+
+| # | Test |
+|---|---|
+| 40 | insider trades: open-market buys and sales in the last 12 months, with the filings |
+| 41 | several insiders buying is a strength |
+| 42 | insider trades in Spanish |
+
 ### Graham & Buffett and price-based valuation (8)
 
 | # | Test |
 |---|---|
-| 40 | price runs valuation tests and is kept in the URL |
-| 41 | price from link is applied on load |
-| 42 | new search clears the previous price |
-| 43 | checklist scores add up |
-| 44 | checklist scores have a bar |
-| 45 | bank-specific rules are skipped |
-| 46 | value tab is named after Graham and Buffett |
-| 47 | price box links to public quote pages |
+| 43 | price runs valuation tests and is kept in the URL |
+| 44 | price from link is applied on load |
+| 45 | new search clears the previous price |
+| 46 | checklist scores add up |
+| 47 | checklist scores have a bar |
+| 48 | bank-specific rules are skipped |
+| 49 | value tab is named after Graham and Buffett |
+| 50 | price box links to public quote pages |
 
 ### Guide, layout and trust (7)
 
 | # | Test |
 |---|---|
-| 48 | guide explains the results before a search |
-| 49 | guide collapses after a search and can be reopened |
-| 50 | guide card before a search shows an example on that tab |
-| 51 | guide card after a search opens its tab for that company |
-| 52 | guide toggle looks and reads like a control |
-| 53 | disclaimer is always visible |
-| 54 | phone layout has no horizontal scroll |
+| 51 | guide explains the results before a search |
+| 52 | guide collapses after a search and can be reopened |
+| 53 | guide card before a search shows an example on that tab |
+| 54 | guide card after a search opens its tab for that company |
+| 55 | guide toggle looks and reads like a control |
+| 56 | disclaimer is always visible |
+| 57 | phone layout has no horizontal scroll |
 
 ### Full disclaimer (3)
 
 | # | Test |
 |---|---|
-| 55 | the short notice and the footer link to the full disclaimer |
-| 56 | the compare page links to the full disclaimer too |
-| 57 | the disclaimer reads in Spanish, from Spanish pages and by switching |
+| 58 | the short notice and the footer link to the full disclaimer |
+| 59 | the compare page links to the full disclaimer too |
+| 60 | the disclaimer reads in Spanish, from Spanish pages and by switching |
 
 ### Language (English and Spanish) (10)
 
 | # | Test |
 |---|---|
-| 58 | Spanish link shows the whole page in Spanish |
-| 59 | a Spanish browser › gets Spanish automatically |
-| 60 | English browser gets English |
-| 61 | switching language keeps tab and price and updates the link |
-| 62 | language choice is remembered |
-| 63 | errors are translated |
-| 64 | no English left in Spanish results |
-| 65 | Spanish stays on across every page after pressing ES |
-| 66 | Spanish stays on across every page after a Spanish link |
-| 67 | switching back to English is remembered the same way |
+| 61 | Spanish link shows the whole page in Spanish |
+| 62 | a Spanish browser › gets Spanish automatically |
+| 63 | English browser gets English |
+| 64 | switching language keeps tab and price and updates the link |
+| 65 | language choice is remembered |
+| 66 | errors are translated |
+| 67 | no English left in Spanish results |
+| 68 | Spanish stays on across every page after pressing ES |
+| 69 | Spanish stays on across every page after a Spanish link |
+| 70 | switching back to English is remembered the same way |
 
 ### Home button (3)
 
 | # | Test |
 |---|---|
-| 68 | Home button returns to a fresh landing page |
-| 69 | Home keeps the language |
-| 70 | Home button appears only after a lookup |
+| 71 | Home button returns to a fresh landing page |
+| 72 | Home keeps the language |
+| 73 | Home button appears only after a lookup |
 
 ### Privacy (2)
 
 | # | Test |
 |---|---|
-| 71 | page loads nothing from other sites |
-| 72 | analytics script is not loaded locally |
+| 74 | page loads nothing from other sites |
+| 75 | analytics script is not loaded locally |
 
 ## Compare page (`e2e/compare.spec.ts`, 16)
 
 | # | Test |
 |---|---|
-| 73 | compare link appears only after a result |
-| 74 | compare link opens with the first stock loaded |
-| 75 | second stock is fetched and compared |
-| 76 | chip loads the second stock |
-| 77 | marks follow direction and sizes get none |
-| 78 | valuation rows need prices |
-| 79 | deep link with prices restores everything |
-| 80 | swap switches sides and prices |
-| 81 | same ticker is rejected |
-| 82 | unknown second ticker keeps the first |
-| 83 | language carries over and switches |
-| 84 | bank shows n/a for current ratio |
-| 85 | phone width has no sideways scroll |
-| 86 | Home leaves the compare page |
-| 87 | Compare and Load need a ticker in their box |
-| 88 | a quick submit before the script loads is not lost |
+| 76 | compare link appears only after a result |
+| 77 | compare link opens with the first stock loaded |
+| 78 | second stock is fetched and compared |
+| 79 | chip loads the second stock |
+| 80 | marks follow direction and sizes get none |
+| 81 | valuation rows need prices |
+| 82 | deep link with prices restores everything |
+| 83 | swap switches sides and prices |
+| 84 | same ticker is rejected |
+| 85 | unknown second ticker keeps the first |
+| 86 | language carries over and switches |
+| 87 | bank shows n/a for current ratio |
+| 88 | phone width has no sideways scroll |
+| 89 | Home leaves the compare page |
+| 90 | Compare and Load need a ticker in their box |
+| 91 | a quick submit before the script loads is not lost |
 
 ## Accessibility (`e2e/accessibility.spec.ts`, 35)
 
@@ -157,38 +165,38 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 
 | # | Test |
 |---|---|
-| 89 | landing page (desktop, light) |
-| 90 | landing page (desktop, dark) |
-| 91 | landing page (phone, light) |
-| 92 | landing page (phone, dark) |
-| 93 | results tab: overview (light) |
-| 94 | results tab: overview (dark) |
-| 95 | results tab: flags (light) |
-| 96 | results tab: flags (dark) |
-| 97 | results tab: history (light) |
-| 98 | results tab: history (dark) |
-| 99 | results tab: value (light) |
-| 100 | results tab: value (dark) |
-| 101 | results tab: charts (light) |
-| 102 | results tab: charts (dark) |
-| 103 | results tab: data (light) |
-| 104 | results tab: data (dark) |
-| 105 | phone-width results: overview |
-| 106 | phone-width results: data |
-| 107 | Spanish page |
-| 108 | error state |
-| 109 | guide before and after a search |
-| 110 | search and results work with the keyboard |
-| 111 | wide tables can be scrolled with the keyboard |
-| 112 | every interactive element has a name |
-| 113 | compare page: one-side (light) |
-| 114 | compare page: one-side (dark) |
-| 115 | compare page: both-priced (light) |
-| 116 | compare page: both-priced (dark) |
-| 117 | compare page: spanish (light) |
-| 118 | compare page: spanish (dark) |
-| 119 | compare page at phone width |
-| 120 | disclaimer page (en, light) |
-| 121 | disclaimer page (en, dark) |
-| 122 | disclaimer page (es, light) |
-| 123 | disclaimer page (es, dark) |
+| 92 | landing page (desktop, light) |
+| 93 | landing page (desktop, dark) |
+| 94 | landing page (phone, light) |
+| 95 | landing page (phone, dark) |
+| 96 | results tab: overview (light) |
+| 97 | results tab: overview (dark) |
+| 98 | results tab: flags (light) |
+| 99 | results tab: flags (dark) |
+| 100 | results tab: history (light) |
+| 101 | results tab: history (dark) |
+| 102 | results tab: value (light) |
+| 103 | results tab: value (dark) |
+| 104 | results tab: charts (light) |
+| 105 | results tab: charts (dark) |
+| 106 | results tab: data (light) |
+| 107 | results tab: data (dark) |
+| 108 | phone-width results: overview |
+| 109 | phone-width results: data |
+| 110 | Spanish page |
+| 111 | error state |
+| 112 | guide before and after a search |
+| 113 | search and results work with the keyboard |
+| 114 | wide tables can be scrolled with the keyboard |
+| 115 | every interactive element has a name |
+| 116 | compare page: one-side (light) |
+| 117 | compare page: one-side (dark) |
+| 118 | compare page: both-priced (light) |
+| 119 | compare page: both-priced (dark) |
+| 120 | compare page: spanish (light) |
+| 121 | compare page: spanish (dark) |
+| 122 | compare page at phone width |
+| 123 | disclaimer page (en, light) |
+| 124 | disclaimer page (en, dark) |
+| 125 | disclaimer page (es, light) |
+| 126 | disclaimer page (es, dark) |

@@ -285,8 +285,9 @@ test('each tab has a short explanation', async ({ analysis }) => {
 
 test('glance summarises each area in one line', async ({ analysis }) => {
   await analysis.open('SMCI');
-  await expect(analysis.glanceRows).toHaveCount(6);
-  await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
+  await expect(analysis.glanceRows).toHaveCount(7);
+  await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Insider trades', 'Graham & Buffett']);
+  await expect(analysis.glanceRow('Insider trades')).toContainText('6 sales ($18.9M, 4 pre-planned)');
   await expect(analysis.glanceRow('Red flags')).toContainText('3 critical');
   await expect(analysis.glanceRow('Red flags')).toContainText('Restatement warning');
   await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement warning · 3 auditor changes · 13 late filings · 14 other serious events');
@@ -620,7 +621,9 @@ test('no English left in Spanish results', async ({ analysis }) => {
   const found: string[] = [];
   for (const tab of TABS) {
     await analysis.openTab(tab);
+    const quoted = (await analysis.sourceEnglish.allInnerTexts()).flatMap((q) => q.split('\n').map((l) => l.trim()));
     for (const line of (await analysis.main.innerText()).split('\n')) {
+      if (quoted.includes(line.trim())) continue; // SEC's own English (insiders' job titles), marked lang="en"
       if (english.test(line) && !allowed.some((a) => line.includes(a))) found.push(`${tab}: ${line.trim().slice(0, 80)}`);
     }
   }
@@ -775,4 +778,36 @@ test('the disclaimer reads in Spanish, from Spanish pages and by switching', asy
   await disclaimer.step('switch to English', () => disclaimer.switchLanguage('en'));
   await expect(disclaimer.sectionHeadings).toHaveText(DISCLAIMER_SECTIONS_EN);
   await expect(page).toHaveURL(/\/disclaimer\.html$/);
+});
+
+// ---------- insider trades (Form 4) ----------
+
+test('insider trades: open-market buys and sales in the last 12 months, with the filings', async ({ analysis }) => {
+  await analysis.open('KO');
+  await expect(analysis.glanceRow('Insider trades')).toContainText('2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)');
+  await analysis.openTab('history');
+  await expect(analysis.insiderBuys).toContainText('2');
+  await expect(analysis.insiderBuys).toContainText('$998.7K · 1 insider');
+  await expect(analysis.insiderSells).toContainText('31');
+  await expect(analysis.insiderSells).toContainText('$255.7M · 11 insiders · 10 pre-planned');
+  await expect(analysis.insiderTrades).toHaveCount(10); // the latest ten; the rest are on SEC
+  await expect(analysis.insiderTrades.first()).toContainText('Pietracci Bruno');
+  await expect(analysis.insiderTrades.first()).toContainText('President, Latin America OU');
+  await expect(analysis.insiderTrades.first().getByRole('link')).toHaveAttribute('href', /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/21344\//);
+  await expect(analysis.insiders).toContainText('pre-planned');
+  await expect(analysis.allInsiderFilingsLink).toHaveAttribute('href', 'https://www.sec.gov/cgi-bin/own-disp?action=getissuer&CIK=0000021344');
+  await expect(analysis.insiders).not.toContainText('COCA COLA CO'); // its own investment in another company isn't counted
+});
+
+test('several insiders buying is a strength', async ({ analysis }) => {
+  await analysis.open('INTC');
+  expect(anyContains(await analysis.flagTitles.allInnerTexts(), 'Insiders are buying')).toBe(true);
+  await expect(analysis.glanceRow('Insider trades')).toContainText('2 buys');
+});
+
+test('insider trades in Spanish', async ({ analysis }) => {
+  await analysis.goto('/?t=KO&lang=es#history');
+  await expect(analysis.insidersHeading).toHaveText('Operaciones de directivos · últimos 12 meses');
+  await expect(analysis.insiderSells).toContainText('Ventas en el mercado');
+  await expect(analysis.insiders).toContainText('planificada');
 });

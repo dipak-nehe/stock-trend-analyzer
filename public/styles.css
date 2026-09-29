@@ -156,6 +156,20 @@
   .empty { color: var(--text-2); padding: 12px 0; border-top: 1px solid var(--grid); }
   .more { margin-top: 10px; }
   @media (max-width: 600px) { .event { grid-template-columns: 1fr auto; } .event .date { grid-column: 1 / -1; } }
+  /* Insider trades (SEC history tab) */
+  .insiders .note:first-child { margin-top: 0; font-size: 13px; color: var(--text-2); }
+  .insider-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; margin: 12px 0; }
+  .insider-total { border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
+  .insider-total .label { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); }
+  .insider-total .value { font-size: 24px; font-weight: 700; }
+  .insider-total .detail { font-size: 13px; color: var(--text-2); }
+  .insider-table td, .insider-table th { text-align: left; }
+  .insider-table .num { text-align: right; }
+  .insider-table .who { display: block; font-weight: 600; }
+  .insider-table .role { display: block; color: var(--muted); font-size: 12px; white-space: normal; max-width: 260px; }
+  .insider-table .trade.buy { color: var(--good-text, var(--accent)); font-weight: 600; }
+  .insider-table .tag { font-size: 11px; color: var(--text-2); border: 1px solid var(--border); border-radius: 999px; padding: 1px 6px; }
+  .insider-table a { color: var(--accent); }
   .growth td:nth-child(n+4) { font-weight: 600; }
   .growth .yr { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 4px; }
   .growth .nm { color: var(--text-2); font-weight: 400; }

@@ -134,6 +134,11 @@ export function analyze(d) {
     if (![nr, ac, lf, bk, dl, cy, im].some((x) => x.length)) add("good", "cleanRecord", say("cleanRecord", { since }));
   }
 
+  // Insider trades (Form 4): several insiders buying on the open market with their own money is a strength.
+  // Selling isn't flagged: insiders sell for many reasons (taxes, diversifying, pre-planned sales).
+  const ib = d.insiders?.buys;
+  if (ib && ib.insiders >= 2) add("good", "insiderBuying", say("insiderBuying", { n: ib.insiders, value: money(ib.value, "USD") }));
+
   // Data coverage
   const gaps = ["revenue", "netIncome", "totalAssets", "totalLiabilities", "equity", "operatingCashFlow"].filter((k) => s[k].filter((v) => v == null).length > 2);
   if (gaps.length) add("info", "dataMissing", say("dataMissing", { items: gaps.map(labelOf).join(", ") }));

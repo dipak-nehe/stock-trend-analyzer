@@ -624,6 +624,8 @@ test('no English left in Spanish results', async ({ analysis }) => {
   const found: string[] = [];
   for (const tab of TABS) {
     await analysis.openTab(tab);
+    // The Insiders tab loads when opened: read it once the trades are in, not while it says "Cargando…".
+    if (tab === 'insiders') await analysis.insiderBuys.waitFor();
     const quoted = (await analysis.sourceEnglish.allInnerTexts()).flatMap((q) => q.split('\n').map((l) => l.trim()));
     for (const line of (await analysis.main.innerText()).split('\n')) {
       if (quoted.includes(line.trim())) continue; // SEC's own English (insiders' job titles), marked lang="en"

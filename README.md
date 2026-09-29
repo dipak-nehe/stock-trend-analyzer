@@ -145,10 +145,11 @@ Every CI run builds an [Allure](https://allurereport.org) report covering all 38
 npm run lint        # ESLint: recommended rules plus no-shadow, eqeqeq (null-aware), prefer-const
 npm run lint:py     # Ruff lints the Python (pyflakes, pycodestyle, import order, bugbear, pyupgrade); settings in ruff.toml
 npm run typecheck   # TypeScript 7 checks the plain JavaScript (checkJs); no build step, nothing emitted
-npm run check       # all three; CI runs this before the tests
+npm run typecheck:py # mypy checks the Python in strict mode (every function typed); settings in mypy.ini
+npm run check       # all four; CI runs this before the tests
 ```
 
-The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics).
+The Python backend is fully type-hinted and checked by mypy. The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics).
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
 
@@ -166,7 +167,9 @@ public/js/            ES modules: app.js and compare-app.js wire the two pages (
 public/favicon.svg    icon; public/og.png is the link-preview image
 api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL (the main results)
 api/insiders.py       Vercel serverless function: GET /api/insiders?ticker=AAPL (insider trades, when the Insiders tab opens)
-backend/stock_data.py SEC EDGAR fetching and normalization, shared by both servers
+backend/stock_data.py SEC fetching, caching and the API responses, shared by both servers
+backend/xbrl.py       reading XBRL company facts: annual values, currency, stock splits, fiscal years
+backend/filings.py    the filing list: latest report, amendments, 8-K events
 backend/insiders.py   Form 4 parsing and the insider-trades summary
 backend/store.py      stored results: Redis (live), files (local) or memory (tests)
 server.py             local development server (same API, serves public/)

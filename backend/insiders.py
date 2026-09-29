@@ -10,8 +10,10 @@ Downloading, storage and "today" are passed in, so this module is easy to test.
 """
 import time
 import xml.etree.ElementTree as ET
+from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
+from typing import Any
 
 WINDOW_DAYS = 365      # "the last 12 months"
 MAX_FILINGS = 100      # newest insider filings read per company (big companies file dozens a year)
@@ -21,11 +23,11 @@ SHOWN_TRADES = 40      # latest trades returned for the table
 FORMS = {"4", "4/A"}
 
 
-def _flag(node, tag):
+def _flag(node: ET.Element, tag: str) -> bool:
     return (node.findtext(tag) or "").strip().lower() in ("1", "true")
 
 
-def _role(rel):
+def _role(rel: ET.Element | None) -> str:
     """"CEO", "Director", "10% owner"…: what the insider is to the company (a filer can be several)."""
     if rel is None:
         return ""
@@ -41,7 +43,7 @@ def _role(rel):
     return ", ".join(roles)
 
 
-def _number(node, path):
+def _number(node: ET.Element, path: str) -> float | None:
     text = (node.findtext(path) or "").strip()
     try:
         return float(text)
@@ -49,7 +51,7 @@ def _number(node, path):
         return None
 
 
-def parse_form4(xml_text):
+def parse_form4(xml_text: str) -> dict[str, Any]:
     """The open-market trades in one Form 4: {"issuer", "name", "role", "planned", "trades": [{date, type, shares, price}]}.
 
     Several lines of the same kind in one filing (a sale split across prices, say) become one trade, with the total
@@ -60,7 +62,7 @@ def parse_form4(xml_text):
     names = [(o.findtext("reportingOwnerId/rptOwnerName") or "").strip() for o in owners]
     role = _role(owners[0].find("reportingOwnerRelationship")) if owners else ""
     planned = _flag(root, "aff10b5One")
-    grouped = {}  # (type, date) -> [shares, value]
+    grouped: dict[tuple[str, str], list[float]] = {}  # (type, date) -> [shares, value]
     for t in root.findall("nonDerivativeTable/nonDerivativeTransaction"):
         code = (t.findtext("transactionCoding/transactionCode") or "").strip()
         if code not in ("P", "S"):
@@ -77,12 +79,14 @@ def parse_form4(xml_text):
     return {"issuer": issuer, "name": " / ".join(n for n in names if n), "role": role, "planned": planned, "trades": trades}
 
 
-def _raw_xml_path(primary_document):
+def _raw_xml_path(primary_document: str) -> str:
     """EDGAR lists a Form 4's formatted page ("xslF345X06/form4.xml"); the XML itself sits one level up."""
     return primary_document.split("/", 1)[1] if primary_document.startswith("xsl") else primary_document
 
 
-def insider_activity(cik, submissions, fetch_text, cache_get, cache_set, today=None):
+def insider_activity(cik: int, submissions: dict[str, Any], fetch_text: Callable[[str], str],
+                     cache_get: Callable[[str], Any], cache_set: Callable[[str, Any], None],
+                     today: date | None = None) -> dict[str, Any] | None:
     """Summary of open-market insider buys and sales in the 12 months up to `today`, from the company's Form 4s.
 
     fetch_text(url) -> str downloads a document; cache_get/cache_set(accession[, value]) keep parsed filings (a
@@ -99,7 +103,8 @@ def insider_activity(cik, submissions, fetch_text, cache_get, cache_set, today=N
     rows.sort(reverse=True)
     considered = rows[:MAX_FILINGS]
 
-    parsed, missing = {}, []
+    parsed: dict[str, dict[str, Any]] = {}
+    missing: list[tuple[str, str]] = []
     for _, accession, doc in considered:
         hit = cache_get(accession)
         if hit is not None:
@@ -109,7 +114,7 @@ def insider_activity(cik, submissions, fetch_text, cache_get, cache_set, today=N
 
     started, out_of_time = time.monotonic(), False
 
-    def load(item):
+    def load(item: tuple[str, str]) -> tuple[str, dict[str, Any] | None]:
         nonlocal out_of_time
         accession, doc = item
         if time.monotonic() - started > TIME_BUDGET:
@@ -147,7 +152,7 @@ def insider_activity(cik, submissions, fetch_text, cache_get, cache_set, today=N
                            "planned": filing["planned"] and t["type"] == "sell", "filed": filed, "url": url})
     trades.sort(key=lambda t: (t["date"], t["filed"]), reverse=True)
 
-    def total(kind):
+    def total(kind: str) -> dict[str, Any]:
         own = [t for t in trades if t["type"] == kind]
         return {"count": len(own), "shares": sum(t["shares"] for t in own),
                 "value": sum(t["value"] or 0 for t in own), "insiders": len({t["name"] for t in own})}

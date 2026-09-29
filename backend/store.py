@@ -12,36 +12,47 @@ import base64
 import hashlib
 import json
 import os
+import ssl
 import time
 import urllib.request
+from collections.abc import Callable
+from typing import Any, Protocol
+
+Clock = Callable[[], float]
+
+
+class Store(Protocol):
+    def get(self, key: str) -> bytes | None: ...
+    def set(self, key: str, value: bytes, ttl_seconds: float) -> None: ...
 
 
 class MemoryStore:
-    def __init__(self, clock=time.time):
-        self._data, self._clock = {}, clock
+    def __init__(self, clock: Clock = time.time) -> None:
+        self._data: dict[str, tuple[bytes, float]] = {}
+        self._clock = clock
 
-    def get(self, key):
+    def get(self, key: str) -> bytes | None:
         item = self._data.get(key)
         if item is None or item[1] <= self._clock():
             self._data.pop(key, None)
             return None
         return item[0]
 
-    def set(self, key, value, ttl_seconds):
+    def set(self, key: str, value: bytes, ttl_seconds: float) -> None:
         self._data[key] = (value, self._clock() + ttl_seconds)
 
 
 class FileStore:
     """One file per key: an 8-byte big-endian expiry timestamp, then the value."""
 
-    def __init__(self, directory, clock=time.time):
+    def __init__(self, directory: str, clock: Clock = time.time) -> None:
         self._dir, self._clock = directory, clock
         os.makedirs(directory, exist_ok=True)
 
-    def _path(self, key):
+    def _path(self, key: str) -> str:
         return os.path.join(self._dir, hashlib.sha1(key.encode()).hexdigest())
 
-    def get(self, key):
+    def get(self, key: str) -> bytes | None:
         try:
             with open(self._path(key), "rb") as fh:
                 raw = fh.read()
@@ -51,7 +62,7 @@ class FileStore:
             return None
         return raw[8:]
 
-    def set(self, key, value, ttl_seconds):
+    def set(self, key: str, value: bytes, ttl_seconds: float) -> None:
         tmp = self._path(key) + ".tmp"
         with open(tmp, "wb") as fh:
             fh.write(int(self._clock() + ttl_seconds).to_bytes(8, "big") + value)
@@ -61,10 +72,10 @@ class FileStore:
 class RedisStore:
     """Upstash Redis REST API: POST a command as a JSON array, e.g. ["SET", key, value, "EX", 60]."""
 
-    def __init__(self, url, token, ssl_context=None, timeout=5):
+    def __init__(self, url: str, token: str, ssl_context: ssl.SSLContext | None = None, timeout: float = 5) -> None:
         self._url, self._token, self._ssl, self._timeout = url.rstrip("/"), token, ssl_context, timeout
 
-    def _command(self, *args):
+    def _command(self, *args: Any) -> Any:
         req = urllib.request.Request(self._url, data=json.dumps(args).encode(), method="POST",
                                      headers={"Authorization": f"Bearer {self._token}", "Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=self._timeout, context=self._ssl) as resp:
@@ -73,15 +84,15 @@ class RedisStore:
             raise RuntimeError(f"Redis error: {reply['error']}")
         return reply.get("result")
 
-    def get(self, key):
+    def get(self, key: str) -> bytes | None:
         value = self._command("GET", key)
         return None if value is None else base64.b64decode(value)  # stored as base64: values are bytes
 
-    def set(self, key, value, ttl_seconds):
+    def set(self, key: str, value: bytes, ttl_seconds: float) -> None:
         self._command("SET", key, base64.b64encode(value).decode(), "EX", int(ttl_seconds))
 
 
-def from_environment(ssl_context=None):
+def from_environment(ssl_context: ssl.SSLContext | None = None) -> Store | None:
     """Pick the backend: Redis if connected (Vercel sets KV_* or UPSTASH_* variables), else memory on Vercel
     (its disk is read-only), else files in .cache/ locally. STOCK_CACHE=off disables storage."""
     if os.environ.get("STOCK_CACHE", "").lower() == "off":
@@ -95,7 +106,7 @@ def from_environment(ssl_context=None):
     return FileStore(os.environ.get("STOCK_CACHE_DIR", os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".cache")))
 
 
-def describe(store):
+def describe(store: Store | None) -> str:
     return {RedisStore: "redis", FileStore: "file", MemoryStore: "memory"}.get(type(store), "off")
 
 

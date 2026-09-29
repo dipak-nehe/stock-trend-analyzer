@@ -9,3 +9,4 @@ allure-results/
 allure-report/
 .cache/
 playwright-report/
+.mypy_cache/

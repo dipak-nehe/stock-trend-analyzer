@@ -10,7 +10,7 @@ from backend import stock_data, store  # noqa: E402
 
 
 class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_GET(self) -> None:
         ticker = (parse_qs(urlparse(self.path).query).get("ticker") or [""])[0]
         status, body, cache, data_cache = stock_data.insider_response(ticker)
         data = json.dumps(body).encode("utf-8")

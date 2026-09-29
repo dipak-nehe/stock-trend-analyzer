@@ -14,11 +14,19 @@ import threading
 import time
 import urllib.error
 import urllib.request
+from collections.abc import Callable
 from datetime import UTC, date, datetime
-from itertools import pairwise
+from typing import Any
 
+from . import filings, xbrl
 from . import insiders as insiders_module
 from . import store as store_module
+
+# Moved to their own modules; re-exported for callers and tests that use stock_data.X.
+from .filings import FINANCIAL_FORMS as FINANCIAL_FORMS
+from .filings import _classify_filing as _classify_filing
+from .xbrl import ANNUAL_FORMS as ANNUAL_FORMS
+from .xbrl import CONCEPTS as CONCEPTS
 
 YEARS = 10
 TICKER_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]{0,9}$")
@@ -42,7 +50,7 @@ log = logging.getLogger("stock_data")
 store = None                       # set at the bottom of this module (tests replace it)
 
 
-def safe_get(key):
+def safe_get(key: str) -> Any:
     """Read and decode a stored JSON value; any storage problem counts as 'not stored'."""
     if store is None:
         return None
@@ -54,7 +62,7 @@ def safe_get(key):
         return None
 
 
-def safe_set(key, value, ttl):
+def safe_set(key: str, value: Any, ttl: int) -> None:
     if store is None:
         return
     try:
@@ -63,15 +71,19 @@ def safe_set(key, value, ttl):
         log.warning("store write failed for %s: %s", key, e)
 
 
-def normalize_ticker(ticker):
+def normalize_ticker(ticker: str) -> str:
     return ticker.strip().upper().replace(".", "-").replace("/", "-")
+
+
+# (status, body, Cache-Control, where the data came from: "HIT" | "MISS" | "STALE" | "REVALIDATED" | None)
+Response = tuple[int, dict[str, Any], str, str | None]
 
 
 class ConfigError(Exception):
     pass
 
 
-def user_agent():
+def user_agent() -> str:
     # SEC's fair-access policy requires a contact in the User-Agent of every request.
     ua = os.environ.get("SEC_USER_AGENT", "").strip()
     if "@" not in ua:
@@ -79,135 +91,9 @@ def user_agent():
     return ua
 
 
-ANNUAL_FORMS = {"10-K", "10-K/A", "10-KT", "20-F", "20-F/A", "40-F", "40-F/A"}
-
-# metric -> (kind, [(taxonomy, concept), ...]) in priority order.
-# "duration" = income/cash-flow items (one fiscal year), "instant" = balance sheet.
-CONCEPTS = {
-    "revenue": ("duration", [
-        ("us-gaap", "Revenues"),
-        ("us-gaap", "RevenueFromContractWithCustomerExcludingAssessedTax"),
-        ("us-gaap", "RevenueFromContractWithCustomerIncludingAssessedTax"),
-        ("us-gaap", "SalesRevenueNet"),
-        ("us-gaap", "SalesRevenueGoodsNet"),
-        ("us-gaap", "RevenuesNetOfInterestExpense"),
-        ("ifrs-full", "Revenue"),
-    ]),
-    "netIncome": ("duration", [
-        ("us-gaap", "NetIncomeLoss"),
-        ("us-gaap", "NetIncomeLossAvailableToCommonStockholdersBasic"),
-        ("us-gaap", "ProfitLoss"),
-        ("ifrs-full", "ProfitLossAttributableToOwnersOfParent"),
-        ("ifrs-full", "ProfitLoss"),
-    ]),
-    "grossProfit": ("duration", [("us-gaap", "GrossProfit"), ("ifrs-full", "GrossProfit")]),
-    "operatingIncome": ("duration", [
-        ("us-gaap", "OperatingIncomeLoss"),
-        ("ifrs-full", "ProfitLossFromOperatingActivities"),
-    ]),
-    "eps": ("duration", [
-        ("us-gaap", "EarningsPerShareDiluted"),
-        ("us-gaap", "EarningsPerShareBasicAndDiluted"),
-        ("us-gaap", "EarningsPerShareBasic"),
-        ("ifrs-full", "DilutedEarningsLossPerShare"),
-        ("ifrs-full", "BasicEarningsLossPerShare"),
-    ]),
-    "dps": ("duration", [
-        ("us-gaap", "CommonStockDividendsPerShareDeclared"),
-        ("us-gaap", "CommonStockDividendsPerShareCashPaid"),
-    ]),
-    "dividendsPaid": ("duration", [
-        ("us-gaap", "PaymentsOfDividendsCommonStock"),
-        ("us-gaap", "PaymentsOfDividends"),
-        ("us-gaap", "DividendsCommonStockCash"),
-        ("us-gaap", "DividendsCommonStock"),
-        ("ifrs-full", "DividendsPaidClassifiedAsFinancingActivities"),
-        ("ifrs-full", "DividendsPaid"),
-    ]),
-    "operatingCashFlow": ("duration", [
-        ("us-gaap", "NetCashProvidedByUsedInOperatingActivities"),
-        ("us-gaap", "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations"),
-        ("ifrs-full", "CashFlowsFromUsedInOperatingActivities"),
-    ]),
-    "capex": ("duration", [
-        ("us-gaap", "PaymentsToAcquirePropertyPlantAndEquipment"),
-        ("us-gaap", "PaymentsToAcquireProductiveAssets"),
-        ("ifrs-full", "PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities"),
-    ]),
-    "interestExpense": ("duration", [
-        ("us-gaap", "InterestExpense"),
-        ("us-gaap", "InterestExpenseNonoperating"),
-        ("us-gaap", "InterestExpenseDebt"),
-        ("ifrs-full", "FinanceCosts"),
-    ]),
-    "dilutedShares": ("duration", [
-        ("us-gaap", "WeightedAverageNumberOfDilutedSharesOutstanding"),
-        ("us-gaap", "WeightedAverageNumberOfSharesOutstandingBasic"),
-        ("ifrs-full", "AdjustedWeightedAverageShares"),
-        ("ifrs-full", "WeightedAverageShares"),
-    ]),
-    "totalAssets": ("instant", [("us-gaap", "Assets"), ("ifrs-full", "Assets")]),
-    "totalLiabilities": ("instant", [("us-gaap", "Liabilities"), ("ifrs-full", "Liabilities")]),
-    "equity": ("instant", [
-        ("us-gaap", "StockholdersEquity"),
-        ("us-gaap", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"),
-        ("ifrs-full", "EquityAttributableToOwnersOfParent"),
-        ("ifrs-full", "Equity"),
-    ]),
-    "liabilitiesAndEquity": ("instant", [
-        ("us-gaap", "LiabilitiesAndStockholdersEquity"),
-        ("ifrs-full", "EquityAndLiabilities"),
-    ]),
-    "currentAssets": ("instant", [("us-gaap", "AssetsCurrent"), ("ifrs-full", "CurrentAssets")]),
-    "currentLiabilities": ("instant", [("us-gaap", "LiabilitiesCurrent"), ("ifrs-full", "CurrentLiabilities")]),
-    "cash": ("instant", [
-        ("us-gaap", "CashAndCashEquivalentsAtCarryingValue"),
-        ("us-gaap", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"),
-        ("us-gaap", "Cash"),
-        ("ifrs-full", "CashAndCashEquivalents"),
-    ]),
-    # Debt and liability building blocks, combined into consistent series in build_financials().
-    # Companies switch tags over the years (e.g. total vs non-current only), so tags are never mixed
-    # across definitions: each helper holds one definition.
-    "_ltdTotal": ("instant", [  # long-term debt INCLUDING the portion due within a year
-        ("us-gaap", "LongTermDebt"),
-        ("us-gaap", "LongTermDebtAndCapitalLeaseObligationsIncludingCurrentMaturities"),
-        ("ifrs-full", "Borrowings"),
-    ]),
-    "_ltdNoncurrent": ("instant", [  # long-term debt EXCLUDING the portion due within a year
-        ("us-gaap", "LongTermDebtNoncurrent"),
-        ("us-gaap", "LongTermDebtAndCapitalLeaseObligations"),
-        ("ifrs-full", "NoncurrentPortionOfNoncurrentBorrowings"),
-    ]),
-    "_ltdCurrent": ("instant", [  # portion of long-term debt due within a year
-        ("us-gaap", "LongTermDebtCurrent"),
-        ("us-gaap", "LongTermDebtAndCapitalLeaseObligationsCurrent"),
-        ("ifrs-full", "CurrentPortionOfNoncurrentBorrowings"),
-    ]),
-    "_shortTermBorrowings": ("instant", [  # one tag only: ShortTermBorrowings usually already includes commercial paper
-        ("us-gaap", "ShortTermBorrowings"),
-        ("us-gaap", "CommercialPaper"),
-        ("ifrs-full", "ShorttermBorrowings"),
-    ]),
-    "_equityInclNci": ("instant", [
-        ("us-gaap", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"),
-        ("ifrs-full", "Equity"),
-    ]),
-    "_minorityInterest": ("instant", [
-        ("us-gaap", "MinorityInterest"),
-        ("ifrs-full", "NoncontrollingInterests"),
-    ]),
-    "goodwill": ("instant", [("us-gaap", "Goodwill"), ("ifrs-full", "Goodwill")]),
-    "receivables": ("instant", [
-        ("us-gaap", "AccountsReceivableNetCurrent"),
-        ("ifrs-full", "TradeAndOtherCurrentReceivables"),
-    ]),
-    "inventory": ("instant", [("us-gaap", "InventoryNet"), ("ifrs-full", "Inventories")]),
-}
 
 
-
-def _ssl_context():
+def _ssl_context() -> ssl.SSLContext:
     # python.org macOS builds ship without root certs; fall back to certifi or the system bundle.
     try:
         import certifi
@@ -220,11 +106,11 @@ def _ssl_context():
 
 
 SSL_CTX = _ssl_context()
-_cache = {}  # url -> (timestamp, parsed json)
+_cache: dict[str, tuple[float, Any]] = {}  # url -> (timestamp, parsed json)
 CACHE_SECONDS = 6 * 3600
 
 
-def sec_get(url):
+def sec_get(url: str) -> Any:
     hit = _cache.get(url)
     if hit and time.time() - hit[0] < CACHE_SECONDS:
         return hit[1]
@@ -240,7 +126,7 @@ _last_request = [0.0]
 MIN_INTERVAL = 0.125  # at most 8 requests a second, under SEC's limit of 10, even with parallel downloads
 
 
-def sec_get_text(url):
+def sec_get_text(url: str) -> str:
     """Download a text document (e.g. a Form 4's XML), spacing requests to stay within SEC's rate limit."""
     with _rate_lock:
         wait = _last_request[0] + MIN_INTERVAL - time.monotonic()
@@ -249,10 +135,10 @@ def sec_get_text(url):
         _last_request[0] = time.monotonic()
     req = urllib.request.Request(url, headers={"User-Agent": user_agent(), "Accept-Encoding": "identity"})
     with urllib.request.urlopen(req, timeout=20, context=SSL_CTX) as resp:
-        return resp.read().decode("utf-8")
+        return str(resp.read().decode("utf-8"))
 
 
-def today():
+def today() -> date:
     """Today's date; STOCK_DATA_TODAY (YYYY-MM-DD) fixes it for tests on saved filings."""
     fixed = os.environ.get("STOCK_DATA_TODAY")
     return date.fromisoformat(fixed) if fixed else date.today()
@@ -261,20 +147,21 @@ def today():
 FORM4_KEEP_SECONDS = 400 * 24 * 3600  # a filed Form 4 never changes
 
 
-def insider_activity(cik, sub):
+def insider_activity(cik: int, sub: dict[str, Any]) -> dict[str, Any] | None:
     """Open-market insider buys and sales in the last 12 months (backend/insiders.py). Parsed filings are stored
     under their own version, so a CACHE_VERSION bump doesn't download them all again."""
-    return insiders_module.insider_activity(
+    result: dict[str, Any] | None = insiders_module.insider_activity(
         cik, sub, fetch_text=lambda url: sec_get_text(url),
         cache_get=lambda accession: safe_get(f"f4v1:{accession}"),
         cache_set=lambda accession, value: safe_set(f"f4v1:{accession}", value, FORM4_KEEP_SECONDS),
         today=today())
+    return result
 
 
-def ticker_table():
+def ticker_table() -> dict[str, list[Any]]:
     """{TICKER: [cik, title, ticker]}: stored for a week instead of downloading SEC's multi-MB list each time."""
     key = f"{CACHE_VERSION}:tickers"
-    table = safe_get(key)
+    table: dict[str, list[Any]] | None = safe_get(key)
     if table is None:
         table = {row["ticker"].upper(): [row["cik_str"], row["title"], row["ticker"]]
                  for row in sec_get("https://www.sec.gov/files/company_tickers.json").values()}
@@ -282,253 +169,51 @@ def ticker_table():
     return table
 
 
-def lookup_cik(ticker):
+def lookup_cik(ticker: str) -> tuple[Any, ...] | None:
     row = ticker_table().get(normalize_ticker(ticker))
     return tuple(row) if row else None
 
 
-def _d(s):
-    return date.fromisoformat(s)
+def submissions(cik: int) -> dict[str, Any]:
+    sub: dict[str, Any] = sec_get(f"https://data.sec.gov/submissions/CIK{cik:010d}.json")
+    return sub
 
 
-def reporting_currency(facts):
-    """The currency the company reports in (most facts on its net income / revenue line)."""
-    for metric in ("netIncome", "revenue"):
-        for tax, concept in CONCEPTS[metric][1]:
-            node = facts.get(tax, {}).get(concept)
-            if node:
-                return max(node["units"], key=lambda u: len(node["units"][u]))
-    return "USD"
+def filing_history(cik: int, since: str, sub: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Notable filings on or after `since` (backend/filings.py), downloading older pages of the list if needed."""
+    return filings.filing_history(cik, since, sub or submissions(cik), fetch=lambda url: sec_get(url))
 
 
-def _pick_unit(units, currency):
-    for pref in (currency, f"{currency}/shares", "shares"):
-        if pref in units:
-            return pref
-    return None  # only in some other currency (e.g. a convenience translation) - skip it
-
-
-def _is_annual(f, kind):
-    if f.get("form") not in ANNUAL_FORMS or "end" not in f:
-        return False
-    if kind == "duration":
-        return "start" in f and 330 <= (_d(f["end"]) - _d(f["start"])).days <= 380
-    return "start" not in f
-
-
-def annual_values(facts, taxonomy, concept, kind, currency):
-    """Return {period_end: (value, filed)} of annual values; the latest filing wins (restated)."""
-    node = facts.get(taxonomy, {}).get(concept)
-    unit = node and _pick_unit(node["units"], currency)
-    if not unit:
-        return {}
-    best = {}
-    for f in node["units"][unit]:
-        if _is_annual(f, kind):
-            prev = best.get(f["end"])
-            if prev is None or f["filed"] > prev[1]:
-                best[f["end"]] = (f["val"], f["filed"])
-    return best
-
-
-NICE_SPLIT_RATIOS = (1.5, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20, 25, 30, 40, 50)
-
-
-def split_events(facts, currency):
-    """Detect stock splits from EPS values that were restated by a later filing.
-
-    Returns [(first_filing_date_after_split, factor)]; factor > 1 is a forward split.
-    Older, never-restated per-share values filed before that date must be divided by factor.
-    """
-    events = []
-    for tax, concept in CONCEPTS["eps"][1]:
-        node = facts.get(tax, {}).get(concept)
-        unit = node and _pick_unit(node["units"], currency)
-        if not unit:
-            continue
-        by_end = {}
-        for f in node["units"][unit]:
-            if _is_annual(f, "duration") and f["val"]:
-                by_end.setdefault(f["end"], []).append((f["filed"], f["val"]))
-        for reports in by_end.values():
-            reports.sort()
-            for (_, old), (filed, new) in pairwise(reports):
-                r = old / new
-                if r <= 0:
-                    continue
-                inv = r < 1
-                x = 1 / r if inv else r
-                nice = next((n for n in NICE_SPLIT_RATIOS if abs(x - n) / n < 0.03), None)
-                if nice:
-                    factor = 1 / nice if inv else nice
-                    if not any(abs(factor - f0) < 1e-9 and abs((_d(filed) - _d(d0)).days) < 400
-                               for d0, f0 in events):
-                        events.append((filed, factor))
-        if events:
-            break
-    # keep the earliest restating filing per split
-    events.sort()
-    return events
-
-
-def latest_shares_outstanding(facts):
-    """Most recent common shares outstanding (cover page or balance sheet), summed across share classes."""
-    best = None  # (end, filed, value, source)
-    for tax, concept in (("dei", "EntityCommonStockSharesOutstanding"), ("us-gaap", "CommonStockSharesOutstanding"),
-                         ("ifrs-full", "NumberOfSharesOutstanding")):
-        node = facts.get(tax, {}).get(concept)
-        if not node or "shares" not in node["units"]:
-            continue
-        rows = node["units"]["shares"]
-        end = max(r["end"] for r in rows)
-        latest = [r for r in rows if r["end"] == end]
-        accn = max(latest, key=lambda r: r["filed"])["accn"]
-        same_filing = [r for r in latest if r["accn"] == accn]
-        cand = (end, same_filing[0]["filed"], sum(r["val"] for r in same_filing), concept)
-        if best is None or cand[:2] > best[:2]:
-            best = cand
-    return best
-
-
-# ---------- SEC filing history ("remarks") ----------
-AMENDMENT_FORMS = {"10-K/A", "20-F/A", "40-F/A"}
-# Reports that can change the figures we show: annual reports (the yearly numbers) and quarterly reports
-# (the latest share count). A new one of these means the stored figures must be refreshed.
-FINANCIAL_FORMS = ANNUAL_FORMS | {"10-Q", "10-Q/A", "10-QT"}
-
-
-def submissions(cik):
-    return sec_get(f"https://data.sec.gov/submissions/CIK{cik:010d}.json")
-
-
-def financial_marker(sub):
-    """Identifies the latest annual or quarterly report, e.g. "2026-08-01:0000320193-26-000020"."""
-    t = sub["filings"]["recent"]
-    latest = max(((t["filingDate"][i], t["accessionNumber"][i]) for i, form in enumerate(t["form"]) if form in FINANCIAL_FORMS),
-                 default=None)
-    return f"{latest[0]}:{latest[1]}" if latest else None
-
-
-def latest_report(cik, sub):
-    """The most recent annual or quarterly report, for "new report filed" alerts in the Android app."""
-    t = sub["filings"]["recent"]
-    found = [i for i, form in enumerate(t["form"]) if form in FINANCIAL_FORMS]
-    if not found:
-        return None
-    i = max(found, key=lambda j: (t["filingDate"][j], t["accessionNumber"][j]))
-    folder = f"https://www.sec.gov/Archives/edgar/data/{cik}/{t['accessionNumber'][i].replace('-', '')}/"
-    doc = t["primaryDocument"][i] if "primaryDocument" in t else ""
-    return {"form": t["form"][i], "date": t["filingDate"][i], "accession": t["accessionNumber"][i],
-            "url": folder + doc if doc else folder}
-
-
-# 8-K items reported as events, in the order a filing's events are listed. Items not here (earnings releases,
-# votes, routine officer and pay changes under 5.02) are too frequent to be signals.
-EIGHT_K_ITEMS = {
-    "4.02": ("non_reliance", "Company said earlier financial statements should no longer be relied on"),
-    "4.01": ("auditor_change", "Change in the company's independent auditor"),
-    "1.03": ("bankruptcy", "Bankruptcy or receivership"),
-    "3.01": ("delisting_notice", "Stock exchange notice: delisting, or a listing rule not met"),
-    "1.05": ("cyber_incident", "Material cybersecurity incident"),
-    "2.06": ("impairment", "Material impairment (a large write-down of assets)"),
-    "2.01": ("acquisition", "Completed a significant acquisition or sale of assets"),
-}
-
-
-def _classify_filing(form, items):
-    """Map one filing to its notable events: a list of (type, description), empty if none.
-    An 8-K can report several items at once (a restatement with a write-down, say), so each counts."""
-    if form in ("8-K", "8-K/A"):
-        found = {i.strip() for i in (items or "").split(",")}
-        return [event for item, event in EIGHT_K_ITEMS.items() if item in found]
-    if form.startswith("NT "):
-        return [("late_filing", f"Notice of late filing: couldn't file its {form[3:]} on time")]
-    if form in AMENDMENT_FORMS:
-        return [("amendment", f"Amended annual report ({form[:-2]})")]
-    if form == "UPLOAD":
-        return [("sec_letter", "SEC staff letter from a filing review")]
-    if form == "CORRESP":
-        return [("company_response", "Company letter to SEC staff (usually a response to review comments)")]
-    return []
-
-
-def filing_history(cik, since, sub=None):
-    """Notable filings on or after `since` (YYYY-MM-DD) from EDGAR's submissions index (pass `sub` if already fetched)."""
-    base = "https://data.sec.gov/submissions/"
-    sub = sub or submissions(cik)
-    tables = [sub["filings"]["recent"]]
-    for f in sub["filings"].get("files", []):
-        if f.get("filingTo", "") >= since:  # older pages, only if they overlap the window
-            tables.append(sec_get(base + f["name"]))
-    events = []
-    for t in tables:
-        for i, form in enumerate(t["form"]):
-            filed = t["filingDate"][i]
-            if filed < since:
-                continue
-            kinds = _classify_filing(form, t["items"][i] if "items" in t else "")
-            if not kinds:
-                continue
-            accn = t["accessionNumber"][i].replace("-", "")
-            doc = t["primaryDocument"][i]
-            folder = f"https://www.sec.gov/Archives/edgar/data/{cik}/{accn}/"
-            for kind, description in kinds:
-                events.append({"date": filed, "type": kind, "form": form, "description": description,
-                               "url": folder + doc if doc else folder})
-    events.sort(key=lambda e: e["date"], reverse=True)
-    counts = {}
-    for e in events:
-        counts[e["type"]] = counts.get(e["type"], 0) + 1
-    return {"since": since, "events": events, "counts": counts,
-            "industry": sub.get("sicDescription") or None,
-            "filingsUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=&dateb=&owner=include&count=40"}
-
-
-def fiscal_year_ends(facts, currency):
-    """Fiscal year end dates, taken from annual income-statement periods."""
-    ends = set()
-    for metric in ("netIncome", "revenue"):
-        for tax, concept in CONCEPTS[metric][1]:
-            ends.update(annual_values(facts, tax, concept, "duration", currency).keys())
-    by_year = {}
-    for e in sorted(ends):
-        by_year[_d(e).year] = e  # later end wins if fiscal year changed
-    return by_year  # {fiscal_year: 'YYYY-MM-DD'}
-
-
-PER_SHARE = {"eps": -1, "dps": -1, "dilutedShares": 1}  # exponent applied to the split factor
-
-
-def build_financials(ticker):
+def build_financials(ticker: str) -> dict[str, Any]:
     found = lookup_cik(ticker)
     if not found:
         raise LookupError(f"Ticker '{ticker}' not found in SEC EDGAR (only SEC-registered companies are supported).")
     cik, name, sec_ticker = found
     facts = sec_get(f"https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json")["facts"]
 
-    currency = reporting_currency(facts)
-    fy_ends = fiscal_year_ends(facts, currency)
+    currency = xbrl.reporting_currency(facts)
+    fy_ends = xbrl.fiscal_year_ends(facts, currency)
     if not fy_ends:
         raise LookupError(f"No annual report data found in SEC XBRL filings for {sec_ticker}.")
     years = sorted(fy_ends)[-YEARS:]
-    splits = split_events(facts, currency)
+    splits = xbrl.split_events(facts, currency)
 
     series, sources = {}, {}
     for metric, (kind, candidates) in CONCEPTS.items():
         vals, used = [], []
-        per_concept = [(c, annual_values(facts, tax, c, kind, currency)) for tax, c in candidates]
+        per_concept = [(c, xbrl.annual_values(facts, tax, c, kind, currency)) for tax, c in candidates]
         for y in years:
-            end = _d(fy_ends[y])
+            end = xbrl._d(fy_ends[y])
             v = None
             for concept, values in per_concept:
                 # balance-sheet dates can differ by a few days from the P&L end (52/53-week years)
-                match = next((values[e] for e in values if abs((_d(e) - end).days) <= 7), None)
+                match = next((values[e] for e in values if abs((xbrl._d(e) - end).days) <= 7), None)
                 if match is not None:
                     v, filed = match
-                    if metric in PER_SHARE:
+                    if metric in xbrl.PER_SHARE:
                         for split_filed, factor in splits:
                             if filed < split_filed:
-                                v = v * factor ** PER_SHARE[metric]
+                                v = v * factor ** xbrl.PER_SHARE[metric]
                     if concept not in used:
                         used.append(concept)
                     break
@@ -536,12 +221,12 @@ def build_financials(ticker):
         series[metric] = vals
         sources[metric] = used
 
-    shares = latest_shares_outstanding(facts)
+    shares = xbrl.latest_shares_outstanding(facts)
     try:
         sub = submissions(cik)
         history = filing_history(cik, f"{years[0]}-01-01", sub)
-        marker = financial_marker(sub)
-        report = latest_report(cik, sub)
+        marker = filings.financial_marker(sub)
+        report = filings.latest_report(cik, sub)
     except Exception:  # noqa: BLE001 - the financials are still useful without it
         sub, history, marker, report = None, None, None, None
 
@@ -559,14 +244,16 @@ def build_financials(ticker):
 
         # Total liabilities = everything that isn't equity. Minority owners' stakes in subsidiaries are
         # equity, not liabilities, so subtract equity INCLUDING non-controlling interests.
-        if series["totalLiabilities"][i] is None and series["liabilitiesAndEquity"][i] is not None:
-            eq_all = series["_equityInclNci"][i]
-            if eq_all is None and series["equity"][i] is not None:
-                eq_all = series["equity"][i] + (series["_minorityInterest"][i] or 0)
+        liabilities, liab_and_eq = series["totalLiabilities"][i], series["liabilitiesAndEquity"][i]
+        if liabilities is None and liab_and_eq is not None:
+            eq_all, eq = series["_equityInclNci"][i], series["equity"][i]
+            if eq_all is None and eq is not None:
+                eq_all = eq + (series["_minorityInterest"][i] or 0)
             if eq_all is not None:
-                series["totalLiabilities"][i] = series["liabilitiesAndEquity"][i] - eq_all
-        if series["dps"][i] is None and series["dividendsPaid"][i] is not None and series["dilutedShares"][i]:
-            series["dps"][i] = round(series["dividendsPaid"][i] / series["dilutedShares"][i], 4)
+                series["totalLiabilities"][i] = liab_and_eq - eq_all
+        dps, paid, diluted = series["dps"][i], series["dividendsPaid"][i], series["dilutedShares"][i]
+        if dps is None and paid is not None and diluted:
+            series["dps"][i] = round(paid / diluted, 4)
 
     series["totalDebt"], series["longTermDebt"] = total_debt, lt_debt
     sources["totalDebt"] = sources["_ltdTotal"] + sources["_ltdNoncurrent"] + sources["_ltdCurrent"] + sources["_shortTermBorrowings"]
@@ -592,7 +279,7 @@ def build_financials(ticker):
     }
 
 
-def api_response(ticker, now=time.time):
+def api_response(ticker: str, now: Callable[[], float] = time.time) -> Response:
     """Handle one /api/financials request.
 
     Returns (status, body_dict, cache_control, data_cache) where data_cache says where the data came from:
@@ -613,7 +300,7 @@ def api_response(ticker, now=time.time):
     recheck = bool(stored and stored.get("marker")
                    and now() - stored.get("factsTs", stored["fetchedTs"]) < FACTS_MAX_SECONDS)
 
-    def stale_or(status, body, cache):
+    def stale_or(status: int, body: dict[str, Any], cache: str) -> Response:
         # SEC failed: a stored copy (even an old one) beats an error page
         if stored:
             return 200, {**stored["data"], "stale": True}, CACHE_NONE, "STALE"
@@ -650,7 +337,7 @@ def api_response(ticker, now=time.time):
     return 200, data, CACHE_OK, source
 
 
-def insider_response(ticker, now=time.time):
+def insider_response(ticker: str, now: Callable[[], float] = time.time) -> Response:
     """Handle one /api/insiders request: the insider-trades summary, asked for by the page after the main results.
 
     It's separate because reading a company's Form 4s the first time takes several seconds (one download each,
@@ -681,12 +368,12 @@ def insider_response(ticker, now=time.time):
     return 200, data, CACHE_OK, "MISS"
 
 
-def revalidate(stored):
+def revalidate(stored: dict[str, Any]) -> dict[str, Any] | None:
     """Download only the filing list. If no annual or quarterly report has appeared since the stored figures,
     reuse them with a refreshed filing history; return None when a full refresh is needed."""
     d = stored["data"]
     sub = submissions(d["cik"])
-    if financial_marker(sub) != stored["marker"]:
+    if filings.financial_marker(sub) != stored["marker"]:
         return None
     since = (d.get("secHistory") or {}).get("since") or f"{d['years'][0]}-01-01"
     return {**d, "secHistory": filing_history(d["cik"], since, sub)}

@@ -20,7 +20,8 @@ STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascrip
 
 
 class Handler(BaseHTTPRequestHandler):
-    def _send(self, code, body, ctype="application/json", cache=None, data_cache=None):
+    def _send(self, code: int, body: str | bytes, ctype: str = "application/json", cache: str | None = None,
+              data_cache: str | None = None) -> None:
         data = body if isinstance(body, bytes) else body.encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", ctype + ("; charset=utf-8" if ctype.startswith(("text", "application/json")) else ""))
@@ -33,7 +34,7 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
-    def do_GET(self):
+    def do_GET(self) -> None:
         url = urlparse(self.path)
         if url.path in ("/api/financials", "/api/insiders"):
             ticker = (parse_qs(url.query).get("ticker") or [""])[0]
@@ -48,7 +49,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send(200, fh.read(), STATIC_TYPES[ext])
         self._send(404, json.dumps({"error": "Not found"}))
 
-    def log_message(self, fmt, *args):
+    def log_message(self, fmt: str, *args: object) -> None:
         print(f"[{self.log_date_time_string()}] {fmt % args}")
 
 

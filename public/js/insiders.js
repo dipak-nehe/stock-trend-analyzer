@@ -1,33 +1,12 @@
 // Insider trades (SEC Form 4): open-market buys and sales by officers, directors and 10% owners in the last
-// 12 months. The server does the counting (backend/insiders.py); this turns its summary into the section on the
-// SEC history tab and the line in "At a glance".
+// 12 months. The server does the counting (backend/insiders.py); this turns its summary into the Insiders tab,
+// which loads it only when opened.
 import { money, perShare } from "./format.js";
 import { getLocale, t, tn } from "./i18n.js";
 
 const SHOWN = 10; // latest trades in the table; the rest are one click away on SEC
 /** Share counts in full ("111,365" / "111.365"). @param {number} v */
 const shares = (v) => Math.round(v).toLocaleString(getLocale());
-
-/**
- * "2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)", that there were none, or that it's still loading.
- * @param {any} ins the summary (null: no insider filings) @param {string} [state] "loading" | "error" | "done"
- */
-export function insiderSummary(ins, state) {
-  if (state === "loading") return { sev: "info", text: t("insiders.loading.short") };
-  if (state === "error") return { sev: "info", text: t("insiders.error.short") };
-  if (!ins) return null;
-  const { buys, sells } = ins;
-  if (!buys.count && !sells.count) return { sev: "info", text: t("insiders.none.short") };
-  const parts = [];
-  if (buys.count) parts.push(tn("insiders.glance.buys", buys.count, { value: money(buys.value, "USD") }));
-  if (sells.count) {
-    parts.push(sells.planned
-      ? tn("insiders.glance.sellsPlanned", sells.count, { value: money(sells.value, "USD"), planned: sells.planned })
-      : tn("insiders.glance.sells", sells.count, { value: money(sells.value, "USD") }));
-  }
-  // Several insiders buying with their own money is the one pattern worth calling out.
-  return { sev: buys.insiders >= 2 ? "good" : "info", text: parts.join(" · ") };
-}
 
 const esc = (/** @type {string} */ s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -77,6 +56,7 @@ export function insiderView(ins, cik, state) {
     <div class="card insiders" data-testid="insiders">
       <p class="note">${t("insiders.intro")}</p>
       <div class="insider-totals">${total(t("insiders.buys"), buys, buyDetail, "insider-buys")}${total(t("insiders.sells"), sells, sellDetail, "insider-sells")}</div>
+      ${buys.insiders >= 2 ? `<p class="insider-signal" data-testid="insider-signal">✓ ${t("insiders.signal", { n: buys.insiders, value: money(buys.value, "USD") })}</p>` : ""}
       ${table}
       <p class="note">${notes.map((n) => `${n} `).join("")}<a href="${secLink}" target="_blank" rel="noopener">${t("insiders.allOnSec")}</a></p>
     </div>`;

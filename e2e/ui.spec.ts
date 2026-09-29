@@ -289,9 +289,8 @@ test('each tab has a short explanation', async ({ analysis }) => {
 
 test('glance summarises each area in one line', async ({ analysis }) => {
   await analysis.open('SMCI');
-  await expect(analysis.glanceRows).toHaveCount(7);
-  await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Insider trades', 'Graham & Buffett']);
-  await expect(analysis.glanceRow('Insider trades')).toContainText('6 sales ($18.9M, 4 pre-planned)');
+  await expect(analysis.glanceRows).toHaveCount(6);
+  await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
   await expect(analysis.glanceRow('Red flags')).toContainText('3 critical');
   await expect(analysis.glanceRow('Red flags')).toContainText('Restatement warning');
   await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement warning · 3 auditor changes · 13 late filings · 14 other serious events');
@@ -788,7 +787,6 @@ test('the disclaimer reads in Spanish, from Spanish pages and by switching', asy
 
 test('insider trades: open-market buys and sales in the last 12 months, with the filings', async ({ analysis }) => {
   await analysis.open('KO');
-  await expect(analysis.glanceRow('Insider trades')).toContainText('2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)');
   await analysis.openTab('insiders');
   await expect(analysis.insiderBuys).toContainText('2');
   await expect(analysis.insiderBuys).toContainText('$998.7K · 1 insider');
@@ -803,10 +801,10 @@ test('insider trades: open-market buys and sales in the last 12 months, with the
   await expect(analysis.insiders).not.toContainText('COCA COLA CO'); // its own investment in another company isn't counted
 });
 
-test('several insiders buying is a strength', async ({ analysis }) => {
+test('several insiders buying is called out in the Insiders tab', async ({ analysis }) => {
   await analysis.open('INTC');
-  expect(anyContains(await analysis.flagTitles.allInnerTexts(), 'Insiders are buying')).toBe(true);
-  await expect(analysis.glanceRow('Insider trades')).toContainText('2 buys');
+  await analysis.openTab('insiders');
+  await expect(analysis.insiderSignal).toContainText('2 insiders bought $10.2M of shares on the open market');
 });
 
 test('insider trades in Spanish', async ({ analysis }) => {
@@ -816,19 +814,29 @@ test('insider trades in Spanish', async ({ analysis }) => {
   await expect(analysis.insiders).toContainText('planificada');
 });
 
-test('the results appear first; insider trades show "Loading…" until they arrive', async ({ analysis, page }) => {
-  // Reading a company's Form 4s the first time takes seconds, so the page asks for them separately.
+test('insider trades load only when the Insiders tab is opened, and only once', async ({ analysis, page }) => {
+  // Reading a company's Form 4s the first time takes seconds, so nothing is fetched until someone asks for them.
+  let requests = 0;
   let release = () => {};
   const held = new Promise<void>((r) => { release = r; });
-  await page.route('**/api/insiders**', async (route) => { await held; await route.continue(); });
+  await page.route('**/api/insiders**', async (route) => { requests++; await held; await route.continue(); });
   await analysis.open('KO');
-  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)'); // the rest of the page doesn't wait
-  await expect(analysis.glanceRow('Insider trades')).toContainText('Loading…');
+  await analysis.openTab('flags');
+  expect(requests).toBe(0); // the results, At a glance and red flags don't need them
+  await expect(analysis.glanceRows).toHaveCount(6);
   await analysis.openTab('insiders');
   await expect(analysis.insiders).toContainText('Loading insider trades from SEC');
   await analysis.step('the insider answer arrives', async () => release());
   await expect(analysis.insiderTrades).toHaveCount(10);
-  await expect(analysis.glanceRow('Insider trades')).toContainText('31 sales');
+  await analysis.openTab('overview');
+  await analysis.openTab('insiders');
+  await expect(analysis.insiderTrades).toHaveCount(10);
+  expect(requests).toBe(1); // kept, not fetched again
+});
+
+test('a link to the Insiders tab loads them straight away', async ({ analysis }) => {
+  await analysis.goto('/?t=SMCI#insiders');
+  await expect(analysis.insiderSells).toContainText('6');
 });
 
 test('insider trades that fail to load can be tried again', async ({ analysis, page }) => {
@@ -837,7 +845,6 @@ test('insider trades that fail to load can be tried again', async ({ analysis, p
   await analysis.open('KO');
   await analysis.openTab('insiders');
   await expect(analysis.insiders).toContainText("Insider trades couldn't be loaded from SEC right now.");
-  await expect(analysis.glanceRow('Insider trades')).toContainText("Couldn't be loaded right now");
   await analysis.step('press "Try again"', () => analysis.insidersRetryButton.click());
   await expect(analysis.insiderTrades).toHaveCount(10);
 });

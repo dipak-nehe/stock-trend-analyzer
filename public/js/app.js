@@ -114,6 +114,7 @@ function showTab(name, { focus = false } = {}) {
     renderCharts(current.data, current.result);
     chartsStale = false;
   }
+  if (name === "insiders" && current) ensureInsiders();
   updateUrl();
 }
 
@@ -129,8 +130,14 @@ function renderHistory() {
   $("historyMore").textContent = view.moreText;
 }
 
-// Insider trades come in a second request, after the rest of the page is on screen: the section and its glance
-// line say "Loading…" until then. An answer for a company that's no longer on screen is ignored.
+// Insider trades load only when the Insiders tab is opened (reading a company's Form 4s the first time takes
+// several seconds): the tab says "Loading…" until they arrive. An answer for a company that's no longer on screen
+// is ignored.
+function ensureInsiders() {
+  // Only the first time: after a failure the tab shows "Try again" (redrawing it mustn't start a retry loop).
+  if (!current.data.insidersState) loadInsiders();
+}
+
 function loadInsiders() {
   const d = current.data;
   d.insidersState = "loading";
@@ -138,7 +145,7 @@ function loadInsiders() {
   fetchInsiders(d.ticker).then(
     (insiders) => { d.insiders = insiders; d.insidersState = "done"; },
     () => { d.insidersState = "error"; },
-  ).finally(() => { if (current && current.data === d) render(d); });  // flags and glance include it now
+  ).finally(() => { if (current && current.data === d) render(d); });
 }
 
 function renderValue() {
@@ -167,7 +174,6 @@ async function run(ticker) {
   try {
     render(await fetchFinancials(ticker));
     failed = null;
-    loadInsiders();
   } catch (e) {
     // Forget the previous company: its results are hidden, and the address, language switch and price box
     // must not bring them back while the error shows.

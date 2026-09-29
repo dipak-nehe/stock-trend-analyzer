@@ -89,6 +89,11 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('insider-trade');
   }
 
+  /** The note shown when several insiders bought on the open market. */
+  get insiderSignal(): Locator {
+    return this.page.getByTestId('insider-signal');
+  }
+
   get insidersRetryButton(): Locator {
     return this.insiders.getByRole('button', { name: either('Try again', 'Reintentar') });
   }

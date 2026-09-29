@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { insiderSummary, insiderView } from "../../public/js/insiders.js";
+import { insiderView } from "../../public/js/insiders.js";
 import { analyze } from "../../public/js/flags.js";
 import { company } from "./company.js";
 
@@ -19,21 +19,14 @@ function insiders({ buys = [0, 0, 0], sells = [0, 0, 0, 0], trades = [], partial
 const trade = (over = {}) => ({ date: "2026-08-20", type: "sell", shares: 111365, price: 90.93, value: 10126419,
   name: "Pietracci Bruno", role: "President, Latin America", planned: false, url: "https://www.sec.gov/x", ...over });
 
-test("the glance line counts buys and sales, with pre-planned sales", () => {
-  assert.equal(insiderSummary(null), null);
-  assert.deepEqual(insiderSummary(insiders()), { sev: "info", text: "No open-market buys or sales in 12 months" });
-  assert.deepEqual(insiderSummary(insiders({ buys: [2, 1, 998671], sells: [31, 11, 255746062, 10] })),
-    { sev: "info", text: "2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)" });
-  assert.equal(insiderSummary(insiders({ sells: [1, 1, 5e6, 0] })).text, "1 sale ($5.0M)");
-});
-
-test("several insiders buying makes the line and a strength; one insider doesn't", () => {
-  assert.equal(insiderSummary(insiders({ buys: [2, 2, 10249970] })).sev, "good");
-  const flags = (ins) => analyze(company({}, { insiders: ins })).flags.map((f) => f.title);
-  assert.ok(flags(insiders({ buys: [2, 2, 10249970] })).includes("Insiders are buying"));
-  assert.ok(!flags(insiders({ buys: [2, 1, 998671] })).includes("Insiders are buying"));
-  assert.ok(!flags(insiders({ sells: [30, 10, 9e8, 0] })).some((t) => /insider/i.test(t))); // selling is never a flag
-  assert.ok(!flags(null).includes("Insiders are buying"));
+test("several insiders buying is called out in the tab; one insider or only selling isn't, and it's never a red flag", () => {
+  const signal = (ins) => (insiderView(ins, 1).match(/data-testid="insider-signal">([^<]*)</) || [])[1];
+  assert.match(signal(insiders({ buys: [2, 2, 10249970] })), /^✓ 2 insiders bought \$10\.2M of shares on the open market\./);
+  assert.equal(signal(insiders({ buys: [2, 1, 998671] })), undefined);
+  assert.equal(signal(insiders({ sells: [30, 10, 9e8, 0] })), undefined);
+  // The tab loads on demand, so the red flags never depend on it.
+  const flags = analyze(company({}, { insiders: insiders({ buys: [3, 3, 5e6] }) })).flags.map((f) => f.title);
+  assert.ok(!flags.some((t) => /insider/i.test(t)));
 });
 
 test("the section shows the totals and the latest trades, each linked to its filing", () => {
@@ -59,8 +52,6 @@ test("no open-market trades, a partial summary, and text from filings is escaped
 });
 
 test("while the insider summary loads, and if it fails", () => {
-  assert.deepEqual(insiderSummary(undefined, "loading"), { sev: "info", text: "Loading…" });
-  assert.deepEqual(insiderSummary(undefined, "error"), { sev: "info", text: "Couldn't be loaded right now" });
   const loading = insiderView(undefined, 1, "loading");
   assert.match(loading, /role="status"/);
   assert.match(text(loading), /Insider trades · last 12 months Loading insider trades from SEC…/);

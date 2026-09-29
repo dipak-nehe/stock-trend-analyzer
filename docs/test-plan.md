@@ -32,11 +32,11 @@ How the web app is tested: what is covered, at which level, with what data, and 
 
 | Layer | Tool | Files | Tests | What it proves |
 |---|---|---|---|---|
-| 0 · JavaScript unit | Node's built-in test runner | `tests/js/*.test.js` | 70 | Formatting, CAGR and trend labels, every red-flag rule, checklists and value estimate, history and compare views, translations |
+| 0 · JavaScript unit | Node's built-in test runner | `tests/js/*.test.js` | 69 | Formatting, CAGR and trend labels, every red-flag rule, checklists and value estimate, history and compare views, translations |
 | 1 · Unit | pytest | `tests/test_stock_data.py`, `tests/test_store.py`, `tests/test_insiders.py` | 112 | Hand-built filings for tricky rules: restatements, splits, currency, minority interest, debt tags, 8-K item classification, input validation, errors, cache headers, stored results |
 | 2 · Regression | pytest | `tests/test_regression.py` | 47 | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings; figures pinned to values checked against published financials (fiscal 2021–2025) |
 | 3 · HTTP | pytest | `tests/test_server.py` | 25 | Local server and Vercel function answer identically; source files can't be downloaded; bad input rejected |
-| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 93 | The two pages driven like a person, against the real server on saved filings |
+| 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 94 | The two pages driven like a person, against the real server on saved filings |
 | 5 · Accessibility | Playwright + axe-core | `e2e/accessibility.spec.ts` | 37 | No WCAG A/AA violations on every page state, light and dark, English and Spanish, desktop and phone; keyboard-only use |
 | | | | **384** | |
 
@@ -72,7 +72,7 @@ Static checks run first: ESLint and TypeScript (checkJs) for the JavaScript, Ruf
 | Language (EN/ES) | i18n (JS) | Spanish link, browser language, switching keeps state, remembered choice (from the button or a link) across every page, no English left | Spanish page |
 | Caching and stored results | cache headers, store versions and fallback (unit) | data-fetched time | — |
 | Disclaimer (short notice and full page) | — | notice always visible, links from both pages, Spanish, language switch | disclaimer page, EN/ES, light/dark |
-| Insider trades (Form 4) | parsing, codes, roles, pre-planned flag, 12-month window, cap and partial summaries, stored filings, other-issuer filings ignored, its own endpoint that the main results never wait for, a failed summary never stored (unit, HTTP); real counts for KO, INTC, AAPL, SMCI, JPM (regression); summary, section, strength (JS) | totals, trades and links for KO, results first with "Loading…", Try again after a failure, cluster-buying strength for INTC, Spanish | Insiders tab |
+| Insider trades (Form 4) | parsing, codes, roles, pre-planned flag, 12-month window, cap and partial summaries, stored filings, other-issuer filings ignored, its own endpoint that the main results never wait for, a failed summary never stored (unit, HTTP); real counts for KO, INTC, AAPL, SMCI, JPM (regression); the tab's section, loading/error states and buying note; never a red flag (JS) | loaded only when the Insiders tab opens (and once), a link straight to the tab, totals, trades and links for KO, Try again after a failure, the buying note for INTC, Spanish | Insiders tab |
 | Security and privacy | source files blocked (HTTP) | nothing loaded from other sites, analytics off locally | — |
 
 ## 7. CI and reporting

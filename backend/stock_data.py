@@ -33,7 +33,7 @@ CACHE_NONE = "no-store"
 # ---------- stored results (see store.py) ----------
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
 # so stored entries in the old format are simply ignored.
-CACHE_VERSION = "v8"
+CACHE_VERSION = "v9"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
 FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
 KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
@@ -544,12 +544,6 @@ def build_financials(ticker):
         report = latest_report(cik, sub)
     except Exception:  # noqa: BLE001 - the financials are still useful without it
         sub, history, marker, report = None, None, None, None
-    insiders_failed = False
-    try:
-        insiders = insider_activity(cik, sub) if sub else None
-    except Exception:  # noqa: BLE001 - nor without the insider summary
-        log.exception("insider activity failed for %s", sec_ticker)
-        insiders, insiders_failed = None, True
 
     # Derived series
     total_debt, lt_debt = [], []
@@ -591,8 +585,6 @@ def build_financials(ticker):
         "sources": sources,
         "splits": [{"detectedInFiling": d, "ratio": round(f, 4)} for d, f in splits],
         "secHistory": history,
-        "insiders": insiders,
-        "insidersFailed": insiders_failed,  # the next request tries again instead of serving "no insider data"
         "latestReport": report,
         "_marker": marker,  # latest annual/quarterly report; kept in storage, removed from the response
         "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
@@ -614,7 +606,7 @@ def api_response(ticker, now=time.time):
 
     key = f"{CACHE_VERSION}:fin:{normalize_ticker(ticker)}"
     stored = safe_get(key)
-    if stored and now() - stored["fetchedTs"] < FRESH_SECONDS and not stored["data"].get("insidersFailed"):
+    if stored and now() - stored["fetchedTs"] < FRESH_SECONDS:
         return 200, stored["data"], CACHE_OK, "HIT"
     # Stored figures can be re-checked cheaply (filing list only) if they're under 90 days old and we know
     # which report they came from; otherwise do a full refresh.
@@ -658,6 +650,37 @@ def api_response(ticker, now=time.time):
     return 200, data, CACHE_OK, source
 
 
+def insider_response(ticker, now=time.time):
+    """Handle one /api/insiders request: the insider-trades summary, asked for by the page after the main results.
+
+    It's separate because reading a company's Form 4s the first time takes several seconds (one download each,
+    within SEC's rate limit), and the rest of the page shouldn't wait for it. Same return shape as api_response.
+    A failure is never stored, so the next request simply tries again.
+    """
+    ticker = (ticker or "").strip()
+    if not TICKER_RE.match(ticker):
+        return 400, {"error": "That doesn't look like a ticker."}, CACHE_NONE, None
+    key = f"{CACHE_VERSION}:ins:{normalize_ticker(ticker)}"
+    stored = safe_get(key)
+    if stored and now() - stored["fetchedTs"] < FRESH_SECONDS:
+        return 200, stored["data"], CACHE_OK, "HIT"
+    try:
+        found = lookup_cik(ticker)
+        if not found:
+            return 404, {"error": f"Ticker '{ticker.upper()}' not found in SEC EDGAR."}, CACHE_NOT_FOUND, None
+        cik = found[0]
+        data = {"ticker": found[2], "insiders": insider_activity(cik, submissions(cik))}
+    except ConfigError as e:
+        return 500, {"error": str(e)}, CACHE_NONE, None
+    except Exception:  # noqa: BLE001 - SEC unreachable or limiting: an older summary beats none
+        log.exception("insider summary failed for %s", ticker)
+        if stored:
+            return 200, {**stored["data"], "stale": True}, CACHE_NONE, "STALE"
+        return 502, {"error": "Insider trades couldn't be loaded from SEC EDGAR right now."}, CACHE_NONE, None
+    safe_set(key, {"fetchedTs": now(), "data": data}, KEEP_SECONDS)
+    return 200, data, CACHE_OK, "MISS"
+
+
 def revalidate(stored):
     """Download only the filing list. If no annual or quarterly report has appeared since the stored figures,
     reuse them with a refreshed filing history; return None when a full refresh is needed."""
@@ -666,12 +689,7 @@ def revalidate(stored):
     if financial_marker(sub) != stored["marker"]:
         return None
     since = (d.get("secHistory") or {}).get("since") or f"{d['years'][0]}-01-01"
-    try:
-        insiders, failed = insider_activity(d["cik"], sub), False  # only new Form 4s are downloaded
-    except Exception:  # noqa: BLE001
-        log.exception("insider activity failed for %s", d.get("ticker"))
-        insiders, failed = d.get("insiders"), d.get("insiders") is None
-    return {**d, "secHistory": filing_history(d["cik"], since, sub), "insiders": insiders, "insidersFailed": failed}
+    return {**d, "secHistory": filing_history(d["cik"], since, sub)}
 
 
 store = store_module.from_environment(ssl_context=SSL_CTX)

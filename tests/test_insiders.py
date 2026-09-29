@@ -143,22 +143,35 @@ def test_no_insider_filings_means_no_summary():
     assert insiders.insider_activity(1, filings(), None, {}.get, None, today=TODAY) is None
 
 
-def test_the_financials_still_load_when_the_insider_summary_fails(sec_fixtures, monkeypatch):
-    monkeypatch.setattr(stock_data, "insider_activity", lambda *a: (_ for _ in ()).throw(RuntimeError("boom")))
+def test_the_main_results_download_no_form4s(sec_fixtures, monkeypatch):
+    # Reading Form 4s takes seconds; the main results come without them, and the page asks /api/insiders after.
+    fetched = []
+    monkeypatch.setattr(stock_data, "sec_get_text", lambda url: fetched.append(url) or "")
     d = stock_data.build_financials("KO")
-    assert d["insiders"] is None and d["insidersFailed"] is True and d["secHistory"] is not None
+    assert fetched == [] and "insiders" not in d
 
 
-def test_a_failed_insider_summary_is_retried_on_the_next_request(sec_fixtures, monkeypatch):
-    # Regression: one failed first lookup (NVDA on the live site) was stored and served as "no insider data".
+def test_the_insider_endpoint_stores_its_summary(sec_fixtures):
+    status, body, cache, source = stock_data.insider_response("KO")
+    assert (status, source, body["ticker"], body["insiders"]["sells"]["count"]) == (200, "MISS", "KO", 31)
+    assert "s-maxage" in cache
+    assert stock_data.insider_response("ko")[3] == "HIT"
+
+
+def test_a_failed_insider_summary_is_not_stored_so_the_next_request_tries_again(sec_fixtures, monkeypatch):
+    # Regression: a failed first lookup (NVDA on the live site) was stored and served as "no insider data".
     real = stock_data.insider_activity
     monkeypatch.setattr(stock_data, "insider_activity", lambda *a: (_ for _ in ()).throw(RuntimeError("SEC hiccup")))
-    status, body, _, source = stock_data.api_response("KO")
-    assert (status, source, body["insiders"]) == (200, "MISS", None)
+    status, body, cache, source = stock_data.insider_response("KO")
+    assert (status, source, cache) == (502, None, stock_data.CACHE_NONE) and "couldn't be loaded" in body["error"]
     monkeypatch.setattr(stock_data, "insider_activity", real)
-    status, body, _, source = stock_data.api_response("KO")
-    assert source != "HIT" and body["insiders"]["sells"]["count"] == 31 and body["insidersFailed"] is False
-    assert stock_data.api_response("KO")[3] == "HIT"  # and once it worked, the stored copy is used again
+    status, body, _, source = stock_data.insider_response("KO")
+    assert (status, source, body["insiders"]["sells"]["count"]) == (200, "MISS", 31)
+
+
+@pytest.mark.parametrize("ticker, status", [("ZZZZQ", 404), ("x y", 400), ("", 400)])
+def test_the_insider_endpoint_rejects_unknown_and_bad_tickers(sec_fixtures, ticker, status):
+    assert stock_data.insider_response(ticker)[0] == status
 
 
 # ---------- real filings (tests/fixtures/form4_*.json, 12 months to 2026-09-26) ----------
@@ -171,7 +184,7 @@ def test_a_failed_insider_summary_is_retried_on_the_next_request(sec_fixtures, m
     ("SMCI", (0, 0, 0), (6, 4, 18_910_948, 4)),
 ])
 def test_real_insider_summaries(sec_fixtures, ticker, buys, sells):
-    ins = stock_data.build_financials(ticker)["insiders"]
+    ins = stock_data.insider_response(ticker)[1]["insiders"]
     assert (ins["buys"]["count"], ins["buys"]["insiders"], ins["buys"]["value"]) == buys
     assert (ins["sells"]["count"], ins["sells"]["insiders"], ins["sells"]["value"], ins["sells"]["planned"]) == sells
     assert ins["partial"] is False
@@ -179,11 +192,11 @@ def test_real_insider_summaries(sec_fixtures, ticker, buys, sells):
 
 def test_coca_colas_own_investor_filing_is_not_counted_as_an_insider_sale(sec_fixtures):
     # Its filing list includes a Form 4 of Coca-Cola as a 10% owner of another company: 18.8 million shares at $127.
-    ins = stock_data.build_financials("KO")["insiders"]
+    ins = stock_data.insider_response("KO")[1]["insiders"]
     assert ins["sells"]["shares"] == 3_121_783
     assert all(t["name"] != "COCA COLA CO" for t in ins["trades"])
 
 
 def test_a_company_with_more_filings_than_the_cap_is_marked_partial(sec_fixtures):
-    ins = stock_data.build_financials("JPM")["insiders"]
+    ins = stock_data.insider_response("JPM")[1]["insiders"]
     assert ins["filings"] == insiders.MAX_FILINGS < ins["totalFilings"] and ins["partial"] is True

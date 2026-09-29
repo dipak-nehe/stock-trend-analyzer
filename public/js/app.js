@@ -9,7 +9,7 @@ import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, applyStaticText, bindSlashShortcut, compareHref, enableWhenFilled, fetchFinancials, initialLang, targetOf, useLang } from "./page.js";
+import { $, $$, applyStaticText, bindSlashShortcut, compareHref, enableWhenFilled, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -117,7 +117,7 @@ function showTab(name, { focus = false } = {}) {
 }
 
 function renderHistory() {
-  $("insiders").innerHTML = insiderView(current.data.insiders, current.data.cik);
+  $("insiders").innerHTML = insiderView(current.data.insiders, current.data.cik, current.data.insidersState);
   const h = current.data.secHistory;
   if (!h) return;
   const view = historyView(h, historyFilter, historyExpanded);
@@ -127,6 +127,18 @@ function renderHistory() {
   $("historyList").innerHTML = view.events;
   $("historyMore").classList.toggle("hidden", view.total <= 10);
   $("historyMore").textContent = view.moreText;
+}
+
+// Insider trades come in a second request, after the rest of the page is on screen: the section and its glance
+// line say "Loading…" until then. An answer for a company that's no longer on screen is ignored.
+function loadInsiders() {
+  const d = current.data;
+  d.insidersState = "loading";
+  render(d);
+  fetchInsiders(d.ticker).then(
+    (insiders) => { d.insiders = insiders; d.insidersState = "done"; },
+    () => { d.insidersState = "error"; },
+  ).finally(() => { if (current && current.data === d) render(d); });  // flags and glance include it now
 }
 
 function renderValue() {
@@ -155,6 +167,7 @@ async function run(ticker) {
   try {
     render(await fetchFinancials(ticker));
     failed = null;
+    loadInsiders();
   } catch (e) {
     // Forget the previous company: its results are hidden, and the address, language switch and price box
     // must not bring them back while the error shows.
@@ -195,6 +208,9 @@ function switchLang(lang) {
 bindSlashShortcut("ticker");
 // Analyze starts disabled in the HTML (an early submit would just reload the page) and then needs a ticker in the box.
 const syncGo = enableWhenFilled("ticker", "go");
+$("insiders").addEventListener("click", (e) => {
+  if (targetOf(e).closest("#insidersRetry")) loadInsiders();
+});
 $("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

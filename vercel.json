@@ -6,6 +6,10 @@
     "api/financials.py": {
       "includeFiles": "backend/**",
       "maxDuration": 30
+    },
+    "api/insiders.py": {
+      "includeFiles": "backend/**",
+      "maxDuration": 30
     }
   },
   "headers": [

@@ -14,8 +14,8 @@ import server
 from backend import stock_data
 
 
-def load_vercel_handler():
-    spec = importlib.util.spec_from_file_location("vercel_financials", os.path.join(ROOT, "api", "financials.py"))
+def load_vercel_handler(name="financials"):
+    spec = importlib.util.spec_from_file_location(f"vercel_{name}", os.path.join(ROOT, "api", f"{name}.py"))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module.handler
@@ -97,10 +97,21 @@ def test_vercel_function_matches_local_server(serve, local):
         assert a[1]["Cache-Control"] == b[1]["Cache-Control"], query
 
 
+def test_insider_trades_have_their_own_endpoint_on_both_servers(serve, local):
+    # Loaded by the page after the main results (reading Form 4s the first time takes seconds).
+    vercel = serve(load_vercel_handler("insiders"), threading_server=False)
+    for query in ("?ticker=KO", "?ticker=ZZZZQ", "?ticker=x%20y"):
+        a, b = local("/api/insiders" + query), vercel("/api/insiders" + query)
+        assert a[0] == b[0] and json.loads(a[2]) == json.loads(b[2]), query
+    status, headers, body = local("/api/insiders?ticker=KO")
+    assert status == 200 and json.loads(body)["insiders"]["sells"]["count"] == 31 and "s-maxage" in headers["Cache-Control"]
+
+
 def test_vercel_config_bundles_the_shared_module():
     with open(os.path.join(ROOT, "vercel.json")) as fh:
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
+    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py"}
     for fn in config["functions"].values():
         assert fn["includeFiles"] == "backend/**"  # every module the function imports
     assert os.path.exists(os.path.join(ROOT, "public", "index.html"))

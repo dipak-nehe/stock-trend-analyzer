@@ -8,8 +8,13 @@ const SHOWN = 10; // latest trades in the table; the rest are one click away on 
 /** Share counts in full ("111,365" / "111.365"). @param {number} v */
 const shares = (v) => Math.round(v).toLocaleString(getLocale());
 
-/** "2 buys ($1.0M) · 31 sales ($255.7M, 10 pre-planned)", or that there were none. @param {any} ins */
-export function insiderSummary(ins) {
+/**
+ * "2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)", that there were none, or that it's still loading.
+ * @param {any} ins the summary (null: no insider filings) @param {string} [state] "loading" | "error" | "done"
+ */
+export function insiderSummary(ins, state) {
+  if (state === "loading") return { sev: "info", text: t("insiders.loading.short") };
+  if (state === "error") return { sev: "info", text: t("insiders.error.short") };
   if (!ins) return null;
   const { buys, sells } = ins;
   if (!buys.count && !sells.count) return { sev: "info", text: t("insiders.none.short") };
@@ -26,8 +31,19 @@ export function insiderSummary(ins) {
 
 const esc = (/** @type {string} */ s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-/** HTML for the section, or "" when there's nothing to show. @param {any} ins @param {number|string} cik */
-export function insiderView(ins, cik) {
+/**
+ * HTML for the section, or "" when there's nothing to show.
+ * @param {any} ins @param {number|string} cik @param {string} [state] "loading" | "error" | "done"
+ */
+export function insiderView(ins, cik, state) {
+  const heading = `<h3 class="panel-h" id="insidersTitle">${t("insiders.title")}</h3>`;
+  if (state === "loading") {
+    return `${heading}<div class="card insiders" data-testid="insiders"><p class="loading-note" role="status">${t("insiders.loading.long")}</p></div>`;
+  }
+  if (state === "error") {
+    return `${heading}<div class="card insiders" data-testid="insiders"><p role="alert">${t("insiders.error.long")}</p>
+      <button type="button" class="chip" id="insidersRetry">${t("insiders.retry")}</button></div>`;
+  }
   if (!ins) return "";
   const { buys, sells } = ins;
   const total = (/** @type {string} */ label, /** @type {any} */ side, /** @type {string} */ detail, /** @type {string} */ id) =>
@@ -57,7 +73,7 @@ export function insiderView(ins, cik) {
     ...(ins.trades.length > SHOWN ? [tn("insiders.latest", SHOWN)] : []),
     ...(ins.partial ? [t("insiders.partial", { read: ins.read, total: ins.totalFilings })] : []),
   ];
-  return `<h3 class="panel-h" id="insidersTitle">${t("insiders.title")}</h3>
+  return `${heading}
     <div class="card insiders" data-testid="insiders">
       <p class="note">${t("insiders.intro")}</p>
       <div class="insider-totals">${total(t("insiders.buys"), buys, buyDetail, "insider-buys")}${total(t("insiders.sells"), sells, sellDetail, "insider-sells")}</div>

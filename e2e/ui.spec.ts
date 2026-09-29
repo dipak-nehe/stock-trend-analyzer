@@ -811,3 +811,29 @@ test('insider trades in Spanish', async ({ analysis }) => {
   await expect(analysis.insiderSells).toContainText('Ventas en el mercado');
   await expect(analysis.insiders).toContainText('planificada');
 });
+
+test('the results appear first; insider trades show "Loading…" until they arrive', async ({ analysis, page }) => {
+  // Reading a company's Form 4s the first time takes seconds, so the page asks for them separately.
+  let release = () => {};
+  const held = new Promise<void>((r) => { release = r; });
+  await page.route('**/api/insiders**', async (route) => { await held; await route.continue(); });
+  await analysis.open('KO');
+  await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)'); // the rest of the page doesn't wait
+  await expect(analysis.glanceRow('Insider trades')).toContainText('Loading…');
+  await analysis.openTab('history');
+  await expect(analysis.insiders).toContainText('Loading insider trades from SEC');
+  await analysis.step('the insider answer arrives', async () => release());
+  await expect(analysis.insiderTrades).toHaveCount(10);
+  await expect(analysis.glanceRow('Insider trades')).toContainText('31 sales');
+});
+
+test('insider trades that fail to load can be tried again', async ({ analysis, page }) => {
+  let failures = 1;
+  await page.route('**/api/insiders**', (route) => (failures-- > 0 ? route.abort() : route.continue()));
+  await analysis.open('KO');
+  await analysis.openTab('history');
+  await expect(analysis.insiders).toContainText("Insider trades couldn't be loaded from SEC right now.");
+  await expect(analysis.glanceRow('Insider trades')).toContainText("Couldn't be loaded right now");
+  await analysis.step('press "Try again"', () => analysis.insidersRetryButton.click());
+  await expect(analysis.insiderTrades).toHaveCount(10);
+});

@@ -57,3 +57,14 @@ test("no open-market trades, a partial summary, and text from filings is escaped
   assert.match(odd, /&lt;b&gt;X&lt;\/b&gt;/);
   assert.match(odd, /A &amp; B/);
 });
+
+test("while the insider summary loads, and if it fails", () => {
+  assert.deepEqual(insiderSummary(undefined, "loading"), { sev: "info", text: "Loading…" });
+  assert.deepEqual(insiderSummary(undefined, "error"), { sev: "info", text: "Couldn't be loaded right now" });
+  const loading = insiderView(undefined, 1, "loading");
+  assert.match(loading, /role="status"/);
+  assert.match(text(loading), /Insider trades · last 12 months Loading insider trades from SEC…/);
+  const failed = insiderView(undefined, 1, "error");
+  assert.match(failed, /role="alert"/);
+  assert.match(failed, /id="insidersRetry"[^>]*>Try again</);
+});

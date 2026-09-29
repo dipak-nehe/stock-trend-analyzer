@@ -31,6 +31,16 @@ export async function fetchFinancials(ticker) {
   return body;
 }
 
+/**
+ * Fetch one company's insider-trades summary (asked for after the main results, because reading its Form 4s the
+ * first time takes several seconds). Throws on failure. @param {string} ticker
+ */
+export async function fetchInsiders(ticker) {
+  const res = await fetch(`/api/insiders?ticker=${encodeURIComponent(ticker)}&v=${API_VERSION}`);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return (await res.json()).insiders;
+}
+
 // Static text: the English stays in the HTML (kept in data-en the first time) and other languages
 // come from the "ui.*" keys in strings/<lang>.js.
 export function applyStaticText() {

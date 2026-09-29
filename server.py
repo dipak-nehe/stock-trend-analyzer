@@ -1,6 +1,6 @@
 """10-Year Stock Value Analysis - local development server.
 
-Serves public/index.html and /api/financials (same API as the Vercel function).
+Serves public/ and /api/financials and /api/insiders (the same API as the Vercel functions).
 
 Run:  export SEC_USER_AGENT="StockTrendAnalyzer your-email@example.com"
       python3 server.py      then open http://localhost:8000
@@ -35,9 +35,10 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         url = urlparse(self.path)
-        if url.path == "/api/financials":
+        if url.path in ("/api/financials", "/api/insiders"):
             ticker = (parse_qs(url.query).get("ticker") or [""])[0]
-            status, body, cache, data_cache = stock_data.api_response(ticker)
+            respond = stock_data.api_response if url.path == "/api/financials" else stock_data.insider_response
+            status, body, cache, data_cache = respond(ticker)
             return self._send(status, json.dumps(body), cache=cache, data_cache=data_cache)
         name = "index.html" if url.path in ("/", "") else url.path.lstrip("/")
         path = os.path.realpath(os.path.join(PUBLIC, name))

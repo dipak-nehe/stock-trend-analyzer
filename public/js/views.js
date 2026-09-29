@@ -174,7 +174,7 @@ export function glanceRows(d, r, v) {
   const fp = filingProblems(d.secHistory);
   if (fp) rows.push({ what: t("glance.sec"), sev: fp.sev, icon: GLANCE_ICON[fp.sev], tab: "history",
                       say: fp.total ? fp.text : t("glance.clean", { year: d.secHistory.since.slice(0, 4) }) });
-  const ins = insiderSummary(d.insiders);
+  const ins = insiderSummary(d.insiders, d.insidersState);
   if (ins) rows.push({ what: t("glance.insiders"), sev: ins.sev, icon: GLANCE_ICON[ins.sev], tab: "history", say: ins.text });
 
   const score = (list) => {

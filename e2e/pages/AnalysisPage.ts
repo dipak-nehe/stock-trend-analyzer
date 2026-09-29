@@ -89,6 +89,10 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('insider-trade');
   }
 
+  get insidersRetryButton(): Locator {
+    return this.insiders.getByRole('button', { name: either('Try again', 'Reintentar') });
+  }
+
   get allInsiderFilingsLink(): Locator {
     return this.insiders.getByRole('link', { name: either('All insider filings on SEC ↗', 'Todas las presentaciones de directivos en la SEC ↗') });
   }

@@ -157,6 +157,7 @@
   .more { margin-top: 10px; }
   @media (max-width: 600px) { .event { grid-template-columns: 1fr auto; } .event .date { grid-column: 1 / -1; } }
   /* Insider trades (SEC history tab) */
+  .insiders .loading-note { margin: 0; color: var(--text-2); font-size: 14px; }
   .insiders .note:first-child { margin-top: 0; font-size: 13px; color: var(--text-2); }
   .insider-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; margin: 12px 0; }
   .insider-total { border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }

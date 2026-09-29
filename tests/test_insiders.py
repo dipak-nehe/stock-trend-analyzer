@@ -146,7 +146,19 @@ def test_no_insider_filings_means_no_summary():
 def test_the_financials_still_load_when_the_insider_summary_fails(sec_fixtures, monkeypatch):
     monkeypatch.setattr(stock_data, "insider_activity", lambda *a: (_ for _ in ()).throw(RuntimeError("boom")))
     d = stock_data.build_financials("KO")
-    assert d["insiders"] is None and d["secHistory"] is not None
+    assert d["insiders"] is None and d["insidersFailed"] is True and d["secHistory"] is not None
+
+
+def test_a_failed_insider_summary_is_retried_on_the_next_request(sec_fixtures, monkeypatch):
+    # Regression: one failed first lookup (NVDA on the live site) was stored and served as "no insider data".
+    real = stock_data.insider_activity
+    monkeypatch.setattr(stock_data, "insider_activity", lambda *a: (_ for _ in ()).throw(RuntimeError("SEC hiccup")))
+    status, body, _, source = stock_data.api_response("KO")
+    assert (status, source, body["insiders"]) == (200, "MISS", None)
+    monkeypatch.setattr(stock_data, "insider_activity", real)
+    status, body, _, source = stock_data.api_response("KO")
+    assert source != "HIT" and body["insiders"]["sells"]["count"] == 31 and body["insidersFailed"] is False
+    assert stock_data.api_response("KO")[3] == "HIT"  # and once it worked, the stored copy is used again
 
 
 # ---------- real filings (tests/fixtures/form4_*.json, 12 months to 2026-09-26) ----------

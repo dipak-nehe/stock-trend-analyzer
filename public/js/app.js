@@ -14,7 +14,7 @@ import { $, $$, applyStaticText, bindSlashShortcut, compareHref, enableWhenFille
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
 let historyFilter = "all", historyExpanded = false;
-const TABS = ["overview", "flags", "history", "value", "charts", "data"];
+const TABS = ["overview", "flags", "history", "insiders", "value", "charts", "data"];
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
 let chartsStale = true;  // charts are drawn when their tab is first shown (a hidden canvas has no size)
 
@@ -65,6 +65,7 @@ function render(d) {
   document.title = `${d.ticker} · 10-Year Stock Value Analysis`;
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
+  $("insiders").innerHTML = insiderView(d.insiders, d.cik, d.insidersState);
   renderValue();
   chartsStale = true;
   showTab(activeTab);
@@ -117,7 +118,6 @@ function showTab(name, { focus = false } = {}) {
 }
 
 function renderHistory() {
-  $("insiders").innerHTML = insiderView(current.data.insiders, current.data.cik, current.data.insidersState);
   const h = current.data.secHistory;
   if (!h) return;
   const view = historyView(h, historyFilter, historyExpanded);

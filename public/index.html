@@ -37,6 +37,7 @@
   <symbol id="i-overview" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
   <symbol id="i-flags" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></symbol>
   <symbol id="i-history" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h6M10 17h6"/></symbol>
+  <symbol id="i-insiders" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M17 13V5M14 8l3-3 3 3"/></symbol>
   <symbol id="i-value" viewBox="0 0 24 24"><path d="M12 4v16M6 20h12"/><path d="M4 8h16"/><path d="M4 8l-2 6h6zM20 8l-2 6h6z"/></symbol>
   <symbol id="i-charts" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
   <symbol id="i-data" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
@@ -104,6 +105,10 @@
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-history"/></svg></span>
         <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.history.title">SEC history</span><span class="gi-text" data-i18n="ui.card.history.text">Restatements, auditor changes, late filings, exchange notices, amended reports and SEC comment letters from the company's own record, each linked to the original document.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
+      <button type="button" class="guide-item" data-tab="insiders">
+        <span class="gi-icon" aria-hidden="true"><svg><use href="#i-insiders"/></svg></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.insiders.title">Insider trades</span><span class="gi-text" data-i18n="ui.card.insiders.text">Who bought or sold the company's shares on the open market in the last 12 months: officers, directors and 10% owners, from their SEC Form 4 filings, with pre-planned sales marked.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+      </button>
       <button type="button" class="guide-item" data-tab="value">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
         <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.value.title">Graham &amp; Buffett-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
@@ -142,6 +147,7 @@
       <button role="tab" id="tab-overview" aria-controls="panel-overview" data-tab="overview"><svg class="tab-icon" aria-hidden="true"><use href="#i-overview"/></svg><span data-i18n="ui.tab.overview">Overview</span></button>
       <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg><span data-i18n="ui.tab.flags">Red flags</span> <span class="badge" id="flagsBadge" data-testid="flags-badge"></span></button>
       <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg><span data-i18n="ui.tab.history">SEC history</span> <span class="badge" id="historyBadge" data-testid="history-badge"></span></button>
+      <button role="tab" id="tab-insiders" aria-controls="panel-insiders" data-tab="insiders"><svg class="tab-icon" aria-hidden="true"><use href="#i-insiders"/></svg><span data-i18n="ui.tab.insiders">Insiders</span></button>
       <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg><span data-i18n="ui.tab.value">Graham &amp; Buffett</span></button>
       <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg><span data-i18n="ui.tab.charts">Charts</span></button>
       <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg><span data-i18n="ui.tab.data">Data</span></button>
@@ -166,14 +172,18 @@
     <div role="tabpanel" class="panel" id="panel-history" aria-labelledby="tab-history" hidden>
       <p class="section-note" data-testid="section-note" id="historyIntro"></p>
       <div class="tiles history-tiles" id="historyTiles" data-testid="history-tiles"></div>
-      <div id="insiders"></div>
-      <h3 class="panel-h" data-i18n="ui.history.filings">Notable filings</h3>
       <div class="card">
         <div class="filter-row" id="historyFilters" role="group" aria-label="Filter filings"></div>
         <div id="historyList" data-testid="history-list"></div>
         <button class="chip more" id="historyMore" type="button"></button>
       </div>
       <nav class="panel-nav" data-for="history" aria-label="Move between sections"></nav>
+    </div>
+
+    <div role="tabpanel" class="panel" id="panel-insiders" aria-labelledby="tab-insiders" hidden>
+      <p class="section-note" data-testid="section-note" data-i18n="ui.note.insiders">Open-market buys and sales of the company's shares by its officers, directors and 10% owners in the last 12 months, from their SEC Form 4 filings.</p>
+      <div id="insiders"></div>
+      <nav class="panel-nav" data-for="insiders" aria-label="Move between sections"></nav>
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>

@@ -201,7 +201,7 @@
   .guide-intro { margin: 0 18px 10px; color: var(--text-2); font-size: 14px; }
   .guide-try { color: var(--accent); font-weight: 600; }
   .guide.has-results .guide-try { display: none; }
-  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px; padding: 0 18px 4px; }
+  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 10px; padding: 0 18px 4px; }  /* seven cards: 4 + 3 on a desktop */
   .guide-item { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; text-align: left; padding: 14px; border-radius: 12px;
     background: var(--surface); color: var(--text-1); border: 1px solid var(--border); font: inherit; cursor: pointer; transition: border-color .15s, transform .15s, box-shadow .15s; }
   .guide-item:hover, .guide-item:focus-visible { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--accent) 60%, transparent); }

@@ -210,7 +210,7 @@ test('guide explains the results before a search', async ({ analysis }) => {
   await expect(analysis.guide).toHaveAttribute('open', '');
   // the guide's cards are named after the tabs, so the guide maps directly onto the results
   await expect(analysis.guideCardTitles).toHaveText(
-    ['Overview', 'Red flags', 'SEC history', 'Graham & Buffett-style analysis', 'Charts', 'Data']);
+    ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Graham & Buffett-style analysis', 'Charts', 'Data']);
   await expect(analysis.howItWorksSteps).toHaveCount(3); // the three-step "how it works" strip
   await expect(analysis.guideCardArrows.first()).toBeVisible();
 });
@@ -236,6 +236,10 @@ test('tab tour: each tab opens alone, updates the address and shows its content'
       await expect(analysis.criticalFlagTitles).toHaveCount(3); // matches the tab's badge
       await expect(analysis.flagsBadge).toHaveText('3');
       expect(await analysis.flagCards.count()).toBeGreaterThan(5);
+    },
+    insiders: async () => {
+      await expect(analysis.insiderSells).toContainText('6'); // SMCI: six open-market sales, no buys
+      await expect(analysis.insiderTrades).toHaveCount(6);
     },
     history: async () => {
       await expect(analysis.historyTiles).toHaveCount(6);
@@ -785,7 +789,7 @@ test('the disclaimer reads in Spanish, from Spanish pages and by switching', asy
 test('insider trades: open-market buys and sales in the last 12 months, with the filings', async ({ analysis }) => {
   await analysis.open('KO');
   await expect(analysis.glanceRow('Insider trades')).toContainText('2 buys ($998.7K) · 31 sales ($255.7M, 10 pre-planned)');
-  await analysis.openTab('history');
+  await analysis.openTab('insiders');
   await expect(analysis.insiderBuys).toContainText('2');
   await expect(analysis.insiderBuys).toContainText('$998.7K · 1 insider');
   await expect(analysis.insiderSells).toContainText('31');
@@ -806,7 +810,7 @@ test('several insiders buying is a strength', async ({ analysis }) => {
 });
 
 test('insider trades in Spanish', async ({ analysis }) => {
-  await analysis.goto('/?t=KO&lang=es#history');
+  await analysis.goto('/?t=KO&lang=es#insiders');
   await expect(analysis.insidersHeading).toHaveText('Operaciones de directivos · últimos 12 meses');
   await expect(analysis.insiderSells).toContainText('Ventas en el mercado');
   await expect(analysis.insiders).toContainText('planificada');
@@ -820,7 +824,7 @@ test('the results appear first; insider trades show "Loading…" until they arri
   await analysis.open('KO');
   await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)'); // the rest of the page doesn't wait
   await expect(analysis.glanceRow('Insider trades')).toContainText('Loading…');
-  await analysis.openTab('history');
+  await analysis.openTab('insiders');
   await expect(analysis.insiders).toContainText('Loading insider trades from SEC');
   await analysis.step('the insider answer arrives', async () => release());
   await expect(analysis.insiderTrades).toHaveCount(10);
@@ -831,7 +835,7 @@ test('insider trades that fail to load can be tried again', async ({ analysis, p
   let failures = 1;
   await page.route('**/api/insiders**', (route) => (failures-- > 0 ? route.abort() : route.continue()));
   await analysis.open('KO');
-  await analysis.openTab('history');
+  await analysis.openTab('insiders');
   await expect(analysis.insiders).toContainText("Insider trades couldn't be loaded from SEC right now.");
   await expect(analysis.glanceRow('Insider trades')).toContainText("Couldn't be loaded right now");
   await analysis.step('press "Try again"', () => analysis.insidersRetryButton.click());

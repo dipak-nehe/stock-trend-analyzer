@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**128 tests:** 77 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 35 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**130 tests:** 77 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 37 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one test with `npx playwright test -g "<name>"`.
 
@@ -161,7 +161,7 @@ Regenerate the list with `npx playwright test --list`. Run one test with `npx pl
 | 92 | Compare and Load need a ticker in their box |
 | 93 | a quick submit before the script loads is not lost |
 
-## Accessibility (`e2e/accessibility.spec.ts`, 35)
+## Accessibility (`e2e/accessibility.spec.ts`, 37)
 
 axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA) plus best practices; a test fails on any violation and attaches the full axe output. The keyboard tests use only the keyboard.
 
@@ -177,28 +177,30 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 | 101 | results tab: flags (dark) |
 | 102 | results tab: history (light) |
 | 103 | results tab: history (dark) |
-| 104 | results tab: value (light) |
-| 105 | results tab: value (dark) |
-| 106 | results tab: charts (light) |
-| 107 | results tab: charts (dark) |
-| 108 | results tab: data (light) |
-| 109 | results tab: data (dark) |
-| 110 | phone-width results: overview |
-| 111 | phone-width results: data |
-| 112 | Spanish page |
-| 113 | error state |
-| 114 | guide before and after a search |
-| 115 | search and results work with the keyboard |
-| 116 | wide tables can be scrolled with the keyboard |
-| 117 | every interactive element has a name |
-| 118 | compare page: one-side (light) |
-| 119 | compare page: one-side (dark) |
-| 120 | compare page: both-priced (light) |
-| 121 | compare page: both-priced (dark) |
-| 122 | compare page: spanish (light) |
-| 123 | compare page: spanish (dark) |
-| 124 | compare page at phone width |
-| 125 | disclaimer page (en, light) |
-| 126 | disclaimer page (en, dark) |
-| 127 | disclaimer page (es, light) |
-| 128 | disclaimer page (es, dark) |
+| 104 | results tab: insiders (light) |
+| 105 | results tab: insiders (dark) |
+| 106 | results tab: value (light) |
+| 107 | results tab: value (dark) |
+| 108 | results tab: charts (light) |
+| 109 | results tab: charts (dark) |
+| 110 | results tab: data (light) |
+| 111 | results tab: data (dark) |
+| 112 | phone-width results: overview |
+| 113 | phone-width results: data |
+| 114 | Spanish page |
+| 115 | error state |
+| 116 | guide before and after a search |
+| 117 | search and results work with the keyboard |
+| 118 | wide tables can be scrolled with the keyboard |
+| 119 | every interactive element has a name |
+| 120 | compare page: one-side (light) |
+| 121 | compare page: one-side (dark) |
+| 122 | compare page: both-priced (light) |
+| 123 | compare page: both-priced (dark) |
+| 124 | compare page: spanish (light) |
+| 125 | compare page: spanish (dark) |
+| 126 | compare page at phone width |
+| 127 | disclaimer page (en, light) |
+| 128 | disclaimer page (en, dark) |
+| 129 | disclaimer page (es, light) |
+| 130 | disclaimer page (es, dark) |

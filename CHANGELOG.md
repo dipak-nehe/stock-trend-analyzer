@@ -4,6 +4,10 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Added
+- A demo GIF at the top of the README.
+- Test coverage in CI: pytest-cov for the Python (minimum 90%) and Node's coverage for the JavaScript logic (minimum 95% of lines), with the numbers in the README.
+
 ## [1.0.0] - 2026-09-28
 
 The first release: every feature below is live at <https://stock-value-analysis.vercel.app>.

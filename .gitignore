@@ -10,3 +10,4 @@ allure-report/
 .cache/
 playwright-report/
 .mypy_cache/
+.coverage

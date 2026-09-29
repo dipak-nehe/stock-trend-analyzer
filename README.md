@@ -8,7 +8,9 @@ Web app that analyses 10 years of SEC filings for any US-listed company: an at-a
 
 All data comes from the companies' own filings through the free **SEC EDGAR** API.
 
-![Apple analysis](docs/screenshot.png)
+![Demo: look up Coca-Cola (KO), then the at-a-glance summary, red flags, SEC history, insider trades, the Graham & Buffett checklists, charts and a comparison with Intel](docs/demo.gif)
+
+<sub>Recorded with Playwright on the saved SEC filings the tests use.</sub>
 
 ## Features
 
@@ -107,6 +109,15 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | **End-to-end** (`e2e/ui.spec.ts` and `compare.spec.ts`, 94 tests) | [Playwright Test](https://playwright.dev) in TypeScript drives the real page in Chromium, against the real Python server running on the saved filings (`tests/e2e_server.py`, started by `playwright.config.ts`): the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, a tour of every tab (each opens alone, updates the address and shows its content), charts, red flags, filing-history filters, price-based valuation, bank handling, errors (shown right under the search box, and a wrong ticker never leaves the previous company in the address), disclaimer, phone layout, and no JavaScript errors. `e2e/compare.spec.ts` (15 tests) covers the compare page: the link appearing only after a result, the first stock pre-loaded, loading the second, marks, prices, swap, deep links, same-ticker and unknown-ticker errors, language carry-over and phone width. |
 | **Accessibility** (`e2e/accessibility.spec.ts`, 37 tests) | axe-core (`@axe-core/playwright`) checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page, every results tab, the compare page and the disclaimer page, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
+**Coverage.** CI measures it on every run and fails if it drops:
+
+| Code | Lines | Branches | Minimum |
+|---|---|---|---|
+| Python backend (`backend/`, `api/`, `server.py`; pytest-cov, `.coveragerc`) | 94% | 93% combined with lines | 90% |
+| JavaScript logic (`public/js/`, Node's built-in coverage) | 99% | 89% | 95% lines, 85% branches, 95% functions |
+
+The uncovered Python lines are mostly the code that downloads from SEC, which tests replace with saved filings. The JavaScript figures cover the modules with logic; the files that wire up the pages (`app.js`, `page.js`, `charts.js`, `compare-app.js`, `disclaimer-app.js`) are covered by the Playwright tests in a real browser instead. The Python coverage table also appears in each CI run's summary.
+
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-dev.txt
@@ -115,6 +126,8 @@ npx playwright install chromium
 
 .venv/bin/pytest                 # unit, regression and HTTP tests (Python backend), about 2 seconds
 node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
+.venv/bin/pytest --cov           # the Python tests with a coverage report
+npm run test:coverage            # the JavaScript tests with a coverage report (Node 22.8+)
 npm run test:e2e                 # browser and accessibility tests (Playwright, TypeScript), about 30 seconds
 npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 ```

@@ -4,7 +4,9 @@
 
 **Live site: [stock-value-analysis.vercel.app](https://stock-value-analysis.vercel.app/)** · try [AAPL](https://stock-value-analysis.vercel.app/?t=AAPL), [KO](https://stock-value-analysis.vercel.app/?t=KO), [SMCI](https://stock-value-analysis.vercel.app/?t=SMCI)
 
-Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, plus an automated check of the balance sheet and cash flows for red flags. All data comes from the company's own annual filings through the free **SEC EDGAR** API.
+Web app that analyses 10 years of SEC filings for any US-listed company: an at-a-glance summary and 10-year trends, 20+ red-flag checks with plain-English explanations, SEC filing history (restatements, auditor changes, late filings, exchange notices and other serious 8-K events), insider trades from Form 4 filings, Graham & Buffett value checklists with price-based valuation, and a side-by-side comparison of two stocks. In English and Spanish, accessible (WCAG 2.2 AA) and phone-friendly. Python serverless backend on Vercel with stored results in Upstash Redis, and a modular JavaScript front end. Backed by 384 automated tests (unit, regression, API, Playwright end-to-end and axe-core accessibility), CI on every push, and a public [Allure report](https://stock-trend-test-report.vercel.app) with step screenshots and videos. Companion native apps: [Android and iOS](https://github.com/dipak-nehe/stock-value-mobile).
+
+All data comes from the companies' own filings through the free **SEC EDGAR** API.
 
 ![Apple analysis](docs/screenshot.png)
 
@@ -29,6 +31,19 @@ Type a stock ticker and get 10 years of revenue, earnings, and dividend trends, 
 - **Stock-split adjustment.** EDGAR never restates old per-share values, so the server detects splits from restated EPS in later filings and adjusts older EPS, dividends, and share counts.
 - **Handles banks and insurers.** Leverage and liquidity rules that don't apply to them are skipped.
 - **Foreign filers** (20-F / 40-F, IFRS) are pinned to their reporting currency, so USD convenience translations are never mixed in.
+
+## Tech stack
+
+| Area | Tools |
+|---|---|
+| **Backend** | Python 3 (standard library only), Vercel Serverless Functions: `/api/financials` (the analysis) and `/api/insiders` (insider trades) |
+| **Data** | SEC EDGAR APIs: XBRL company facts, the filing index, Form 4 XML; Upstash Redis for stored results; Vercel CDN caching with a versioned API |
+| **Front end** | HTML, CSS and JavaScript ES modules (no framework, no build step), Chart.js 4, English/Spanish text, light and dark themes |
+| **Code quality** | TypeScript 7 (type-checks the JavaScript via JSDoc, strict mode for the tests), ESLint 10, Ruff |
+| **Testing** | pytest 9 (unit, regression on saved SEC data, HTTP), Node's built-in test runner (JavaScript unit), Playwright Test 1.63 in TypeScript with page objects (end-to-end), axe-core 4.13 (accessibility) |
+| **Reporting** | Allure 3 (allure-pytest, allure-playwright): one report for all layers, with step screenshots and a video per browser test |
+| **CI/CD and hosting** | GitHub Actions (all tests on every push, a live-site check every 6 hours), Dependabot, Vercel (site, API and test report, deployed on every push), Vercel Web Analytics (cookieless) |
+| **Companion apps** | Kotlin (Android) and Swift/SwiftUI (iOS) with WebdriverIO + Appium end-to-end tests: [stock-value-mobile](https://github.com/dipak-nehe/stock-value-mobile) |
 
 ## Stored results
 

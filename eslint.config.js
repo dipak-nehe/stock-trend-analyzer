@@ -24,7 +24,7 @@ export default [
   {
     // k6 load scripts run in k6's own JavaScript runtime, which provides __ENV and __VU.
     files: ["load/**/*.js"],
-    languageOptions: { globals: { __ENV: "readonly", __VU: "readonly", __ITER: "readonly" } },
+    languageOptions: { globals: { __ENV: "readonly", __VU: "readonly", __ITER: "readonly", console: "readonly" } },
   },
   {
     files: ["tests/js/**", "*.js", "*.mjs"],

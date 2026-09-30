@@ -139,6 +139,7 @@ export function firstLookup(data) {
   const url = `${BASE_URL}/api/financials?ticker=${ticker}&v=${API_VERSION}&r=${Math.random().toString(36).slice(2)}`;
   const res = http.get(url, { tags: { name: 'first_lookup' }, timeout: '60s' });
   firstLookupFromSec.add(res.headers['X-Data-Cache'] === 'MISS' || res.headers['X-Data-Cache'] === 'REVALIDATED');
+  if (res.status !== 200) console.warn(`first lookup of ${ticker} failed: HTTP ${res.status} ${res.body ? String(res.body).slice(0, 200) : res.error}`);
   check(res, {
     'first lookup: 200': (r) => r.status === 200,
     'first lookup: right company': (r) => r.status === 200 && r.json('ticker') === ticker,

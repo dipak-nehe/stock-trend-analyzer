@@ -12,3 +12,4 @@ playwright-report/
 .mypy_cache/
 .coverage
 load/report.html
+load/summary.txt

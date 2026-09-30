@@ -1,0 +1,82 @@
+# k6 load test (load/ramp.js): visitors ramp 5 → 10 → 15 and down, plus paced first lookups on the live site.
+# Runs only when started by hand (Actions → load test → Run workflow) or on the weekly schedule, never on a push
+# or a deployment.
+name: load test
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to run it"
+        type: choice
+        options: [live, local]
+        default: live
+      bypass_cdn:
+        description: "Live: skip Vercel's CDN so every request runs the Python function and reads Redis"
+        type: boolean
+        default: true
+      first_lookups:
+        description: "Live: include the first-lookups scenario (companies fetched from SEC, one every 12 s)"
+        type: boolean
+        default: true
+      step:
+        description: "Length of each ramp and hold step (7 steps)"
+        default: "1m"
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays 06:00 UTC: live site, CDN bypassed, with first lookups
+
+concurrency:
+  group: load-test
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TARGET: ${{ github.event.inputs.target || 'live' }}
+      BYPASS_CDN: ${{ (github.event.inputs.bypass_cdn || 'true') == 'true' && '1' || '0' }}
+      FIRST_LOOKUPS: ${{ (github.event.inputs.first_lookups || 'true') == 'true' && '1' || '0' }}
+      STEP: ${{ github.event.inputs.step || '1m' }}
+      K6_WEB_DASHBOARD: "true"
+      K6_WEB_DASHBOARD_EXPORT: load/report.html
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: grafana/setup-k6-action@v1
+
+      - uses: actions/setup-python@v7
+        if: env.TARGET == 'local'
+        with:
+          python-version: "3.12"
+
+      - name: Run against the local test server (saved filings, no SEC calls)
+        if: env.TARGET == 'local'
+        run: sh load/run-local.sh | tee load/summary.txt
+
+      - name: Run against the live site
+        if: env.TARGET == 'live'
+        run: k6 run load/ramp.js | tee load/summary.txt
+        env:
+          BASE_URL: https://stock-value-analysis.vercel.app
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## Load test: $TARGET (step $STEP, CDN bypassed: $BYPASS_CDN, first lookups: $FIRST_LOOKUPS)"
+            echo '```'
+            sed -n '/THRESHOLDS/,/NETWORK/p' load/summary.txt 2>/dev/null || true
+            echo '```'
+            echo "Full HTML report: the **k6-report** artifact."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: k6-report
+          path: load/report.html
+          if-no-files-found: ignore

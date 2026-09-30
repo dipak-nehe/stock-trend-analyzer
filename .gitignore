@@ -11,3 +11,4 @@ allure-report/
 playwright-report/
 .mypy_cache/
 .coverage
+load/report.html

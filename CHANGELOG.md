@@ -6,6 +6,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ### Added
 - A demo GIF at the top of the README.
+- A k6 load test (`load/ramp.js`, `npm run load`): 5 → 10 → 15 visitors, then ramp down.
 - Test coverage in CI: pytest-cov for the Python (minimum 90%) and Node's coverage for the JavaScript logic (minimum 95% of lines), with the numbers in the README.
 
 ## [1.0.0] - 2026-09-28

@@ -14,6 +14,7 @@
     "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
     "report": "allure generate allure-results",
     "report:open": "allure open allure-report",
+    "load": "sh load/run-local.sh",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

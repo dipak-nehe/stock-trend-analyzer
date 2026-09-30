@@ -136,6 +136,19 @@ npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 
 The backend tests stay in pytest because they test Python code directly; the browser tests are TypeScript, like the Android app's end-to-end suite. `npm run typecheck` checks them in strict mode (with unused variables as errors, since typescript-eslint doesn't support TypeScript 7 yet).
 
+### Load test (k6)
+
+[`load/ramp.js`](load/ramp.js) ramps virtual visitors up **5 → 10 → 15**, holds each level, then ramps down to 0 (7 steps, 1 minute each by default). Each visitor opens the page, looks up a company and, one time in three, opens the Insiders tab, pausing between steps like a person reading. Thresholds fail the run at over 1% errors or a 95th-percentile response over 500 ms (page) or 1 s (API).
+
+```bash
+brew install k6
+npm run load                 # against the local test server on saved filings (no SEC calls); HTML report in load/report.html
+STEP=20s npm run load        # quick run
+BASE_URL=https://stock-value-analysis.vercel.app k6 run load/ramp.js   # the live site
+```
+
+It only uses the five companies in `tests/fixtures`, and on the live site it looks each one up once before the load starts. The load is then served from storage and never reaches SEC, which blocks clients that send too many requests. Local run (15 s steps): 434 requests, 0 errors, 95th percentile 2.8 ms. On the live site most requests are answered by Vercel's CDN; `BYPASS_CDN=1` makes each one run the Python function and read Redis instead.
+
 ### Test report (Allure)
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)

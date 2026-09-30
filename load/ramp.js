@@ -1,0 +1,82 @@
+// k6 load test: visitors ramp up 5 → 10 → 15, hold at each level, then ramp down to 0.
+//
+// Each virtual user acts like a visitor: opens the page, looks up a company (/api/financials) and, one time in
+// three, opens the Insiders tab (/api/insiders), with a pause between steps like a person reading.
+//
+// Only the five companies in tests/fixtures are used. On the local test server (the default) they come from the
+// saved filings, so nothing reaches SEC. On the live site they're looked up once in setup(), one at a time, so
+// the load itself is served from storage and never makes SEC calls (SEC blocks clients that send too many).
+//
+//   k6 run load/ramp.js                                   local test server (npm run load starts it)
+//   STEP=20s k6 run load/ramp.js                          shorter run: each ramp and hold lasts 20 s
+//   BASE_URL=https://stock-value-analysis.vercel.app k6 run load/ramp.js
+//   BYPASS_CDN=1 ...                                      live only: skip Vercel's CDN cache, so each request runs
+//                                                         the Python function and reads Redis
+import http from 'k6/http';
+import { check, group, sleep } from 'k6';
+
+const BASE_URL = (__ENV.BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, '');
+const STEP = __ENV.STEP || '1m';
+const BYPASS_CDN = __ENV.BYPASS_CDN === '1';
+const API_VERSION = 6; // public/js/page.js: the page's requests look exactly like this
+const TICKERS = ['AAPL', 'KO', 'INTC', 'JPM', 'SMCI'];
+
+export const options = {
+  stages: [
+    { duration: STEP, target: 5 },   // ramp up to 5 users
+    { duration: STEP, target: 5 },   // hold
+    { duration: STEP, target: 10 },  // ramp up to 10
+    { duration: STEP, target: 10 },  // hold
+    { duration: STEP, target: 15 },  // ramp up to 15
+    { duration: STEP, target: 15 },  // hold
+    { duration: STEP, target: 0 },   // ramp down
+  ],
+  thresholds: {
+    http_req_failed: ['rate<0.01'],                         // under 1% errors
+    'http_req_duration{name:page}': ['p(95)<500'],
+    'http_req_duration{name:financials}': ['p(95)<1000'],
+    'http_req_duration{name:insiders}': ['p(95)<1000'],
+    checks: ['rate>0.99'],
+  },
+};
+
+const api = (endpoint, ticker) =>
+  `${BASE_URL}/api/${endpoint}?ticker=${ticker}&v=${API_VERSION}${BYPASS_CDN ? `&r=${Math.random().toString(36).slice(2)}` : ''}`;
+
+export function setup() {
+  // Make sure every ticker is stored before the load starts: sequential, so at most a few SEC calls in total.
+  for (const t of TICKERS) {
+    const res = http.get(api('financials', t), { tags: { name: 'warmup' }, timeout: '60s' });
+    if (res.status !== 200) throw new Error(`warm-up of ${t} failed: HTTP ${res.status} at ${BASE_URL}`);
+    http.get(api('insiders', t), { tags: { name: 'warmup' }, timeout: '60s' });
+  }
+}
+
+export default function () {
+  const ticker = TICKERS[Math.floor(Math.random() * TICKERS.length)];
+
+  group('open the page', () => {
+    const res = http.get(`${BASE_URL}/`, { tags: { name: 'page' } });
+    check(res, { 'page: 200': (r) => r.status === 200 });
+  });
+  sleep(1 + Math.random());
+
+  group('look up a company', () => {
+    const res = http.get(api('financials', ticker), { tags: { name: 'financials' } });
+    check(res, {
+      'financials: 200': (r) => r.status === 200,
+      'financials: right company': (r) => r.json('ticker') === ticker,
+      // Served from storage, never fetched from SEC during the load (live, behind the CDN, the header is cached).
+      'financials: not fetched from SEC': (r) => r.headers['X-Data-Cache'] !== 'MISS',
+    });
+  });
+  sleep(2 + Math.random() * 2);
+
+  if (Math.random() < 1 / 3) {
+    group('open the Insiders tab', () => {
+      const res = http.get(api('insiders', ticker), { tags: { name: 'insiders' } });
+      check(res, { 'insiders: 200': (r) => r.status === 200 });
+    });
+    sleep(1 + Math.random() * 2);
+  }
+}

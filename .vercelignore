@@ -21,3 +21,6 @@ ruff.toml
 e2e/
 playwright.config.ts
 playwright-report/
+load/
+mypy.ini
+.coveragerc

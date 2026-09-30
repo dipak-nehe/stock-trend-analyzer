@@ -3,7 +3,7 @@ import js from "@eslint/js";
 import globals from "globals";
 
 export default [
-  { ignores: ["public/vendor/**", "node_modules/**", "allure-report/**", "allure-results/**", ".venv/**", "test-results/**", "playwright-report/**"] },
+  { ignores: ["public/vendor/**", "node_modules/**", "allure-report/**", "allure-results/**", ".venv/**", "test-results/**", "playwright-report/**", "load/report.html"] },
   js.configs.recommended,
   {
     files: ["**/*.js", "**/*.mjs"],
@@ -20,6 +20,11 @@ export default [
   {
     files: ["public/js/**/*.js"],
     languageOptions: { globals: { ...globals.browser, Chart: "readonly" } },
+  },
+  {
+    // k6 load scripts run in k6's own JavaScript runtime, which provides __ENV and __VU.
+    files: ["load/**/*.js"],
+    languageOptions: { globals: { __ENV: "readonly", __VU: "readonly", __ITER: "readonly" } },
   },
   {
     files: ["tests/js/**", "*.js", "*.mjs"],

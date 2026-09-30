@@ -1,6 +1,5 @@
 # k6 load test (load/ramp.js): visitors ramp 5 → 10 → 15 and down, plus paced first lookups on the live site.
-# Runs only when started by hand (Actions → load test → Run workflow) or on the weekly schedule, never on a push
-# or a deployment.
+# Runs only when started by hand (Actions → load test → Run workflow), never on a push, a deployment or a schedule.
 name: load test
 
 on:
@@ -22,8 +21,6 @@ on:
       step:
         description: "Length of each ramp and hold step (7 steps)"
         default: "1m"
-  schedule:
-    - cron: "0 6 * * 1"   # Mondays 06:00 UTC: live site, CDN bypassed, with first lookups
 
 concurrency:
   group: load-test

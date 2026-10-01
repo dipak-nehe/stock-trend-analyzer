@@ -42,8 +42,8 @@ All data comes from the companies' own filings through the free **SEC EDGAR** AP
 | **Data** | SEC EDGAR APIs: XBRL company facts, the filing index, Form 4 XML; Upstash Redis for stored results; Vercel CDN caching with a versioned API |
 | **Front end** | HTML, CSS and JavaScript ES modules (no framework, no build step), Chart.js 4, English/Spanish text, light and dark themes |
 | **Code quality** | TypeScript 7 (type-checks the JavaScript via JSDoc, strict mode for the tests), ESLint 10, Ruff |
-| **Testing** | pytest 9 (unit, regression on saved SEC data, HTTP), Node's built-in test runner (JavaScript unit), Playwright Test 1.63 in TypeScript with page objects (end-to-end), axe-core 4.13 (accessibility) |
-| **Reporting** | Allure 3 (allure-pytest, allure-playwright): one report for all layers, with step screenshots and a video per browser test |
+| **Testing** | behave 1.3 (business rules as Gherkin scenarios), pytest 9 (storage, regression on saved SEC data, HTTP), Node's built-in test runner (JavaScript unit), Playwright Test 1.63 in TypeScript with page objects (end-to-end), axe-core 4.13 (accessibility) |
+| **Reporting** | Allure 3 (allure-behave, allure-pytest, allure-playwright): one report for all layers, with step screenshots and a video per browser test |
 | **CI/CD and hosting** | GitHub Actions (all tests on every push, a live-site check every 6 hours), Dependabot, Vercel (site, API and test report, deployed on every push), Vercel Web Analytics (cookieless) |
 | **Companion apps** | Kotlin (Android) and Swift/SwiftUI (iOS) with WebdriverIO + Appium end-to-end tests: [stock-value-mobile](https://github.com/dipak-nehe/stock-value-mobile) |
 
@@ -102,7 +102,8 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 | Layer | What it covers |
 |---|---|
-| **Unit** (`tests/test_stock_data.py`, `tests/test_store.py`, `tests/test_insiders.py`, 112 tests) | Hand-built filings for the tricky rules: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, input validation, error handling, cache headers |
+| **Unit: business rules as Gherkin scenarios** ([behave](https://behave.readthedocs.io), `tests/features/*.feature`, 80 scenarios) | Hand-built filings for the tricky rules, written as Given / When / Then: restated values, stock splits (forward and reverse), foreign currency, liabilities with minority interest, debt when tags change between years, dividend fallbacks, filing classification, insider trades from Form 4s, input validation, error handling, cache headers |
+| **Unit: storage** (`tests/test_store.py`, pytest, 32 tests) | Memory, file and Redis (against a fake Upstash server) storage: expiry, versioned keys, failures treated as a miss |
 | **Regression** (`tests/test_regression.py`, 47 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
 | **HTTP** (`tests/test_server.py`, 25 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
 | **JavaScript unit** (`tests/js/`, 69 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett checklists and value estimate, the growth table and filing-history views, and the comparison rules (mark directions, bank and negative-equity n/a, indexed growth, caveats) |
@@ -113,7 +114,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 | Code | Lines | Branches | Minimum |
 |---|---|---|---|
-| Python backend (`backend/`, `api/`, `server.py`; pytest-cov, `.coveragerc`) | 94% | 93% combined with lines | 90% |
+| Python backend (`backend/`, `api/`, `server.py`; behave and pytest together, `.coveragerc`) | 94% | 93% combined with lines | 90% |
 | JavaScript logic (`public/js/`, Node's built-in coverage) | 99% | 89% | 95% lines, 85% branches, 95% functions |
 
 The uncovered Python lines are mostly the code that downloads from SEC, which tests replace with saved filings. The JavaScript figures cover the modules with logic; the files that wire up the pages (`app.js`, `page.js`, `charts.js`, `compare-app.js`, `disclaimer-app.js`) are covered by the Playwright tests in a real browser instead. The Python coverage table also appears in each CI run's summary.
@@ -124,15 +125,18 @@ python3 -m venv .venv
 npm install
 npx playwright install chromium
 
-.venv/bin/pytest                 # unit, regression and HTTP tests (Python backend), about 2 seconds
+.venv/bin/behave                 # business-rule scenarios (tests/features), under a second
+.venv/bin/pytest                 # storage, regression and HTTP tests (Python backend), about 2 seconds
 node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
-.venv/bin/pytest --cov           # the Python tests with a coverage report
+.venv/bin/coverage run -m behave && .venv/bin/pytest --cov --cov-append   # Python coverage of both, as in CI
 npm run test:coverage            # the JavaScript tests with a coverage report (Node 22.8+)
 npm run test:e2e                 # browser and accessibility tests (Playwright, TypeScript), about 30 seconds
 npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 ```
 
 **Run the browser tests by hand on GitHub:** Actions → **e2e tests (manual)** → Run workflow. Pick the suite (all, ui, compare or accessibility), optionally a name filter and a repeat count; the Allure report is under the run's Artifacts. Every step of `.github/workflows/e2e.yml` is commented.
+
+**Business rules in Gherkin (behave).** The rules the numbers depend on read as scenarios, e.g. *Given a company that reported net income for 2016 to 2025, and diluted EPS of 12.0 before a split and 3.0 after it… Then a split with ratio 4 is detected*. Four feature files in `tests/features/` (annual figures, filing history, API responses, insider trades), each scenario on small hand-built filings; data tables and Scenario Outlines replace pytest's parametrized cases. The step code is in `tests/features/steps/`; `tests/features/environment.py` gives every scenario the isolation pytest's fixtures give (no SEC downloads, an empty store, a fixed "today", everything swapped put back), and puts the scenarios in the report's "1 · Unit" group. The storage tests stay in pytest, where fixtures and a fake Redis server fit better than prose.
 
 **Grouped by feature.** In each spec file the tests sit in `test.describe` blocks by feature (search, wrong tickers and errors, tabs, insider trades, Spanish…). The same groups head the sections of [docs/e2e-tests.md](docs/e2e-tests.md) and appear in the Allure report under each spec file, and `-g "<group>"` runs one group (e.g. `npx playwright test -g "insider trades"`, or the **name filter** of the manual e2e workflow).
 

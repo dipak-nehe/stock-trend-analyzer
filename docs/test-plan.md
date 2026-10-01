@@ -33,7 +33,8 @@ How the web app is tested: what is covered, at which level, with what data, and 
 | Layer | Tool | Files | Tests | What it proves |
 |---|---|---|---|---|
 | 0 · JavaScript unit | Node's built-in test runner | `tests/js/*.test.js` | 69 | Formatting, CAGR and trend labels, every red-flag rule, checklists and value estimate, history and compare views, translations |
-| 1 · Unit | pytest | `tests/test_stock_data.py`, `tests/test_store.py`, `tests/test_insiders.py` | 112 | Hand-built filings for tricky rules: restatements, splits, currency, minority interest, debt tags, 8-K item classification, input validation, errors, cache headers, stored results |
+| 1 · Unit: business rules | behave (Gherkin) | `tests/features/*.feature` | 80 | Hand-built filings for tricky rules, as Given / When / Then scenarios: restatements, splits, currency, minority interest, debt tags, 8-K item classification, insider trades (Form 4), input validation, errors, cache headers |
+| 1 · Unit: storage | pytest | `tests/test_store.py` | 32 | Stored results in memory, files and Redis (fake Upstash server): expiry, keys, failures as a miss |
 | 2 · Regression | pytest | `tests/test_regression.py` | 47 | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings; figures pinned to values checked against published financials (fiscal 2021–2025) |
 | 3 · HTTP | pytest | `tests/test_server.py` | 25 | Local server and Vercel function answer identically; source files can't be downloaded; bad input rejected |
 | 4 · End-to-end | Playwright Test (TypeScript), Chromium | `e2e/ui.spec.ts`, `e2e/compare.spec.ts` | 94 | The two pages driven like a person, against the real server on saved filings |

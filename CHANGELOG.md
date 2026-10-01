@@ -4,6 +4,9 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Changed
+- The business-rule unit tests (financial figures, filing history, API responses, insider trades; 80 tests) are now behave (Gherkin) scenarios in `tests/features/`, replacing `tests/test_stock_data.py` and `tests/test_insiders.py`. Same cases, same coverage; they appear in Allure as "1 · Unit" by feature.
+
 ### Added
 - A demo GIF at the top of the README.
 - A k6 load test (`load/ramp.js`, `npm run load`): 5 → 10 → 15 visitors, then ramp down.

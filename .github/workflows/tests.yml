@@ -40,10 +40,16 @@ jobs:
       - name: JavaScript unit tests
         run: npm run test:js:allure
 
-      - name: Unit, regression and HTTP tests
+      # The business rules as Gherkin scenarios (tests/features, behave.ini). Coverage is measured here and added to
+      # by the pytest step below, which reports the combined figure.
+      - name: Business-rule scenarios (behave)
         if: success() || failure()
-        # Also measures coverage (.coveragerc): fails below 90%, and the table goes into the run summary.
-        run: pytest -v --alluredir=allure-results --cov --cov-report=term --cov-report=markdown-append:$GITHUB_STEP_SUMMARY
+        run: coverage run -m behave -f allure_behave.formatter:AllureFormatter -o allure-results -f progress
+
+      - name: Storage, regression and HTTP tests (pytest)
+        if: success() || failure()
+        # Coverage of both steps together (.coveragerc): fails below 90%, and the table goes into the run summary.
+        run: pytest -v --alluredir=allure-results --cov --cov-append --cov-report=term --cov-report=markdown-append:$GITHUB_STEP_SUMMARY
 
       - name: JavaScript coverage
         if: success() || failure()

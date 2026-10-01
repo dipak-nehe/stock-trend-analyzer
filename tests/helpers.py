@@ -1,7 +1,7 @@
 """Shared test helpers (plain functions; pytest fixtures live in conftest.py).
 
 Tests never call SEC: `sec_fixtures` swaps stock_data.sec_get for a reader of the trimmed real
-filings in tests/fixtures/, and `fake_sec` serves hand-built data for precise unit tests.
+filings in tests/fixtures/, and `FakeSec` serves hand-built data for the behave scenarios (tests/features).
 """
 import json
 import os
@@ -93,3 +93,77 @@ def concept(rows, unit="USD"):
 def net_income_years(years, val=100):
     """Net income for each year: it defines the fiscal years build_financials analyses."""
     return concept([year(y, val) for y in years])
+
+
+class FakeSec:
+    """Hand-built company facts for ticker TEST (CIK 1), served in place of stock_data.sec_get.
+
+    install(us_gaap={...}, ifrs={...}, dei={...}, submissions={...}, pages={...}) sets what SEC "returns";
+    `calls` records every URL asked for. The ticker list also holds BRK-B (CIK 2) for class-share lookups.
+    """
+
+    def __init__(self):
+        self.install()
+
+    def install(self, us_gaap=None, ifrs=None, dei=None, submissions=None, pages=None):
+        facts = {}
+        if us_gaap:
+            facts["us-gaap"] = us_gaap
+        if ifrs:
+            facts["ifrs-full"] = ifrs
+        if dei:
+            facts["dei"] = dei
+        self.facts = {"cik": 1, "entityName": "Test Co", "facts": facts}
+        self.submissions = submissions or {"filings": {"recent": {k: [] for k in
+                                           ("accessionNumber", "filingDate", "form", "items", "primaryDocument")}}}
+        self.pages = pages or {}
+        self.calls = []
+
+    def sec_get(self, url):
+        self.calls.append(url)
+        if url.endswith("/company_tickers.json"):
+            return {"0": {"cik_str": 1, "ticker": "TEST", "title": "Test Co"},
+                    "1": {"cik_str": 2, "ticker": "BRK-B", "title": "Berkshire"}}
+        if url.endswith("companyfacts/CIK0000000001.json"):
+            return self.facts
+        if url.endswith("submissions/CIK0000000001.json"):
+            return self.submissions
+        for name, page in self.pages.items():
+            if url.endswith(name):
+                return page
+        raise _not_found(url)
+
+
+def submission_rows(rows):
+    """A filing list's columns from (accession, filed, form, items, document) rows."""
+    cols = ("accessionNumber", "filingDate", "form", "items", "primaryDocument")
+    return {k: [r[i] for r in rows] for i, k in enumerate(cols)}
+
+
+# ---------- builders for hand-made Form 4 filings ----------
+
+def form4(issuer="1", owner="Doe Jane", rel="<isOfficer>1</isOfficer><officerTitle>CEO</officerTitle>", planned="0",
+          lines=()):
+    """A minimal Form 4: lines are (code, date, shares, price, acquired/disposed)."""
+    txs = "".join(
+        f"<nonDerivativeTransaction><transactionDate><value>{d}</value></transactionDate>"
+        f"<transactionCoding><transactionCode>{code}</transactionCode></transactionCoding>"
+        f"<transactionAmounts><transactionShares><value>{shares}</value></transactionShares>"
+        f"<transactionPricePerShare><value>{price}</value></transactionPricePerShare>"
+        f"<transactionAcquiredDisposedCode><value>{ad}</value></transactionAcquiredDisposedCode></transactionAmounts>"
+        f"</nonDerivativeTransaction>" for code, d, shares, price, ad in lines)
+    return (f"<ownershipDocument><issuer><issuerCik>{int(issuer):010d}</issuerCik></issuer>"
+            f"<reportingOwner><reportingOwnerId><rptOwnerName>{owner}</rptOwnerName></reportingOwnerId>"
+            f"<reportingOwnerRelationship>{rel}</reportingOwnerRelationship></reportingOwner>"
+            f"<aff10b5One>{planned}</aff10b5One><nonDerivativeTable>{txs}</nonDerivativeTable></ownershipDocument>")
+
+
+def form4_filings(*rows):
+    """A submissions index with Form 4 rows: (accession, filed[, form])."""
+    cols = {k: [] for k in ("accessionNumber", "filingDate", "form", "items", "primaryDocument")}
+    for row in rows:
+        accession, filed, form = (*row, "4")[:3]
+        for k, v in (("accessionNumber", accession), ("filingDate", filed), ("form", form), ("items", ""),
+                     ("primaryDocument", "xslF345X06/form4.xml")):
+            cols[k].append(v)
+    return {"filings": {"recent": cols}}

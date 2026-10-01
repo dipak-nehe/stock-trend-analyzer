@@ -13,3 +13,4 @@ playwright-report/
 .coverage
 load/report.html
 load/summary.txt
+load/ui-report.html

@@ -15,6 +15,7 @@
     "report": "allure generate allure-results",
     "report:open": "allure open allure-report",
     "load": "sh load/run-local.sh",
+    "load:ui": "SCRIPT=load/ui-ramp.js REPORT=load/ui-report.html sh load/run-local.sh",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

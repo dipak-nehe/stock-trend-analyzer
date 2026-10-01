@@ -1,21 +1,28 @@
-# k6 load test (load/ramp.js): visitors ramp 5 → 10 → 15 and down, plus paced first lookups on the live site.
+# k6 load tests, users ramp 5 → 10 → 15 and down:
+#   api: load/ramp.js, plain HTTP visitors plus paced first lookups on the live site
+#   ui:  load/ui-ramp.js, real headless Chromium users searching a ticker and checking the company heading
 # Runs only when started by hand (Actions → load test → Run workflow), never on a push, a deployment or a schedule.
 name: load test
 
 on:
   workflow_dispatch:
     inputs:
+      test:
+        description: "Which load test: api (HTTP requests) or ui (real browsers)"
+        type: choice
+        options: [api, ui]
+        default: api
       target:
         description: "Where to run it"
         type: choice
         options: [live, local]
         default: live
       bypass_cdn:
-        description: "Live: skip Vercel's CDN so every request runs the Python function and reads Redis"
+        description: "API test, live: skip Vercel's CDN so every request runs the Python function and reads Redis"
         type: boolean
         default: true
       first_lookups:
-        description: "Live: include the first-lookups scenario (companies fetched from SEC, one every 12 s)"
+        description: "API test, live: include the first-lookups scenario (companies fetched from SEC, one every 12 s)"
         type: boolean
         default: true
       step:
@@ -34,6 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
+      SCRIPT: ${{ inputs.test == 'ui' && 'load/ui-ramp.js' || 'load/ramp.js' }}
       TARGET: ${{ github.event.inputs.target || 'live' }}
       BYPASS_CDN: ${{ (github.event.inputs.bypass_cdn || 'true') == 'true' && '1' || '0' }}
       FIRST_LOOKUPS: ${{ (github.event.inputs.first_lookups || 'true') == 'true' && '1' || '0' }}
@@ -56,7 +64,7 @@ jobs:
 
       - name: Run against the live site
         if: env.TARGET == 'live'
-        run: k6 run load/ramp.js | tee load/summary.txt
+        run: k6 run "$SCRIPT" | tee load/summary.txt
         env:
           BASE_URL: https://stock-value-analysis.vercel.app
 
@@ -64,7 +72,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "## Load test: $TARGET (step $STEP, CDN bypassed: $BYPASS_CDN, first lookups: $FIRST_LOOKUPS)"
+            echo "## Load test: $SCRIPT on $TARGET (step $STEP, CDN bypassed: $BYPASS_CDN, first lookups: $FIRST_LOOKUPS)"
             echo '```'
             sed -n '/THRESHOLDS/,/NETWORK/p' load/summary.txt 2>/dev/null || true
             echo '```'

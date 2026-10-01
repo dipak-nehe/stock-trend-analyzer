@@ -25,8 +25,11 @@ on:
         description: "API test, live: include the first-lookups scenario (companies fetched from SEC, one every 12 s)"
         type: boolean
         default: true
+      levels:
+        description: "User levels to ramp through, comma-separated (each is held one step, then ramp down)"
+        default: "5,10,15"
       step:
-        description: "Length of each ramp and hold step (7 steps)"
+        description: "Length of each ramp and hold step"
         default: "1m"
 
 concurrency:
@@ -46,6 +49,7 @@ jobs:
       BYPASS_CDN: ${{ (github.event.inputs.bypass_cdn || 'true') == 'true' && '1' || '0' }}
       FIRST_LOOKUPS: ${{ (github.event.inputs.first_lookups || 'true') == 'true' && '1' || '0' }}
       STEP: ${{ github.event.inputs.step || '1m' }}
+      LEVELS: ${{ github.event.inputs.levels || '5,10,15' }}
       K6_WEB_DASHBOARD: "true"
       # Ubuntu on GitHub's runners blocks Chrome's sandbox for normal users, and Chromium then crashes at start
       # (seen as "signal: aborted (core dumped)"); the runner is a throwaway VM, so turning it off is safe here.
@@ -82,7 +86,7 @@ jobs:
         if: always()
         run: |
           {
-            echo "## Load test: $SCRIPT on $TARGET (step $STEP, CDN bypassed: $BYPASS_CDN, first lookups: $FIRST_LOOKUPS)"
+            echo "## Load test: $SCRIPT on $TARGET (levels $LEVELS, step $STEP, CDN bypassed: $BYPASS_CDN, first lookups: $FIRST_LOOKUPS)"
             echo '```'
             sed -n '/THRESHOLDS/,/NETWORK/p' load/summary.txt 2>/dev/null || true
             echo '```'

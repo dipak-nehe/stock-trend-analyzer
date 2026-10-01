@@ -1,4 +1,4 @@
-// k6 load test: visitors ramp up 5 → 10 → 15, hold at each level, then ramp down to 0.
+// k6 load test: visitors ramp up 5 → 10 → 15 (LEVELS), hold at each level, then ramp down to 0.
 //
 // Each virtual user acts like a visitor: opens the page, looks up a company (/api/financials) and, one time in
 // three, opens the Insiders tab (/api/insiders), with a pause between steps like a person reading.
@@ -17,6 +17,7 @@
 //
 //   k6 run load/ramp.js                                   local test server (npm run load starts it)
 //   STEP=20s k6 run load/ramp.js                          shorter run: each ramp and hold lasts 20 s
+//   LEVELS=3,6,9 k6 run load/ramp.js                      other user levels (default 5,10,15)
 //   BASE_URL=https://stock-value-analysis.vercel.app k6 run load/ramp.js
 //   BYPASS_CDN=1 ...                                      live only: skip Vercel's CDN cache, so each request runs
 //                                                         the Python function and reads Redis
@@ -28,6 +29,13 @@ import { Rate } from 'k6/metrics';
 
 const BASE_URL = (__ENV.BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, '');
 const STEP = __ENV.STEP || '1m';
+// User levels to ramp through, holding at each one, then down to 0. The default 5,10,15 follows the request;
+// set fewer on a smaller machine (e.g. LEVELS=3,6,9): how many users a machine can run depends on its memory and CPU.
+const LEVELS = (__ENV.LEVELS || '5,10,15').split(',').map(Number);
+const stages = () => [
+  ...LEVELS.flatMap((target) => [{ duration: STEP, target }, { duration: STEP, target }]), // ramp up, then hold
+  { duration: STEP, target: 0 },                                                          // ramp down
+];
 const BYPASS_CDN = __ENV.BYPASS_CDN === '1';
 const API_VERSION = 6; // public/js/page.js: the page's requests look exactly like this
 const TICKERS = ['AAPL', 'KO', 'INTC', 'JPM', 'SMCI'];
@@ -40,7 +48,7 @@ const FIRST_LOOKUP_TICKERS = [
   'DHR', 'WFC', 'LIN', 'TXN', 'DIS', 'VZ', 'PM', 'NKE', 'IBM', 'QCOM', 'CAT', 'AMGN', 'HON', 'UPS', 'LOW',
   'SBUX', 'GS', 'MS', 'BA', 'DE',
 ];
-const STEPS = 7;
+const STEPS = 2 * LEVELS.length + 1;
 const firstLookupFromSec = new Rate('first_lookup_from_sec');
 
 /** k6 durations like "1m", "20s", "1m30s" → seconds. */
@@ -51,15 +59,7 @@ const scenarios = {
     executor: 'ramping-vus',
     exec: 'visitor',
     startVUs: 0,
-    stages: [
-      { duration: STEP, target: 5 },   // ramp up to 5 users
-      { duration: STEP, target: 5 },   // hold
-      { duration: STEP, target: 10 },  // ramp up to 10
-      { duration: STEP, target: 10 },  // hold
-      { duration: STEP, target: 15 },  // ramp up to 15
-      { duration: STEP, target: 15 },  // hold
-      { duration: STEP, target: 0 },   // ramp down
-    ],
+    stages: stages(),
   },
 };
 if (FIRST_LOOKUPS) {

@@ -1,15 +1,17 @@
-// k6 browser (UI) load test: real headless Chromium users ramp up 5 → 10 → 15, hold at each level, then ramp
+// k6 browser (UI) load test: real headless Chromium users ramp up 5 → 10 → 15 (LEVELS), hold at each level, then ramp
 // down to 0.
 //
 // Each virtual user is a browser: it opens the page, types a ticker into the search box, presses Analyze and
 // checks one checkpoint, the company heading shows that ticker (e.g. "COCA COLA CO (KO)"). Unlike load/ramp.js,
 // which sends plain HTTP requests, this loads the JavaScript, CSS and charts and draws the page, so it measures
-// what a person waits for. Each browser needs ~150 MB and a CPU share, so keep it to small numbers like these.
+// what a person waits for. Each browser needs a few hundred MB and a CPU share, so the number a machine can run
+// depends on its capacity: pick LEVELS to fit it.
 //
 // Only the five companies in tests/fixtures are used: on the local test server (the default) they come from the
 // saved filings; on the live site setup() looks each one up once first, so the load never reaches SEC.
 //
 //   npm run load:ui                                         local test server (started for you), HTML report
+//   LEVELS=3,6,9 npm run load:ui                      other user levels (default 5,10,15)
 //   STEP=20s npm run load:ui                                shorter run: each ramp and hold lasts 20 s
 //   BASE_URL=https://stock-value-analysis.vercel.app k6 run load/ui-ramp.js
 import http from 'k6/http';
@@ -19,6 +21,13 @@ import { Trend } from 'k6/metrics';
 
 const BASE_URL = (__ENV.BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, '');
 const STEP = __ENV.STEP || '1m';
+// User levels to ramp through, holding at each one, then down to 0. The default 5,10,15 follows the request;
+// set fewer on a smaller machine (e.g. LEVELS=3,6,9): how many browsers a machine can run depends on its memory and CPU.
+const LEVELS = (__ENV.LEVELS || '5,10,15').split(',').map(Number);
+const stages = () => [
+  ...LEVELS.flatMap((target) => [{ duration: STEP, target }, { duration: STEP, target }]), // ramp up, then hold
+  { duration: STEP, target: 0 },                                                          // ramp down
+];
 const API_VERSION = 6; // public/js/page.js
 const TICKERS = ['AAPL', 'KO', 'INTC', 'JPM', 'SMCI'];
 const searchToResult = new Trend('search_to_result', true); // from pressing Analyze to the company heading
@@ -28,15 +37,7 @@ export const options = {
     ui: {
       executor: 'ramping-vus',
       startVUs: 0,
-      stages: [
-        { duration: STEP, target: 5 },   // ramp up to 5 browsers
-        { duration: STEP, target: 5 },   // hold
-        { duration: STEP, target: 10 },  // ramp up to 10
-        { duration: STEP, target: 10 },  // hold
-        { duration: STEP, target: 15 },  // ramp up to 15
-        { duration: STEP, target: 15 },  // hold
-        { duration: STEP, target: 0 },   // ramp down
-      ],
+      stages: stages(),
       options: { browser: { type: 'chromium' } },
     },
   },

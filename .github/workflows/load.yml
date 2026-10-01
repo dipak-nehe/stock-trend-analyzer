@@ -32,10 +32,12 @@ on:
         description: "Length of each ramp and hold step"
         default: "1m"
 
+# Only one load test at a time: a second run waits instead of adding its load on top of the first.
 concurrency:
   group: load-test
   cancel-in-progress: false
 
+# Read-only access to the repository is all this workflow needs.
 permissions:
   contents: read
 
@@ -43,6 +45,8 @@ jobs:
   load:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # The form's choices become environment variables, which the k6 scripts read (__ENV). Defaults apply when a
+    # field is left as it is.
     env:
       SCRIPT: ${{ inputs.test == 'ui' && 'load/ui-ramp.js' || 'load/ramp.js' }}
       TARGET: ${{ github.event.inputs.target || 'live' }}
@@ -50,38 +54,49 @@ jobs:
       FIRST_LOOKUPS: ${{ (github.event.inputs.first_lookups || 'true') == 'true' && '1' || '0' }}
       STEP: ${{ github.event.inputs.step || '1m' }}
       LEVELS: ${{ github.event.inputs.levels || '5,10,15' }}
+      # Save k6's dashboard as one HTML file (K6_WEB_DASHBOARD_EXPORT) for the k6-report artifact.
       K6_WEB_DASHBOARD: "true"
       # Ubuntu on GitHub's runners blocks Chrome's sandbox for normal users, and Chromium then crashes at start
       # (seen as "signal: aborted (core dumped)"); the runner is a throwaway VM, so turning it off is safe here.
       K6_BROWSER_ARGS: no-sandbox
       K6_WEB_DASHBOARD_EXPORT: load/report.html
     steps:
-      - uses: actions/checkout@v7
+      # 1. Get the repository's code (the branch picked in the "Run workflow" form).
+      - name: Check out the code
+        uses: actions/checkout@v7
 
-      - uses: grafana/setup-k6-action@v1
+      # 2. Install k6 (Grafana's official setup action). Chrome for the browser test is already on the runner.
+      - name: Install k6
+        uses: grafana/setup-k6-action@v1
 
-      - uses: actions/setup-python@v7
+      # 3. Local target only: Python for the test server (tests/e2e_server.py, standard library only).
+      - name: Set up Python
+        uses: actions/setup-python@v7
         if: env.TARGET == 'local'
         with:
           python-version: "3.12"
 
+      # 4a. Local target: load/run-local.sh starts the test server on the saved filings, runs k6 and stops the
+      #     server. tee keeps a copy of the output for the checks below.
       - name: Run against the local test server (saved filings, no SEC calls)
         if: env.TARGET == 'local'
         run: sh load/run-local.sh | tee load/summary.txt
 
+      # 4b. Live target: run k6 straight against the public site (the scripts warm up their tickers first).
       - name: Run against the live site
         if: env.TARGET == 'live'
         run: k6 run "$SCRIPT" | tee load/summary.txt
         env:
           BASE_URL: https://stock-value-analysis.vercel.app
 
-      # k6 can end "successfully" without having measured anything (a crashed browser leaves no samples, and
+      # 5. k6 can end "successfully" without having measured anything (a crashed browser leaves no samples, and
       # thresholds with no samples pass), so fail the run unless at least one check was completed.
       - name: Fail if nothing was measured
         run: |
           grep -qE "checks_succeeded\.+: +[0-9.]+% +[1-9][0-9]* out of" load/summary.txt \
             || { echo "::error::k6 finished without completing any checks"; exit 1; }
 
+      # 6. Put the options used and the pass/fail limits on the run's summary page, even if the run failed.
       - name: Summary
         if: always()
         run: |
@@ -93,7 +108,9 @@ jobs:
             echo "Full HTML report: the **k6-report** artifact."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v7
+      # 7. Keep k6's HTML report (charts of users, response times and errors over the run) as the k6-report artifact.
+      - name: Upload the k6 report
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: k6-report

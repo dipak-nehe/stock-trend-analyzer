@@ -827,13 +827,13 @@ test.describe('page basics: layout, privacy and data freshness', () => {
     expect(requests.filter((u) => !u.startsWith(BASE_URL))).toEqual([]);
   });
 
-  test('analytics script is not loaded locally', async ({ analysis, page }) => {
-    // Vercel Web Analytics only exists on the deployed site; locally it must not load (or count visits).
+  test('analytics scripts are not loaded locally', async ({ analysis, page }) => {
+    // Vercel Web Analytics and Speed Insights only exist on the deployed site; locally they must not load (or count visits).
     const requests: string[] = [];
     page.on('request', (req) => requests.push(req.url()));
     await analysis.goto('/?t=KO');
     await analysis.glanceRows.first().waitFor();
-    expect(requests.filter((u) => u.includes('/_vercel/insights'))).toEqual([]);
+    expect(requests.filter((u) => u.includes('/_vercel/'))).toEqual([]);
     await expect(analysis.footer).toContainText('no cookies, no personal data');
   });
 

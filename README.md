@@ -44,7 +44,7 @@ All data comes from the companies' own filings through the free **SEC EDGAR** AP
 | **Code quality** | TypeScript 7 (type-checks the JavaScript via JSDoc, strict mode for the tests), ESLint 10, Ruff |
 | **Testing** | behave 1.3 (business rules as Gherkin scenarios), pytest 9 (storage, regression on saved SEC data, HTTP), Node's built-in test runner (JavaScript unit), Playwright Test 1.63 in TypeScript with page objects (end-to-end), axe-core 4.13 (accessibility) |
 | **Reporting** | Allure 3 (allure-behave, allure-pytest, allure-playwright): one report for all layers, with step screenshots and a video per browser test |
-| **CI/CD and hosting** | GitHub Actions (all tests on every push, a live-site check every 6 hours), Dependabot, Vercel (site, API and test report, deployed on every push), Vercel Web Analytics (cookieless) |
+| **CI/CD and hosting** | GitHub Actions (all tests on every push, a live-site check every 6 hours), Dependabot, Vercel (site, API and test report, deployed on every push), Vercel Web Analytics and Speed Insights (cookieless) |
 | **Companion apps** | Kotlin (Android) and Swift/SwiftUI (iOS) with WebdriverIO + Appium end-to-end tests: [stock-value-mobile](https://github.com/dipak-nehe/stock-value-mobile) |
 
 ## Stored results
@@ -73,7 +73,7 @@ Responses carry `X-Data-Cache: HIT | REVALIDATED | MISS | STALE` and `X-Data-Sto
 
 ## Privacy
 
-The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/analytics): page views, country, device and referrer, with no cookies and no personal data. It isn't loaded when running locally, and the footer says so.
+The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/analytics): page views, country, device and referrer, with no cookies and no personal data. [Vercel Speed Insights](https://vercel.com/docs/speed-insights) measures page speed from real visits (Core Web Vitals such as largest contentful paint and layout shift), shown per page in the Vercel dashboard. Neither is loaded when running locally, and the footer says so.
 
 ## Run it locally
 
@@ -191,7 +191,7 @@ npm run typecheck:py # mypy checks the Python in strict mode (every function typ
 npm run check       # all four; CI runs this before the tests
 ```
 
-The Python backend is fully type-hinted and checked by mypy. The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics).
+The Python backend is fully type-hinted and checked by mypy. The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics and Speed Insights).
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
 

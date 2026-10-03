@@ -10,4 +10,7 @@ interface Window {
   /** Vercel Web Analytics command queue. */
   va?: (...args: unknown[]) => void;
   vaq?: unknown[][];
+  /** Vercel Speed Insights command queue. */
+  si?: (...args: unknown[]) => void;
+  siq?: unknown[][];
 }

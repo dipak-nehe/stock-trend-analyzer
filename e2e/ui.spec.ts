@@ -175,19 +175,24 @@ test.describe('wrong tickers and errors', () => {
 });
 
 test.describe('results guide', () => {
-  test('guide explains the results before a search', async ({ analysis }) => {
+  test('guide starts collapsed, with a gently pulsing "Show guide", and explains the results', async ({ analysis }) => {
     await analysis.goto('/');
+    await expect(analysis.guide).not.toHaveAttribute('open', '');
+    await expect(analysis.guideShowText).toHaveText('Show guide');
+    expect(await analysis.guideToggle.locator('.guide-toggle').evaluate((el) => getComputedStyle(el).animationName)).toBe('guide-pulse');
+    await analysis.step('open the guide', () => analysis.guideToggle.click());
     await expect(analysis.guide).toHaveAttribute('open', '');
     // the guide's cards are named after the tabs, so the guide maps directly onto the results
     await expect(analysis.guideCardTitles).toHaveText(
       ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Graham & Buffett-style analysis', 'Charts', 'Data']);
-    await expect(analysis.howItWorksSteps).toHaveCount(3); // the three-step "how it works" strip
     await expect(analysis.guideCardArrows.first()).toBeVisible();
   });
 
   test('guide collapses after a search and can be reopened', async ({ analysis }) => {
     await analysis.open('KO');
     await expect(analysis.guide).not.toHaveAttribute('open', '');
+    // the pulse is only for the start page; it would distract from the results
+    expect(await analysis.guideToggle.locator('.guide-toggle').evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
     await expect(analysis.guideCards).toBeHidden();
     await analysis.step('open the guide', () => analysis.guideToggle.click());
     await expect(analysis.guideCards).toBeVisible();
@@ -195,6 +200,7 @@ test.describe('results guide', () => {
 
   test('guide card before a search shows an example on that tab', async ({ analysis, page }) => {
     await analysis.goto('/');
+    await analysis.step('open the guide', () => analysis.guideToggle.click());
     await analysis.step('click the "Red flags" guide card', async () => {
       await analysis.guideCard('flags').click();
       await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');

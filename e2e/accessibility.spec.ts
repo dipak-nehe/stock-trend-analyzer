@@ -82,6 +82,8 @@ test.describe('axe: start and results pages', () => {
     await prepare(page);
     await analysis.goto('/');
     expect(await violations(analysis, testInfo)).toEqual([]);
+    await analysis.step('open the guide', () => analysis.guideToggle.click());
+    expect(await violations(analysis, testInfo)).toEqual([]);
     await analysis.step('click the "SEC history" guide card', async () => { // loads the example on that tab
       await analysis.guideCard('history').click();
       await analysis.panel('history').waitFor();

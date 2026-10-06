@@ -383,8 +383,4 @@ export class AnalysisPage extends BasePage {
   guideCardIcon(tab: Tab): Locator {
     return this.guideCard(tab).locator('use');
   }
-
-  get howItWorksSteps(): Locator {
-    return this.page.getByTestId('how-it-works').getByRole('listitem');
-  }
 }

@@ -194,12 +194,15 @@
   .guide .when-open, .guide[open] .when-closed { display: none; }
   .guide[open] .when-open { display: inline; }
   .guide[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  @media (prefers-reduced-motion: reduce) { .guide-toggle svg, .guide { transition: none; } }
-  .how { list-style: none; margin: 0 18px 16px; padding: 12px; display: flex; gap: 8px; border-radius: 10px; background: var(--page); counter-reset: none; }
-  .how li { flex: 1 1 0; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-2); position: relative; }
-  .how li + li::before { content: "›"; color: var(--muted); font-size: 22px; margin-right: 6px; }
-  .how strong { color: var(--text-1); }
-  .how-n { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; background: var(--accent-strong); }
+  /* the guide starts collapsed: on the start page "Show guide" pulses gently three times so it gets noticed, then stops
+     (no endless flashing, and none at all for people who turn motion off) */
+  .guide:not([open]):not(.has-results) .guide-toggle { animation: guide-pulse 1.6s ease-out .8s 3; }
+  @keyframes guide-pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+    70% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  @media (prefers-reduced-motion: reduce) { .guide-toggle svg, .guide { transition: none; } .guide-toggle { animation: none !important; } }
   .guide-intro { margin: 0 18px 10px; color: var(--text-2); font-size: 14px; }
   .guide-try { color: var(--accent); font-weight: 600; }
   .guide.has-results .guide-try { display: none; }
@@ -220,10 +223,6 @@
   .guide-notes strong { display: block; color: var(--text-1); font-size: 13px; margin-bottom: 2px; }
   .tabbar [role=tab] { display: inline-flex; align-items: center; gap: 6px; }
   .tab-icon { width: 16px; height: 16px; }
-  @media (max-width: 700px) {
-    .how { flex-direction: column; }
-    .how li + li::before { display: none; }
-  }
 
   .glance { margin-top: 16px; padding: 6px 8px; display: grid; }
   .glance-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 8px 10px 4px; }

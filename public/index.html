@@ -67,6 +67,7 @@
       </div>
       <button id="go" type="submit" disabled data-i18n="ui.search.go">Analyze</button>
     </form>
+    <p id="searchHint" class="search-hint" role="status" data-testid="search-hint" data-i18n="ui.search.hint" hidden>Type a ticker first, e.g. AAPL, or pick one below.</p>
     <div class="chips"><span data-i18n="ui.try">Try:</span>
       <button class="chip" type="button" data-t="AAPL">AAPL</button>
       <button class="chip" type="button" data-t="KO">KO</button>
@@ -80,6 +81,23 @@
   <div id="loading" class="loading hidden" data-i18n="ui.loading">Fetching filings from SEC EDGAR…</div>
   <div id="error" class="card error hidden" role="alert" data-testid="error"></div>
   <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions. <a href="disclaimer.html" data-testid="full-disclaimer-link">Full disclaimer</a></p>
+
+  <!-- Start page only (hidden once a company is shown): the two ideas the checks are built around. -->
+  <section class="quotes" id="quotes" data-testid="quotes" aria-labelledby="quotes-title">
+    <h2 id="quotes-title" class="quotes-title" data-i18n="ui.quotes.title">Two ideas behind this tool</h2>
+    <div class="quotes-grid">
+      <figure class="quote card">
+        <blockquote data-i18n="ui.quotes.lynch">“Know what you own, and know why you own it.”</blockquote>
+        <figcaption>Peter Lynch</figcaption>
+        <p class="quote-use" data-i18n="ui.quotes.lynchUse">Ten years of a company's own filings in one place, so you can say in a couple of sentences why you own it.</p>
+      </figure>
+      <figure class="quote card">
+        <blockquote data-i18n="ui.quotes.buffett">“It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”</blockquote>
+        <figcaption data-i18n="ui.quotes.buffettSource">Warren Buffett, <a href="https://www.berkshirehathaway.com/letters/1989.html" target="_blank" rel="noopener">1989 letter to Berkshire Hathaway shareholders</a></figcaption>
+        <p class="quote-use" data-i18n="ui.quotes.buffettUse">The red flags and checklists look at how good the business is. Whether the price is fair is your call.</p>
+      </figure>
+    </div>
+  </section>
 
   <details class="guide card" id="guide" data-testid="guide" open>
     <summary data-testid="guide-toggle">
@@ -99,31 +117,31 @@
     <div class="guide-grid" data-testid="guide-cards">
       <button type="button" class="guide-item" data-tab="overview">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-overview"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.overview.title">Overview</span><span class="gi-text" data-i18n="ui.card.overview.text">10-year trends for revenue, earnings, earnings per share and dividends: the latest figure, average growth per year, and a plain label such as <em>growing</em>, <em>flat</em> or <em>declining</em>. Plus a first-vs-latest-year growth table.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.overview.title">Overview</span><span class="gi-text" data-i18n="ui.card.overview.text">10-year trends in revenue, earnings and dividends.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="flags">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-flags"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.flags.title">Red flags</span><span class="gi-text" data-i18n="ui.card.flags.text">20+ automated checks on debt, liquidity, cash flow vs earnings, dilution and dividend safety, each marked <em>critical</em>, <em>warning</em> or <em>strength</em> with the numbers behind it.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.flags.title">Red flags</span><span class="gi-text" data-i18n="ui.card.flags.text">20+ checks on debt, cash flow and dividend safety.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="history">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-history"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.history.title">SEC history</span><span class="gi-text" data-i18n="ui.card.history.text">Restatements, auditor changes, late filings, exchange notices, amended reports and SEC comment letters from the company's own record, each linked to the original document.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.history.title">SEC history</span><span class="gi-text" data-i18n="ui.card.history.text">Restatements, auditor changes, late filings and SEC letters.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="insiders">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-insiders"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.insiders.title">Insider trades</span><span class="gi-text" data-i18n="ui.card.insiders.text">Who bought or sold the company's shares on the open market in the last 12 months: officers, directors and 10% owners, from their SEC Form 4 filings, with pre-planned sales marked.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.insiders.title">Insider trades</span><span class="gi-text" data-i18n="ui.card.insiders.text">Insider buys and sales on the open market, last 12 months.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="value">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.value.title">Graham &amp; Buffett-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">How the company measures up to Benjamin Graham's and Warren Buffett's criteria. Enter a share price to add the valuation tests: P/E, price to book, Graham Number and margin of safety.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.value.title">Graham &amp; Buffett-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">Graham's and Buffett's criteria, plus valuation tests.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="charts">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-charts"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.charts.title">Charts</span><span class="gi-text" data-i18n="ui.card.charts.text">Eight charts: revenue and earnings, EPS, dividends, payout ratio, balance sheet, debt vs cash, cash flow vs earnings, and margins.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.charts.title">Charts</span><span class="gi-text" data-i18n="ui.card.charts.text">Eight charts, from revenue and earnings to margins.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="data">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-data"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.data.title">Data</span><span class="gi-text" data-i18n="ui.card.data.text">Every figure by fiscal year, straight from the annual reports.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.data.title">Data</span><span class="gi-text" data-i18n="ui.card.data.text">Every figure by fiscal year, from the annual reports.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
     </div>
     <ul class="guide-notes">
@@ -132,23 +150,6 @@
       <li data-i18n="ui.guideNote.3"><strong>Sharing</strong> The page address keeps the ticker, the open tab and any price you enter, so you can bookmark or share a result.</li>
     </ul>
   </details>
-
-  <!-- Start page only (hidden once a company is shown): the two ideas the checks are built around. -->
-  <section class="quotes" id="quotes" data-testid="quotes" aria-labelledby="quotes-title">
-    <h2 id="quotes-title" class="quotes-title" data-i18n="ui.quotes.title">Two ideas behind this tool</h2>
-    <div class="quotes-grid">
-      <figure class="quote card">
-        <blockquote data-i18n="ui.quotes.lynch">“Know what you own, and know why you own it.”</blockquote>
-        <figcaption>Peter Lynch</figcaption>
-        <p class="quote-use" data-i18n="ui.quotes.lynchUse">Ten years of a company's own filings in one place, so you can say in a couple of sentences why you own it.</p>
-      </figure>
-      <figure class="quote card">
-        <blockquote data-i18n="ui.quotes.buffett">“It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”</blockquote>
-        <figcaption data-i18n="ui.quotes.buffettSource">Warren Buffett, <a href="https://www.berkshirehathaway.com/letters/1989.html" target="_blank" rel="noopener">1989 letter to Berkshire Hathaway shareholders</a></figcaption>
-        <p class="quote-use" data-i18n="ui.quotes.buffettUse">The red flags and checklists look at how good the business is. Whether the price is fair is your call.</p>
-      </figure>
-    </div>
-  </section>
 
   <section id="result" class="hidden" data-testid="result">
     <div class="company card">

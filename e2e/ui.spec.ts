@@ -50,19 +50,31 @@ test.describe('search', () => {
     expect(await analysis.searchBox.evaluate((el: HTMLInputElement) => el.selectionEnd)).toBe(2); // text selected, ready to replace
   });
 
-  test('Analyze needs a ticker: it stays disabled while the search box is empty', async ({ analysis, page }) => {
-    // Regression: an empty box could be submitted (the button did nothing).
+  test('Analyze with an empty box shows a hint instead of looking anything up', async ({ analysis, page }) => {
+    // Regression: an empty box could be submitted (the button did nothing). The button now looks ready and explains.
     await analysis.goto('/');
-    await analysis.step('type a ticker', () => analysis.searchBox.fill('K'));
     await expect(analysis.analyzeButton).toBeEnabled(); // the page's script is running
-    await analysis.step('clear the box', () => analysis.searchBox.fill(''));
-    await expect(analysis.analyzeButton).toBeDisabled();
-    await analysis.step('type only spaces', () => analysis.searchBox.fill('   '));
-    await expect(analysis.analyzeButton).toBeDisabled();
-    await analysis.step('press Enter in the empty box', () => analysis.searchBox.press('Enter'));
+    await expect(analysis.searchHint).toBeHidden();
+    await analysis.step('click Analyze with an empty box', () => analysis.analyzeButton.click());
+    await expect(analysis.searchHint).toBeVisible();
+    await expect(analysis.searchHint).toHaveText('Type a ticker first, e.g. AAPL, or pick one below.');
+    await expect(analysis.searchBox).toBeFocused();
+    await analysis.step('press Enter with only spaces', async () => {
+      await analysis.searchBox.fill('   ');
+      await analysis.searchBox.press('Enter');
+    });
+    await expect(analysis.searchHint).toBeVisible();
     await expect(analysis.error).toBeHidden();
     await expect(analysis.result).toBeHidden();
     await expect(page).toHaveURL(/\/$/); // nothing was looked up
+    await analysis.step('type a ticker', () => analysis.searchBox.fill('K'));
+    await expect(analysis.searchHint).toBeHidden();
+  });
+
+  test('the empty-box hint is in Spanish too', async ({ analysis }) => {
+    await analysis.goto('/?lang=es');
+    await analysis.step('click Analyze with an empty box', () => analysis.analyzeButton.click());
+    await expect(analysis.searchHint).toHaveText('Escribe primero un ticker, p. ej. AAPL, o elige uno de abajo.');
   });
 
   test('Analyze is ready right away when the page opens with a ticker, and after a lookup', async ({ analysis }) => {
@@ -93,7 +105,7 @@ test.describe('start-page quotes', () => {
 
   test('quotes are translated into Spanish', async ({ analysis }) => {
     await analysis.goto('/?lang=es');
-    await expect(analysis.quotes).toContainText('Conozca lo que tiene y por qué lo tiene');
+    await expect(analysis.quotes).toContainText('Conoce lo que tienes y por qué lo tienes');
     await expect(analysis.quotes).toContainText('una empresa maravillosa a un precio justo');
   });
 

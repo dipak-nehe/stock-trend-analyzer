@@ -9,7 +9,7 @@ import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, applyStaticText, bindSlashShortcut, compareHref, enableWhenFilled, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -167,6 +167,7 @@ function renderValue() {
 async function run(ticker) {
   ticker = ticker.trim().toUpperCase();
   if (!ticker) return;
+  $("searchHint").hidden = true;
   $("ticker").value = ticker;
   $("homeBtn").hidden = false;  // after any lookup (result or error) Home leads back to the start page
   $("error").classList.add("hidden");
@@ -213,12 +214,24 @@ function switchLang(lang) {
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
 bindSlashShortcut("ticker");
-// Analyze starts disabled in the HTML (an early submit would just reload the page) and then needs a ticker in the box.
-const syncGo = enableWhenFilled("ticker", "go");
+// Analyze starts disabled in the HTML (an early submit would just reload the page). Once the script runs it stays
+// ready: a greyed-out button looked broken, so an empty box gets a hint instead.
+function syncGo() { $("go").disabled = false; }
+syncGo();
+$("ticker").addEventListener("input", () => { $("searchHint").hidden = true; });
 $("insiders").addEventListener("click", (e) => {
   if (targetOf(e).closest("#insidersRetry")) loadInsiders();
 });
-$("form").addEventListener("submit", (e) => { e.preventDefault(); $("price").value = ""; run($("ticker").value); });
+$("form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!$("ticker").value.trim()) {
+    $("searchHint").hidden = false;
+    $("ticker").focus();
+    return;
+  }
+  $("price").value = "";
+  run($("ticker").value);
+});
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   chartsStale = true;  // chart colours come from the theme

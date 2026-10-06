@@ -326,6 +326,11 @@ export class AnalysisPage extends BasePage {
     return this.glossary.getByRole('term');
   }
 
+  /** "Type a ticker first…", shown when Analyze is pressed with an empty box. */
+  get searchHint(): Locator {
+    return this.page.getByTestId('search-hint');
+  }
+
   // ---------- start-page quotes ----------
   get quotes(): Locator {
     return this.page.getByTestId('quotes');

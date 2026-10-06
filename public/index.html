@@ -133,6 +133,23 @@
     </ul>
   </details>
 
+  <!-- Start page only (hidden once a company is shown): the two ideas the checks are built around. -->
+  <section class="quotes" id="quotes" data-testid="quotes" aria-labelledby="quotes-title">
+    <h2 id="quotes-title" class="quotes-title" data-i18n="ui.quotes.title">Two ideas behind this tool</h2>
+    <div class="quotes-grid">
+      <figure class="quote card">
+        <blockquote data-i18n="ui.quotes.lynch">“Know what you own, and know why you own it.”</blockquote>
+        <figcaption>Peter Lynch</figcaption>
+        <p class="quote-use" data-i18n="ui.quotes.lynchUse">Ten years of a company's own filings in one place, so you can say in a couple of sentences why you own it.</p>
+      </figure>
+      <figure class="quote card">
+        <blockquote data-i18n="ui.quotes.buffett">“It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”</blockquote>
+        <figcaption data-i18n="ui.quotes.buffettSource">Warren Buffett, <a href="https://www.berkshirehathaway.com/letters/1989.html" target="_blank" rel="noopener">1989 letter to Berkshire Hathaway shareholders</a></figcaption>
+        <p class="quote-use" data-i18n="ui.quotes.buffettUse">The red flags and checklists look at how good the business is. Whether the price is fair is your call.</p>
+      </figure>
+    </div>
+  </section>
+
   <section id="result" class="hidden" data-testid="result">
     <div class="company card">
       <div><h2 id="coName" data-testid="company-name"></h2><div class="meta" id="coMeta" data-testid="company-meta"></div><div class="meta as-of" id="coAsOf" data-testid="data-as-of"></div><p class="stale-note" id="staleNote" role="status" data-testid="stale-note" hidden></p></div>

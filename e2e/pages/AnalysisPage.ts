@@ -326,6 +326,11 @@ export class AnalysisPage extends BasePage {
     return this.glossary.getByRole('term');
   }
 
+  // ---------- start-page quotes ----------
+  get quotes(): Locator {
+    return this.page.getByTestId('quotes');
+  }
+
   // ---------- guide ----------
   get guide(): Locator {
     return this.page.getByTestId('guide');

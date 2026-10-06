@@ -309,6 +309,15 @@
   .legal .legal-source { margin-top: 20px; font-size: 13px; color: var(--text-2); }
   .disclaimer a { color: var(--accent); white-space: nowrap; }
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
+  /* start-page quotes: two cards side by side, stacked on phones */
+  .quotes { margin: 20px 0 8px; }
+  .quotes-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .quotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .quote { margin: 0; border-left: 3px solid var(--accent); }
+  .quote blockquote { margin: 0; font-size: 16px; line-height: 1.45; font-style: italic; color: var(--text-1); }
+  .quote figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
+  .quote figcaption a { color: var(--accent); }
+  .quote-use { margin: 10px 0 0; font-size: 13px; line-height: 1.45; color: var(--text-2); }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
   footer a { color: var(--text-2); }
   /* the author credit stands out in the accent colour; the underline stays so it reads as a link, not just coloured text */

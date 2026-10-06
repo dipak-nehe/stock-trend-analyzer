@@ -80,6 +80,30 @@ test.describe('search', () => {
   });
 });
 
+test.describe('start-page quotes', () => {
+  test('two investing quotes show on the start page, with their sources', async ({ analysis }) => {
+    await analysis.goto('/');
+    await expect(analysis.quotes).toBeVisible();
+    await expect(analysis.quotes).toContainText('Know what you own, and know why you own it.');
+    await expect(analysis.quotes).toContainText('wonderful company at a fair price than a fair company at a wonderful price');
+    await expect(analysis.quotes).toContainText('Peter Lynch');
+    await expect(analysis.quotes.getByRole('link', { name: '1989 letter to Berkshire Hathaway shareholders' }))
+      .toHaveAttribute('href', 'https://www.berkshirehathaway.com/letters/1989.html');
+  });
+
+  test('quotes are translated into Spanish', async ({ analysis }) => {
+    await analysis.goto('/?lang=es');
+    await expect(analysis.quotes).toContainText('Conozca lo que tiene y por qué lo tiene');
+    await expect(analysis.quotes).toContainText('una empresa maravillosa a un precio justo');
+  });
+
+  test('quotes make way once a company is shown', async ({ analysis }) => {
+    await analysis.goto('/?t=KO');
+    await analysis.glanceRows.first().waitFor();
+    await expect(analysis.quotes).toBeHidden();
+  });
+});
+
 test.describe('wrong tickers and errors', () => {
   // Regression: on the start page the error was drawn below the guide, off-screen on a laptop, so a wrong ticker
   // seemed to do nothing. After a result, the address kept the previous company.

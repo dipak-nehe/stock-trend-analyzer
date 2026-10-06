@@ -59,6 +59,7 @@ function render(d) {
 
   renderPanelNav();
   $("result").classList.remove("hidden");
+  $("quotes").hidden = true;  // start-page quotes make way for the results
   $("guide").open = false;  // keep the results in view; the guide stays one click away
   $("guide").classList.add("has-results");  // guide cards now open their tab
   $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");

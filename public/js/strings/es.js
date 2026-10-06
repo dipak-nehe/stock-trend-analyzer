@@ -652,7 +652,7 @@ export default {
   "ui.legal.liability.text": "En la máxima medida permitida por la ley, no somos responsables de ninguna pérdida o daño derivado del uso de este sitio web o de su información, ni de haber confiado en ellos.",
   "ui.legal.source": "Las cifras proceden de las propias presentaciones de las empresas ante la Comisión de Bolsa y Valores de EE. UU. (SEC EDGAR). Este sitio web no tiene relación con la SEC ni con ninguna de las empresas mostradas.",
   "ui.legal.back": "← Volver al análisis",
-  "ui.footer.built": "Creado por <a href=\"https://www.linkedin.com/in/dipaknehe/\" target=\"_blank\" rel=\"noopener\">Dipak Nehe</a> · <a href=\"https://github.com/dipak-nehe/stock-trend-analyzer\" target=\"_blank\" rel=\"noopener\">Código en GitHub</a>",
+  "ui.footer.built": "Creado por <a class=\"author\" href=\"https://www.linkedin.com/in/dipaknehe/\" target=\"_blank\" rel=\"noopener\">Dipak Nehe</a> · <a href=\"https://github.com/dipak-nehe/stock-trend-analyzer\" target=\"_blank\" rel=\"noopener\">Código en GitHub</a>",
   "ui.cmp.sub": "Compara dos empresas lado a lado: tendencias de 10 años, señales de alerta y criterios de Graham y Buffett a partir de sus presentaciones ante la SEC.",
   "ui.cmp.back": "← Volver al análisis completo",
   "ui.cmp.first": "Primera acción",

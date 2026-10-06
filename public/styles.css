@@ -311,6 +311,9 @@
   .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
   footer a { color: var(--text-2); }
+  /* the author credit stands out in the accent colour; the underline stays so it reads as a link, not just coloured text */
+  footer a.author { color: var(--accent); font-weight: 600; text-underline-offset: 2px; }
+  footer a.author:hover { text-decoration-thickness: 2px; }
   @media (max-width: 600px) {
     main { padding-top: 20px; }
     h1 { font-size: 22px; }

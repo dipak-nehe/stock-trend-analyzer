@@ -93,14 +93,13 @@ test.describe('search', () => {
 });
 
 test.describe('start-page quotes', () => {
-  test('two investing quotes show on the start page, with their sources', async ({ analysis }) => {
+  test('two investing quotes show on the start page, each with its author', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.quotes).toBeVisible();
     await expect(analysis.quotes).toContainText('Know what you own, and know why you own it.');
     await expect(analysis.quotes).toContainText('wonderful company at a fair price than a fair company at a wonderful price');
-    await expect(analysis.quotes).toContainText('Peter Lynch');
-    await expect(analysis.quotes.getByRole('link', { name: '1989 letter to Berkshire Hathaway shareholders' }))
-      .toHaveAttribute('href', 'https://www.berkshirehathaway.com/letters/1989.html');
+    await expect(analysis.quotes.locator('figcaption')).toHaveText(['Peter Lynch', 'Warren Buffett']);
+    await expect(analysis.quotes.locator('.quote-use, a')).toHaveCount(0); // just the quote and its author
   });
 
   test('quotes are translated into Spanish', async ({ analysis }) => {

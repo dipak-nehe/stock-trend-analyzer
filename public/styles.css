@@ -308,7 +308,7 @@
   .legal p { margin: 0; line-height: 1.6; color: var(--text-1); }
   .legal .legal-source { margin-top: 20px; font-size: 13px; color: var(--text-2); }
   .disclaimer a { color: var(--accent); white-space: nowrap; }
-  .disclaimer { margin: 16px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
+  .disclaimer { margin: 24px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   /* start-page quotes: two cards side by side, stacked on phones */
   .quotes { margin: 16px 0; }
   .quotes-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }

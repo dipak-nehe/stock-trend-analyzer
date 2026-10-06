@@ -1,4 +1,5 @@
 // The results page, driven in Chromium against offline SEC fixtures. Elements come from the AnalysisPage object.
+import type { Locator } from '@playwright/test';
 import { anyContains, expect, slowScript, TABS, test } from './fixtures';
 import { BASE_URL, url } from './env';
 
@@ -811,9 +812,16 @@ test.describe('Home button', () => {
 });
 
 test.describe('disclaimer', () => {
-  test('disclaimer is always visible', async ({ analysis }) => {
+  test('disclaimer is always visible, at the bottom of the page', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.disclaimer).toContainText('Not investment advice');
+    await expect(analysis.disclaimer).toBeVisible();
+    const top = async (l: Locator) => (await l.boundingBox())!.y;
+    const bottom = async (l: Locator) => { const box = (await l.boundingBox())!; return box.y + box.height; };
+    expect(await top(analysis.disclaimer)).toBeGreaterThan(await bottom(analysis.guide)); // under the guide
+    await analysis.open('KO');
+    await expect(analysis.disclaimer).toBeVisible();
+    expect(await top(analysis.disclaimer)).toBeGreaterThan(await bottom(analysis.result)); // and under the results
   });
 
   test('the short notice and the footer link to the full disclaimer', async ({ analysis, disclaimer, page }) => {

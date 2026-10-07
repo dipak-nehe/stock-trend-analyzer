@@ -23,6 +23,7 @@ CONCEPTS: dict[str, tuple[str, list[tuple[str, str]]]] = {
         ("us-gaap", "SalesRevenueGoodsNet"),
         ("us-gaap", "RevenuesNetOfInterestExpense"),
         ("ifrs-full", "Revenue"),
+        ("ifrs-full", "RevenueFromContractsWithCustomers"),  # IFRS 15 name, used from 2018-19 (e.g. Infosys)
     ]),
     "netIncome": ("duration", [
         ("us-gaap", "NetIncomeLoss"),

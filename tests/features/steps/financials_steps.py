@@ -75,6 +75,16 @@ def step_ifrs_twd(context):
         add_facts(context, tag, twd, "TWD", taxonomy="ifrs")
 
 
+@given("an IFRS filer reporting profit in USD on Form 20-F for 2016 to 2025")
+def step_ifrs_profit_usd(context):
+    add_facts(context, "ProfitLoss", [year(y, 100, form="20-F") for y in YEARS], taxonomy="ifrs")
+
+
+@given('IFRS revenue tagged "{tag}" for {a:d} to {b:d}')
+def step_ifrs_revenue_tag(context, tag, a, b):
+    add_facts(context, tag, [year(y, 10 * y, form="20-F") for y in range(a, b + 1)], taxonomy="ifrs")
+
+
 @given("a USD convenience translation of its latest year only")
 def step_ifrs_usd(context):
     for tag in ("ProfitLoss", "Revenue"):

@@ -29,6 +29,14 @@ Feature: Annual figures from XBRL company facts
     Then every year has revenue
     And revenue comes from the tags "RevenueFromContractWithCustomerExcludingAssessedTax, SalesRevenueNet"
 
+  Scenario: An IFRS filer's revenue tag change is followed too (Infosys-style, IFRS 15 from 2019)
+    Given an IFRS filer reporting profit in USD on Form 20-F for 2016 to 2025
+    And IFRS revenue tagged "Revenue" for 2016 to 2018
+    And IFRS revenue tagged "RevenueFromContractsWithCustomers" for 2019 to 2025
+    When its financials are built
+    Then every year has revenue
+    And revenue comes from the tags "Revenue, RevenueFromContractsWithCustomers"
+
   # ---------- Stock splits are detected and older per-share values adjusted ----------
 
   Scenario: A forward split adjusts older per-share values

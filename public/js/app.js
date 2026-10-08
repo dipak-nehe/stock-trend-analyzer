@@ -6,7 +6,7 @@ import { growthView } from "./growth.js";
 import { historyView } from "./history.js";
 import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
-import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, trendTile, valueView } from "./views.js";
+import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, rdTile, trendTile, valueView } from "./views.js";
 import { money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
@@ -40,6 +40,7 @@ function render(d) {
     trendTile(t("tile.netIncome"), s.netIncome, money, cur),
     trendTile(t("tile.eps"), s.eps, perShare, cur),
     trendTile(t("tile.dps"), s.dps, perShare, cur),
+    rdTile(d),
   ].join("");
   $("score").innerHTML = flagCounts(r.flags);
   $("flags").innerHTML = flagsList(r.flags);

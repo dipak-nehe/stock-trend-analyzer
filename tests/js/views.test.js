@@ -4,7 +4,7 @@ import { analyze } from "../../public/js/flags.js";
 import { growthView } from "../../public/js/growth.js";
 import { historyView } from "../../public/js/history.js";
 import { valueChecks } from "../../public/js/valuation.js";
-import { flagCounts, footnote, valueView } from "../../public/js/views.js";
+import { flagCounts, footnote, rdTile, valueView } from "../../public/js/views.js";
 import { company, events, history, nulls } from "./company.js";
 
 const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -186,3 +186,27 @@ test("each 8-K event and late-filing notice shows the SEC's official title word 
   assert.equal((v.events.match(/data-testid="official-title"/g) || []).length, 2); // SEC letters have no item title
   assert.match(v.events, /<span lang="en">Notice of Delisting/); // read as English on the Spanish page too
 });
+
+// ---------- R&D tile (Overview) ----------
+const withRd = (shareOfRevenue) => company({ revenue: YEARS.map(() => 1000e6), researchAndDevelopment: YEARS.map((_, i) => shareOfRevenue(i) * 1000e6) });
+
+test("R&D tile shows the latest share of revenue and its EU Scoreboard band", () => {
+  const tile = text(rdTile(withRd((i) => 0.04 + i * 0.004)));  // 4.0% in 2016 rising to 7.6% in 2025
+  assert.match(tile, /R&D \(% of revenue\) 7\.6% High: above 5%/);
+  assert.match(tile, /\$76\.0M in 2025 · 4\.0% in 2016\. Bands from the EU Industrial R&D Scoreboard/);
+});
+
+test("R&D bands follow the Scoreboard cut-offs: above 5%, 2-5%, 1-2%, below 1%", () => {
+  const band = (x) => text(rdTile(withRd(() => x))).match(/(High|Medium-high|Medium-low|Low): /)[1];
+  assert.equal(band(0.051), "High");
+  assert.equal(band(0.05), "Medium-high");
+  assert.equal(band(0.02), "Medium-high");
+  assert.equal(band(0.015), "Medium-low");
+  assert.equal(band(0.005), "Low");
+});
+
+test("no R&D tile when the company doesn't report R&D", () => {
+  assert.equal(rdTile(company()), "");
+  assert.equal(rdTile(company({ researchAndDevelopment: nulls() })), "");
+});
+

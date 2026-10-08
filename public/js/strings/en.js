@@ -375,6 +375,14 @@ export default {
   "tile.growth": "{rate} a year ({cagr}) · {first} → {latest}",
   "tile.fromTo": "From {first} to {latest}",
   "tile.notReported": "Not reported",
+  "metric.researchAndDevelopment": "Research & development",
+  "tile.rd": "R&D (% of revenue)",
+  "tile.rd.high": "High: above 5%",
+  "tile.rd.mediumHigh": "Medium-high: 2–5%",
+  "tile.rd.mediumLow": "Medium-low: 1–2%",
+  "tile.rd.low": "Low: below 1%",
+  "tile.rd.since": " · {first} in {year}",
+  "tile.rd.detail": "{amount} in {year}{since}. Bands from the EU Industrial R&D Scoreboard; normal levels differ a lot by industry",
 
   // ---------- data table and footnote ----------
   "table.metric": "Metric",

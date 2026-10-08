@@ -435,7 +435,7 @@ test.describe('overview and trends', () => {
 
   test('trend tiles show a sparkline', async ({ analysis }) => {
     await analysis.open('AAPL');
-    await expect(analysis.sparklines).toHaveCount(4);
+    await expect(analysis.sparklines).toHaveCount(5); // revenue, earnings, EPS, dividend and R&D (Apple reports R&D)
   });
 
   test('jargon is explained', async ({ analysis }) => {
@@ -543,6 +543,18 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.grahamScore).toContainText('Meets 4 of 8');
     await expect(analysis.buffettScore).toContainText('Meets 7 of 8'); // includes return on tangible capital
     await expect(analysis.piotroskiScore).toContainText('Meets 7 of 9');
+  });
+
+  test('R&D spending shows on the Overview for companies that report it, and not otherwise', async ({ analysis }) => {
+    await analysis.open('AAPL');
+    await expect(analysis.rdTile).toBeVisible();
+    await expect(analysis.rdTile).toContainText('R&D (% of revenue)');
+    await expect(analysis.rdTile).toContainText('8.3%'); // $34.5B of R&D on $416.2B of revenue
+    await expect(analysis.rdTile).toContainText('High: above 5%');
+    await expect(analysis.rdTile).toContainText('$34.5B in 2025 · 4.7% in 2016');
+    await analysis.open('KO'); // Coca-Cola doesn't report R&D
+    await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
+    await expect(analysis.rdTile).toHaveCount(0);
   });
 
   test('return on tangible capital, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {

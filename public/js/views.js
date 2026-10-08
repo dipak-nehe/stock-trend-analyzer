@@ -34,6 +34,23 @@ export function trendTile(title, arr, fmt, cur) {
     <div class="detail">${detail}</div></div>`;
 }
 
+// R&D spending as a share of revenue, on the EU Industrial R&D Scoreboard's four bands. Neutral on purpose: what's
+// normal depends on the industry, so it's no verdict. No tile at all when the company doesn't report R&D.
+export function rdTile(d) {
+  const s = d.series, rd = s.researchAndDevelopment || [];
+  const share = rd.map((v, i) => (v != null && s.revenue[i] > 0 ? v / s.revenue[i] : null));
+  const i = lastIdx(share), f = firstIdx(share);
+  if (i < 0) return "";
+  const x = share[i], band = x > 0.05 ? "high" : x >= 0.02 ? "mediumHigh" : x >= 0.01 ? "mediumLow" : "low";
+  const since = f < i ? t("tile.rd.since", { first: pct(share[f]), year: d.years[f] }) : "";
+  return `<div class="card tile" data-testid="rd-tile">
+    <div class="label">${t("tile.rd")}</div>
+    <div class="value">${pct(x)}</div>
+    <div class="trend flat">${t(`tile.rd.${band}`)}</div>
+    ${sparkline(share)}
+    <div class="detail">${t("tile.rd.detail", { amount: money(rd[i], d.currency), year: d.years[i], since })}</div></div>`;
+}
+
 export function flagCounts(flags) {
   const cnt = (k) => flags.filter((f) => f.sev === k).length;
   return `<span><b class="down">${cnt("critical")}</b> ${t("flags.count.critical")}</span><span><b>${cnt("warning")}</b> ${t("flags.count.warning")}</span><span><b class="up">${cnt("good")}</b> ${t("flags.count.good")}</span>`;
@@ -55,7 +72,7 @@ export function flagsList(flags) {
 
 /** @type {[string, [string, (v: number, cur?: string) => string][]][]} Group key, then [metric, formatter] rows. */
 export const DATA_GROUPS = [
-  ["group.income", [["revenue", money], ["operatingIncome", money], ["pretaxIncome", money], ["incomeTax", money], ["netIncome", money],
+  ["group.income", [["revenue", money], ["researchAndDevelopment", money], ["operatingIncome", money], ["pretaxIncome", money], ["incomeTax", money], ["netIncome", money],
     ["interestExpense", money]]],
   ["group.perShare", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
   ["group.cashFlow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],

@@ -286,6 +286,11 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('graham-score');
   }
 
+  /** "R&D (% of revenue)" on the Overview tab; only there when the company reports R&D. */
+  get rdTile(): Locator {
+    return this.page.getByTestId('rd-tile');
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

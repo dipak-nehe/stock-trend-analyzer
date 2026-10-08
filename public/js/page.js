@@ -10,7 +10,7 @@ export const $$ = (selector) => [...document.querySelectorAll(selector)].map((el
 export const targetOf = (e) => /** @type {HTMLElement} */ (e.target);
 
 // Bump when the API response format changes, so no cache serves an older shape to newer code.
-export const API_VERSION = 9;
+export const API_VERSION = 10;
 
 // The server answers in English; show its message as-is in English, otherwise translate by type.
 /** @param {number} status @param {string} message @param {string} ticker */

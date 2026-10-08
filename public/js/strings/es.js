@@ -375,6 +375,14 @@ export default {
   "tile.growth": "{rate} al año ({cagr}) · {first} → {latest}",
   "tile.fromTo": "De {first} a {latest}",
   "tile.notReported": "No declarado",
+  "metric.researchAndDevelopment": "Investigación y desarrollo",
+  "tile.rd": "I+D (% de los ingresos)",
+  "tile.rd.high": "Alto: más del 5 %",
+  "tile.rd.mediumHigh": "Medio-alto: 2–5 %",
+  "tile.rd.mediumLow": "Medio-bajo: 1–2 %",
+  "tile.rd.low": "Bajo: menos del 1 %",
+  "tile.rd.since": " · {first} en {year}",
+  "tile.rd.detail": "{amount} en {year}{since}. Tramos del Marcador de inversión industrial en I+D de la UE; lo normal varía mucho según el sector",
 
   // ---------- data table and footnote ----------
   "table.metric": "Partida",

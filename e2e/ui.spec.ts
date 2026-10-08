@@ -93,23 +93,34 @@ test.describe('search', () => {
   });
 });
 
-test.describe('start-page quotes', () => {
-  test('two investing quotes show on the start page, each with its author', async ({ analysis }) => {
+test.describe('start-page quote of the day', () => {
+  // Pin the browser's clock: the quote depends on the day of the month (js/quotes.js)
+  test('a Buffett quote shows on the start page, chosen by the day of the month', async ({ analysis, page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-07T12:00:00'));
     await analysis.goto('/');
     await expect(analysis.quotes).toBeVisible();
-    await expect(analysis.quotes).toContainText('Know what you own, and know why you own it.');
-    await expect(analysis.quotes).toContainText('wonderful company at a fair price than a fair company at a wonderful price');
-    await expect(analysis.quotes.locator('figcaption')).toHaveText(['Peter Lynch', 'Warren Buffett']);
-    await expect(analysis.quotes.locator('.quote-use, a')).toHaveCount(0); // just the quote and its author
+    await expect(analysis.quotes).toContainText('Quote of the day');
+    await expect(analysis.dailyQuote).toHaveText('“It’s far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”');
+    await expect(analysis.quotes.locator('figcaption')).toHaveText('Warren Buffett');
+    await expect(analysis.quotes.getByRole('link')).toHaveCount(0); // just the quote and its author
   });
 
-  test('quotes are translated into Spanish', async ({ analysis }) => {
+  test('another day brings another quote', async ({ analysis, page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-14T12:00:00'));
+    await analysis.goto('/');
+    await expect(analysis.dailyQuote).toHaveText('“We try to price, rather than time, purchases.”');
+  });
+
+  test('the quote is translated into Spanish, and follows a language switch', async ({ analysis, page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-07T12:00:00'));
     await analysis.goto('/?lang=es');
-    await expect(analysis.quotes).toContainText('Conoce lo que tienes y por qué lo tienes');
-    await expect(analysis.quotes).toContainText('una empresa maravillosa a un precio justo');
+    await expect(analysis.quotes).toContainText('Cita del día');
+    await expect(analysis.dailyQuote).toHaveText('«Es mucho mejor comprar una empresa maravillosa a un precio justo que una empresa corriente a un precio maravilloso.»');
+    await analysis.step('switch to English', () => analysis.switchLanguage('en'));
+    await expect(analysis.dailyQuote).toHaveText('“It’s far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”');
   });
 
-  test('quotes make way once a company is shown', async ({ analysis }) => {
+  test('the quote makes way once a company is shown', async ({ analysis }) => {
     await analysis.goto('/?t=KO');
     await analysis.glanceRows.first().waitFor();
     await expect(analysis.quotes).toBeHidden();

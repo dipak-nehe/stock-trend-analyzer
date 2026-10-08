@@ -81,19 +81,14 @@
   <div id="loading" class="loading hidden" data-i18n="ui.loading">Fetching filings from SEC EDGAR…</div>
   <div id="error" class="card error hidden" role="alert" data-testid="error"></div>
 
-  <!-- Start page only (hidden once a company is shown): the two ideas the checks are built around. -->
+  <!-- Start page only (hidden once a company is shown): a Warren Buffett quote, a different one each day of the month
+       (js/quotes.js). The text below is what shows before the script runs. -->
   <section class="quotes" id="quotes" data-testid="quotes" aria-labelledby="quotes-title">
-    <h2 id="quotes-title" class="quotes-title" data-i18n="ui.quotes.title">Two ideas behind this tool</h2>
-    <div class="quotes-grid">
-      <figure class="quote card">
-        <blockquote data-i18n="ui.quotes.lynch">“Know what you own, and know why you own it.”</blockquote>
-        <figcaption>Peter Lynch</figcaption>
-      </figure>
-      <figure class="quote card">
-        <blockquote data-i18n="ui.quotes.buffett">“It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”</blockquote>
-        <figcaption>Warren Buffett</figcaption>
-      </figure>
-    </div>
+    <h2 id="quotes-title" class="quotes-title" data-i18n="ui.quotes.title">Quote of the day</h2>
+    <figure class="quote card">
+      <blockquote id="dailyQuote" data-testid="daily-quote">“It’s far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”</blockquote>
+      <figcaption>Warren Buffett</figcaption>
+    </figure>
   </section>
 
   <details class="guide card" id="guide" data-testid="guide">

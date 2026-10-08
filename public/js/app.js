@@ -10,6 +10,7 @@ import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView,
 import { money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { quoteOfTheDay } from "./quotes.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -205,8 +206,15 @@ function updateUrl() {
 }
 
 // ---------- language ----------
+// The start page's Buffett quote for today, in the page language (Spanish uses «» like the rest of the Spanish text)
+function showQuote() {
+  const q = quoteOfTheDay();
+  $("dailyQuote").textContent = getLang() === "es" ? `«${q.es}»` : `“${q.en}”`;
+}
+
 function switchLang(lang) {
   if (!useLang(lang)) return;
+  showQuote();
   if (current) render(current.data);  // re-renders in the new language, keeping the open tab and any price
   else if (failed) return void run(failed);  // shows the error again, in the new language
   updateUrl();
@@ -288,6 +296,7 @@ $("price").addEventListener("input", () => { clearTimeout(priceTimer); priceTime
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
+showQuote();
 $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
 if (params.get("p")) $("price").value = params.get("p");
 if (params.get("t")) run(params.get("t"));

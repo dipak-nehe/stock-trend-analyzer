@@ -313,10 +313,9 @@
   .legal .legal-source { margin-top: 20px; font-size: 13px; color: var(--text-2); }
   .disclaimer a { color: var(--accent); white-space: nowrap; }
   .disclaimer { margin: 24px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
-  /* start-page quotes: two cards side by side, stacked on phones */
+  /* start-page quote of the day */
   .quotes { margin: 16px 0; }
   .quotes-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
-  .quotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
   .quote { margin: 0; padding: 12px 16px; border-left: 3px solid var(--quote); }
   .quote blockquote { margin: 0; font-size: 16px; line-height: 1.45; font-style: italic; font-weight: 500; color: var(--quote); }
   .quote figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }

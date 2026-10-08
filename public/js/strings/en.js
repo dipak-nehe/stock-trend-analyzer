@@ -382,6 +382,7 @@ export default {
   "tile.growth": "{rate} a year ({cagr}) · {first} → {latest}",
   "tile.fromTo": "From {first} to {latest}",
   "tile.notReported": "Not reported",
+  "search.suggestions": "Suggestions",
   "ind.title": "Compared with its industry",
   "ind.group4": "{name} (SIC {code})",
   "ind.groupWider": "{name} and related industries (SIC {code})",

@@ -10,6 +10,10 @@
     "api/insiders.py": {
       "includeFiles": "backend/**",
       "maxDuration": 30
+    },
+    "api/search.py": {
+      "includeFiles": "backend/**",
+      "maxDuration": 10
     }
   },
   "headers": [

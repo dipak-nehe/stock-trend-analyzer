@@ -78,6 +78,15 @@ test.describe('axe: start and results pages', () => {
     expect(await violations(analysis, testInfo)).toEqual([]);
   });
 
+  test('search suggestions open', async ({ analysis, page }, testInfo) => {
+    await prepare(page);
+    await analysis.goto('/');
+    await analysis.searchBox.fill('coca');
+    await expect(analysis.suggestions).toBeVisible();
+    await analysis.searchBox.press('ArrowDown');
+    expect(await violations(analysis, testInfo)).toEqual([]);
+  });
+
   test('guide before and after a search', async ({ analysis, page }, testInfo) => {
     await prepare(page);
     await analysis.goto('/');

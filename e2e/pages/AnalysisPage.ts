@@ -315,6 +315,11 @@ export class AnalysisPage extends BasePage {
     await this.page.route('**/data/industry.json', (route) => route.fulfill({ path: 'tests/fixtures/industry.json' }));
   }
 
+  /** Company suggestions under the search box (an accessible listbox). */
+  get suggestions(): Locator {
+    return this.page.getByRole('listbox', { name: 'Suggestions' });
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

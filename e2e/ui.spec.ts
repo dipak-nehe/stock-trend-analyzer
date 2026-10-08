@@ -33,7 +33,7 @@ test.describe('search', () => {
   test('search box has a visible label and works by label', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.searchBox).toBeFocused(); // ready to type on arrival
-    await expect(analysis.searchBox).toHaveAttribute('placeholder', 'Enter a ticker, e.g. AAPL');
+    await expect(analysis.searchBox).toHaveAttribute('placeholder', 'Company name or ticker, e.g. Apple or AAPL');
     await analysis.searchBox.fill('ko');
     await analysis.searchBox.press('Enter');
     await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
@@ -124,6 +124,53 @@ test.describe('start-page quote of the day', () => {
     await analysis.goto('/?t=KO');
     await analysis.glanceRows.first().waitFor();
     await expect(analysis.quotes).toBeHidden();
+  });
+});
+
+test.describe('smart search', () => {
+  test('a company name suggests tickers; arrow keys and Enter look one up', async ({ analysis, page }) => {
+    await analysis.goto('/');
+    await analysis.step('type "coca"', () => analysis.searchBox.fill('coca'));
+    await expect(analysis.suggestions).toBeVisible();
+    await expect(analysis.searchBox).toHaveAttribute('aria-expanded', 'true');
+    await expect(analysis.suggestions.getByRole('option').first()).toHaveText(/KO\s*COCA COLA CO/);
+    await analysis.step('arrow down, Enter', async () => {
+      await analysis.searchBox.press('ArrowDown');
+      await expect(analysis.searchBox).toHaveAttribute('aria-activedescendant', 'sug-0');
+      await analysis.searchBox.press('Enter');
+    });
+    await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
+    await expect(page).toHaveURL(/\?t=KO$/);
+    await expect(analysis.suggestions).toBeHidden();
+  });
+
+  test('Analyze with a company name looks up the best match', async ({ analysis, page }) => {
+    await analysis.goto('/');
+    await analysis.step('type "apple" and press Analyze', async () => {
+      await analysis.searchBox.fill('apple');
+      await analysis.analyzeButton.click();
+    });
+    await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');
+    await expect(page).toHaveURL(/\?t=AAPL$/);
+  });
+
+  test('clicking a suggestion loads it, and Escape closes the list', async ({ analysis }) => {
+    await analysis.goto('/');
+    await analysis.searchBox.fill('intel');
+    await expect(analysis.suggestions).toBeVisible();
+    await analysis.step('press Escape', () => analysis.searchBox.press('Escape'));
+    await expect(analysis.suggestions).toBeHidden();
+    await expect(analysis.searchBox).toHaveAttribute('aria-expanded', 'false');
+    await analysis.searchBox.fill('jpmorgan');
+    await analysis.step('click the suggestion', () => analysis.suggestions.getByRole('option', { name: /JPM/ }).click());
+    await expect(analysis.companyName).toHaveText('JPMORGAN CHASE & CO (JPM)');
+  });
+
+  test('typing a ticker still works exactly as before', async ({ analysis }) => {
+    await analysis.goto('/');
+    await analysis.searchBox.fill('KO');
+    await analysis.searchBox.press('Enter');  // no suggestion chosen: the ticker itself
+    await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
   });
 });
 

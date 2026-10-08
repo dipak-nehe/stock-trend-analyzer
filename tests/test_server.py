@@ -107,11 +107,23 @@ def test_insider_trades_have_their_own_endpoint_on_both_servers(serve, local):
     assert status == 200 and json.loads(body)["insiders"]["sells"]["count"] == 31 and "s-maxage" in headers["Cache-Control"]
 
 
+def test_company_search_has_its_own_endpoint_on_both_servers(serve, local):
+    vercel = serve(load_vercel_handler("search"), threading_server=False)
+    for query in ("?q=coca", "?q=apple", "?q=", "?q=zzzzqqq", "?q=%3Cx%3E"):
+        a, b = local("/api/search" + query), vercel("/api/search" + query)
+        assert a[0] == b[0] and json.loads(a[2]) == json.loads(b[2]), query
+        assert a[1]["Cache-Control"] == b[1]["Cache-Control"], query
+    status, headers, body = local("/api/search?q=coca")
+    assert status == 200 and json.loads(body)["results"][0] == {"ticker": "KO", "name": "COCA COLA CO"}
+    assert "s-maxage" in headers["Cache-Control"]
+    assert json.loads(local("/api/search?q=")[2])["results"] == []
+
+
 def test_vercel_config_bundles_the_shared_module():
     with open(os.path.join(ROOT, "vercel.json")) as fh:
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
-    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py"}
+    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py", "api/search.py"}
     for fn in config["functions"].values():
         assert fn["includeFiles"] == "backend/**"  # every module the function imports
     assert os.path.exists(os.path.join(ROOT, "public", "index.html"))

@@ -9,9 +9,10 @@ import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, resolveTicker, searchCompanies, targetOf, useLang } from "./page.js";
 import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
+import { bindSuggest } from "./suggest.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -234,6 +235,8 @@ function updateUrl() {
 
 // ---------- language ----------
 // The start page's Buffett quote for today, in the page language (Spanish uses «» like the rest of the Spanish text)
+function labelSuggestions() { $("suggest").setAttribute("aria-label", t("search.suggestions")); }
+
 function showQuote() {
   const q = quoteOfTheDay();
   $("dailyQuote").textContent = getLang() === "es" ? `«${q.es}»` : `“${q.en}”`;
@@ -242,6 +245,7 @@ function showQuote() {
 function switchLang(lang) {
   if (!useLang(lang)) return;
   showQuote();
+  labelSuggestions();
   if (current) render(current.data);  // re-renders in the new language, keeping the open tab and any price
   else if (failed) return void run(failed);  // shows the error again, in the new language
   updateUrl();
@@ -259,8 +263,14 @@ $("ticker").addEventListener("input", () => { $("searchHint").hidden = true; });
 $("insiders").addEventListener("click", (e) => {
   if (targetOf(e).closest("#insidersRetry")) loadInsiders();
 });
-$("form").addEventListener("submit", (e) => {
+// Suggestions under the search box: picking one looks it up straight away
+const suggest = bindSuggest(/** @type {HTMLInputElement} */ ($("ticker")), $("suggest"), {
+  fetchResults: searchCompanies,
+  onPick: (ticker) => { $("price").value = ""; resetAssumptions(); run(ticker); },
+});
+$("form").addEventListener("submit", async (e) => {
   e.preventDefault();
+  suggest.close();
   if (!$("ticker").value.trim()) {
     $("searchHint").hidden = false;
     $("ticker").focus();
@@ -268,7 +278,7 @@ $("form").addEventListener("submit", (e) => {
   }
   $("price").value = "";
   resetAssumptions();  // a new company starts from its own defaults
-  run($("ticker").value);
+  run(await resolveTicker($("ticker").value));  // a company name becomes its ticker
 });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; resetAssumptions(); run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
@@ -328,6 +338,7 @@ const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
 showQuote();
+labelSuggestions();
 $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
 if (params.get("p")) $("price").value = params.get("p");
 if (params.get("t")) run(params.get("t"));

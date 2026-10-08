@@ -37,6 +37,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self) -> None:
         url = urlparse(self.path)
+        if url.path == "/api/search":
+            status, body, cache, _ = stock_data.search_response((parse_qs(url.query).get("q") or [""])[0])
+            return self._send(status, json.dumps(body), cache=cache)
         if url.path in ("/api/financials", "/api/insiders"):
             ticker = (parse_qs(url.query).get("ticker") or [""])[0]
             respond = stock_data.api_response if url.path == "/api/financials" else stock_data.insider_response

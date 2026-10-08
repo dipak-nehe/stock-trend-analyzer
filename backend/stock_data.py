@@ -20,6 +20,7 @@ from typing import Any
 
 from . import filings, xbrl
 from . import insiders as insiders_module
+from . import search as search_module
 from . import store as store_module
 
 # Moved to their own modules; re-exported for callers and tests that use stock_data.X.
@@ -167,6 +168,23 @@ def ticker_table() -> dict[str, list[Any]]:
                  for row in sec_get("https://www.sec.gov/files/company_tickers.json").values()}
         safe_set(key, table, TICKERS_SECONDS)
     return table
+
+
+# Suggestions change only when SEC's ticker list does, so the CDN can keep them for a day
+CACHE_SEARCH = "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800"
+
+
+def search_response(query: str) -> Response:
+    """Handle one /api/search request: {"query", "results": [{ticker, name}, ...]} for the search box."""
+    query = (query or "").strip()[:60]
+    if not query:
+        return 200, {"query": "", "results": []}, CACHE_NONE, None
+    try:
+        results = search_module.search(ticker_table(), query)
+    except Exception:  # noqa: BLE001 - SEC unreachable: the page just shows no suggestions
+        log.exception("search failed for %r", query)
+        return 502, {"error": "Search is unavailable right now."}, CACHE_NONE, None
+    return 200, {"query": query, "results": results}, CACHE_SEARCH, None
 
 
 def lookup_cik(ticker: str) -> tuple[Any, ...] | None:

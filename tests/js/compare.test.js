@@ -88,7 +88,7 @@ test("at-a-glance lines pair up by topic even when one company has no SEC histor
 test("the checklist grid lines up every Graham and Buffett criterion", () => {
   const grid = checklistGrid(prepare(company(), 20), prepare(company()));
   assert.equal(grid.filter((r) => r.who === "graham").length, 8);
-  assert.equal(grid.filter((r) => r.who === "buffett").length, 8); // includes ROIC
+  assert.equal(grid.filter((r) => r.who === "buffett").length, 8); // includes return on tangible capital
   assert.equal(grid.find((r) => r.name === "Moderate P/E").b, "price");
 });
 

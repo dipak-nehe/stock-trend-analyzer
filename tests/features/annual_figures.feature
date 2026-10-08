@@ -74,6 +74,22 @@ Feature: Annual figures from XBRL company facts
     Then the currency is TWD
     And revenue is 1002025 in 2025
 
+  # ---------- Other intangibles (for Buffett's return on tangible capital) ----------
+
+  Scenario Outline: Other intangibles: <case>
+    Given a company that reported net income for 2016 to 2025
+    And the balance-sheet tag "<tag1>" is <v1> at every year end
+    And the balance-sheet tag "<tag2>" is <v2> at every year end
+    When its financials are built
+    Then other intangibles are <total> in every year
+
+    Examples:
+      | case                                        | tag1                                 | v1 | tag2                                              | v2 | total |
+      | the reported total wins over the parts      | IntangibleAssetsNetExcludingGoodwill | 50 | FiniteLivedIntangibleAssetsNet                    | 20 | 50    |
+      | without a total, the two parts are added up | FiniteLivedIntangibleAssetsNet       | 20 | IndefiniteLivedIntangibleAssetsExcludingGoodwill  | 30 | 50    |
+      | only one part reported                      | FiniteLivedIntangibleAssetsNet       | 20 | none                                              | 0  | 20    |
+      | brands stand in for indefinite-lived assets | FiniteLivedIntangibleAssetsNet       | 20 | IndefiniteLivedTrademarks                         | 30 | 50    |
+
   # ---------- Total liabilities exclude minority owners' stakes ----------
 
   Scenario Outline: Total liabilities: <case>

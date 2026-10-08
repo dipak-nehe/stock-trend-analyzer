@@ -41,7 +41,7 @@ CACHE_NONE = "no-store"
 # ---------- stored results (see store.py) ----------
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
 # so stored entries in the old format are simply ignored.
-CACHE_VERSION = "v11"
+CACHE_VERSION = "v12"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
 FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
 KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
@@ -231,7 +231,7 @@ def build_financials(ticker: str) -> dict[str, Any]:
         sub, history, marker, report = None, None, None, None
 
     # Derived series
-    total_debt, lt_debt = [], []
+    total_debt, lt_debt, intangibles = [], [], []
     for i in range(len(years)):
         ltd_total, ltd_nc = series["_ltdTotal"][i], series["_ltdNoncurrent"][i]
         ltd_cur, stb = series["_ltdCurrent"][i], series["_shortTermBorrowings"][i]
@@ -251,11 +251,16 @@ def build_financials(ticker: str) -> dict[str, Any]:
                 eq_all = eq + (series["_minorityInterest"][i] or 0)
             if eq_all is not None:
                 series["totalLiabilities"][i] = liab_and_eq - eq_all
+        # intangibles other than goodwill: the reported total, else the finite- and indefinite-lived parts added up
+        total, parts = series["_intangTotal"][i], [series["_intangFinite"][i], series["_intangIndefinite"][i]]
+        intangibles.append(total if total is not None else
+                           sum(p for p in parts if p is not None) if any(p is not None for p in parts) else None)
         dps, paid, diluted = series["dps"][i], series["dividendsPaid"][i], series["dilutedShares"][i]
         if dps is None and paid is not None and diluted:
             series["dps"][i] = round(paid / diluted, 4)
 
-    series["totalDebt"], series["longTermDebt"] = total_debt, lt_debt
+    series["totalDebt"], series["longTermDebt"], series["intangibles"] = total_debt, lt_debt, intangibles
+    sources["intangibles"] = sources["_intangTotal"] + sources["_intangFinite"] + sources["_intangIndefinite"]
     sources["totalDebt"] = sources["_ltdTotal"] + sources["_ltdNoncurrent"] + sources["_ltdCurrent"] + sources["_shortTermBorrowings"]
     sources["longTermDebt"] = sources["_ltdNoncurrent"] + sources["_ltdTotal"] + sources["_ltdCurrent"]
     for k in [k for k in series if k.startswith("_")]:

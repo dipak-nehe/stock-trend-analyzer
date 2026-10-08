@@ -144,6 +144,17 @@ CONCEPTS: dict[str, tuple[str, list[tuple[str, str]]]] = {
         ("us-gaap", "AccountsReceivableNetCurrent"),
         ("ifrs-full", "TradeAndOtherCurrentReceivables"),
     ]),
+    # Intangible assets other than goodwill (brands, licences, customer lists...), for Buffett's return on tangible
+    # capital. Some filers give one total, others only the finite-lived and indefinite-lived parts.
+    "_intangTotal": ("instant", [
+        ("us-gaap", "IntangibleAssetsNetExcludingGoodwill"),
+        ("ifrs-full", "IntangibleAssetsOtherThanGoodwill"),
+    ]),
+    "_intangFinite": ("instant", [("us-gaap", "FiniteLivedIntangibleAssetsNet")]),
+    "_intangIndefinite": ("instant", [
+        ("us-gaap", "IndefiniteLivedIntangibleAssetsExcludingGoodwill"),
+        ("us-gaap", "IndefiniteLivedTrademarks"),  # e.g. Coca-Cola, which tags only its brands
+    ]),
     "inventory": ("instant", [("us-gaap", "InventoryNet"), ("ifrs-full", "Inventories")]),
 }
 

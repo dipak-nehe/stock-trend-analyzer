@@ -60,7 +60,7 @@ export const DATA_GROUPS = [
   ["group.perShare", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
   ["group.cashFlow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],
   ["group.balance", [["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money],
-    ["longTermDebt", money], ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["receivables", money], ["inventory", money]]],
+    ["longTermDebt", money], ["currentAssets", money], ["currentLiabilities", money], ["goodwill", money], ["intangibles", money], ["receivables", money], ["inventory", money]]],
 ];
 
 export function dataTable(d, r) {

@@ -37,7 +37,7 @@ const stages = () => [
   { duration: STEP, target: 0 },                                                          // ramp down
 ];
 const BYPASS_CDN = __ENV.BYPASS_CDN === '1';
-const API_VERSION = 8; // public/js/page.js: the page's requests look exactly like this
+const API_VERSION = 9; // public/js/page.js: the page's requests look exactly like this
 const TICKERS = ['AAPL', 'KO', 'INTC', 'JPM', 'SMCI'];
 const LOCAL = /^https?:\/\/(127\.0\.0\.1|localhost)(:|\/|$)/.test(BASE_URL);
 const FIRST_LOOKUPS = !LOCAL && __ENV.FIRST_LOOKUPS !== '0';

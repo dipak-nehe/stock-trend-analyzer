@@ -541,15 +541,15 @@ test.describe('Graham & Buffett and the share price', () => {
   test('checklist scores add up', async ({ analysis }) => {
     await analysis.open('KO', 68);
     await expect(analysis.grahamScore).toContainText('Meets 4 of 8');
-    await expect(analysis.buffettScore).toContainText('Meets 7 of 8'); // includes return on invested capital
+    await expect(analysis.buffettScore).toContainText('Meets 7 of 8'); // includes return on tangible capital
     await expect(analysis.piotroskiScore).toContainText('Meets 7 of 9');
   });
 
-  test('ROIC, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
+  test('return on tangible capital, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
-    await expect(analysis.panel('value')).toContainText('High return on invested capital');
-    await expect(analysis.panel('value')).toContainText('Average 14.2% · 12%+ in 8 of 10 years');
+    await expect(analysis.panel('value')).toContainText('High return on tangible capital');
+    await expect(analysis.panel('value')).toContainText(/Overall \d+\.\d% · 15%\+ in 10 of 10 years/);
     await expect(analysis.piotroski).toBeVisible();
     await expect(analysis.piotroski.getByTestId('check')).toHaveCount(9);
     await expect(analysis.piotroski).toContainText('2025: cash flow $7.4B, net income $13.1B');

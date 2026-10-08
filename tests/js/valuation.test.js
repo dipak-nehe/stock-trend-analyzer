@@ -63,33 +63,49 @@ test("size threshold only applies to USD reporters", () => {
   assert.equal(row(checks(company()).graham, "Adequate size").status, "pass");
 });
 
-// ---------- return on invested capital ----------
+// ---------- return on tangible capital (Buffett, 1983 letter) ----------
 const flat = (v) => YEARS.map(() => v);
-const roicCo = (operatingIncome, extra = {}) => company({
-  operatingIncome: flat(operatingIncome), pretaxIncome: flat(100e6), incomeTax: flat(25e6),  // 25% tax
-  totalDebt: flat(300e6), equity: flat(1000e6), cash: flat(100e6), ...extra,                 // invested capital 1,200M
+const rotcCo = (operatingIncome, extra = {}) => company({
+  operatingIncome: flat(operatingIncome), pretaxIncome: flat(100e6), incomeTax: flat(25e6),   // 25% tax
+  totalDebt: flat(300e6), equity: flat(1000e6), cash: flat(100e6),
+  goodwill: flat(100e6), intangibles: flat(100e6), ...extra,                                    // tangible capital 1,000M
+});
+const ROTC = "High return on tangible capital";
+
+test("return on tangible capital is after-tax operating profit over debt + equity - cash - goodwill - intangibles", () => {
+  for (const x of checks(rotcCo(200e6)).rotc) assert.ok(Math.abs(x - 0.15) < 1e-12);  // 200M x (1 - 25%) / 1,000M
+  const v = checks(rotcCo(220e6));  // 16.5%
+  assert.equal(row(v.buffett, ROTC).status, "pass");
+  assert.match(row(v.buffett, ROTC).actual, /Overall 16\.5% · 15%\+ in 10 of 10 years/);
+  assert.equal(row(checks(rotcCo(100e6)).buffett, ROTC).status, "fail");  // 7.5%
 });
 
-test("ROIC is after-tax operating profit over debt + equity - cash", () => {
-  const v = checks(roicCo(200e6));  // 200M x (1 - 25%) / 1,200M = 12.5%
-  for (const x of v.roic) assert.ok(Math.abs(x - 0.125) < 1e-12);
-  assert.equal(row(v.buffett, "High return on invested capital").status, "pass");
-  assert.match(row(v.buffett, "High return on invested capital").actual, /Average 12\.5% · 12%\+ in 10 of 10 years/);
-  assert.equal(row(checks(roicCo(100e6)).buffett, "High return on invested capital").status, "fail");  // 6.25%
+test("goodwill and other intangibles from acquisitions don't count as capital the business needs", () => {
+  const tangible = checks(rotcCo(200e6)).rotc[0];
+  const withPremium = checks(rotcCo(200e6, { goodwill: flat(0), intangibles: flat(0) })).rotc[0];  // capital 1,200M
+  assert.ok(Math.abs(withPremium - 0.125) < 1e-12);
+  assert.ok(tangible > withPremium);
+});
+
+test("one year of thin capital (a cash pile) can't dominate the overall return", () => {
+  // 2020: cash jumps to 1,050M, leaving 50M of tangible capital and a 300% return for that one year
+  const v = checks(rotcCo(200e6, { cash: YEARS.map((y) => (y === 2020 ? 1050e6 : 100e6)) }));
+  assert.ok(Math.abs(v.rotc[4] - 3) < 1e-9);
+  assert.ok(Math.abs(v.rotcOverall - (150e6 * 10) / (1000e6 * 9 + 50e6)) < 1e-12);  // about 16.6%, not a 43% average
 });
 
 test("a loss year's tax rate is replaced by the company's usual rate", () => {
-  const v = checks(roicCo(200e6, { pretaxIncome: YEARS.map((_, i) => (i === 4 ? -50e6 : 100e6)) }));
-  assert.ok(Math.abs(v.roic[4] - 0.125) < 1e-12);  // the other years' 25%, not a meaningless negative rate
+  const v = checks(rotcCo(200e6, { pretaxIncome: YEARS.map((_, i) => (i === 4 ? -50e6 : 100e6)) }));
+  assert.ok(Math.abs(v.rotc[4] - 0.15) < 1e-12);  // the other years' 25%, not a meaningless negative rate
 });
 
-test("ROIC is not reported without tax figures and N/A for banks", () => {
+test("return on tangible capital is not reported without tax figures and N/A for banks", () => {
   const none = checks(company({ pretaxIncome: undefined, incomeTax: undefined }));
-  assert.equal(row(none.buffett, "High return on invested capital").status, "na");
-  assert.equal(row(none.buffett, "High return on invested capital").actual, "Not reported");
+  assert.equal(row(none.buffett, ROTC).status, "na");
+  assert.equal(row(none.buffett, ROTC).actual, "Not reported");
   const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: flat(100e9),
                          totalLiabilities: flat(90e9), equity: flat(10e9) });
-  assert.equal(row(checks(bank).buffett, "High return on invested capital").actual, "Not meaningful for banks and insurers");
+  assert.equal(row(checks(bank).buffett, ROTC).actual, "Not meaningful for banks and insurers");
 });
 
 // ---------- yields at the entered price ----------

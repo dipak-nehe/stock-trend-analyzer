@@ -6,7 +6,8 @@ from helpers import fact, net_income_years, year
 
 from backend import stock_data
 
-METRICS = {"revenue": "revenue", "diluted EPS": "eps", "dividends per share": "dps", "diluted shares": "dilutedShares",
+METRICS = {"other intangibles": "intangibles",
+           "revenue": "revenue", "diluted EPS": "eps", "dividends per share": "dps", "diluted shares": "dilutedShares",
            "total liabilities": "totalLiabilities", "total debt": "totalDebt", "long-term debt": "longTermDebt"}
 
 

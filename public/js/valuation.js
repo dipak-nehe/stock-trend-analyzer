@@ -41,11 +41,19 @@ export function valueChecks(d, price, r) {
     return rate != null && rate >= 0 && rate <= 0.5 ? rate : null;
   });
   const usualRate = avg(vals(taxRate));
-  const roic = s.operatingIncome.map((oi, i) => {
+  // Return on tangible capital: operating profit after tax (so before interest: "unleveraged") over the capital the
+  // business uses, debt + equity - cash, less goodwill and other intangibles from acquisitions
+  const intangibles = s.intangibles || [];
+  const nopat = s.operatingIncome.map((oi, i) => {
     const rate = taxRate[i] ?? usualRate;
-    const ic = s.equity[i] != null ? (s.totalDebt[i] ?? 0) + s.equity[i] - (s.cash[i] ?? 0) : null;
-    return oi != null && rate != null && ic > 0 ? (oi * (1 - rate)) / ic : null;
+    return oi != null && rate != null ? oi * (1 - rate) : null;
   });
+  const tangible = s.equity.map((equity, i) => equity != null
+    ? (s.totalDebt[i] ?? 0) + equity - (s.cash[i] ?? 0) - (s.goodwill[i] ?? 0) - (intangibles[i] ?? 0) : null);
+  const rotc = nopat.map((n, i) => n != null && tangible[i] > 0 ? n / tangible[i] : null);
+  // Over the whole period: total profit / total capital, so one year of thin capital (a cash pile) can't dominate
+  const used = rotc.map((x, i) => x == null ? null : i).filter((i) => i != null);
+  const rotcOverall = used.length ? used.reduce((a, i) => a + nopat[i], 0) / used.reduce((a, i) => a + tangible[i], 0) : null;
 
   // Yields at the entered price: the latest dividend and free cash flow per share, as a share of the price
   const dpsL = L(s.dps), fcfL = L(r.fcf), fcfPs = !fin && fcfL != null && shares ? fcfL / shares : null;
@@ -90,10 +98,10 @@ export function valueChecks(d, price, r) {
   const roeAvg = avg(roeV), roeHigh = roeV.filter((v) => v >= 0.15).length;
   buffett.push(row("roe", negEq || !roeV.length ? "na" : tf(roeAvg >= 0.15),
     negEq ? t("val.roe.negative") : t("val.roe.actual", { avg: pct(roeAvg), n: roeHigh, total: roeV.length })));
-  // Return on invested capital: operating profit after tax / (debt + equity - cash). Unlike ROE, debt can't flatter it.
-  const roicV = vals(roic), roicAvg = avg(roicV), roicHigh = roicV.filter((v) => v >= 0.12).length;
-  buffett.push(row("roic", fin || roicV.length < 3 ? "na" : tf(roicAvg >= 0.12),
-    fin ? NA_BANK : roicV.length < 3 ? NOT_REPORTED : t("val.roic.actual", { avg: pct(roicAvg), n: roicHigh, total: roicV.length })));
+  // Buffett's own measure (1983 letter): what the business earns, unleveraged, on the tangible capital it needs
+  const rotcV = vals(rotc), rotcHigh = rotcV.filter((v) => v >= 0.15).length;
+  buffett.push(row("rotc", fin || rotcV.length < 3 ? "na" : tf(rotcOverall >= 0.15),
+    fin ? NA_BANK : rotcV.length < 3 ? NOT_REPORTED : t("val.rotc.actual", { avg: pct(rotcOverall), n: rotcHigh, total: rotcV.length })));
   const niL = L(s.netIncome);
   buffett.push(row("debt", fin ? "na" : debt == null ? "na" : niL > 0 ? tf(debt / niL <= 4) : "fail",
     fin ? NA_BANK : debt == null ? t("val.debt.none") : niL > 0 ? t("val.debt.actual", { years: fixed(debt / niL, 1) }) : t("val.debt.loss")));
@@ -142,5 +150,5 @@ export function valueChecks(d, price, r) {
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, roic, divYield, fcfYield, fcfPs, dpsL };
+  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL };
 }

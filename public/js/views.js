@@ -55,7 +55,8 @@ export function flagsList(flags) {
 
 /** @type {[string, [string, (v: number, cur?: string) => string][]][]} Group key, then [metric, formatter] rows. */
 export const DATA_GROUPS = [
-  ["group.income", [["revenue", money], ["operatingIncome", money], ["netIncome", money], ["interestExpense", money]]],
+  ["group.income", [["revenue", money], ["operatingIncome", money], ["pretaxIncome", money], ["incomeTax", money], ["netIncome", money],
+    ["interestExpense", money]]],
   ["group.perShare", [["eps", perShare], ["dps", perShare], ["dilutedShares", (v) => num(v)]]],
   ["group.cashFlow", [["operatingCashFlow", money], ["capex", money], ["fcf", money], ["dividendsPaid", money]]],
   ["group.balance", [["totalAssets", money], ["totalLiabilities", money], ["equity", money], ["cash", money], ["totalDebt", money],
@@ -64,7 +65,7 @@ export const DATA_GROUPS = [
 
 export function dataTable(d, r) {
   const s = d.series, cur = d.currency, last = d.years.length - 1;
-  const get = (k) => k === "fcf" ? r.fcf : s[k];
+  const get = (k) => (k === "fcf" ? r.fcf : s[k]) || d.years.map(() => null);  // older responses lack newer figures
   const cls = (i) => i === last ? ' class="latest"' : "";
   const head = `<thead><tr><th>${t("table.metric")}</th>${d.years.map((y, i) => `<th${cls(i)}>${y}</th>`).join("")}</tr></thead>`;
   const body = DATA_GROUPS.map(([name, rows]) => `<tr class="group"><th colspan="${d.years.length + 1}">${t(name)}</th></tr>`
@@ -99,6 +100,10 @@ export function valueView(d, price, v) {
     tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 0) }) : t("vv.oe.none"), vs(v.iv)),
     tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", v.pb ? t("vv.bvps.pb", { pb: fixed(v.pb, 2) }) : t("vv.bvps.detail")),
     tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : t("vv.pe.enter")),
+    tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",
+      !v.dpsL ? t("vv.divYield.none") : price ? t("vv.divYield.detail", { dps: ps(v.dpsL) }) : t("vv.pe.enter")),
+    tileV(t("vv.fcfYield.label"), v.fcfYield != null ? pct(v.fcfYield) : "–",
+      v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : t("vv.pe.enter")),
   ].join("");
 
   const ICON = { pass: "✓", fail: "✗", na: "–", price: "$" };
@@ -121,6 +126,7 @@ export function valueView(d, price, v) {
     tiles, priceHint, note, links: priceLinks(d.ticker),
     graham: list(v.graham), grahamScore: score(v.graham),
     buffett: list(v.buffett), buffettScore: score(v.buffett),
+    piotroski: list(v.piotroski), piotroskiScore: score(v.piotroski),
   };
 }
 

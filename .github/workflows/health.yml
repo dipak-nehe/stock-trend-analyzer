@@ -24,7 +24,7 @@ jobs:
       - name: API answers
         run: |
           # a random extra parameter skips the CDN, so the function and SEC/Redis path really run
-          body=$(curl -fsS --retry 2 --max-time 30 "$SITE/api/financials?ticker=KO&v=7&check=$RANDOM") \
+          body=$(curl -fsS --retry 2 --max-time 30 "$SITE/api/financials?ticker=KO&v=8&check=$RANDOM") \
             || { echo "::error::API request failed"; exit 1; }
           echo "$body" | grep -q '"ticker": *"KO"' || { echo "::error::API returned unexpected data"; exit 1; }
           echo "API OK"

@@ -72,6 +72,16 @@ CONCEPTS: dict[str, tuple[str, list[tuple[str, str]]]] = {
         ("us-gaap", "InterestExpenseDebt"),
         ("ifrs-full", "FinanceCosts"),
     ]),
+    # Pre-tax income and income tax give each year's effective tax rate, for return on invested capital
+    "pretaxIncome": ("duration", [
+        ("us-gaap", "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"),
+        ("us-gaap", "IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments"),
+        ("ifrs-full", "ProfitLossBeforeTax"),
+    ]),
+    "incomeTax": ("duration", [
+        ("us-gaap", "IncomeTaxExpenseBenefit"),
+        ("ifrs-full", "IncomeTaxExpenseContinuingOperations"),
+    ]),
     "dilutedShares": ("duration", [
         ("us-gaap", "WeightedAverageNumberOfDilutedSharesOutstanding"),
         ("us-gaap", "WeightedAverageNumberOfSharesOutstandingBasic"),

@@ -286,6 +286,14 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('graham-score');
   }
 
+  get piotroski(): Locator {
+    return this.page.getByTestId('piotroski');
+  }
+
+  get piotroskiScore(): Locator {
+    return this.page.getByTestId('piotroski-score');
+  }
+
   get buffettScore(): Locator {
     return this.page.getByTestId('buffett-score');
   }

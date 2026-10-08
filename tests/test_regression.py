@@ -23,6 +23,8 @@ EXPECTED = {
         "equity": [63090, 50672, 62146, 56950, 73733],
         "cash": [34940, 23646, 29965, 29943, 35934],
         "longTermDebt": [109106, 98959, 95281, 85750, 78328],
+        "pretaxIncome": [109207, 119103, 113736, 123485, 132729],
+        "incomeTax": [14527, 19300, 16741, 29749, 20719],
     },
     "KO": {
         "revenue": [38655, 43004, 45754, 47061, 47941],
@@ -140,3 +142,12 @@ def test_latest_report_matches_the_filing_list(company, ticker):
     reports = [(t["filingDate"][i], t["accessionNumber"][i]) for i, f in enumerate(t["form"]) if f in stock_data.FINANCIAL_FORMS]
     assert (d["latestReport"]["date"], d["latestReport"]["accession"]) == max(reports)
     assert d["latestReport"]["url"].startswith(f"https://www.sec.gov/Archives/edgar/data/{d['cik']}/")
+
+
+def test_apple_pretax_income_minus_tax_is_net_income(company):
+    # Apple has no minority owners or discontinued operations, so the two new figures must reconcile exactly
+    d = company("AAPL")
+    s = d["series"]
+    for y in FY:
+        i = d["years"].index(y)
+        assert s["pretaxIncome"][i] - s["incomeTax"][i] == s["netIncome"][i], y

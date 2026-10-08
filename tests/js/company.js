@@ -13,6 +13,8 @@ export function company(overrides = {}, extra = {}) {
     revenue: grow(1000e6, 0.06),
     netIncome: grow(100e6, 0.08),
     operatingIncome: grow(150e6, 0.08),
+    pretaxIncome: grow(130e6, 0.08),
+    incomeTax: grow(30e6, 0.08),
     grossProfit: grow(450e6, 0.06),
     eps: grow(100, 0.08).map((v) => v / 100),
     dps: grow(40, 0.05).map((v) => v / 100),

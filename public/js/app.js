@@ -159,6 +159,7 @@ function renderValue() {
   $("valueTiles").innerHTML = view.tiles;
   $("grahamChecks").innerHTML = view.graham; $("grahamScore").innerHTML = view.grahamScore;
   $("buffettChecks").innerHTML = view.buffett; $("buffettScore").innerHTML = view.buffettScore;
+  $("piotroskiChecks").innerHTML = view.piotroski; $("piotroskiScore").innerHTML = view.piotroskiScore;
   $("priceHint").textContent = view.priceHint;
   $("priceLinks").innerHTML = view.links;
   $("valueNote").textContent = view.note;

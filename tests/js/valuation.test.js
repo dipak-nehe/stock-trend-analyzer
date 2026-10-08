@@ -62,3 +62,78 @@ test("size threshold only applies to USD reporters", () => {
   assert.equal(row(checks(company({}, { currency: "TWD" })).graham, "Adequate size").status, "na");
   assert.equal(row(checks(company()).graham, "Adequate size").status, "pass");
 });
+
+// ---------- return on invested capital ----------
+const flat = (v) => YEARS.map(() => v);
+const roicCo = (operatingIncome, extra = {}) => company({
+  operatingIncome: flat(operatingIncome), pretaxIncome: flat(100e6), incomeTax: flat(25e6),  // 25% tax
+  totalDebt: flat(300e6), equity: flat(1000e6), cash: flat(100e6), ...extra,                 // invested capital 1,200M
+});
+
+test("ROIC is after-tax operating profit over debt + equity - cash", () => {
+  const v = checks(roicCo(200e6));  // 200M x (1 - 25%) / 1,200M = 12.5%
+  for (const x of v.roic) assert.ok(Math.abs(x - 0.125) < 1e-12);
+  assert.equal(row(v.buffett, "High return on invested capital").status, "pass");
+  assert.match(row(v.buffett, "High return on invested capital").actual, /Average 12\.5% · 12%\+ in 10 of 10 years/);
+  assert.equal(row(checks(roicCo(100e6)).buffett, "High return on invested capital").status, "fail");  // 6.25%
+});
+
+test("a loss year's tax rate is replaced by the company's usual rate", () => {
+  const v = checks(roicCo(200e6, { pretaxIncome: YEARS.map((_, i) => (i === 4 ? -50e6 : 100e6)) }));
+  assert.ok(Math.abs(v.roic[4] - 0.125) < 1e-12);  // the other years' 25%, not a meaningless negative rate
+});
+
+test("ROIC is not reported without tax figures and N/A for banks", () => {
+  const none = checks(company({ pretaxIncome: undefined, incomeTax: undefined }));
+  assert.equal(row(none.buffett, "High return on invested capital").status, "na");
+  assert.equal(row(none.buffett, "High return on invested capital").actual, "Not reported");
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: flat(100e9),
+                         totalLiabilities: flat(90e9), equity: flat(10e9) });
+  assert.equal(row(checks(bank).buffett, "High return on invested capital").actual, "Not meaningful for banks and insurers");
+});
+
+// ---------- yields at the entered price ----------
+test("dividend and free-cash-flow yields use the latest year and need a price", () => {
+  const d = company();
+  assert.equal(checks(d).divYield, null);
+  const v = checks(d, 20);
+  assert.ok(Math.abs(v.divYield - d.series.dps.at(-1) / 20) < 1e-12);
+  const fcf = d.series.operatingCashFlow.at(-1) - d.series.capex.at(-1);
+  assert.ok(Math.abs(v.fcfYield - fcf / d.sharesOutstanding.value / 20) < 1e-12);
+});
+
+// ---------- Piotroski F-score ----------
+const fscore = (v) => v.piotroski.filter((c) => c.status === "pass").length;
+
+test("a steadily improving company scores 9 of 9 on the Piotroski tests", () => {
+  const up = (start, rate) => YEARS.map((_, i) => start * Math.pow(1 + rate, i));
+  const d = company({
+    netIncome: up(100e6, 0.15), operatingCashFlow: up(150e6, 0.15), totalAssets: up(2000e6, 0.03),
+    longTermDebt: up(300e6, -0.05), currentAssets: up(600e6, 0.05), currentLiabilities: flat(250e6),
+    dilutedShares: up(100e6, -0.01), grossProfit: up(400e6, 0.10), revenue: up(1000e6, 0.08),
+  });
+  const v = checks(d);
+  assert.equal(v.piotroski.length, 9);
+  assert.equal(fscore(v), 9);
+  assert.match(row(v.piotroski, "No new shares").actual, /^2025: .* · 2024: /);
+});
+
+test("each Piotroski test fails on its own warning sign", () => {
+  const last = (arr, v) => arr.map((x, i) => (i === arr.length - 1 ? v : x));
+  const base = company();
+  const fails = (overrides, name) => assert.equal(row(checks(company(overrides)).piotroski, name).status, "fail", name);
+  fails({ netIncome: last(base.series.netIncome, -1e6) }, "Profitable");
+  fails({ operatingCashFlow: last(base.series.operatingCashFlow, -1e6) }, "Cash-generating");
+  fails({ operatingCashFlow: last(base.series.operatingCashFlow, 1e6) }, "Earnings backed by cash");
+  fails({ longTermDebt: last(base.series.longTermDebt, 900e6) }, "Debt not rising");
+  fails({ currentAssets: last(base.series.currentAssets, 300e6) }, "Better liquidity");
+  fails({ dilutedShares: last(base.series.dilutedShares, 120e6) }, "No new shares");
+  fails({ grossProfit: last(base.series.grossProfit, 100e6) }, "Better gross margin");
+});
+
+test("Piotroski tests without the figures they need are not reported, and all are N/A for banks", () => {
+  assert.equal(row(checks(company({ grossProfit: nulls() })).piotroski, "Better gross margin").actual, "Not reported");
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: flat(100e9),
+                         totalLiabilities: flat(90e9), equity: flat(10e9) });
+  assert.ok(checks(bank).piotroski.every((c) => c.status === "na"));
+});

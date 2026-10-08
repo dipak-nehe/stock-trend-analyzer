@@ -1,8 +1,8 @@
-// Benjamin Graham's defensive-investor criteria and Buffett-style business-quality tests.
+// Benjamin Graham's defensive-investor criteria, Buffett-style business-quality tests and the Piotroski F-score.
 // Each row is { name, rule, status: "pass" | "fail" | "na" | "price", actual }.
-import { fixed, money, pct, perShare } from "./format.js";
+import { fixed, money, num, pct, perShare } from "./format.js";
 import { t } from "./i18n.js";
-import { cagr, lastValue, ratio } from "./series.js";
+import { cagr, lastIdx, lastValue, ratio } from "./series.js";
 
 // Owner earnings (free cash flow) per share, discounted: 10 years of growth, then 3% forever, at 10%.
 export function valueChecks(d, price, r) {
@@ -33,6 +33,24 @@ export function valueChecks(d, price, r) {
     for (let yr = 1; yr <= 10; yr++) { x *= 1 + g; pv += x / Math.pow(1 + disc, yr); }
     iv = pv + (x * (1 + tg)) / (disc - tg) / Math.pow(1 + disc, 10);
   }
+
+  // Each year's tax rate from its own filing (0-50%); a loss year uses the company's average rate instead.
+  const pre = s.pretaxIncome || [], tax = s.incomeTax || [];
+  const taxRate = s.operatingIncome.map((_, i) => {
+    const rate = pre[i] > 0 && tax[i] != null ? tax[i] / pre[i] : null;
+    return rate != null && rate >= 0 && rate <= 0.5 ? rate : null;
+  });
+  const usualRate = avg(vals(taxRate));
+  const roic = s.operatingIncome.map((oi, i) => {
+    const rate = taxRate[i] ?? usualRate;
+    const ic = s.equity[i] != null ? (s.totalDebt[i] ?? 0) + s.equity[i] - (s.cash[i] ?? 0) : null;
+    return oi != null && rate != null && ic > 0 ? (oi * (1 - rate)) / ic : null;
+  });
+
+  // Yields at the entered price: the latest dividend and free cash flow per share, as a share of the price
+  const dpsL = L(s.dps), fcfL = L(r.fcf), fcfPs = !fin && fcfL != null && shares ? fcfL / shares : null;
+  const divYield = price && dpsL != null ? dpsL / price : null;
+  const fcfYield = price && fcfPs != null ? fcfPs / price : null;
 
   // --- Graham ---
   const graham = [];
@@ -72,6 +90,10 @@ export function valueChecks(d, price, r) {
   const roeAvg = avg(roeV), roeHigh = roeV.filter((v) => v >= 0.15).length;
   buffett.push(row("roe", negEq || !roeV.length ? "na" : tf(roeAvg >= 0.15),
     negEq ? t("val.roe.negative") : t("val.roe.actual", { avg: pct(roeAvg), n: roeHigh, total: roeV.length })));
+  // Return on invested capital: operating profit after tax / (debt + equity - cash). Unlike ROE, debt can't flatter it.
+  const roicV = vals(roic), roicAvg = avg(roicV), roicHigh = roicV.filter((v) => v >= 0.12).length;
+  buffett.push(row("roic", fin || roicV.length < 3 ? "na" : tf(roicAvg >= 0.12),
+    fin ? NA_BANK : roicV.length < 3 ? NOT_REPORTED : t("val.roic.actual", { avg: pct(roicAvg), n: roicHigh, total: roicV.length })));
   const niL = L(s.netIncome);
   buffett.push(row("debt", fin ? "na" : debt == null ? "na" : niL > 0 ? tf(debt / niL <= 4) : "fail",
     fin ? NA_BANK : debt == null ? t("val.debt.none") : niL > 0 ? t("val.debt.actual", { years: fixed(debt / niL, 1) }) : t("val.debt.loss")));
@@ -92,5 +114,33 @@ export function valueChecks(d, price, r) {
       : t(price <= iv ? "val.mos.below" : "val.mos.above",
           { price: ps(price), iv: ps(iv), diff: price <= iv ? pct(1 - price / iv, 0) : pct(price / iv - 1, 0) })));
 
-  return { graham, buffett, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg };
+  // --- Piotroski F-score: nine yes/no tests of the latest year against the year before ---
+  const e = lastIdx(s.netIncome), p = e - 1, yr = d.years[e], prevYr = d.years[p];
+  const at = (arr, i) => (arr && i >= 0 && arr[i] != null ? arr[i] : null);
+  const div = (a, b) => (a != null && b != null && b !== 0 ? a / b : null);
+  const startAssets = (i) => at(s.totalAssets, i - 1) ?? at(s.totalAssets, i);  // assets at the start of the year
+  const roa = (i) => div(at(s.netIncome, i), startAssets(i));
+  const leverage = (i) => at(s.totalAssets, i) != null ? div(at(s.longTermDebt, i) ?? 0, at(s.totalAssets, i)) : null;
+  const curRatio = (i) => div(at(s.currentAssets, i), at(s.currentLiabilities, i));
+  const grossM = (i) => div(at(s.grossProfit, i), at(s.revenue, i));
+  const turnover = (i) => div(at(s.revenue, i), startAssets(i));
+  const fRow = (id, ok, actual) => row(`f.${id}`, fin ? "na" : ok == null ? "na" : tf(ok), fin ? NA_BANK : ok == null ? NOT_REPORTED : actual);
+  const change = (fmt, now, was) => now == null || was == null ? null : t("val.f.change", { y: yr, now: fmt(now), py: prevYr, was: fmt(was) });
+  const both = (now, was, test) => (now == null || was == null ? null : test(now, was));
+  const pct1 = (v) => pct(v), x2 = (v) => fixed(v, 2), num0 = (v) => num(v);
+  const ocf = at(s.operatingCashFlow, e), niE = at(s.netIncome, e);
+  const piotroski = e < 1 ? [] : [
+    fRow("roaPositive", roa(e) == null ? null : roa(e) > 0, t("val.f.one", { y: yr, v: pct1(roa(e)) })),
+    fRow("cfoPositive", ocf == null ? null : ocf > 0, t("val.f.one", { y: yr, v: m(ocf) })),
+    fRow("roaUp", both(roa(e), roa(p), (a, b) => a > b), change(pct1, roa(e), roa(p))),
+    fRow("accruals", ocf == null || niE == null ? null : ocf > niE, t("val.f.accruals", { y: yr, cash: m(ocf), ni: m(niE) })),
+    fRow("leverageDown", both(leverage(e), leverage(p), (a, b) => a <= b), change(pct1, leverage(e), leverage(p))),
+    fRow("currentUp", both(curRatio(e), curRatio(p), (a, b) => a > b), change(x2, curRatio(e), curRatio(p))),
+    fRow("noDilution", both(at(s.dilutedShares, e), at(s.dilutedShares, p), (a, b) => a <= b),
+      change(num0, at(s.dilutedShares, e), at(s.dilutedShares, p))),
+    fRow("grossMarginUp", both(grossM(e), grossM(p), (a, b) => a > b), change(pct1, grossM(e), grossM(p))),
+    fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
+  ];
+
+  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, roic, divYield, fcfYield, fcfPs, dpsL };
 }

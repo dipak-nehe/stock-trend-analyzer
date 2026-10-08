@@ -541,7 +541,24 @@ test.describe('Graham & Buffett and the share price', () => {
   test('checklist scores add up', async ({ analysis }) => {
     await analysis.open('KO', 68);
     await expect(analysis.grahamScore).toContainText('Meets 4 of 8');
-    await expect(analysis.buffettScore).toContainText('Meets 6 of 7');
+    await expect(analysis.buffettScore).toContainText('Meets 7 of 8'); // includes return on invested capital
+    await expect(analysis.piotroskiScore).toContainText('Meets 7 of 9');
+  });
+
+  test('ROIC, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
+    await analysis.open('KO');
+    await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
+    await expect(analysis.panel('value')).toContainText('High return on invested capital');
+    await expect(analysis.panel('value')).toContainText('Average 14.2% · 12%+ in 8 of 10 years');
+    await expect(analysis.piotroski).toBeVisible();
+    await expect(analysis.piotroski.getByTestId('check')).toHaveCount(9);
+    await expect(analysis.piotroski).toContainText('2025: cash flow $7.4B, net income $13.1B');
+    // the yields wait for a price, then use the latest dividend and free cash flow per share
+    await expect(analysis.valueTiles).toContainText('Dividend yield');
+    await expect(analysis.valueTiles).toContainText('Enter a price to calculate');
+    await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
+    await expect(analysis.valueTiles).toContainText(/Dividend yield\s*3\.0%/);
+    await expect(analysis.valueTiles).toContainText(/Free cash flow yield\s*1\.8%/);
   });
 
   test('bank-specific rules are skipped', async ({ analysis }) => {

@@ -392,6 +392,10 @@ test.describe('tabs', () => {
     await expect(analysis.panelNavButtons('flags')).toHaveText(['← Overview', 'Next: SEC history →']);
     await analysis.step('click "← Overview"', () => analysis.previousButton('flags').click());
     await expect(analysis.panel('overview')).toBeVisible();
+    await analysis.openTab('insiders'); // regression: its neighbours' buttons showed "tab.insiders"
+    await expect(analysis.panelNavButtons('insiders')).toHaveText(['← SEC history', 'Next: Graham & Buffett →']);
+    await analysis.openTab('history');
+    await expect(analysis.panelNavButtons('history')).toHaveText(['← Red flags', 'Next: Insiders →']);
     await analysis.openTab('data');
     await expect(analysis.panelNavButtons('data')).toHaveText(['← Charts']); // no "next" on the last tab
   });

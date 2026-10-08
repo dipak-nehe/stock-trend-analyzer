@@ -553,6 +553,7 @@ export default {
   "tab.overview": "Resumen",
   "tab.flags": "Señales de alerta",
   "tab.history": "Historial SEC",
+  "tab.insiders": "Directivos",
   "tab.value": "Graham y Buffett",
   "tab.charts": "Gráficos",
   "tab.data": "Datos",

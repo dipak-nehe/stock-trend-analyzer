@@ -83,3 +83,14 @@ test("the analysis itself is produced in Spanish", () => {
   assert.equal(loss.why, "Pérdidas netas en: 2025.");
   assert.match(loss.help, /^La empresa ha gastado/);
 });
+
+test("every results tab has a name in both languages, for the previous / next buttons", () => {
+  // Regression: the Insiders tab had none, so its neighbours' buttons read "Next: tab.insiders →"
+  const tabs = [...readFileSync(new URL("../../public/index.html", import.meta.url), "utf8").matchAll(/role="tab"[^>]*data-tab="(\w+)"/g)].map((m) => m[1]);
+  assert.ok(tabs.length >= 7, `found tabs: ${tabs}`);
+  for (const tab of tabs) {
+    assert.ok(EN[`tab.${tab}`], `English name for the ${tab} tab`);
+    assert.ok(ES[`tab.${tab}`], `Spanish name for the ${tab} tab`);
+  }
+});
+

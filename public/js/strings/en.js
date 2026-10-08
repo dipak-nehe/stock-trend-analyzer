@@ -553,6 +553,7 @@ export default {
   "tab.overview": "Overview",
   "tab.flags": "Red flags",
   "tab.history": "SEC history",
+  "tab.insiders": "Insiders",
   "tab.value": "Graham & Buffett",
   "tab.charts": "Charts",
   "tab.data": "Data",

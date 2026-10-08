@@ -17,6 +17,7 @@
     --good: #0ca30c;
     --good-text: #006300;
     --warning: #fab219;
+    --quote: #94560a;  /* warm amber for the start-page quotes: reads as text, not a link (5.7:1 on cards) */
     --critical: #d03b3b;
     --critical-text: #c22f2f;
     --info: #898781;
@@ -27,7 +28,7 @@
       --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
       --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
       --accent: #6da7ec; --accent-strong: #256abf; --muted: #9a988f; --critical-text: #ef7f7f; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-      --good-text: #0ca30c;
+      --good-text: #0ca30c; --quote: #f0b44c;
     }
   }
   :root[data-theme="dark"] {
@@ -35,7 +36,7 @@
     --page: #0d0d0d; --surface: #1a1a19; --text-1: #ffffff; --text-2: #c3c2b7;
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
     --accent: #6da7ec; --accent-strong: #256abf; --muted: #9a988f; --critical-text: #ef7f7f; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
-    --good-text: #0ca30c;
+    --good-text: #0ca30c; --quote: #f0b44c;
   }
   * { box-sizing: border-box; }
   body {
@@ -316,8 +317,8 @@
   .quotes { margin: 16px 0; }
   .quotes-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .quotes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-  .quote { margin: 0; padding: 12px 16px; border-left: 3px solid var(--accent); }
-  .quote blockquote { margin: 0; font-size: 15px; line-height: 1.45; font-style: italic; color: var(--text-1); }
+  .quote { margin: 0; padding: 12px 16px; border-left: 3px solid var(--quote); }
+  .quote blockquote { margin: 0; font-size: 16px; line-height: 1.45; font-style: italic; font-weight: 500; color: var(--quote); }
   .quote figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
   footer { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; border-top: 1px solid var(--grid); color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
   footer a { color: var(--text-2); }

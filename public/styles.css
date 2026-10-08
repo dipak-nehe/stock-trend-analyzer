@@ -126,6 +126,27 @@
   .price-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
   .price-links a:hover { text-decoration: underline; }
   .value-tiles { margin-bottom: 12px; }
+  /* "Compared with its industry" card */
+  .industry { margin-top: 12px; }
+  .industry h3 { margin: 0 0 2px; font-size: 15px; }
+  .ind-group { margin: 0 0 10px; font-size: 13px; color: var(--muted); }
+  .ind-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ind-table th, .ind-table td { padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--grid); }
+  .ind-table thead th { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .ind-table tbody th { font-weight: 500; }
+  .ind-pos { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--axis); color: var(--text-2); white-space: nowrap; }
+  .industry .note { margin: 10px 0 0; }
+  .ind-wrap { overflow-x: auto; }  /* the table never widens the page */
+  /* phones: each row becomes a small block (measure, then both values labelled, then where it stands);
+     the column headings stay for screen readers */
+  @media (max-width: 600px) {
+    .ind-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .ind-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; padding: 10px 0; border-bottom: 1px solid var(--grid); }
+    .ind-table th, .ind-table td { border: 0; padding: 0; }
+    .ind-table tbody th { grid-column: 1 / -1; font-weight: 600; }
+    .ind-table td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-size: 12px; }
+    .ind-table td:last-child { grid-column: 1 / -1; }
+  }
   /* "Latest 12 months" card under the Overview trend tiles */
   .ttm { margin-top: 12px; }
   .ttm h3 { margin: 0 0 10px; font-size: 15px; }

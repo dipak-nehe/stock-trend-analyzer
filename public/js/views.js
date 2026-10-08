@@ -80,6 +80,23 @@ export function ttmView(d) {
     <p class="note">${t("ttm.note", { year: fy })}</p></div>`;
 }
 
+// "Compared with its industry" card (rows from industry.js). Neutral wording: higher isn't always better.
+export function industryView(d, cmp) {
+  if (!cmp) return "";
+  const name = (d.secHistory && d.secHistory.industry) || "";
+  const fmt = (k, v) => (k === "currentRatio" ? fixed(v, 2) : pct(v));
+  const label = cmp.level === 4 ? t("ind.group4", { name, code: cmp.code })
+    : t("ind.groupWider", { name, code: cmp.code + "x".repeat(4 - cmp.level) });
+  return `<div class="card industry" data-testid="industry">
+    <h3>${t("ind.title")}</h3>
+    <p class="ind-group">${t("ind.sub", { label, n: cmp.group.companies, year: cmp.year })}</p>
+    <div class="ind-wrap"><table class="ind-table"><thead><tr><th>${t("ind.measure")}</th><th>${t("ind.thisCompany")}</th><th>${t("ind.median")}</th><th>${t("ind.position")}</th></tr></thead><tbody>
+    ${cmp.rows.map((r) => `<tr data-testid="industry-row"><th scope="row">${t(`ind.r.${r.ratio}`)}</th><td data-label="${t("ind.thisCompany")}">${fmt(r.ratio, r.value)}</td>
+      <td data-label="${t("ind.median")}">${fmt(r.ratio, r.median)}</td><td><span class="ind-pos ${r.position}">${t(`ind.pos.${r.position}`)}</span></td></tr>`).join("")}
+    </tbody></table></div>
+    <p class="note">${t("ind.note", { year: cmp.year, fy: d.years[d.years.length - 1] })}</p></div>`;
+}
+
 export function flagCounts(flags) {
   const cnt = (k) => flags.filter((f) => f.sev === k).length;
   return `<span><b class="down">${cnt("critical")}</b> ${t("flags.count.critical")}</span><span><b>${cnt("warning")}</b> ${t("flags.count.warning")}</span><span><b class="up">${cnt("good")}</b> ${t("flags.count.good")}</span>`;

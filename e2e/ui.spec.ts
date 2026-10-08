@@ -570,6 +570,24 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.ttmCard).toHaveCount(0);
   });
 
+  test('the Overview compares the company with its industry', async ({ analysis }) => {
+    await analysis.useTestIndustryData();
+    await analysis.open('KO');
+    await expect(analysis.industryCard).toContainText('Beverages (SIC 2080) · 21 companies · calendar 2025');
+    await expect(analysis.industryCard.getByTestId('industry-row')).toHaveCount(6); // no R&D: Coca-Cola doesn't report it
+    await expect(analysis.industryCard.getByTestId('industry-row').filter({ hasText: 'Net margin' })).toContainText(/27\.3%\s*0\.9%\s*Higher than most/);
+    await expect(analysis.industryCard.getByTestId('industry-row').filter({ hasText: 'Revenue growth' })).toContainText('Typical');
+  });
+
+  test('a small industry falls back to related industries, and banks get only growth and return on equity', async ({ analysis }) => {
+    await analysis.useTestIndustryData();
+    await analysis.open('AAPL'); // only 7 companies share Apple's code (3571), so the 50 in 357x are used
+    await expect(analysis.industryCard).toContainText('Electronic Computers and related industries (SIC 357x) · 50 companies');
+    await analysis.open('JPM');
+    await expect(analysis.industryCard.getByTestId('industry-row')).toHaveCount(2);
+    await expect(analysis.industryCard).toContainText('Return on equity');
+  });
+
   test('R&D spending shows on the Overview for companies that report it, and not otherwise', async ({ analysis }) => {
     await analysis.open('AAPL');
     await expect(analysis.rdTile).toBeVisible();

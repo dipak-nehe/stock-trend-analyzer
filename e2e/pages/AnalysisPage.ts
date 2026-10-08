@@ -305,6 +305,16 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('ttm');
   }
 
+  /** "Compared with its industry" card on the Overview. */
+  get industryCard(): Locator {
+    return this.page.getByTestId('industry');
+  }
+
+  /** Serve the pinned test copy of data/industry.json, so tests don't change when the monthly refresh lands. */
+  async useTestIndustryData(): Promise<void> {
+    await this.page.route('**/data/industry.json', (route) => route.fulfill({ path: 'tests/fixtures/industry.json' }));
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

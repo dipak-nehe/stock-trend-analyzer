@@ -16,7 +16,8 @@ from backend import stock_data, store
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
 STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript",
-                ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
+                ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon",
+                ".json": "application/json"}  # data/industry.json; only files inside public/ are ever served
 
 
 class Handler(BaseHTTPRequestHandler):

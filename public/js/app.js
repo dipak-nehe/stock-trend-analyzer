@@ -6,10 +6,11 @@ import { growthView } from "./growth.js";
 import { historyView } from "./history.js";
 import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
-import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, rdTile, trendTile, ttmView, valueView } from "./views.js";
+import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
 
 let current = null;  // { data: API response, result: analyze(data) }
@@ -44,6 +45,8 @@ function render(d) {
     rdTile(d),
   ].join("");
   $("ttm").innerHTML = ttmView(d);
+  renderIndustry();
+  if (!industryData) loadIndustry().then(renderIndustry);
   $("score").innerHTML = flagCounts(r.flags);
   $("flags").innerHTML = flagsList(r.flags);
   $("table").innerHTML = dataTable(d, r);
@@ -150,6 +153,19 @@ function loadInsiders() {
     (insiders) => { d.insiders = insiders; d.insidersState = "done"; },
     () => { d.insidersState = "error"; },
   ).finally(() => { if (current && current.data === d) render(d); });
+}
+
+// Typical ratios per industry (data/industry.json, rebuilt monthly), loaded once the first time a company is shown;
+// if it can't be loaded the card is simply left out.
+let industryData = null, industryLoading = null;
+function loadIndustry() {
+  industryLoading ??= fetch("data/industry.json").then((res) => (res.ok ? res.json() : null)).catch(() => null)
+    .then((data) => (industryData = data));
+  return industryLoading;
+}
+function renderIndustry() {
+  if (!current) return;
+  $("industry").innerHTML = industryView(current.data, industryComparison(current.data, current.result.financial, industryData));
 }
 
 // The visitor's own value-estimate assumptions (percent in the boxes, fractions here); an empty box keeps the default

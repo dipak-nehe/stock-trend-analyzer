@@ -63,6 +63,7 @@ def main():
                     for k in SUB_FIELDS:
                         merged[k].append(tbl[k][i])
         save(f"submissions_{cik}.json", {"cik": str(cik), "name": sub["name"], "sicDescription": sub.get("sicDescription"),
+                                                 "sic": sub.get("sic"),
                                          "filings": {"recent": merged, "files": []}})
 
 

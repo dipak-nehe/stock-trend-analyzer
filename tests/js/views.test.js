@@ -4,7 +4,7 @@ import { analyze } from "../../public/js/flags.js";
 import { growthView } from "../../public/js/growth.js";
 import { historyView } from "../../public/js/history.js";
 import { valueChecks } from "../../public/js/valuation.js";
-import { flagCounts, footnote, rdTile, ttmView, valueView } from "../../public/js/views.js";
+import { flagCounts, footnote, industryView, rdTile, ttmView, valueView } from "../../public/js/views.js";
 import { company, events, history, nulls } from "./company.js";
 
 const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -231,5 +231,17 @@ test("the latest-12-months card sets each figure against the last fiscal year", 
 
 test("no latest-12-months card without a quarterly report newer than the annual report", () => {
   assert.equal(ttmView(company()), "");
+});
+
+// ---------- "Compared with its industry" (Overview) ----------
+test("the industry card names the group, and shows each ratio against the median", () => {
+  const d = company({}, { sic: "3571" });
+  const cmp = { level: 3, code: "357", year: 2025, group: { companies: 50 },
+    rows: [{ ratio: "netMargin", value: 0.24, median: 0.04, position: "higher" }, { ratio: "currentRatio", value: 0.9, median: 1.6, position: "lower" }] };
+  const card = text(industryView(d, cmp));
+  assert.match(card, /Compared with its industry Widgets and related industries \(SIC 357x\) · 50 companies · calendar 2025/);
+  assert.match(card, /Net margin 24\.0% 4\.0% Higher than most/);
+  assert.match(card, /Current ratio 0\.90 1\.60 Lower than most/);
+  assert.equal(industryView(d, null), "");
 });
 

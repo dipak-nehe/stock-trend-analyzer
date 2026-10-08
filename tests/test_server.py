@@ -61,14 +61,14 @@ def test_home_page_is_served(local):
 
 @pytest.mark.parametrize("path, ctype", [("/favicon.svg", "image/svg+xml"), ("/og.png", "image/png"),
                                          ("/js/app.js", "text/javascript"), ("/styles.css", "text/css"),
-                                         ("/js/flags.js", "text/javascript")])
+                                         ("/js/flags.js", "text/javascript"), ("/data/industry.json", "application/json")])
 def test_static_assets_are_served(local, path, ctype):
     status, headers, _ = local(path)
     assert status == 200 and headers["Content-Type"].startswith(ctype)
 
 
 @pytest.mark.parametrize("path", ["/server.py", "/stock_data.py", "/backend/stock_data.py", "/../server.py", "/%2e%2e/server.py",
-                                  "/api/financials.py", "/README.md", "/nope.html"])
+                                  "/api/financials.py", "/README.md", "/nope.html", "/../package.json", "/%2e%2e/vercel.json"])
 def test_source_files_and_unknown_paths_are_not_served(local, path):
     assert local(path)[0] == 404
 

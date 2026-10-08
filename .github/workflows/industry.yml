@@ -1,0 +1,53 @@
+name: industry data
+
+# Rebuilds public/data/industry.json (typical ratios per industry, for the "Compared with its industry" card) from
+# free SEC data once a month, and commits it if it changed. The commit deploys like any other push.
+# Needs the repository secret SEC_USER_AGENT, e.g. "StockTrendAnalyzer you@example.com": SEC asks automated requests
+# to name a contact, and its email is also used as the commit author (Vercel only deploys the owner's commits).
+on:
+  schedule:
+    - cron: "0 6 3 * *"  # the 3rd of every month, 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Check the SEC contact secret is set
+        run: |
+          if [ -z "$SEC_USER_AGENT" ]; then
+            echo "::error::Add the SEC_USER_AGENT repository secret, e.g. 'StockTrendAnalyzer you@example.com'."
+            exit 1
+          fi
+
+      - name: Build the industry file
+        run: python scripts/build_industry.py
+
+      - name: Commit it if it changed
+        run: |
+          python - <<'EOF'
+          import json, subprocess
+          # only the date it was generated changed? then there's nothing to publish
+          new = json.load(open("public/data/industry.json"))
+          old = json.loads(subprocess.run(["git", "show", "HEAD:public/data/industry.json"], capture_output=True, text=True).stdout or "{}")
+          same = {k: v for k, v in new.items() if k != "generated"} == {k: v for k, v in old.items() if k != "generated"}
+          open("unchanged", "w").write("yes" if same else "")
+          EOF
+          if [ -s unchanged ]; then echo "Industry figures unchanged"; exit 0; fi
+          git config user.name "dipak-nehe"
+          git config user.email "${SEC_USER_AGENT##* }"
+          git add public/data/industry.json
+          git commit -m "Monthly industry data refresh"
+          git push

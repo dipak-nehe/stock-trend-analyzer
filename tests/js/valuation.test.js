@@ -153,3 +153,29 @@ test("Piotroski tests without the figures they need are not reported, and all ar
                          totalLiabilities: flat(90e9), equity: flat(10e9) });
   assert.ok(checks(bank).piotroski.every((c) => c.status === "na"));
 });
+
+// ---------- the visitor's own value-estimate assumptions ----------
+test("the value estimate uses the visitor's growth, discount and long-term rates in place of the defaults", () => {
+  const d = company(), r = analyze(d);
+  const base = valueChecks(d, null, r);
+  assert.equal(base.disc, 0.10); assert.equal(base.tg, 0.03); assert.equal(base.g, base.gAuto);
+  assert.ok(valueChecks(d, null, r, { g: base.g + 0.05 }).iv > base.iv);        // faster growth, higher value
+  assert.ok(valueChecks(d, null, r, { disc: 0.15 }).iv < base.iv);              // a higher discount rate, lower value
+  assert.ok(valueChecks(d, null, r, { tg: 0.05 }).iv > base.iv);                // more growth after year 10, higher value
+  const own = valueChecks(d, null, r, { g: 0.05, disc: 0.09, tg: 0.02 });
+  assert.equal(own.g, 0.05); assert.equal(own.disc, 0.09); assert.equal(own.tg, 0.02);
+});
+
+test("the margin-of-safety test follows the visitor's value estimate", () => {
+  const d = company(), r = analyze(d);
+  const own = valueChecks(d, null, r, { g: 0.0, disc: 0.12 });
+  assert.equal(row(valueChecks(d, own.iv * 0.7, r, { g: 0.0, disc: 0.12 }).buffett, "Margin of safety").status, "pass");
+  assert.equal(row(valueChecks(d, own.iv * 0.9, r, { g: 0.0, disc: 0.12 }).buffett, "Margin of safety").status, "fail");
+});
+
+test("a discount rate not above the long-term growth gives no value estimate rather than a nonsense one", () => {
+  const d = company(), r = analyze(d);
+  assert.equal(valueChecks(d, null, r, { disc: 0.03, tg: 0.03 }).iv, null);
+  assert.equal(valueChecks(d, null, r, { disc: 0.02, tg: 0.03 }).iv, null);
+});
+

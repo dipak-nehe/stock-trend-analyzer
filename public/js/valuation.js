@@ -5,7 +5,8 @@ import { t } from "./i18n.js";
 import { cagr, lastIdx, lastValue, ratio } from "./series.js";
 
 // Owner earnings (free cash flow) per share, discounted: 10 years of growth, then 3% forever, at 10%.
-export function valueChecks(d, price, r) {
+// `assume` ({ g, disc, tg }, as fractions) replaces any of those defaults with the visitor's own numbers.
+export function valueChecks(d, price, r, assume = {}) {
   const s = d.series, cur = d.currency, fin = r.financial;
   const m = (v) => money(v, cur), ps = (v) => perShare(v, cur);
   const L = lastValue;
@@ -26,9 +27,10 @@ export function valueChecks(d, price, r) {
 
   const fcf3 = vals(r.fcf).slice(-3), dil = L(s.dilutedShares);
   const oe = !fin && fcf3.length === 3 && dil ? avg(fcf3) / dil : null;
-  const g = Math.min(Math.max(cagr(s.eps) ?? 0, 0), 0.12), disc = 0.10, tg = 0.03;
+  const gAuto = Math.min(Math.max(cagr(s.eps) ?? 0, 0), 0.12);
+  const g = assume.g ?? gAuto, disc = assume.disc ?? 0.10, tg = assume.tg ?? 0.03;
   let iv = null;
-  if (oe > 0) {
+  if (oe > 0 && disc > tg) {  // the formula only works when the discount rate is above the long-term growth
     let x = oe, pv = 0;
     for (let yr = 1; yr <= 10; yr++) { x *= 1 + g; pv += x / Math.pow(1 + disc, yr); }
     iv = pv + (x * (1 + tg)) / (disc - tg) / Math.pow(1 + disc, 10);
@@ -150,5 +152,5 @@ export function valueChecks(d, price, r) {
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL };
+  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL };
 }

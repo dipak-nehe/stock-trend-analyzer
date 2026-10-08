@@ -7,7 +7,7 @@ import { historyView } from "./history.js";
 import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, rdTile, trendTile, valueView } from "./views.js";
-import { money, perShare } from "./format.js";
+import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
 import { quoteOfTheDay } from "./quotes.js";
@@ -151,11 +151,21 @@ function loadInsiders() {
   ).finally(() => { if (current && current.data === d) render(d); });
 }
 
+// The visitor's own value-estimate assumptions (percent in the boxes, fractions here); an empty box keeps the default
+function assumptions() {
+  const read = (id) => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v / 100 : undefined; };
+  return { g: read("aGrowth"), disc: read("aDisc"), tg: read("aTerm") };
+}
+const ASSUME_IDS = ["aGrowth", "aDisc", "aTerm"];
+function resetAssumptions() { for (const id of ASSUME_IDS) $(id).value = ""; }
+
 function renderValue() {
   if (!current) return;
   const d = current.data;
   const price = parseFloat($("price").value) || null;
-  const checks = valueChecks(d, price, current.result);
+  const checks = valueChecks(d, price, current.result, assumptions());
+  // empty boxes use the defaults, shown in grey
+  $("aGrowth").placeholder = fixed(checks.gAuto * 100, 1); $("aDisc").placeholder = "10"; $("aTerm").placeholder = "3";
   const view = valueView(d, price, checks);
   $("glance").innerHTML = glanceView(d, current.result, checks);
   $("valueTiles").innerHTML = view.tiles;
@@ -240,9 +250,10 @@ $("form").addEventListener("submit", (e) => {
     return;
   }
   $("price").value = "";
+  resetAssumptions();  // a new company starts from its own defaults
   run($("ticker").value);
 });
-$$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; run(b.dataset.t); }));
+$$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; resetAssumptions(); run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   chartsStale = true;  // chart colours come from the theme
   if (current && activeTab === "charts") showTab("charts");
@@ -269,6 +280,7 @@ $("guide").addEventListener("click", async (e) => {
   if (current) return openTabAndScroll(card.dataset.tab);
   activeTab = card.dataset.tab;
   $("price").value = "";
+  resetAssumptions();
   await run(EXAMPLE_TICKER);
   if (current) $("tabs").scrollIntoView({ behavior: "smooth", block: "start" });
 });
@@ -292,6 +304,8 @@ $("historyMore").addEventListener("click", () => { historyExpanded = !historyExp
 
 let priceTimer;
 $("price").addEventListener("input", () => { clearTimeout(priceTimer); priceTimer = setTimeout(() => { renderValue(); updateUrl(); }, 250); });
+for (const id of ASSUME_IDS) $(id).addEventListener("input", () => { clearTimeout(priceTimer); priceTimer = setTimeout(renderValue, 250); });
+$("aReset").addEventListener("click", () => { resetAssumptions(); renderValue(); });
 
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));

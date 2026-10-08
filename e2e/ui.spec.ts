@@ -572,6 +572,25 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.rdTile).toHaveCount(0);
   });
 
+  test('the value estimate can be recalculated with your own assumptions, and reset', async ({ analysis }) => {
+    await analysis.open('KO', 68);
+    await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
+    await analysis.step('open the assumptions', () => analysis.assumptions.locator('summary').click());
+    await expect(analysis.assumption('Discount rate (%)')).toHaveAttribute('placeholder', '10');
+    await expect(analysis.assumption('Growth after year 10 (%)')).toHaveAttribute('placeholder', '3');
+    const defaultValue = await analysis.valueTiles.textContent();
+    await analysis.step('set growth to 2% and the discount rate to 12%', async () => {
+      await analysis.assumption('Growth, years 1–10 (%)').fill('2');
+      await analysis.assumption('Discount rate (%)').fill('12');
+    });
+    await expect(analysis.valueTiles).toContainText('growing 2.0% for 10 years, then 3.0%, discounted at 12.0%');
+    await analysis.step('make the discount rate equal the long-term growth', () => analysis.assumption('Discount rate (%)').fill('3'));
+    await expect(analysis.valueTiles).toContainText('The discount rate must be above the growth after year 10');
+    await analysis.step('reset', () => analysis.assumptions.getByTestId('assume-reset').click());
+    await expect(analysis.assumption('Growth, years 1–10 (%)')).toHaveValue('');
+    await expect(analysis.valueTiles).toHaveText(defaultValue ?? '');
+  });
+
   test('return on tangible capital, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));

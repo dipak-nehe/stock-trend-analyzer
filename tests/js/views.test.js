@@ -210,3 +210,11 @@ test("no R&D tile when the company doesn't report R&D", () => {
   assert.equal(rdTile(company({ researchAndDevelopment: nulls() })), "");
 });
 
+test("the value-estimate tile spells out the assumptions in use, or why there is no estimate", () => {
+  const d = company(), r = analyze(d);
+  const own = valueView(d, null, valueChecks(d, null, r, { g: 0.05, disc: 0.09, tg: 0.02 }));
+  assert.match(text(own.tiles), /growing 5\.0% for 10 years, then 2\.0%, discounted at 9\.0%/);
+  const bad = valueView(d, null, valueChecks(d, null, r, { disc: 0.02, tg: 0.03 }));
+  assert.match(text(bad.tiles), /The discount rate must be above the growth after year 10/);
+});
+

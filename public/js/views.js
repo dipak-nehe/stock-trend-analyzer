@@ -114,7 +114,8 @@ export function valueView(d, price, v) {
   const tileV = (label, value, detail, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   const tiles = [
     tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail"), vs(v.grahamNumber)),
-    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 0) }) : t("vv.oe.none"), vs(v.iv)),
+    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
+      : v.oe > 0 ? t("vv.oe.badRates") : t("vv.oe.none"), vs(v.iv)),
     tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", v.pb ? t("vv.bvps.pb", { pb: fixed(v.pb, 2) }) : t("vv.bvps.detail")),
     tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : t("vv.pe.enter")),
     tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",

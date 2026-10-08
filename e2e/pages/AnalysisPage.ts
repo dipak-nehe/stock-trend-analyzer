@@ -291,6 +291,15 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('rd-tile');
   }
 
+  /** The collapsible "Adjust the value estimate's assumptions" panel on the value tab, and its inputs. */
+  get assumptions(): Locator {
+    return this.page.getByTestId('assumptions');
+  }
+
+  assumption(name: 'Growth, years 1–10 (%)' | 'Discount rate (%)' | 'Growth after year 10 (%)'): Locator {
+    return this.assumptions.getByLabel(name);
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

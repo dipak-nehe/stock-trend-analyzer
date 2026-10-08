@@ -41,7 +41,7 @@ CACHE_NONE = "no-store"
 # ---------- stored results (see store.py) ----------
 # Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
 # so stored entries in the old format are simply ignored.
-CACHE_VERSION = "v13"
+CACHE_VERSION = "v14"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long
 FACTS_MAX_SECONDS = 90 * 24 * 3600 # re-download the (large) financial figures at least this often
 KEEP_SECONDS = 120 * 24 * 3600     # keep entries this long: re-checked cheaply, and a fallback if SEC is down
@@ -267,6 +267,7 @@ def build_financials(ticker: str) -> dict[str, Any]:
         series.pop(k), sources.pop(k)
 
     return {
+        **_with_ttm(facts, currency, fy_ends[years[-1]]),
         "ticker": sec_ticker,
         "name": name,
         "cik": cik,
@@ -282,6 +283,29 @@ def build_financials(ticker: str) -> dict[str, Any]:
         "sharesOutstanding": {"value": shares[2], "asOf": shares[0], "source": shares[3]} if shares else None,
         "secUrl": f"https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={cik}&type=10-K",
     }
+
+
+# Figures shown for the latest twelve months, when a quarterly report is newer than the last annual report
+TTM_METRICS = ("revenue", "netIncome", "eps", "operatingCashFlow", "capex")
+
+
+def _with_ttm(facts: dict[str, Any], currency: str, last_fy_end: str) -> dict[str, Any]:
+    """{"ttm": {"asOf": period_end, "values": {metric: value}}}, or {} when there's nothing newer than the annual report.
+    Each metric uses the first of its tags that reaches the latest quarter; all values share one period end."""
+    found: dict[str, tuple[float, str]] = {}
+    for metric in TTM_METRICS:
+        best = None
+        for tax, concept in CONCEPTS[metric][1]:
+            r = xbrl.trailing_twelve_months(facts, tax, concept, currency)
+            if r and (best is None or r[1] > best[1]):
+                best = r
+        if best and best[1] > last_fy_end:
+            found[metric] = best
+    if not found:
+        return {}
+    as_of = max(end for _, end in found.values())
+    rounded = lambda m, v: round(v, 4) if m == "eps" else round(v)  # noqa: E731 - drop float noise from the sums
+    return {"ttm": {"asOf": as_of, "values": {m: rounded(m, v) for m, (v, end) in found.items() if end == as_of}}}
 
 
 def api_response(ticker: str, now: Callable[[], float] = time.time) -> Response:

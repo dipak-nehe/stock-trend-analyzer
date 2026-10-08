@@ -126,6 +126,15 @@
   .price-links a { color: var(--accent); font-weight: 600; text-decoration: none; }
   .price-links a:hover { text-decoration: underline; }
   .value-tiles { margin-bottom: 12px; }
+  /* "Latest 12 months" card under the Overview trend tiles */
+  .ttm { margin-top: 12px; }
+  .ttm h3 { margin: 0 0 10px; font-size: 15px; }
+  .ttm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .ttm-item .label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .ttm-item .value { font-size: 22px; font-weight: 700; margin: 2px 0; }
+  .ttm-item .detail { font-size: 13px; color: var(--text-2); }
+  .ttm-item .trend { display: inline; font-weight: 600; }
+  .ttm .note { margin: 10px 0 0; }
   .assumptions { margin-bottom: 12px; }
   .assumptions summary { cursor: pointer; font-weight: 600; font-size: 14px; }
   .assume-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 16px; margin-top: 12px; align-items: end; }

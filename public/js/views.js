@@ -1,7 +1,7 @@
 // HTML for the trend tiles, red flags, data table, checklists and footnote.
 // Pure functions: data in, markup or text out. app.js puts the results on the page.
 import { fixed, money, num, pct, perShare } from "./format.js";
-import { t, tn } from "./i18n.js";
+import { getLocale, t, tn } from "./i18n.js";
 import { classify, firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
 import { abbr } from "./help.js";
@@ -49,6 +49,35 @@ export function rdTile(d) {
     <div class="trend flat">${t(`tile.rd.${band}`)}</div>
     ${sparkline(share)}
     <div class="detail">${t("tile.rd.detail", { amount: money(rd[i], d.currency), year: d.years[i], since })}</div></div>`;
+}
+
+// "Latest 12 months": the newest quarterly report's income and cash-flow figures, set against the last fiscal year.
+// Empty when no quarterly report is newer than the annual report (e.g. foreign filers, who don't file 10-Qs).
+export function ttmView(d) {
+  const tt = d.ttm;
+  if (!tt) return "";
+  const s = d.series, cur = d.currency, v = tt.values, fy = d.years[d.years.length - 1];
+  const fyOf = (k) => (s[k] ? s[k][s[k].length - 1] : null);
+  const fcf = (ocf, capex) => (ocf != null && capex != null ? ocf - capex : null);
+  const date = new Date(`${tt.asOf}T00:00:00`).toLocaleDateString(getLocale(), { year: "numeric", month: "short", day: "numeric" });
+  const rows = [
+    ["revenue", v.revenue, fyOf("revenue"), money],
+    ["netIncome", v.netIncome, fyOf("netIncome"), money],
+    ["eps", v.eps, fyOf("eps"), perShare],
+    ["fcf", fcf(v.operatingCashFlow, v.capex), fcf(fyOf("operatingCashFlow"), fyOf("capex")), money],
+  ].filter(([, now]) => now != null);
+  if (!rows.length) return "";
+  const change = (now, then) => {
+    if (then == null || then === 0) return "";
+    const c = (now - then) / Math.abs(then);
+    return ` <span class="trend ${c > 0.005 ? "up" : c < -0.005 ? "down" : "flat"}">${c >= 0 ? "+" : "−"}${pct(Math.abs(c))}</span>`;
+  };
+  return `<div class="card ttm" data-testid="ttm">
+    <h3>${t("ttm.title", { date })}</h3>
+    <div class="ttm-grid">${rows.map(([k, now, then, f]) => `<div class="ttm-item" data-testid="ttm-item">
+      <div class="label">${labelOf(k)}</div><div class="value">${f(now, cur)}</div>
+      <div class="detail">${then != null ? t("ttm.vsFy", { year: fy, value: f(then, cur) }) + change(now, then) : ""}</div></div>`).join("")}</div>
+    <p class="note">${t("ttm.note", { year: fy })}</p></div>`;
 }
 
 export function flagCounts(flags) {

@@ -560,6 +560,16 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.piotroskiScore).toContainText('Meets 7 of 9');
   });
 
+  test('the latest 12 months from quarterly reports show on the Overview, against the last fiscal year', async ({ analysis }) => {
+    await analysis.open('AAPL');
+    await expect(analysis.ttmCard).toContainText('Latest 12 months, to Jun 27, 2026');
+    await expect(analysis.ttmCard).toContainText(/Revenue\s*\$466\.8B\s*Fiscal 2025: \$416\.2B \+12\.2%/);
+    await expect(analysis.ttmCard.getByTestId('ttm-item')).toHaveCount(4); // revenue, net income, EPS, free cash flow
+    await analysis.open('SMCI'); // its fiscal year ended 2026-06-30: no newer quarter yet
+    await expect(analysis.companyName).toContainText('SMCI');
+    await expect(analysis.ttmCard).toHaveCount(0);
+  });
+
   test('R&D spending shows on the Overview for companies that report it, and not otherwise', async ({ analysis }) => {
     await analysis.open('AAPL');
     await expect(analysis.rdTile).toBeVisible();

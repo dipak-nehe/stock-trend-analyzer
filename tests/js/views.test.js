@@ -4,7 +4,7 @@ import { analyze } from "../../public/js/flags.js";
 import { growthView } from "../../public/js/growth.js";
 import { historyView } from "../../public/js/history.js";
 import { valueChecks } from "../../public/js/valuation.js";
-import { flagCounts, footnote, rdTile, valueView } from "../../public/js/views.js";
+import { flagCounts, footnote, rdTile, ttmView, valueView } from "../../public/js/views.js";
 import { company, events, history, nulls } from "./company.js";
 
 const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -216,5 +216,20 @@ test("the value-estimate tile spells out the assumptions in use, or why there is
   assert.match(text(own.tiles), /growing 5\.0% for 10 years, then 2\.0%, discounted at 9\.0%/);
   const bad = valueView(d, null, valueChecks(d, null, r, { disc: 0.02, tg: 0.03 }));
   assert.match(text(bad.tiles), /The discount rate must be above the growth after year 10/);
+});
+
+// ---------- "Latest 12 months" (Overview) ----------
+test("the latest-12-months card sets each figure against the last fiscal year", () => {
+  const d = company({}, { ttm: { asOf: "2026-06-27", values: { revenue: 1800e6, netIncome: 150e6, eps: 1.6, operatingCashFlow: 230e6, capex: 50e6 } } });
+  const card = text(ttmView(d));
+  assert.match(card, /Latest 12 months, to Jun 27, 2026/);
+  assert.match(card, /Revenue \$1\.8B Fiscal 2025: \$1\.7B \+6\.5%/);      // up on the fiscal year
+  assert.match(card, /Net income \$150\.0M Fiscal 2025: \$199\.9M −25\.0%/);  // down on it
+  assert.match(card, /Free cash flow \$180\.0M/);  // operating cash flow less capital spending
+  assert.match(card, /From the newest quarterly report \(10-Q\)/);
+});
+
+test("no latest-12-months card without a quarterly report newer than the annual report", () => {
+  assert.equal(ttmView(company()), "");
 });
 

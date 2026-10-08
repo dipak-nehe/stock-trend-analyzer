@@ -153,3 +153,16 @@ def test_apple_pretax_income_minus_tax_is_net_income(company):
     for y in FY:
         i = d["years"].index(y)
         assert s["pretaxIncome"][i] - s["incomeTax"][i] == s["netIncome"][i], y
+
+
+def test_apple_latest_twelve_months_match_its_four_latest_quarters(company):
+    # Cross-checked: Apple's fiscal Q4 2025 (fiscal year less nine months) plus its three fiscal 2026 quarters
+    d = company("AAPL")
+    assert d["ttm"]["asOf"] == "2026-06-27"
+    assert d["ttm"]["values"]["revenue"] == 466_823_000_000
+    assert d["ttm"]["values"]["netIncome"] == 128_930_000_000
+
+
+def test_a_company_with_no_quarter_after_its_annual_report_has_no_latest_twelve_months(company):
+    assert "ttm" not in company("SMCI")  # its fiscal year ended 2026-06-30; no newer quarter in the saved filings
+

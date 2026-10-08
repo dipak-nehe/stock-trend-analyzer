@@ -29,7 +29,7 @@ const stages = () => [
   ...LEVELS.flatMap((target) => [{ duration: STEP, target }, { duration: STEP, target }]), // ramp up, then hold
   { duration: STEP, target: 0 },                                                          // ramp down
 ];
-const API_VERSION = 10; // the page's API version (public/js/page.js), so warm-up requests match the page's own
+const API_VERSION = 11; // the page's API version (public/js/page.js), so warm-up requests match the page's own
 // The five companies with saved filings in tests/fixtures; each search picks one at random.
 const TICKERS = ['AAPL', 'KO', 'INTC', 'JPM', 'SMCI'];
 const searchToResult = new Trend('search_to_result', true); // from pressing Analyze to the company heading

@@ -300,6 +300,11 @@ export class AnalysisPage extends BasePage {
     return this.assumptions.getByLabel(name);
   }
 
+  /** "Latest 12 months" card on the Overview: figures from the newest quarterly report. */
+  get ttmCard(): Locator {
+    return this.page.getByTestId('ttm');
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

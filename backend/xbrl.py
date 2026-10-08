@@ -208,6 +208,46 @@ def annual_values(facts: Facts, taxonomy: str, concept: str, kind: str, currency
     return best
 
 
+QUARTERLY_FORMS: set[str] = {"10-Q", "10-Q/A"}
+
+
+def _periods(facts: Facts, taxonomy: str, concept: str, currency: str) -> dict[tuple[str, str], float]:
+    """{(start, end): value} for every period reported in annual or quarterly reports; the latest filing wins."""
+    node = facts.get(taxonomy, {}).get(concept)
+    unit = node and _pick_unit(node["units"], currency)
+    if not unit:
+        return {}
+    best: dict[tuple[str, str], tuple[float, str]] = {}
+    for f in node["units"][unit]:
+        if f.get("form") in ANNUAL_FORMS | QUARTERLY_FORMS and "start" in f and "end" in f:
+            key = (f["start"], f["end"])
+            if key not in best or f["filed"] > best[key][1]:
+                best[key] = (f["val"], f["filed"])
+    return {k: v for k, (v, _) in best.items()}
+
+
+def trailing_twelve_months(facts: Facts, taxonomy: str, concept: str, currency: str) -> tuple[float, str] | None:
+    """(value, period_end) for the latest twelve months of an income or cash-flow figure:
+    the last fiscal year + this year's year-to-date - the same stretch of the year before.
+    None unless a quarterly report newer than the last annual report gives a year-to-date figure."""
+    p = _periods(facts, taxonomy, concept, currency)
+    days = lambda s, e: (_d(e) - _d(s)).days  # noqa: E731
+    years = [k for k in p if 330 <= days(*k) <= 380]
+    if not years:
+        return None
+    fy = max(years, key=lambda k: k[1])
+    # year-to-date periods (3, 6 or 9 months) that start where that fiscal year ended
+    ytd = [k for k in p if abs(days(fy[1], k[0]) - 1) <= 7 and 80 <= days(*k) <= 300]
+    if not ytd:
+        return None
+    cur = max(ytd, key=lambda k: k[1])
+    span = days(*cur)
+    prior = [k for k in p if abs(days(fy[0], k[0])) <= 7 and abs(days(*k) - span) <= 7]
+    if not prior:
+        return None
+    return p[fy] + p[cur] - p[prior[0]], cur[1]
+
+
 NICE_SPLIT_RATIOS = (1.5, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20, 25, 30, 40, 50)
 
 

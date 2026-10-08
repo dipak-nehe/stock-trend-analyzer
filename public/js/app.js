@@ -6,7 +6,7 @@ import { growthView } from "./growth.js";
 import { historyView } from "./history.js";
 import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
-import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, rdTile, trendTile, valueView } from "./views.js";
+import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
@@ -43,6 +43,7 @@ function render(d) {
     trendTile(t("tile.dps"), s.dps, perShare, cur),
     rdTile(d),
   ].join("");
+  $("ttm").innerHTML = ttmView(d);
   $("score").innerHTML = flagCounts(r.flags);
   $("flags").innerHTML = flagsList(r.flags);
   $("table").innerHTML = dataTable(d, r);

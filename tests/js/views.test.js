@@ -243,5 +243,7 @@ test("the industry card names the group, and shows each ratio against the median
   assert.match(card, /Net margin 24\.0% 4\.0% Higher than most/);
   assert.match(card, /Current ratio 0\.90 1\.60 Lower than most/);
   assert.equal(industryView(d, null), "");
+  // the table's scroll area (narrow screens) must be reachable by keyboard: a named, focusable region
+  assert.match(industryView(d, cmp), /<div class="ind-wrap" role="region" tabindex="0" aria-label="Compared with its industry">/);
 });
 

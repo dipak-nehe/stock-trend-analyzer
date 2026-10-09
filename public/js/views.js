@@ -90,7 +90,7 @@ export function industryView(d, cmp) {
   return `<div class="card industry" data-testid="industry">
     <h3>${t("ind.title")}</h3>
     <p class="ind-group">${t("ind.sub", { label, n: cmp.group.companies, year: cmp.year })}</p>
-    <div class="ind-wrap"><table class="ind-table"><thead><tr><th>${t("ind.measure")}</th><th>${t("ind.thisCompany")}</th><th>${t("ind.median")}</th><th>${t("ind.position")}</th></tr></thead><tbody>
+    <div class="ind-wrap" role="region" tabindex="0" aria-label="${t("ind.title")}"><table class="ind-table"><thead><tr><th>${t("ind.measure")}</th><th>${t("ind.thisCompany")}</th><th>${t("ind.median")}</th><th>${t("ind.position")}</th></tr></thead><tbody>
     ${cmp.rows.map((r) => `<tr data-testid="industry-row"><th scope="row">${t(`ind.r.${r.ratio}`)}</th><td data-label="${t("ind.thisCompany")}">${fmt(r.ratio, r.value)}</td>
       <td data-label="${t("ind.median")}">${fmt(r.ratio, r.median)}</td><td><span class="ind-pos ${r.position}">${t(`ind.pos.${r.position}`)}</span></td></tr>`).join("")}
     </tbody></table></div>

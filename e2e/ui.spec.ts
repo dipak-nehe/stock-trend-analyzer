@@ -242,7 +242,7 @@ test.describe('results guide', () => {
     await expect(analysis.guide).toHaveAttribute('open', '');
     // the guide's cards are named after the tabs, so the guide maps directly onto the results
     await expect(analysis.guideCardTitles).toHaveText(
-      ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Graham & Buffett-style analysis', 'Charts', 'Data']);
+      ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Graham & Buffett-style analysis', 'Durable advantage', 'Charts', 'Data']);
     await expect(analysis.guideCardArrows.first()).toBeVisible();
   });
 
@@ -344,6 +344,10 @@ test.describe('tabs', () => {
         await expect(analysis.criticalFlagTitles).toHaveCount(3); // matches the tab's badge
         await expect(analysis.flagsBadge).toHaveText('3');
         expect(await analysis.flagCards.count()).toBeGreaterThan(5);
+      },
+      durable: async () => {
+        await expect(analysis.durableScore).toContainText('Meets');
+        await expect(analysis.panel('durable').getByTestId('check')).toHaveCount(13);
       },
       insiders: async () => {
         await expect(analysis.insiderSells).toContainText('6'); // SMCI: six open-market sales, no buys
@@ -666,6 +670,17 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.valueTiles).toHaveText(defaultValue ?? '');
   });
 
+  test('the Durable advantage tab scores the statements, with the figures behind each test', async ({ analysis }) => {
+    await analysis.open('KO');
+    await analysis.step('open the Durable advantage tab', () => analysis.openTab('durable'));
+    await expect(analysis.durableScore).toContainText('Meets 11 of 13');
+    const panel = analysis.panel('durable');
+    await expect(panel.getByTestId('check')).toHaveCount(13);
+    await expect(panel.getByTestId('check').filter({ hasText: 'Lean overheads' })).toContainText('52.7% of gross profit over 10 years');
+    await expect(panel.getByTestId('check').filter({ hasText: 'Low debt to equity' })).toContainText('0.80 times equity, including shares bought back');
+    await expect(analysis.panelNavButtons('durable')).toHaveText(['← Graham & Buffett', 'Next: Charts →']);
+  });
+
   test('return on tangible capital, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
@@ -699,8 +714,8 @@ test.describe('Graham & Buffett and the share price', () => {
   test('value tab is named after Graham and Buffett', async ({ analysis }) => {
     await analysis.open('KO');
     await expect(analysis.tab('value')).toHaveText('Graham & Buffett');
-    await analysis.openTab('charts');
-    await expect(analysis.previousButton('charts')).toHaveText('← Graham & Buffett');
+    await analysis.openTab('durable');
+    await expect(analysis.previousButton('durable')).toHaveText('← Graham & Buffett');
     await expect(analysis.valueNote).toContainText('Not affiliated with or endorsed by');
   });
 

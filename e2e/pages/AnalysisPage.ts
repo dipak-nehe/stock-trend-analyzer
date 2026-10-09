@@ -320,6 +320,10 @@ export class AnalysisPage extends BasePage {
     return this.page.getByRole('listbox', { name: 'Suggestions' });
   }
 
+  get durableScore(): Locator {
+    return this.page.getByTestId('durable-score');
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

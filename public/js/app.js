@@ -6,11 +6,12 @@ import { growthView } from "./growth.js";
 import { historyView } from "./history.js";
 import { insiderView } from "./insiders.js";
 import { renderCharts } from "./charts.js";
-import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
+import { checklist, checklistScore, dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
+import { durableChecks } from "./durable.js";
 import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
 import { bindSuggest } from "./suggest.js";
@@ -18,7 +19,7 @@ import { bindSuggest } from "./suggest.js";
 let current = null;  // { data: API response, result: analyze(data) }
 let failed = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
 let historyFilter = "all", historyExpanded = false;
-const TABS = ["overview", "flags", "history", "insiders", "value", "charts", "data"];
+const TABS = ["overview", "flags", "history", "insiders", "value", "durable", "charts", "data"];
 let activeTab = TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "overview";
 let chartsStale = true;  // charts are drawn when their tab is first shown (a hidden canvas has no size)
 
@@ -47,6 +48,8 @@ function render(d) {
     rdTile(d),
   ].join("");
   $("ttm").innerHTML = ttmView(d);
+  const durable = durableChecks(d, r);
+  $("durableChecks").innerHTML = checklist(durable); $("durableScore").innerHTML = checklistScore(durable);
   renderIndustry();
   if (!industryData) loadIndustry().then(renderIndustry);
   $("score").innerHTML = flagCounts(r.flags);

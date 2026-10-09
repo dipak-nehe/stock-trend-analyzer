@@ -152,6 +152,20 @@ export function priceLinks(ticker) {
     + ` · <a href="https://finance.yahoo.com/quote/${sym}/" target="_blank" rel="noopener noreferrer">Yahoo Finance ↗</a>`;
 }
 
+// A checklist's rows ({ status, name, rule, actual }) and its "Meets N of M" score with a meter; shared by the value
+// checklists and the Durable advantage tab.
+const ICON = { pass: "✓", fail: "✗", na: "–", price: "$" };
+export const checklist = (rows) => rows.map((c) => `<div class="check ${c.status}" data-testid="check">
+      <div class="st" aria-hidden="true">${ICON[c.status]}</div>
+      <div><div class="name">${c.name}<span class="tag">${t(`vv.tag.${c.status}`)}</span></div><div class="rule">${c.rule}</div><div class="actual">${c.actual}</div></div></div>`).join("");
+export function checklistScore(rows) {
+  const n = (k) => rows.filter((c) => c.status === k).length, judged = n("pass") + n("fail");
+  const extra = [n("price") && tn("vv.score.needPrice", n("price")), n("na") && tn("vv.score.na", n("na"))].filter(Boolean).join(", ");
+  const share = judged ? Math.round((n("pass") / judged) * 100) : 0;
+  return t("vv.score", { met: n("pass"), judged }) + (extra ? ` <span class="muted">(${extra})</span>` : "")
+    + `<div class="meter" role="img" aria-label="${t("vv.score.aria", { met: n("pass"), judged })}"><span style="width:${share}%"></span></div>`;
+}
+
 export function valueView(d, price, v) {
   const cur = d.currency;
   const ps = (x) => perShare(x, cur);
@@ -170,18 +184,7 @@ export function valueView(d, price, v) {
       v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : t("vv.pe.enter")),
   ].join("");
 
-  const ICON = { pass: "✓", fail: "✗", na: "–", price: "$" };
-
-  const list = (rows) => rows.map((c) => `<div class="check ${c.status}" data-testid="check">
-      <div class="st" aria-hidden="true">${ICON[c.status]}</div>
-      <div><div class="name">${c.name}<span class="tag">${t(`vv.tag.${c.status}`)}</span></div><div class="rule">${c.rule}</div><div class="actual">${c.actual}</div></div></div>`).join("");
-  const score = (rows) => {
-    const n = (k) => rows.filter((c) => c.status === k).length, judged = n("pass") + n("fail");
-    const extra = [n("price") && tn("vv.score.needPrice", n("price")), n("na") && tn("vv.score.na", n("na"))].filter(Boolean).join(", ");
-    const share = judged ? Math.round((n("pass") / judged) * 100) : 0;
-    return t("vv.score", { met: n("pass"), judged }) + (extra ? ` <span class="muted">(${extra})</span>` : "")
-      + `<div class="meter" role="img" aria-label="${t("vv.score.aria", { met: n("pass"), judged })}"><span style="width:${share}%"></span></div>`;
-  };
+  const list = checklist, score = checklistScore;
 
   const so = d.sharesOutstanding;
   const priceHint = cur === "USD" ? t("vv.hint.usd") : t("vv.hint.foreign", { cur });

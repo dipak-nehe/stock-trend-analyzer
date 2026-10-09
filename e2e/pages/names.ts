@@ -9,8 +9,8 @@ export const either = (en: string, es: string) => new RegExp(`^(${escape(en)}|${
 /** Text starting with the English or the Spanish words (e.g. a tab name followed by a badge count). */
 export const startsWith = (en: string, es: string) => new RegExp(`^(${escape(en)}|${escape(es)})`);
 
-export type Tab = 'overview' | 'flags' | 'history' | 'insiders' | 'value' | 'charts' | 'data';
-export const TABS: readonly Tab[] = ['overview', 'flags', 'history', 'insiders', 'value', 'charts', 'data'];
+export type Tab = 'overview' | 'flags' | 'history' | 'insiders' | 'value' | 'durable' | 'charts' | 'data';
+export const TABS: readonly Tab[] = ['overview', 'flags', 'history', 'insiders', 'value', 'durable', 'charts', 'data'];
 
 /** Tab (and tab panel) names; a tab's name ends with its badge count when it has one. */
 export const TAB_NAMES: Record<Tab, RegExp> = {
@@ -19,6 +19,7 @@ export const TAB_NAMES: Record<Tab, RegExp> = {
   history: startsWith('SEC history', 'Historial SEC'),
   insiders: startsWith('Insiders', 'Directivos'),
   value: startsWith('Graham & Buffett', 'Graham y Buffett'),
+  durable: startsWith('Durable advantage', 'Ventaja duradera'),
   charts: startsWith('Charts', 'Gráficos'),
   data: startsWith('Data', 'Datos'),
 };
@@ -30,6 +31,7 @@ export const GUIDE_TITLES: Record<Tab, string> = {
   history: 'SEC history',
   insiders: 'Insider trades',
   value: 'Graham & Buffett-style analysis',
+  durable: 'Durable advantage',
   charts: 'Charts',
   data: 'Data',
 };

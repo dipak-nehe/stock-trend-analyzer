@@ -77,6 +77,17 @@ CONCEPTS: dict[str, tuple[str, list[tuple[str, str]]]] = {
         ("us-gaap", "ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost"),
         ("ifrs-full", "ResearchAndDevelopmentExpense"),
     ]),
+    # For the "Durable advantage" checklist: overheads and depreciation against gross profit
+    "_sga": ("duration", [("us-gaap", "SellingGeneralAndAdministrativeExpense")]),
+    "_sellingMarketing": ("duration", [("us-gaap", "SellingAndMarketingExpense")]),
+    "_generalAdmin": ("duration", [("us-gaap", "GeneralAndAdministrativeExpense")]),
+    "depreciation": ("duration", [
+        ("us-gaap", "DepreciationDepletionAndAmortization"),
+        ("us-gaap", "DepreciationAndAmortization"),
+        ("us-gaap", "DepreciationAmortizationAndAccretionNet"),
+        ("us-gaap", "Depreciation"),
+        ("ifrs-full", "DepreciationAndAmortisationExpense"),
+    ]),
     # Pre-tax income and income tax give each year's effective tax rate, for return on invested capital
     "pretaxIncome": ("duration", [
         ("us-gaap", "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"),
@@ -151,6 +162,20 @@ CONCEPTS: dict[str, tuple[str, list[tuple[str, str]]]] = {
     ]),
     # Intangible assets other than goodwill (brands, licences, customer lists...), for Buffett's return on tangible
     # capital. Some filers give one total, others only the finite-lived and indefinite-lived parts.
+    # Equity details for the "Durable advantage" checklist
+    "retainedEarnings": ("instant", [
+        ("us-gaap", "RetainedEarningsAccumulatedDeficit"),
+        ("ifrs-full", "RetainedEarnings"),
+    ]),
+    "treasuryStock": ("instant", [  # shares bought back and held (cost, a positive number); 0 if they're cancelled
+        ("us-gaap", "TreasuryStockValue"),
+        ("us-gaap", "TreasuryStockCommonValue"),
+        ("ifrs-full", "TreasuryShares"),
+    ]),
+    "preferredStock": ("instant", [
+        ("us-gaap", "PreferredStockValue"),
+        ("us-gaap", "PreferredStockValueOutstanding"),
+    ]),
     "_intangTotal": ("instant", [
         ("us-gaap", "IntangibleAssetsNetExcludingGoodwill"),
         ("ifrs-full", "IntangibleAssetsOtherThanGoodwill"),

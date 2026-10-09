@@ -49,6 +49,29 @@ test.describe('loading and comparing', () => {
     expect(consoleErrors).toEqual([]);
   });
 
+  test('the comparison includes the newer measures', async ({ compare }) => {
+    await compare.goto('a=KO&b=AAPL');
+    await expect(compare.comparison).toBeVisible();
+    await expect(compare.figureRow('Return on tangible capital (overall)')).toContainText('%');
+    await expect(compare.figureRow('Durable advantage tests met')).toContainText(/\d+ of \d+/);
+    await expect(compare.figureRow('Piotroski F-score tests met')).toContainText(/\d+ of \d+/);
+  });
+
+  test('both boxes suggest companies by name, and a typed name loads its best match', async ({ compare, page }) => {
+    await compare.goto('lang=en');
+    await compare.step('type "coca" in the first box and pick the suggestion', async () => {
+      await compare.firstTicker.fill('coca');
+      await page.getByTestId('suggestions-a').getByRole('option', { name: /KO/ }).click();
+    });
+    await expect(compare.statusA).toHaveText('COCA COLA CO (KO)');
+    await compare.step('type "apple" in the second box and press Compare', async () => {
+      await compare.secondTicker.fill('apple');
+      await compare.secondTicker.press('Enter');
+    });
+    await expect(compare.comparison).toBeVisible();
+    await expect(page).toHaveURL(/\?a=KO&b=AAPL$/);
+  });
+
   test('chip loads the second stock', async ({ compare, page }) => {
     await compare.goto('a=KO');
     await expect(compare.statusA).toHaveText('COCA COLA CO (KO)');

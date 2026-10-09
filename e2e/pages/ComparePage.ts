@@ -14,11 +14,11 @@ export class ComparePage extends BasePage {
   // ---------- the two slots ----------
   // By role, not just label: each slot's search form carries the same name as its text box.
   get firstTicker(): Locator {
-    return this.page.getByRole('textbox', { name: either('First stock', 'Primera acción') });
+    return this.page.getByRole('combobox', { name: either('First stock', 'Primera acción') });
   }
 
   get secondTicker(): Locator {
-    return this.page.getByRole('textbox', { name: either('Second stock', 'Segunda acción') });
+    return this.page.getByRole('combobox', { name: either('Second stock', 'Segunda acción') });
   }
 
   /** The first stock's "Load" button. */

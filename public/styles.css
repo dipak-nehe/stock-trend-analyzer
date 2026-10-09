@@ -56,7 +56,7 @@
   /* company suggestions under the search box */
   .suggest { position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20; margin: 0; padding: 4px; list-style: none;
     background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, .35);
-    max-height: 340px; overflow-y: auto; }
+    max-height: 340px; overflow-y: auto; min-width: min(320px, calc(100vw - 48px)); }  /* wide enough for names in narrow boxes */
   .suggest li { display: flex; gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 6px; cursor: pointer; }
   .suggest li b { flex: 0 0 64px; color: var(--text-1); }
   .suggest li span { color: var(--text-2); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -67,7 +67,6 @@
     border: 2px solid var(--accent); border-radius: 12px; background: var(--surface); color: var(--text-1);
     transition: box-shadow .15s;
   }
-  input[type=text]:not(:placeholder-shown) { text-transform: uppercase; }
   input[type=text]::placeholder { color: var(--muted); font-weight: 400; letter-spacing: 0; }
   input[type=text]:focus { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent); }
   #go { height: 56px; padding: 0 26px; font-size: 17px; border-radius: 12px; }

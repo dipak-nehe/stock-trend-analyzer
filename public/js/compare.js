@@ -4,6 +4,7 @@
 // higher margin) and both values exist. Sizes (revenue, net income) and dividend amounts never get a mark, and no
 // overall winner is computed: this is an educational comparison, not a recommendation.
 import { analyze } from "./flags.js";
+import { durableChecks } from "./durable.js";
 import { valueChecks } from "./valuation.js";
 import { cagr, lastValue, ratio } from "./series.js";
 import { fixed, money, pct, perShare } from "./format.js";
@@ -41,6 +42,7 @@ export function measures(ctx) {
     opMargin: L(ratio(s.operatingIncome, s.revenue)),
     netMargin: L(r.nm),
     avgRoe: equityNonPositive ? null : avg(vals(ratio(s.netIncome, s.equity))),
+    rotc: r.financial ? null : v.rotcOverall,
     fcfMargin: fcf != null && rev ? fcf / rev : null,
     debtToEquity: r.financial || eq == null || eq <= 0 || debt == null ? null : debt / eq,
     currentRatio: r.financial ? null : L(ratio(s.currentAssets, s.currentLiabilities)),
@@ -51,10 +53,14 @@ export function measures(ctx) {
     strengths: count("good"),
     graham: score(v.graham),
     buffett: score(v.buffett),
+    piotroski: score(v.piotroski),
+    durable: score(durableChecks(d, r)),
     pe3: v.pe3,
     pb: v.pb,
     priceVsGraham: price && v.grahamNumber ? price / v.grahamNumber - 1 : null,
     priceVsValue: price && v.iv ? price / v.iv - 1 : null,
+    divYield: v.divYield,
+    fcfYield: v.fcfYield,
   };
 }
 
@@ -69,6 +75,7 @@ const ROWS = [
   ["profit", "opMargin", "pct", HIGHER],
   ["profit", "netMargin", "pct", HIGHER],
   ["profit", "avgRoe", "pct", HIGHER],
+  ["profit", "rotc", "pct", HIGHER],
   ["profit", "fcfMargin", "pct", HIGHER],
   ["balance", "debtToEquity", "ratio", LOWER],
   ["balance", "currentRatio", "ratio", HIGHER],
@@ -79,10 +86,14 @@ const ROWS = [
   ["flags", "strengths", "count", HIGHER],
   ["checklists", "graham", "score", HIGHER],
   ["checklists", "buffett", "score", HIGHER],
+  ["checklists", "piotroski", "score", HIGHER],
+  ["checklists", "durable", "score", HIGHER],
   ["valuation", "pe3", "ratio1", LOWER],
   ["valuation", "pb", "ratio", LOWER],
   ["valuation", "priceVsGraham", "signed", LOWER],
   ["valuation", "priceVsValue", "signed", LOWER],
+  ["valuation", "divYield", "pct", HIGHER],
+  ["valuation", "fcfYield", "pct", HIGHER],
 ];
 export const DIRECTIONS = Object.fromEntries(ROWS.map(([, key, , dir]) => [key, dir]));
 

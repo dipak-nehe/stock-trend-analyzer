@@ -107,3 +107,13 @@ test("comparison text follows the chosen language", () => {
   assert.equal(row(rows, "debtToEquity").label, "Deuda / patrimonio");
   assert.match(row(rows, "revenueCagr").a, /^\d+,\d %$/);
 });
+
+test("the comparison carries the newer measures: tangible return, both extra checklists and the yields", () => {
+  const m = measures(prepare(company(), 20));
+  assert.ok(m.rotc > 0);
+  assert.equal(m.durable.judged > 0 && m.durable.met <= m.durable.judged, true);
+  assert.equal(m.piotroski.judged, 9);
+  assert.ok(m.divYield > 0 && m.fcfYield > 0);       // a price was entered
+  assert.equal(measures(prepare(company())).divYield, null);  // no price, no yield
+});
+

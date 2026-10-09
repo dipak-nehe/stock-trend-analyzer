@@ -1,6 +1,8 @@
 // Compare page wiring: two ticker slots, URL state, and putting the comparison on the page.
 // The comparison itself is built by compare.js from the same analysis the results page uses.
-import { $, $$, applyStaticText, bindSlashShortcut, enableWhenFilled, fetchFinancials, initialLang, useLang } from "./page.js";
+import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, enableWhenFilled, fetchFinancials, initialLang, useLang } from "./page.js";
+import { resolveTicker, searchCompanies } from "./company-search.js";
+import { bindSuggest } from "./suggest.js";
 import { attention, caveats, checklistGrid, compareRows, glancePairs, indexedSeries, prepare } from "./compare.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { priceLinks } from "./views.js";
@@ -138,8 +140,24 @@ function updateUrl() {
 }
 
 // ---------- events ----------
-$("formA").addEventListener("submit", (/** @type {Event} */ e) => { e.preventDefault(); $("priceA").value = ""; load("a", $("tickerA").value); });
-$("formB").addEventListener("submit", (/** @type {Event} */ e) => { e.preventDefault(); $("priceB").value = ""; load("b", $("tickerB").value); });
+// Company suggestions under each box (as on the results page): picking one loads it, and a typed name becomes its ticker
+const suggest = Object.fromEntries((/** @type {("a"|"b")[]} */ (["a", "b"])).map((side) => {
+  const S = side.toUpperCase();
+  return [side, bindSuggest(/** @type {HTMLInputElement} */ ($(`ticker${S}`)), $(`suggest${S}`), {
+    fetchResults: (q) => searchCompanies(q, API_VERSION),
+    onPick: (ticker) => { $(`price${S}`).value = ""; load(side, ticker); },
+  })];
+}));
+function labelSuggestions() { for (const S of ["A", "B"]) $(`suggest${S}`).setAttribute("aria-label", t("search.suggestions")); }
+for (const side of /** @type {("a"|"b")[]} */ (["a", "b"])) {
+  const S = side.toUpperCase();
+  $(`form${S}`).addEventListener("submit", async (/** @type {Event} */ e) => {
+    e.preventDefault();
+    suggest[side].close();
+    $(`price${S}`).value = "";
+    load(side, await resolveTicker($(`ticker${S}`).value, API_VERSION));
+  });
+}
 $$(".chip[data-b]").forEach((chip) => chip.addEventListener("click", () => { $("priceB").value = ""; load("b", chip.dataset.b); }));
 $("swap").addEventListener("click", () => {
   [state.a, state.b] = [state.b, state.a];
@@ -154,6 +172,7 @@ for (const id of ["priceA", "priceB"]) {
 }
 $$(".lang-switch [data-lang]").forEach((btn) => btn.addEventListener("click", () => {
   if (!useLang(btn.dataset.lang)) return;
+  labelSuggestions();
   for (const side of /** @type {("a"|"b")[]} */ (["a", "b"])) {
     const d = state[side];
     if (d) $(`status${side.toUpperCase()}`).textContent = `${d.name} (${d.ticker})`;
@@ -170,6 +189,7 @@ const syncButtons = [enableWhenFilled("tickerA", "goA"), enableWhenFilled("ticke
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
+labelSuggestions();
 if (params.get("pa")) $("priceA").value = params.get("pa");
 if (params.get("pb")) $("priceB").value = params.get("pb");
 (async () => {

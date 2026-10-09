@@ -56,7 +56,9 @@
       <form id="formA" class="cmp-form" role="search" aria-labelledby="labelA">
         <div class="search-field">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="tickerA" type="text" placeholder="Enter a ticker, e.g. KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <input id="tickerA" type="text" placeholder="Coca-Cola or KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" spellcheck="false"
+            role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestA">
+          <ul id="suggestA" class="suggest" role="listbox" aria-label="Suggestions" data-testid="suggestions-a" hidden></ul>
         </div>
         <button type="submit" id="goA" disabled data-i18n="ui.cmp.load">Load</button>
       </form>
@@ -68,7 +70,9 @@
       <form id="formB" class="cmp-form" role="search" aria-labelledby="labelB">
         <div class="search-field">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <input id="tickerB" type="text" placeholder="Ticker to compare, e.g. PEP" data-i18n-placeholder="ui.cmp.placeholderB" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          <input id="tickerB" type="text" placeholder="PepsiCo or PEP" data-i18n-placeholder="ui.cmp.placeholderB" autocomplete="off" spellcheck="false"
+            role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestB">
+          <ul id="suggestB" class="suggest" role="listbox" aria-label="Suggestions" data-testid="suggestions-b" hidden></ul>
         </div>
         <button type="submit" id="goB" disabled data-i18n="ui.cmp.go">Compare</button>
       </form>

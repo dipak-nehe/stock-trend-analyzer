@@ -19,7 +19,7 @@ export class AnalysisPage extends BasePage {
 
   // ---------- search ----------
   get searchBox(): Locator {
-    return this.page.getByLabel(either('Look up a company', 'Buscar una empresa'));
+    return this.page.getByLabel(either('Look up a company by name or ticker', 'Busca una empresa por nombre o ticker'));
   }
 
   get searchLabel(): Locator {

@@ -33,7 +33,7 @@ test.describe('search', () => {
   test('search box has a visible label and works by label', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.searchBox).toBeFocused(); // ready to type on arrival
-    await expect(analysis.searchBox).toHaveAttribute('placeholder', 'Company name or ticker, e.g. Apple or AAPL');
+    await expect(analysis.searchBox).toHaveAttribute('placeholder', 'Apple or AAPL');
     await analysis.searchBox.fill('ko');
     await analysis.searchBox.press('Enter');
     await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
@@ -784,7 +784,7 @@ test.describe('Spanish and language choice', () => {
     await analysis.goto('/?t=SMCI&lang=es');
     await analysis.glanceRows.first().waitFor();
     await expect(analysis.root).toHaveAttribute('lang', 'es');
-    await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+    await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
     await expect(analysis.searchBox).toBeVisible();
     await expect(analysis.glanceTitle).toHaveText('De un vistazo');
     await expect(analysis.tab('flags')).toContainText('Señales de alerta');
@@ -802,14 +802,14 @@ test.describe('Spanish and language choice', () => {
     test('gets Spanish automatically', async ({ analysis }) => {
       await analysis.goto('/');
       await expect(analysis.languageButton('es')).toHaveAttribute('aria-pressed', 'true');
-      await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+      await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
     });
   });
 
   test('English browser gets English', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.languageButton('en')).toHaveAttribute('aria-pressed', 'true');
-    await expect(analysis.searchLabel).toHaveText('Look up a company');
+    await expect(analysis.searchLabel).toHaveText('Look up a company by name or ticker');
   });
 
   test('switching language keeps tab and price and updates the link', async ({ analysis, page, consoleErrors }) => {
@@ -836,7 +836,7 @@ test.describe('Spanish and language choice', () => {
     await analysis.goto('/');
     await analysis.switchLanguage('es');
     await analysis.goto('/'); // new visit, no ?lang in the link
-    await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+    await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
   });
 
   // Spanish must stay on across every page, whether it was chosen with the ES button or came from a Spanish link.
@@ -864,11 +864,11 @@ test.describe('Spanish and language choice', () => {
       await analysis.step('open the full disclaimer', () => analysis.fullDisclaimerLink.click());
       await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
       await disclaimer.step('back to the analysis', () => disclaimer.backLink.click());
-      await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+      await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
       await analysis.step('footer: disclaimer', () => analysis.footerDisclaimerLink.click());
       await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
       await disclaimer.step('Home', () => disclaimer.homeButton.click());
-      await expect(analysis.searchLabel).toHaveText('Buscar una empresa');
+      await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
       // A new visit with no ?lang in the address, on each page.
       for (const path of ['/', '/compare.html', '/disclaimer.html']) {
         await analysis.step(`open ${path} directly`, () => page.goto(path).then(() => undefined));
@@ -883,7 +883,7 @@ test.describe('Spanish and language choice', () => {
     await disclaimer.goto();
     await expect(disclaimer.heading).toHaveText('Investment risk disclaimer');
     await analysis.step('open the start page directly', () => page.goto('/').then(() => undefined));
-    await expect(analysis.searchLabel).toHaveText('Look up a company');
+    await expect(analysis.searchLabel).toHaveText('Look up a company by name or ticker');
   });
 
   test('errors are translated', async ({ analysis }) => {

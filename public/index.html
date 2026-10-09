@@ -59,11 +59,11 @@
   <p class="sub" data-i18n="ui.sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
 
   <section class="search card" aria-label="Search">
-    <div class="search-label"><label for="ticker" data-testid="search-label" data-i18n="ui.search.label">Look up a company</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
+    <div class="search-label"><label for="ticker" data-testid="search-label" data-i18n="ui.search.label">Look up a company by name or ticker</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
     <form id="form" role="search">
       <div class="search-field">
         <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="ticker" type="text" placeholder="Company name or ticker, e.g. Apple or AAPL" data-i18n-placeholder="ui.search.placeholder" autocomplete="off" spellcheck="false" autofocus
+        <input id="ticker" type="text" placeholder="Apple or AAPL" data-i18n-placeholder="ui.search.placeholder" autocomplete="off" spellcheck="false" autofocus
           role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggest">
         <ul id="suggest" class="suggest" role="listbox" aria-label="Suggestions" data-testid="suggestions" hidden></ul>
       </div>

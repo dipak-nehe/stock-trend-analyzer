@@ -603,9 +603,9 @@ export default {
 
   // ---------- static page text (English is in index.html) ----------
   "ui.sub": "Introduce el ticker de una acción de EE. UU. para analizar 10 años de sus presentaciones ante la SEC: tendencias, señales de alerta, historial de presentaciones y listas de comprobación de inversión en valor.",
-  "ui.search.label": "Buscar una empresa",
+  "ui.search.label": "Busca una empresa por nombre o ticker",
   "ui.search.kbd": "Pulsa <kbd>/</kbd> para buscar",
-  "ui.search.placeholder": "Nombre de la empresa o ticker, p. ej. Apple o AAPL",
+  "ui.search.placeholder": "Apple o AAPL",
   "search.suggestions": "Sugerencias",
   "ui.search.go": "Analizar",
   "ui.search.hint": "Escribe primero un ticker, p. ej. AAPL, o elige uno de abajo.",

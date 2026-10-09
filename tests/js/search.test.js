@@ -1,6 +1,6 @@
 import { test, afterEach } from "node:test";
 import assert from "node:assert/strict";
-import { resolveTicker } from "../../public/js/page.js";
+import { resolveTicker, searchCompanies } from "../../public/js/company-search.js";
 
 // resolveTicker asks /api/search; a fake fetch stands in for the server
 const realFetch = globalThis.fetch;
@@ -29,3 +29,14 @@ test("no match, or search unavailable, leaves the text unchanged so the usual me
   assert.equal(await resolveTicker("coca"), "coca");
   assert.equal(await resolveTicker("   "), "");
 });
+
+test("suggestions are asked for with the query and the API version", async () => {
+  let asked = "";
+  globalThis.fetch = /** @type {typeof fetch} */ (/** @type {unknown} */ (async (/** @type {string} */ url) => {
+    asked = url;
+    return { ok: true, json: async () => ({ results: [{ ticker: "T", name: "AT&T INC." }] }) };
+  }));
+  assert.deepEqual(await searchCompanies("at&t", 12), [{ ticker: "T", name: "AT&T INC." }]);
+  assert.equal(asked, "/api/search?q=at%26t&v=12");
+});
+

@@ -9,7 +9,8 @@ import { renderCharts } from "./charts.js";
 import { dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, resolveTicker, searchCompanies, targetOf, useLang } from "./page.js";
+import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { resolveTicker, searchCompanies } from "./company-search.js";
 import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
 import { bindSuggest } from "./suggest.js";
@@ -265,7 +266,7 @@ $("insiders").addEventListener("click", (e) => {
 });
 // Suggestions under the search box: picking one looks it up straight away
 const suggest = bindSuggest(/** @type {HTMLInputElement} */ ($("ticker")), $("suggest"), {
-  fetchResults: searchCompanies,
+  fetchResults: (q) => searchCompanies(q, API_VERSION),
   onPick: (ticker) => { $("price").value = ""; resetAssumptions(); run(ticker); },
 });
 $("form").addEventListener("submit", async (e) => {
@@ -278,7 +279,7 @@ $("form").addEventListener("submit", async (e) => {
   }
   $("price").value = "";
   resetAssumptions();  // a new company starts from its own defaults
-  run(await resolveTicker($("ticker").value));  // a company name becomes its ticker
+  run(await resolveTicker($("ticker").value, API_VERSION));  // a company name becomes its ticker
 });
 $$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; resetAssumptions(); run(b.dataset.t); }));
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {

@@ -107,29 +107,6 @@ export function enableWhenFilled(inputId, buttonId) {
   return update;
 }
 
-/** Company suggestions for the search box: [{ ticker, name }], best first. @param {string} q */
-export async function searchCompanies(q) {
-  const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&v=${API_VERSION}`);
-  if (!res.ok) throw new Error(`search failed: ${res.status}`);
-  return (await res.json()).results;
-}
-
-/** What to look up for the search-box text: the text itself when it's a ticker SEC knows, else the best-matching
- * company's ticker ("coca cola" -> "KO"), else the text unchanged (so the usual "not found" message shows).
- * @param {string} text */
-export async function resolveTicker(text) {
-  const q = text.trim();
-  if (!q) return q;
-  try {
-    const results = await searchCompanies(q);
-    const asTicker = q.toUpperCase().replace(/[./]/g, "-");
-    if (results.some((r) => r.ticker.toUpperCase().replace(/[./]/g, "-") === asTicker)) return q;
-    return results.length ? results[0].ticker : q;
-  } catch {
-    return q;  // search unavailable: try it as a ticker
-  }
-}
-
 /** Link to the compare page for a ticker, keeping the language. @param {string} ticker */
 export function compareHref(ticker) {
   const q = new URLSearchParams({ a: ticker });

@@ -1,6 +1,7 @@
-// "My portfolio": ten 10-year measures per stock, all in %, plus a checklist score (the Durable advantage tab's
-// balance-sheet tests), from the same API response and the same rules as the results page (free cash flow and the
-// bank test from flags.js, return on tangible capital from valuation.js, the statement tests from durable.js).
+// "My portfolio": ten 10-year measures per stock, all in %, plus two checklist scores (Buffett's criteria and the
+// Durable advantage tab's balance-sheet tests), from the same API response and the same rules as the results page
+// (free cash flow and the bank test from flags.js, the value checks from valuation.js, the statement tests from
+// durable.js).
 // No page code here, so it can be unit-tested; portfolio-app.js puts it on the page.
 import { analyze } from "./flags.js";
 import { valueChecks } from "./valuation.js";
@@ -26,6 +27,7 @@ export const COLUMNS = [
   { key: "rotc", kind: "level", good: 0.15, bad: 0.08 },
   { key: "fcfMargin", kind: "level", good: 0.10, bad: 0 },
   { key: "shares", kind: "growth", good: 0, bad: 0.02, lowerIsBetter: true },
+  { key: "buffett", kind: "score", good: 0.75, bad: 0.5 },
   { key: "balance", kind: "score", good: 0.75, bad: 0.5 },
 ];
 
@@ -45,9 +47,12 @@ function score(rows) {
   return { v: met / judged.length, met, judged: judged.length, notMet: judged.filter((c) => c.status === "fail").map((c) => c.id) };
 }
 
-/** The display name of a balance-sheet test in a score's notMet list (the Durable advantage tab's names). @param {string} id */
-export function checkName(id) {
-  return t(`dur.${id}.name`);
+/**
+ * The display name of a test in a score column's notMet list: Buffett's criteria are named as on the Graham & Buffett
+ * tab, the balance-sheet tests as on the Durable advantage tab. @param {string} column @param {string} id
+ */
+export function checkName(column, id) {
+  return t(column === "buffett" ? `val.${id}.name` : `dur.${id}.name`);
 }
 
 export const MAX_ROWS = 30;
@@ -87,7 +92,8 @@ export function portfolioRow(d) {
   const level = (/** @type {number|null} */ v, why = "notEnough") => (v == null ? { v: null, why } : { v });
   const bvps = s.equity.map((e, i) => (e != null && s.dilutedShares[i] ? e / s.dilutedShares[i] : null));
   const negEquity = s.equity.some((v) => v != null && v <= 0);
-  const rotc = valueChecks(d, null, r).rotcOverall;
+  const value = valueChecks(d, null, r);  // no price here: the margin-of-safety test waits for one and isn't counted
+  const rotc = value.rotcOverall;
   const cells = {
     revenue: growth(s.revenue),
     eps: growth(s.eps),
@@ -99,6 +105,7 @@ export function portfolioRow(d) {
     rotc: fin ? { v: null, why: "bank" } : level(rotc ?? null),
     fcfMargin: fin ? { v: null, why: "bank" } : level(totalRatio(r.fcf, s.revenue)),
     shares: growth(s.dilutedShares),
+    buffett: score(value.buffett),
     balance: score(durableChecks(d, r).filter((c) => BALANCE_SHEET.has(c.id))),
   };
   return { ticker: d.ticker, name: d.name, from: d.years[0], to: d.years[d.years.length - 1], cells };

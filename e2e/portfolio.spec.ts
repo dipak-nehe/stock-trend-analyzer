@@ -3,7 +3,7 @@
 import { expect, test } from './fixtures';
 
 // Column positions in the table (0 = the first measure, after the company name)
-const COL = { revenue: 0, eps: 1, dps: 2, fcf: 3, bvps: 4, netMargin: 5, roe: 6, rotc: 7, fcfMargin: 8, shares: 9, balance: 10 };
+const COL = { revenue: 0, eps: 1, dps: 2, fcf: 3, bvps: 4, netMargin: 5, roe: 6, rotc: 7, fcfMargin: 8, shares: 9, buffett: 10, balance: 11 };
 
 test.describe('adding and removing stocks', () => {
   test('a stock added by ticker gets a row, and the list is kept in this browser', async ({ portfolio, page, consoleErrors }) => {
@@ -63,7 +63,7 @@ test.describe('the measures and checklist scores', () => {
   test('each stock shows its 10-year growth, margins, returns and share count, with a median row', async ({ portfolio }) => {
     await portfolio.goto('add=KO,AAPL,INTC,JPM,SMCI');
     await expect(portfolio.median).toContainText('Median of 5 stocks');
-    await expect(portfolio.table.getByRole('columnheader')).toHaveCount(13);  // company, ten measures, balance-sheet checks, remove
+    await expect(portfolio.table.getByRole('columnheader')).toHaveCount(14);  // company, ten measures, two checklist scores, remove
     await expect(portfolio.cell('KO', COL.revenue)).toHaveText('+1.5%');
     await expect(portfolio.cell('KO', COL.eps)).toHaveText('+8.2%');
     await expect(portfolio.cell('KO', COL.netMargin)).toHaveText('20.9%');
@@ -90,10 +90,16 @@ test.describe('the measures and checklist scores', () => {
     await expect(portfolio.legend).toContainText("They're a reading aid, not a verdict.");
   });
 
-  test('balance-sheet checks passed, with what wasn\'t met on hover', async ({ portfolio }) => {
+  test('Buffett criteria met and balance-sheet checks passed, with what wasn\'t met on hover', async ({ portfolio }) => {
     await portfolio.goto('add=KO,INTC,JPM');
     await expect(portfolio.median).toBeVisible();
-    await expect(portfolio.columnHeader(/^Buffett/)).toHaveCount(0);
+    // No price on this page, so Buffett's margin-of-safety test isn't counted: 7 judged, not 8
+    await expect(portfolio.cell('KO', COL.buffett)).toContainText('7 of 7');
+    await expect(portfolio.cell('KO', COL.buffett)).toHaveAttribute('title', 'All met');
+    await expect(portfolio.cell('INTC', COL.buffett)).toContainText('2 of 7');
+    await expect(portfolio.cell('INTC', COL.buffett)).toHaveClass(/bad/);
+    await expect(portfolio.cell('INTC', COL.buffett)).toHaveAttribute('title', /^Not met: Consistent, growing earnings, High return on equity/);
+    await expect(portfolio.median.getByRole('cell').nth(COL.buffett)).toHaveText('75% met');
     await expect(portfolio.cell('KO', COL.balance)).toContainText('4 of 5');
     await expect(portfolio.cell('KO', COL.balance)).toHaveAttribute('title', 'Not met: Low debt to equity');
     await expect(portfolio.cell('JPM', COL.balance)).toContainText('3 of 3');           // a bank: the debt tests don't apply

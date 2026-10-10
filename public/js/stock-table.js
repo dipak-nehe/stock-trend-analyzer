@@ -1,5 +1,5 @@
 // The stock table shared by My portfolio (portfolio.html) and the S&P 500 selection (sp500-view.html): loading the
-// companies a few at a time, drawing the table (ten measures, the balance-sheet score, a median row, sortable
+// companies a few at a time, drawing the table (ten measures, Buffett's criteria and the balance-sheet score, a median row, sortable
 // headers), and the saved portfolio list in this browser. The measures come from portfolio.js.
 import { fetchFinancials } from "./page.js";
 import { COLUMNS, MAX_ROWS, checkName, medians, parseTickers, portfolioRow, sortRows, tone } from "./portfolio.js";
@@ -74,9 +74,9 @@ function cell(col, c) {
     return `<td class="nm" title="${esc(why)}">${t("cmp.na")}<span class="sr-only"> (${esc(why)})</span></td>`;
   }
   if (col.kind === "score") {
-    // "3 of 4", with the checks not met on hover; the median row has only the share met
+    // "3 of 4", with the checks not met on hover (named as on their tab); the median row has only the share met
     if (c.met == null) return `<td class="pf-cell ${tone(col, c.v)}">${esc(t("pf.scoreMedian", { pct: pct(c.v, 0) }))}</td>`;
-    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map(checkName).join(", ") }) : t("pf.allMet");
+    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map((id) => checkName(col.key, id)).join(", ") }) : t("pf.allMet");
     return `<td class="pf-cell ${tone(col, c.v)}" title="${esc(detail)}">${esc(t("pf.score", { met: c.met, judged: c.judged }))}`
       + `<span class="sr-only"> (${esc(detail)})</span></td>`;
   }

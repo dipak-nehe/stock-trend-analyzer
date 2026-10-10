@@ -690,6 +690,8 @@ export default {
   "pf.help.fcfMargin": "Free cash flow as a share of revenue, over the whole period",
   "pf.help.shares": "Average change per year in the diluted share count: negative means buybacks, positive means new shares",
   "pf.col.balance": "Balance-sheet checks passed",
+  "pf.col.buffett": "Buffett criteria met",
+  "pf.help.buffett": "Warren Buffett's tests from the Graham & Buffett tab that could be judged: consistent growing earnings, return on equity, return on tangible capital, conservative debt, margins, low capital needs and buybacks (the margin-of-safety test needs a share price, so it isn't counted here)",
   "pf.help.balance": "The Durable advantage tab's balance-sheet tests: retained earnings growing, debt against equity, long-term debt against earnings, no preferred stock, treasury stock held",
   "pf.score": "{met} of {judged}",
   "pf.scoreMedian": "{pct} met",

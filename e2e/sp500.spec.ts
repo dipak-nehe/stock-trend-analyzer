@@ -66,6 +66,9 @@ test.describe('showing the picks', () => {
     await expect(page).toHaveURL(/sp500-view\.html\?t=KO%2CAAPL%2CINTC$/);
     await expect(sp500View.median).toContainText('Median of 3 stocks');
     await expect(sp500View.cell('KO', 0)).toHaveText('+1.5%');
+    await expect(sp500View.columnHeader(/^Buffett criteria met/)).toBeVisible();
+    await expect(sp500View.cell('KO', 10)).toContainText('7 of 7');           // Buffett criteria
+    await expect(sp500View.cell('KO', 11)).toContainText('4 of 5');           // balance-sheet checks
     await expect(sp500View.table.getByRole('button', { name: /^Remove/ })).toHaveCount(0);   // read-only
     await sp500View.step('press Change selection', () => sp500View.changeSelection.click());
     await expect(page).toHaveURL(/sp500\.html\?pick=KO%2CAAPL%2CINTC$/);

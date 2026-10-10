@@ -8,7 +8,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - The business-rule unit tests (financial figures, filing history, API responses, insider trades; 80 tests) are now behave (Gherkin) scenarios in `tests/features/`, replacing `tests/test_stock_data.py` and `tests/test_insiders.py`. Same cases, same coverage; they appear in Allure as "1 · Unit" by feature.
 
 ### Added
-- My portfolio: two checklist columns, Buffett criteria met and balance-sheet checks passed (the Durable advantage tab's four), shown as "7 of 7" with what wasn't met on hover; sortable, coloured and in the median row.
+- My portfolio: a balance-sheet checks column (the Durable advantage tab's four), shown as "3 of 4" with what wasn't met on hover; sortable, coloured and in the median row.
 - My portfolio (`portfolio.html`): a table of your stocks with ten 10-year measures in % (growth in revenue, EPS, dividends, free cash flow and book value per share; net margin, return on equity, return on tangible capital, free-cash-flow margin; share count change per year), sortable, with a median row and colour yardsticks. Saved in the browser and the address; reached from a new header button and *+ Add to my portfolio* on results. English and Spanish; unit, browser and accessibility tests.
 - Peter Lynch's growth-at-a-reasonable-price checklist on the Graham & Buffett tab: EPS growth of 10–25% a year over the last 5 years, the PEG ratio, growth plus dividend yield against the P/E, price against his fair value (EPS × growth), and debt at most a third of equity. Uses the same price box; the price tests are N/A above 25% growth. English and Spanish.
 - A demo GIF at the top of the README.

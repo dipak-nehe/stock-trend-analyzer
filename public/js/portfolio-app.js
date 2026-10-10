@@ -4,7 +4,7 @@
 import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, enableWhenFilled, fetchFinancials, initialLang, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { bindSuggest } from "./suggest.js";
-import { COLUMNS, MAX_ROWS, medians, parseTickers, portfolioRow, sortRows, tone } from "./portfolio.js";
+import { COLUMNS, MAX_ROWS, checkName, medians, parseTickers, portfolioRow, sortRows, tone } from "./portfolio.js";
 import { getLang, setLang, t } from "./i18n.js";
 import { pct } from "./format.js";
 
@@ -78,7 +78,7 @@ function cell(col, c) {
   if (col.kind === "score") {
     // "6 of 7", with the criteria not met on hover; the median row has only the share met
     if (c.met == null) return `<td class="pf-cell ${tone(col, c.v)}">${esc(t("pf.scoreMedian", { pct: pct(c.v, 0) }))}</td>`;
-    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.join(", ") }) : t("pf.allMet");
+    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map(checkName).join(", ") }) : t("pf.allMet");
     return `<td class="pf-cell ${tone(col, c.v)}" title="${esc(detail)}">${esc(t("pf.score", { met: c.met, judged: c.judged }))}`
       + `<span class="sr-only"> (${esc(detail)})</span></td>`;
   }

@@ -9,15 +9,16 @@ No third-party packages needed.
 import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
-from backend import stock_data, store
+from backend import pages, stock_data, store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
 STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript",
                 ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon",
-                ".json": "application/json"}  # data/industry.json; only files inside public/ are ever served
+                ".json": "application/json",  # data/industry.json; only files inside public/ are ever served
+                ".xml": "application/xml", ".txt": "text/plain"}  # sitemap.xml and robots.txt
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -45,6 +46,9 @@ class Handler(BaseHTTPRequestHandler):
             respond = stock_data.api_response if url.path == "/api/financials" else stock_data.insider_response
             status, body, cache, data_cache = respond(ticker)
             return self._send(status, json.dumps(body), cache=cache, data_cache=data_cache)
+        if url.path.startswith("/stock/"):  # a company page: the results page with that company's title and preview
+            status, page, cache = pages.company_page(unquote(url.path[len("/stock/"):].strip("/")))
+            return self._send(status, page, "text/html", cache=cache)
         name = "index.html" if url.path in ("/", "") else url.path.lstrip("/")
         path = os.path.realpath(os.path.join(PUBLIC, name))
         ext = os.path.splitext(path)[1]

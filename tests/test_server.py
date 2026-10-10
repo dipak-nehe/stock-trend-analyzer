@@ -107,6 +107,18 @@ def test_insider_trades_have_their_own_endpoint_on_both_servers(serve, local):
     assert status == 200 and json.loads(body)["insiders"]["sells"]["count"] == 31 and "s-maxage" in headers["Cache-Control"]
 
 
+def test_company_pages_are_the_same_on_both_servers(serve, local):
+    # /stock/KO locally; on Vercel the same address is rewritten to /api/page?ticker=KO (vercel.json)
+    vercel = serve(load_vercel_handler("page"), threading_server=False)
+    for ticker in ("KO", "ZZZZQ"):
+        a, b = local(f"/stock/{ticker}"), vercel(f"/api/page?ticker={ticker}")
+        assert a[0] == b[0] and a[2] == b[2] and a[1]["Cache-Control"] == b[1]["Cache-Control"], ticker
+    status, headers, body = local("/stock/KO")
+    assert status == 200 and headers["Content-Type"].startswith("text/html")
+    assert b"<title>Coca-Cola Company (The) (KO): 10-year analysis" in body
+    assert local("/stock/ZZZZQ")[0] == 404
+
+
 def test_company_search_has_its_own_endpoint_on_both_servers(serve, local):
     vercel = serve(load_vercel_handler("search"), threading_server=False)
     for query in ("?q=coca", "?q=apple", "?q=", "?q=zzzzqqq", "?q=%3Cx%3E"):
@@ -123,9 +135,13 @@ def test_vercel_config_bundles_the_shared_module():
     with open(os.path.join(ROOT, "vercel.json")) as fh:
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
-    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py", "api/search.py"}
-    for fn in config["functions"].values():
-        assert fn["includeFiles"] == "backend/**"  # every module the function imports
+    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py", "api/search.py", "api/page.py"}
+    for name, fn in config["functions"].items():
+        if name == "api/page.py":  # company pages also read the results page and the S&P 500 list
+            assert fn["includeFiles"] == "{backend/**,public/index.html,public/data/sp500.json}"
+        else:
+            assert fn["includeFiles"] == "backend/**"  # every module the function imports
+    assert {"source": "/stock/:ticker", "destination": "/api/page?ticker=:ticker"} in config["rewrites"]
     assert os.path.exists(os.path.join(ROOT, "public", "index.html"))
 
 

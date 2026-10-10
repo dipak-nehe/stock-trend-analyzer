@@ -36,7 +36,7 @@ jobs:
             exit 1
           fi
 
-      # 4. Read the list and write public/data/sp500.json.
+      # 4. Read the list and write public/data/sp500.json, and the sitemap of company pages (public/sitemap.xml).
       - name: Build the S&P 500 list
         run: python scripts/build_sp500.py
 
@@ -53,6 +53,6 @@ jobs:
           if [ -s unchanged ]; then echo "S&P 500 list unchanged"; exit 0; fi
           git config user.name "dipak-nehe"
           git config user.email "${SEC_USER_AGENT##* }"
-          git add public/data/sp500.json
+          git add public/data/sp500.json public/sitemap.xml
           git commit -m "Monthly S&P 500 list refresh"
           git push

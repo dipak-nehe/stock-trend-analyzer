@@ -78,7 +78,9 @@ function render(d) {
   $("guide").open = false;  // keep the results in view; the guide stays one click away
   $("guide").classList.add("has-results");  // guide cards now open their tab
   $("guide").querySelector(".guide-title").textContent = t("guide.titleAfter");
-  document.title = `${d.ticker} · 10-Year Stock Value Analysis`;
+  // A company page arrives with a fuller title for its company (backend/pages.py): keep it for that company.
+  const pageCompany = stockPathTicker && decodeURIComponent(stockPathTicker).toUpperCase().replace(/[./]/g, "-");
+  document.title = pageCompany === d.ticker.toUpperCase().replace(/[./]/g, "-") ? pageTitle : `${d.ticker} · 10-Year Stock Value Analysis`;
   historyFilter = "all"; historyExpanded = false;
   renderHistory();
   $("insiders").innerHTML = insiderView(d.insiders, d.cik, d.insidersState);
@@ -231,15 +233,22 @@ async function run(ticker) {
   }
 }
 
+// A company page (/stock/KO, served with that company's title and share preview by backend/pages.py) keeps that form
+// of address for the companies looked up on it; the start page uses ?t=KO, as before.
+const STOCK_PATH = /^\/stock\/([^/?#]+)\/?$/;
+const stockPathTicker = (location.pathname.match(STOCK_PATH) || [])[1];
+const pageTitle = document.title;  // the company page's own title, from the server
+
 function updateUrl() {
   const q = new URLSearchParams();
-  if (current) q.set("t", current.data.ticker);
-  else if (failed) q.set("t", failed); // reloading shows the same error, not the previous company
+  const shown = current ? current.data.ticker : failed;  // after an error: reloading shows the same error, not the previous company
+  if (shown && !stockPathTicker) q.set("t", shown);
   const p = parseFloat($("price").value);
   if (current && p > 0) q.set("p", String(p));
   if (getLang() !== "en") q.set("lang", getLang());
   const hash = current && activeTab !== "overview" ? `#${activeTab}` : "";
-  history.replaceState(null, "", `${location.pathname}${q.toString() ? `?${q}` : ""}${hash}`);
+  const path = stockPathTicker ? (shown ? `/stock/${encodeURIComponent(shown)}` : "/") : location.pathname;
+  history.replaceState(null, "", `${path}${q.toString() ? `?${q}` : ""}${hash}`);
 }
 
 // ---------- language ----------
@@ -353,4 +362,5 @@ showQuote();
 labelSuggestions();
 $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
 if (params.get("p")) $("price").value = params.get("p");
-if (params.get("t")) run(params.get("t"));
+const startTicker = params.get("t") || (stockPathTicker && decodeURIComponent(stockPathTicker));
+if (startTicker) run(startTicker);

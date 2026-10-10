@@ -14,6 +14,7 @@ from backend import stock_data, store
 LAYERS = {
     "test_store": "1 · Unit: data rules",  # the behave scenarios (tests/features) join this group too
     "test_build_sp500": "1 · Unit: data rules",
+    "test_pages": "1 · Unit: data rules",
     "test_regression": "2 · Regression: real SEC filings",
     "test_server": "3 · HTTP: API and static files",
 }

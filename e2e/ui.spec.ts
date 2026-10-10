@@ -1034,6 +1034,34 @@ test.describe('disclaimer', () => {
   });
 });
 
+test.describe('company pages', () => {
+  test('/stock/KO opens Coca-Cola with its own title, and keeps that address', async ({ analysis, page, consoleErrors }) => {
+    await analysis.step('open /stock/KO', async () => { await page.goto('/stock/KO'); });
+    await expect(page).toHaveTitle(/^Coca-Cola Company \(The\) \(KO\): 10-year analysis from SEC filings/);
+    await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://stock-value-analysis.vercel.app/stock/KO');
+    await expect(page).toHaveURL(/\/stock\/KO$/);
+    await analysis.openTab('flags');
+    await expect(page).toHaveURL(/\/stock\/KO#flags$/);
+    await analysis.search('AAPL');
+    await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');
+    await expect(page).toHaveURL(/\/stock\/AAPL#flags$/);
+    await expect(page).toHaveTitle('AAPL · 10-Year Stock Value Analysis');
+    await analysis.search('KO');
+    await expect(page).toHaveTitle(/^Coca-Cola Company \(The\) \(KO\)/);   // its own company again: the page's title
+    expect(consoleErrors).toEqual([]);   // styles, scripts and data all load from /stock/…
+  });
+
+  test('an unknown company page shows the usual error, and the sitemap lists the company pages', async ({ analysis, page, request }) => {
+    const res = await page.goto('/stock/ZZZZQ');
+    expect(res?.status()).toBe(404);
+    await expect(analysis.error).toContainText("Ticker 'ZZZZQ' not found");
+    const sitemap = await (await request.get('/sitemap.xml')).text();
+    expect(sitemap).toContain('<loc>https://stock-value-analysis.vercel.app/stock/KO</loc>');
+    expect(await (await request.get('/robots.txt')).text()).toContain('Sitemap: https://stock-value-analysis.vercel.app/sitemap.xml');
+  });
+});
+
 test.describe('downloads', () => {
   test('the Data tab downloads every figure as CSV, as filed', async ({ analysis }) => {
     await analysis.open('KO');

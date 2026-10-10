@@ -14,6 +14,10 @@
     "api/search.py": {
       "includeFiles": "backend/**",
       "maxDuration": 10
+    },
+    "api/page.py": {
+      "includeFiles": "{backend/**,public/index.html,public/data/sp500.json}",
+      "maxDuration": 10
     }
   },
   "headers": [
@@ -29,6 +33,12 @@
           "value": "strict-origin-when-cross-origin"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/stock/:ticker",
+      "destination": "/api/page?ticker=:ticker"
     }
   ]
 }

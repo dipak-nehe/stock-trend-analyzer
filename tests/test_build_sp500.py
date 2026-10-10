@@ -54,3 +54,13 @@ def test_the_file_keeps_companies_sec_knows_sorted_by_name():
 def test_a_list_that_doesnt_look_like_the_sp500_is_refused(n):
     with pytest.raises(ValueError, match="doesn't look like the S&P 500"):
         b.build(_companies(n), {f"T{i}" for i in range(n)}, "2026-10-10")
+
+
+def test_the_sitemap_lists_the_site_pages_and_a_page_per_company():
+    xml = b.sitemap([{"t": "KO", "n": "Coca-Cola", "s": "x"}, {"t": "BRK.B", "n": "Berkshire & Co", "s": "y"}])
+    assert xml.startswith('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+    locs = [line.strip()[len("<url><loc>"):-len("</loc></url>")] for line in xml.splitlines() if "<loc>" in line]
+    assert locs[0] == "https://stock-value-analysis.vercel.app/"
+    assert locs[-2:] == ["https://stock-value-analysis.vercel.app/stock/BRK.B", "https://stock-value-analysis.vercel.app/stock/KO"]
+    assert "lastmod" not in xml   # no dates: the file only changes when the list does
+

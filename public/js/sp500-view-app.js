@@ -5,6 +5,7 @@ import { MAX_PICKS, parsePicks } from "./sp500.js";
 import { MAX_ROWS } from "./portfolio.js";
 import { addToSaved, esc, langQuery, loader, nextSort, tableHtml } from "./stock-table.js";
 import { setLang, t } from "./i18n.js";
+import { termsHtml } from "./terms.js";
 
 /** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
@@ -17,6 +18,7 @@ function render() {
   $("pfResult").hidden = !has;
   $("spvSave").hidden = !has;
   if (has) $("pfTable").innerHTML = tableHtml(entries, sort);
+  $("pfTermsList").innerHTML = termsHtml();
   const tickers = entries.map((e) => e.ticker).join(",");
   $("spvBack").href = `sp500.html?${new URLSearchParams({ ...(tickers ? { pick: tickers } : {}), ...langQuery() })}`;
 }

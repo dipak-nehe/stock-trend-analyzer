@@ -94,11 +94,15 @@ test.describe('the measures and checklist scores', () => {
     await portfolio.goto('add=KO,INTC,JPM');
     await expect(portfolio.median).toBeVisible();
     await expect(portfolio.columnHeader(/^Buffett/)).toHaveCount(0);
-    await expect(portfolio.cell('KO', COL.balance)).toContainText('3 of 4');
+    await expect(portfolio.cell('KO', COL.balance)).toContainText('4 of 5');
     await expect(portfolio.cell('KO', COL.balance)).toHaveAttribute('title', 'Not met: Low debt to equity');
-    await expect(portfolio.cell('JPM', COL.balance)).toContainText('2 of 2');           // a bank: the debt tests don't apply
+    await expect(portfolio.cell('JPM', COL.balance)).toContainText('3 of 3');           // a bank: the debt tests don't apply
+    await expect(portfolio.cell('INTC', COL.balance)).toContainText('3 of 4');          // cancels bought-back shares: no treasury stock, not counted
     await expect(portfolio.cell('JPM', COL.balance)).toHaveAttribute('title', 'All met');
-    await expect(portfolio.median.getByRole('cell').nth(COL.balance)).toHaveText('75% met');
+    await expect(portfolio.median.getByRole('cell').nth(COL.balance)).toHaveText('80% met');
+    await portfolio.step('open Balance-sheet terms explained', () => portfolio.balanceTerms.locator('summary').click());
+    await expect(portfolio.balanceTerms.getByRole('term')).toHaveCount(8);
+    await expect(portfolio.balanceTerms).toContainText('Total liabilities divided by shareholders\' equity, with treasury stock added back');
   });
 
   test('clicking a column sorts by it, best first, and again the other way', async ({ portfolio }) => {
@@ -138,6 +142,8 @@ test.describe('getting there and language', () => {
     await expect(portfolio.columnHeader(/^Crecimiento de ingresos/)).toBeVisible();
     await expect(portfolio.cell('INTC', COL.eps)).toHaveText(/^n\/d/);
     await expect(portfolio.median).toContainText('Mediana de 2 acciones');
+    await expect(portfolio.balanceTerms.locator('summary')).toHaveText('Términos del balance explicados');
+    await expect(portfolio.balanceTerms.getByRole('term', { includeHidden: true })).toContainText(['Balance', 'Autocartera']);
     await portfolio.switchLanguage('en');
     await expect(portfolio.columnHeader(/^Revenue growth/)).toBeVisible();
     await expect(page).toHaveURL(/portfolio\.html$/);

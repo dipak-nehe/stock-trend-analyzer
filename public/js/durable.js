@@ -1,7 +1,7 @@
 // "Durable advantage: what the statements show": standard ratios from the income statement, balance sheet and cash
 // flow that tend to separate businesses with a lasting edge from those in fiercely competitive markets.
 // Each row is { id, name, rule, status: "pass" | "fail" | "na", actual }, like the value checklists.
-import { fixed, pct } from "./format.js";
+import { fixed, money, pct } from "./format.js";
 import { t } from "./i18n.js";
 
 export function durableChecks(d, r) {
@@ -67,6 +67,11 @@ export function durableChecks(d, r) {
     !ltd ? t("dur.ltd.none") : ni > 0 ? t("dur.ltd.years", { years: fixed(ltd / ni, 1) }) : t("val.debt.loss"));
   const pref = at("preferredStock", last);
   add("preferred", pref > 0 ? "fail" : "pass", pref > 0 ? t("dur.preferred.some") : t("dur.preferred.none"), true);
+  // Treasury stock: shares bought back and held. Holding some is a fact; holding none isn't a fault, because many
+  // companies cancel the shares they buy back (no treasury stock, or 0), so then the test doesn't apply.
+  const held = Math.abs(at("treasuryStock", last) ?? 0);
+  add("treasury", held > 0 ? "pass" : "na",
+    held > 0 ? t("dur.treasury.held", { amount: money(held, d.currency) }) : t("dur.treasury.none"), true);
 
   // ---- cash flow ----
   const capex = overall("capex", "netIncome");

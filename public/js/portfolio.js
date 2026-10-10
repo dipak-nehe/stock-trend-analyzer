@@ -30,7 +30,7 @@ export const COLUMNS = [
 ];
 
 // The Durable advantage tab's balance-sheet tests (durable.js groups its rows by statement)
-const BALANCE_SHEET = new Set(["retained", "debtToEquity", "longTermDebt", "preferred"]);
+const BALANCE_SHEET = new Set(["retained", "debtToEquity", "longTermDebt", "preferred", "treasury"]);
 
 /**
  * A checklist's score: { v: share met, met, judged, notMet: ids } over the rows that could be judged (pass or fail;

@@ -75,9 +75,9 @@ test("cell colours: growth and returns by their yardsticks, and fewer shares is 
   assert.equal(tone(col("eps"), null), "");
 });
 
-test("the balance-sheet column counts the Durable advantage tab's four balance-sheet tests", () => {
+test("the balance-sheet column counts the Durable advantage tab's five balance-sheet tests", () => {
   const d = company(), cell = portfolioRow(d).cells.balance;
-  const ids = ["retained", "debtToEquity", "longTermDebt", "preferred"];
+  const ids = ["retained", "debtToEquity", "longTermDebt", "preferred", "treasury"];
   const rows = durableChecks(d, analyze(d)).filter((c) => ids.includes(c.id) && (c.status === "pass" || c.status === "fail"));
   assert.equal(cell.judged, rows.length);
   assert.equal(cell.met, rows.filter((c) => c.status === "pass").length);

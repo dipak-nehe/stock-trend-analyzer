@@ -18,9 +18,9 @@ const strong = (over = {}, extra = {}) => company({
   preferredStock: flat(0), capex: flat(60e6), dilutedShares: YEARS.map((_, i) => 100e6 - i * 1e6), ...over,
 }, extra);
 
-test("a business with every sign of a lasting edge passes all 13 tests", () => {
+test("a business with every sign of a lasting edge passes all 14 tests", () => {
   const rows = checks(strong());
-  assert.equal(rows.length, 13);
+  assert.equal(rows.length, 14);
   assert.deepEqual(rows.filter((c) => c.status !== "pass").map((c) => c.name), []);
   assert.match(row(strong(), "Lean overheads").actual, /25\.0% of gross profit over 10 years \(excellent\)/);
   assert.match(row(strong(), "Low debt to equity").actual, /0\.50 times equity, including shares bought back/);  // 500 / (800 + 200)
@@ -59,9 +59,20 @@ test("missing figures are not reported rather than failed, and no R&D counts as 
   assert.equal(status(strong({ longTermDebt: nulls() }), "Long-term debt easily repaid"), "pass");
 });
 
-test("banks are only judged on earnings, retained earnings, preferred stock and buybacks", () => {
+test("banks are only judged on earnings, retained earnings, preferred stock, treasury stock and buybacks", () => {
   const bank = strong({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: flat(100e9),
                         totalLiabilities: flat(90e9), equity: flat(10e9) });
   const judged = checks(bank).filter((c) => c.status !== "na").map((c) => c.name);
-  assert.deepEqual(judged, ["Earnings rising steadily", "Retained earnings building up", "No preferred stock", "Shares being bought back"]);
+  assert.deepEqual(judged, ["Earnings rising steadily", "Retained earnings building up", "No preferred stock", "Treasury stock held", "Shares being bought back"]);
+});
+
+test("treasury stock held passes; none held or reported doesn't apply, because many companies cancel bought-back shares", () => {
+  assert.equal(status(strong(), "Treasury stock held"), "pass");
+  assert.equal(row(strong(), "Treasury stock held").actual, "$200.0M of its own shares held");
+  assert.equal(status(strong({ treasuryStock: flat(-200e6) }), "Treasury stock held"), "pass");   // a negative sign in the filing
+  for (const none of [flat(0), nulls()]) {
+    const r = row(strong({ treasuryStock: none }), "Treasury stock held");
+    assert.equal(r.status, "na");
+    assert.match(r.actual, /may cancel the shares it buys back/);
+  }
 });

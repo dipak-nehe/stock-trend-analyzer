@@ -28,6 +28,11 @@ export class BasePage {
     return this.page.getByRole('link', { name: 'S&P 500', exact: true });
   }
 
+  /** "Balance-sheet terms explained" (the Durable advantage tab, My portfolio and the S&P 500 picks). */
+  get balanceTerms(): Locator {
+    return this.page.getByTestId('balance-terms').filter({ visible: true });
+  }
+
   languageButton(lang: 'en' | 'es'): Locator {
     return this.page.getByRole('group', { name: 'Language / Idioma' }).getByRole('button', { name: lang.toUpperCase(), exact: true });
   }

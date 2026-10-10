@@ -12,6 +12,7 @@ import { getLang, getLocale, setLang, t } from "./i18n.js";
 import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, portfolioHref, targetOf, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { durableChecks } from "./durable.js";
+import { termsHtml } from "./terms.js";
 import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
 import { bindSuggest } from "./suggest.js";
@@ -51,6 +52,7 @@ function render(d) {
   $("ttm").innerHTML = ttmView(d);
   const durable = durableChecks(d, r);
   $("durableChecks").innerHTML = checklist(durable); $("durableScore").innerHTML = checklistScore(durable);
+  $("durTermsList").innerHTML = termsHtml();
   renderIndustry();
   if (!industryData) loadIndustry().then(renderIndustry);
   $("score").innerHTML = flagCounts(r.flags);

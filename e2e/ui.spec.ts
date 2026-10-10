@@ -347,7 +347,7 @@ test.describe('tabs', () => {
       },
       durable: async () => {
         await expect(analysis.durableScore).toContainText('Meets');
-        await expect(analysis.panel('durable').getByTestId('check')).toHaveCount(13);
+        await expect(analysis.panel('durable').getByTestId('check')).toHaveCount(14);
       },
       insiders: async () => {
         await expect(analysis.insiderSells).toContainText('6'); // SMCI: six open-market sales, no buys
@@ -690,11 +690,17 @@ test.describe('Graham & Buffett and the share price', () => {
   test('the Durable advantage tab scores the statements, with the figures behind each test', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.step('open the Durable advantage tab', () => analysis.openTab('durable'));
-    await expect(analysis.durableScore).toContainText('Meets 11 of 13');
+    await expect(analysis.durableScore).toContainText('Meets 12 of 14');
     const panel = analysis.panel('durable');
-    await expect(panel.getByTestId('check')).toHaveCount(13);
+    await expect(panel.getByTestId('check')).toHaveCount(14);
     await expect(panel.getByTestId('check').filter({ hasText: 'Lean overheads' })).toContainText('52.7% of gross profit over 10 years');
     await expect(panel.getByTestId('check').filter({ hasText: 'Low debt to equity' })).toContainText('0.80 times equity, including shares bought back');
+    await expect(panel.getByTestId('check').filter({ hasText: 'Treasury stock held' })).toContainText('$56.4B of its own shares held');
+    // The balance-sheet terms, explained under the checks
+    await analysis.step('open Balance-sheet terms explained', () => analysis.balanceTerms.locator('summary').click());
+    await expect(analysis.balanceTerms.getByRole('term')).toHaveText(['Balance sheet', "Shareholders' equity (book value)", 'Total liabilities',
+      'Debt to equity (in these checks)', 'Long-term debt', 'Retained earnings', 'Treasury stock', 'Preferred stock']);
+    await expect(analysis.balanceTerms).toContainText('Companies that cancel the shares they buy back hold none');
     await expect(analysis.panelNavButtons('durable')).toHaveText(['← Graham & Buffett', 'Next: Charts →']);
   });
 

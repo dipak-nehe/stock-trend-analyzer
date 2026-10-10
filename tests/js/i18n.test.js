@@ -96,3 +96,16 @@ test("every results tab has a name in both languages, for the previous / next bu
   }
 });
 
+test("every balance-sheet term has a name and a meaning in English and Spanish", async () => {
+  const { BALANCE_TERMS, termsHtml } = await import("../../public/js/terms.js");
+  const EN = (await import("../../public/js/strings/en.js")).default;
+  for (const id of BALANCE_TERMS) {
+    for (const part of ["term", "def"]) {
+      assert.ok(EN[`bs.${id}.${part}`], `English bs.${id}.${part}`);
+      assert.ok(ES[`bs.${id}.${part}`], `Spanish bs.${id}.${part}`);
+    }
+  }
+  setLang("en");
+  assert.equal((termsHtml().match(/<dt>/g) || []).length, BALANCE_TERMS.length);
+  assert.match(termsHtml(), /<dt>Treasury stock<\/dt><dd>The company's own shares/);
+});

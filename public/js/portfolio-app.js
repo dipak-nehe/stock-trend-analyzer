@@ -14,6 +14,7 @@ import { bindSuggest } from "./suggest.js";
 import { MAX_ROWS, parseTickers } from "./portfolio.js";
 import { addToSaved, langQuery, loader, nextSort, same, savedTickers, saveTickers, tableHtml } from "./stock-table.js";
 import { setLang, t, tn } from "./i18n.js";
+import { termsHtml } from "./terms.js";
 
 /** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
@@ -84,6 +85,7 @@ function render() {
   $("pfEmpty").hidden = has || shared;
   $("pfResult").hidden = !has;
   if (has) $("pfTable").innerHTML = tableHtml(entries, sort, { removable: !shared });
+  $("pfTermsList").innerHTML = termsHtml();
 }
 
 // ---------- events ----------

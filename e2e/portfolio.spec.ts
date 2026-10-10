@@ -165,6 +165,19 @@ test.describe('getting there and language', () => {
 });
 
 test.describe('coming back and sharing', () => {
+  test('inside the Android app, Download CSV hands the file to the app instead', async ({ portfolio, page }) => {
+    // The app exposes StockValueAndroid.saveFile (it opens the phone's share sheet); stand in for it here
+    await page.addInitScript(() => {
+      (window as any).StockValueAndroid = { saveFile: (name: string, text: string) => { (window as any).__saved = { name, text }; } };
+    });
+    await portfolio.goto('add=KO');
+    await expect(portfolio.row('KO')).toContainText('COCA COLA CO');
+    await portfolio.step('press Download CSV', () => portfolio.csvButton.click());
+    const saved = await page.evaluate(() => (window as any).__saved);
+    expect(saved.name).toBe('my-portfolio.csv');
+    expect(saved.text).toMatch(/^\uFEFFCompany,Ticker,/);
+  });
+
   test('Download CSV saves the table: percentages as numbers, scores as counts', async ({ portfolio }) => {
     await portfolio.goto('add=KO,INTC');
     await expect(portfolio.median).toBeVisible();

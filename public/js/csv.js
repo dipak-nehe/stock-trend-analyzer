@@ -51,9 +51,24 @@ export function tableRows(entries) {
   return rows;
 }
 
-/** Offer a CSV file to save (browser only). The byte-order mark lets Excel read accented labels correctly.
- * @param {string} filename @param {(string|number|null|undefined)[][]} rows */
+/**
+ * Inside the Stock Value apps a web view can't save a file itself, so the app offers to: Android exposes
+ * StockValueAndroid.saveFile(name, text), iOS a "saveFile" message handler. Both open the phone's share sheet.
+ * Returns the app's saver, or null in a browser. @returns {((name: string, text: string) => void) | null}
+ */
+export function appFileSaver() {
+  const w = /** @type {any} */ (globalThis);
+  if (w.StockValueAndroid && typeof w.StockValueAndroid.saveFile === "function") return (name, text) => w.StockValueAndroid.saveFile(name, text);
+  const ios = w.webkit && w.webkit.messageHandlers && w.webkit.messageHandlers.saveFile;
+  if (ios) return (name, text) => ios.postMessage({ name, text });
+  return null;
+}
+
+/** Offer a CSV file to save: the browser's download, or the app's share sheet. The byte-order mark lets Excel read
+ * accented labels correctly. @param {string} filename @param {(string|number|null|undefined)[][]} rows */
 export function downloadCsv(filename, rows) {
+  const app = appFileSaver();
+  if (app) { app(filename, `\uFEFF${toCsv(rows)}`); return; }
   const blob = new Blob([`\uFEFF${toCsv(rows)}`], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);

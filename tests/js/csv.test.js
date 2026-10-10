@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { companyRows, tableRows, toCsv } from "../../public/js/csv.js";
+import { appFileSaver, companyRows, tableRows, toCsv } from "../../public/js/csv.js";
 import { analyze } from "../../public/js/flags.js";
 import { portfolioRow } from "../../public/js/portfolio.js";
 import { setLang } from "../../public/js/i18n.js";
@@ -44,4 +44,17 @@ test("labels follow the page's language", () => {
   } finally {
     setLang("en");
   }
+});
+
+test("inside the apps the file goes to the app (Android bridge or iOS message handler); in a browser there's no saver", () => {
+  const g = /** @type {any} */ (globalThis);
+  assert.equal(appFileSaver(), null);
+  const saved = [];
+  g.StockValueAndroid = { saveFile: (name, text) => saved.push(["android", name, text]) };
+  appFileSaver()("a.csv", "x");
+  delete g.StockValueAndroid;
+  g.webkit = { messageHandlers: { saveFile: { postMessage: (m) => saved.push(["ios", m.name, m.text]) } } };
+  appFileSaver()("b.csv", "y");
+  delete g.webkit;
+  assert.deepEqual(saved, [["android", "a.csv", "x"], ["ios", "b.csv", "y"]]);
 });

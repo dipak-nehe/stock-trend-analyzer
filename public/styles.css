@@ -370,6 +370,8 @@
   footer a { color: var(--text-2); }
   /* the author credit stands out in the accent colour; the underline stays so it reads as a link, not just coloured text */
   footer a.author { color: var(--accent); font-weight: 600; text-underline-offset: 2px; }
+  /* the site's own links (How we calculate, Disclaimer, Source on GitHub) in the link colour; the SEC EDGAR credit stays muted */
+  footer [data-i18n="ui.footer.legal"] a, footer [data-i18n="ui.footer.built"] a { color: var(--accent); }
   footer a.author:hover { text-decoration-thickness: 2px; }
   @media (max-width: 600px) {
     main { padding-top: 20px; }

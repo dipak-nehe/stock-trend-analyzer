@@ -252,12 +252,13 @@ function updateUrl() {
 }
 
 // ---------- language ----------
-// The start page's Buffett quote for today, in the page language (Spanish uses «» like the rest of the Spanish text)
+// The start page's quote for today and its author, in the page language (Spanish uses «» like the rest of the Spanish text)
 function labelSuggestions() { $("suggest").setAttribute("aria-label", t("search.suggestions")); }
 
 function showQuote() {
   const q = quoteOfTheDay();
   $("dailyQuote").textContent = getLang() === "es" ? `«${q.es}»` : `“${q.en}”`;
+  $("quoteAuthor").textContent = q.author;
 }
 
 function switchLang(lang) {

@@ -94,25 +94,26 @@ test.describe('search', () => {
 });
 
 test.describe('start-page quote of the day', () => {
-  // Pin the browser's clock: the quote depends on the day of the month (js/quotes.js)
-  test('a Buffett quote shows on the start page, chosen by the day of the month', async ({ analysis, page }) => {
-    await page.clock.setFixedTime(new Date('2026-10-07T12:00:00'));
+  // Pin the browser's clock: the quote depends on the day of the year (js/quotes.js)
+  test('a quote and its author show on the start page, chosen by the day', async ({ analysis, page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-19T12:00:00'));
     await analysis.goto('/');
     await expect(analysis.quotes).toBeVisible();
     await expect(analysis.quotes).toContainText('Quote of the day');
     await expect(analysis.dailyQuote).toHaveText('“It’s far better to buy a wonderful company at a fair price than a fair company at a wonderful price.”');
-    await expect(analysis.quotes.locator('figcaption')).toHaveText('Warren Buffett');
+    await expect(analysis.quoteAuthor).toHaveText('Warren Buffett');
     await expect(analysis.quotes.getByRole('link')).toHaveCount(0); // just the quote and its author
   });
 
-  test('another day brings another quote', async ({ analysis, page }) => {
-    await page.clock.setFixedTime(new Date('2026-10-14T12:00:00'));
+  test('another day brings another quote, from another investor', async ({ analysis, page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-11T12:00:00'));
     await analysis.goto('/');
-    await expect(analysis.dailyQuote).toHaveText('“We try to price, rather than time, purchases.”');
+    await expect(analysis.dailyQuote).toHaveText('“When somebody says, ‘Any idiot could run this joint,’ that’s a plus as far as I’m concerned, because sooner or later any idiot probably is going to be running it.”');
+    await expect(analysis.quoteAuthor).toHaveText('Peter Lynch');   // just the name: no book or source
   });
 
   test('the quote is translated into Spanish, and follows a language switch', async ({ analysis, page }) => {
-    await page.clock.setFixedTime(new Date('2026-10-07T12:00:00'));
+    await page.clock.setFixedTime(new Date('2026-10-19T12:00:00'));
     await analysis.goto('/?lang=es');
     await expect(analysis.quotes).toContainText('Cita del día');
     await expect(analysis.dailyQuote).toHaveText('«Es mucho mejor comprar una empresa maravillosa a un precio justo que una empresa corriente a un precio maravilloso.»');

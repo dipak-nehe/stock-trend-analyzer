@@ -12,6 +12,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - The business-rule unit tests (financial figures, filing history, API responses, insider trades; 80 tests) are now behave (Gherkin) scenarios in `tests/features/`, replacing `tests/test_stock_data.py` and `tests/test_insiders.py`. Same cases, same coverage; they appear in Allure as "1 · Unit" by feature.
 
 ### Added
+- Quote of the day: 16 quotes from Peter Lynch, Charlie Munger, John Bogle and JL Collins join the 31 Buffett quotes, each word for word from a recorded source (kept in the code; only the author is shown). One a day, going through all 47 in turn by day of the year.
 - Company pages (`/stock/KO`): the analysis with the company's own title, description, canonical address and share preview, filled in on the server from the company's name alone (`backend/pages.py`, `api/page.py`); `sitemap.xml` with every S&P 500 company page (rebuilt with the monthly list) and `robots.txt`. `?t=KO` links keep working.
 - How we calculate (`methodology.html`, footer link on every page): data sources, growth and trend rules, all 44 red-flag rules with severities, every checklist test and portfolio column, the thresholds that are our own choices, and a link to report wrong numbers. Generated from the same strings as the results pages; English and Spanish.
 - Download CSV on the Data tab (every figure as filed, with units), My portfolio and the S&P 500 picks (the table, percentages as numbers). Inside the mobile apps the file is handed to the app's share sheet.

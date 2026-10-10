@@ -1,5 +1,9 @@
-// Warren Buffett quotes for the start page, one per day of the month (day 1 shows the first). Each English quote
-// was checked word for word against Berkshire Hathaway's shareholder letter of that year (berkshirehathaway.com/letters).
+// Quotes for the start page: one a day, in English and Spanish. Only the author is shown; each quote's source is kept
+// here so its wording can be checked. Every English quote is word for word from its source:
+// - Warren Buffett: Berkshire Hathaway's shareholder letter of that year (berkshirehathaway.com/letters);
+// - Peter Lynch, Charlie Munger and John Bogle: the books, speeches and interviews listed with each one (as cited on
+//   Wikiquote's sourced lists);
+// - JL Collins: his own blog post "Stocks — Part I" (jlcollinsnh.com, 2012), from the stock series behind his book.
 export const BUFFETT_QUOTES = [
   { year: 1979, en: "The primary test of managerial economic performance is the achievement of a high earnings rate on equity capital employed (without undue leverage, accounting gimmickry, etc.) and not the achievement of consistent gains in earnings per share.",
     es: "La prueba principal del desempeño económico de una dirección es lograr una alta rentabilidad sobre el capital propio empleado (sin un apalancamiento excesivo, trucos contables, etc.), y no lograr aumentos constantes del beneficio por acción." },
@@ -65,7 +69,73 @@ export const BUFFETT_QUOTES = [
     es: "Quédate con las decisiones grandes y ‘fáciles’ y evita la actividad." },
 ];
 
-/** Today's quote: the same for everyone all day, a different one each day of the month. @param {Date} [date] */
+// Peter Lynch, Charlie Munger, John Bogle and JL Collins
+export const OTHER_QUOTES = [
+  { author: "Peter Lynch", source: "One Up on Wall Street (1989)",
+    en: "When somebody says, ‘Any idiot could run this joint,’ that’s a plus as far as I’m concerned, because sooner or later any idiot probably is going to be running it.",
+    es: "Cuando alguien dice “cualquier idiota podría dirigir este negocio”, para mí es un punto a favor, porque tarde o temprano probablemente lo dirigirá algún idiota." },
+  { author: "Charlie Munger", source: "Speech at USC Business School, 1994 (A Lesson on Elementary, Worldly Wisdom)",
+    en: "Obviously, you have to know accounting. It’s the language of practical business life.",
+    es: "Evidentemente, hay que saber contabilidad. Es el lenguaje de la vida práctica de los negocios." },
+  { author: "John Bogle", source: "Princeton senior thesis, 1951",
+    en: "The principal role of the mutual fund is to serve its investors.",
+    es: "La función principal de un fondo de inversión es servir a sus inversores." },
+  { author: "JL Collins", source: "Stocks — Part I, jlcollinsnh.com (2012)",
+    en: "Market crashes are to be expected.",
+    es: "Las caídas del mercado son de esperar." },
+  { author: "Peter Lynch", source: "Interview with Charlie Rose, March 4, 1993",
+    en: "If you don’t understand a company, if you can’t explain it to a ten-year-old in 2 minutes or less, don’t own it.",
+    es: "Si no entiendes una empresa, si no puedes explicársela a un niño de diez años en 2 minutos o menos, no la tengas." },
+  { author: "Charlie Munger", source: "Quoted in The Sydney Morning Herald, May 18, 2018",
+    en: "Show me the incentive and I will show you the outcome.",
+    es: "Enséñame el incentivo y te enseñaré el resultado." },
+  { author: "John Bogle", source: "Speech to the Financial Analysts of Philadelphia, February 15, 2001",
+    en: "Yes, the investor is often his own worst enemy.",
+    es: "Sí, el inversor es a menudo su peor enemigo." },
+  { author: "JL Collins", source: "Stocks — Part I, jlcollinsnh.com (2012)",
+    en: "Everybody makes money when the market is rising. But what determines whether it will make you wealthy or leave you bleeding on the side of the road, is what you do during the times it is collapsing.",
+    es: "Todo el mundo gana dinero cuando el mercado sube. Pero lo que determina si te hará rico o te dejará tirado en la cuneta es lo que haces cuando se está desplomando." },
+  { author: "Peter Lynch", source: "Interview with Charlie Rose, October 28, 1997",
+    en: "Corporate profits will be a lot higher 10 years from now. They’ll be a lot higher 20 years from now. That’s what you can rely on.",
+    es: "Los beneficios empresariales serán mucho más altos dentro de 10 años. Serán mucho más altos dentro de 20 años. Con eso puedes contar." },
+  { author: "Charlie Munger", source: "A Conversation with Charles T. Munger, Caltech, December 17, 2020",
+    en: "What I would say is the single most important thing, if you want to avoid all the stupid errors, is knowing where you’re competent and where you aren’t.",
+    es: "Diría que lo más importante, si quieres evitar todos los errores tontos, es saber en qué eres competente y en qué no." },
+  { author: "John Bogle", source: "Speech at Trinity University, April 16, 2001",
+    en: "The courage to press on regardless—regardless of whether we face calm seas or rough seas, and especially when the market storms howl around us—is the quintessential attribute of the successful investor.",
+    es: "El valor de seguir adelante pase lo que pase —tanto si el mar está en calma como si está agitado, y sobre todo cuando arrecian las tormentas del mercado— es la cualidad esencial del inversor de éxito." },
+  { author: "JL Collins", source: "Stocks — Part I, jlcollinsnh.com (2012)",
+    en: "Recognize the counterproductive psychology that causes bad investment decisions and correct it in yourself.",
+    es: "Reconoce la psicología contraproducente que lleva a malas decisiones de inversión y corrígela en ti mismo." },
+  { author: "Charlie Munger", source: "Berkshire Hathaway annual meeting, 1999 (afternoon session)",
+    en: "The hard part of the process for most people is the first $100,000.",
+    es: "Lo difícil del proceso, para la mayoría de la gente, son los primeros 100.000 dólares." },
+  { author: "John Bogle", source: "Gilbert Lecture, Princeton University, February 21, 2013",
+    en: "The zero-sum game before costs becomes a loser’s game after costs.",
+    es: "El juego de suma cero antes de costes se convierte en un juego de perdedores después de costes." },
+  { author: "Charlie Munger", source: "Poor Charlie’s Almanack (2005), p. 100",
+    en: "The idea that it is hard to find good investments, so concentrate in a few, seems to me to be an obvious idea.",
+    es: "La idea de que es difícil encontrar buenas inversiones, así que hay que concentrarse en unas pocas, me parece una idea obvia." },
+  { author: "John Bogle", source: "Bogleheads conference, 2018",
+    en: "For God’s sake, don’t stop a program of regular investing because the market goes down.",
+    es: "Por el amor de Dios, no dejes de invertir con regularidad porque baje el mercado." },
+];
+
+/**
+ * All the quotes in the order they're shown: the others spread evenly among Buffett's (each list keeps its own
+ * order), so the other authors come round every few days.
+ * @type {{ author: string, source: string, en: string, es: string }[]}
+ */
+export const QUOTES = [
+  ...BUFFETT_QUOTES.map((q, i) => ({ key: (i + 0.5) / BUFFETT_QUOTES.length, q: { author: "Warren Buffett", source: `Berkshire Hathaway shareholder letter, ${q.year}`, en: q.en, es: q.es } })),
+  ...OTHER_QUOTES.map((q, i) => ({ key: (i + 0.5) / OTHER_QUOTES.length, q })),
+].sort((a, b) => a.key - b.key).map((x) => x.q);
+
+/** Day of the year, 0 for January 1 (local date, so it changes at the visitor's midnight). @param {Date} date */
+const dayOfYear = (date) => Math.round((Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) - Date.UTC(date.getFullYear(), 0, 1)) / 864e5);
+
+/** Today's quote: the same for everyone all day, the next one each day, going through every quote in turn.
+ * @param {Date} [date] */
 export function quoteOfTheDay(date = new Date()) {
-  return BUFFETT_QUOTES[(date.getDate() - 1) % BUFFETT_QUOTES.length];
+  return QUOTES[dayOfYear(date) % QUOTES.length];
 }

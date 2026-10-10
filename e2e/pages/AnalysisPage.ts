@@ -396,7 +396,11 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('quotes');
   }
 
-  /** The day's Buffett quote inside the quotes section. */
+  /** The day's quote inside the quotes section, and its author. */
+  get quoteAuthor(): Locator {
+    return this.page.getByTestId('quote-author');
+  }
+
   get dailyQuote(): Locator {
     return this.page.getByTestId('daily-quote');
   }

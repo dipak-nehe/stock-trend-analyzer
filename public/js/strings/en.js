@@ -724,4 +724,8 @@ export default {
   "spv.already": "Already there: {list}.",
   "spv.full": "My portfolio is full ({max}); not added: {list}.",
   "spv.open": "Open My portfolio →",
+  "pf.sharedTitle.one": "A shared list of {n} stock",
+  "pf.sharedTitle.other": "A shared list of {n} stocks",
+  "pf.copied": "Link copied: {url}",
+  "pf.copyThis": "Copy this link to share: {url}",
 };

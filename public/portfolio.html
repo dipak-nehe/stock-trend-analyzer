@@ -50,7 +50,17 @@
   <h2 class="page-title" data-i18n="ui.pf.title">My portfolio</h2>
   <p class="sub" data-i18n="ui.pf.sub">Your stocks side by side: ten measures of the last 10 years from their SEC filings in %, plus how many balance-sheet checks each one passes. Add a company, click a column to sort, and click a name for its full analysis.</p>
 
-  <section class="search card">
+  <section class="card pf-shared" id="pfShared" data-testid="pf-shared" aria-labelledby="pfSharedTitle" hidden>
+    <h3 id="pfSharedTitle" class="pf-shared-title"></h3>
+    <p class="note" data-i18n="ui.pf.shared.note">This is a list someone shared with you. It doesn't change your own portfolio unless you add it.</p>
+    <div class="spv-actions">
+      <button type="button" class="sp-show" id="pfSharedAdd" data-testid="pf-shared-add" data-i18n="ui.pf.shared.add">Add these to My portfolio</button>
+      <a class="back-link" href="portfolio.html" data-portfolio-link data-i18n="ui.pf.shared.mine">Go to My portfolio →</a>
+    </div>
+    <p class="cmp-status" id="pfSharedStatus" role="status" data-testid="pf-shared-status"></p>
+  </section>
+
+  <section class="search card" id="pfSearch">
     <div class="search-label"><label for="pfTicker" id="pfLabel" data-i18n="ui.pf.add.label">Add a company by name or ticker</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
     <form id="pfForm" role="search" aria-labelledby="pfLabel">
       <div class="search-field">
@@ -70,14 +80,17 @@
     <p class="cmp-status" id="pfStatus" role="status" data-testid="pf-status"></p>
   </section>
 
-  <div class="card cmp-empty" id="pfEmpty" data-testid="pf-empty" data-i18n="ui.pf.empty">No stocks yet. Add one above: your list is saved in this browser, and the page's address keeps it too, so you can bookmark or share it.</div>
+  <div class="card cmp-empty" id="pfEmpty" data-testid="pf-empty" data-i18n="ui.pf.empty">No stocks yet. Add one above: your list is saved in this browser, and Copy link to share gives you a link to it.</div>
 
   <section id="pfResult" data-testid="portfolio" hidden>
     <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="pfTableTitle">
       <h3 class="sr-only" id="pfTableTitle" data-i18n="ui.pf.tableTitle">Your stocks, 10-year measures</h3>
       <table class="pf-table" id="pfTable" data-testid="pf-table"></table>
     </div>
-    <button type="button" class="chip" id="pfClear" data-testid="pf-clear" data-i18n="ui.pf.clear">Remove all</button>
+    <div class="pf-tools" id="pfTools">
+      <button type="button" class="chip" id="pfShare" data-testid="pf-share" data-i18n="ui.pf.share">Copy link to share</button>
+      <button type="button" class="chip" id="pfClear" data-testid="pf-clear" data-i18n="ui.pf.clear">Remove all</button>
+    </div>
     <p class="section-note" id="pfLegend" data-testid="pf-legend" data-i18n="ui.pf.legend"><span class="pf-swatch good" aria-hidden="true"></span> Green and <span class="pf-swatch bad" aria-hidden="true"></span> red use simple yardsticks: growth of 7% a year (5% for dividends and book value) or more is green, shrinking is red; margins and returns at 10-15% or more are green; for shares, buybacks are green and dilution of over 2% a year is red; for balance-sheet checks, three quarters or more passed is green and under half is red. They're a reading aid, not a verdict.</p>
     <p class="note" data-i18n="ui.pf.note">Growth columns are the average change per year from the first to the latest fiscal year (CAGR); margins and returns are totals over the period. Balance-sheet checks are the four on the Durable advantage tab (retained earnings, debt to equity, long-term debt, preferred stock), counting those that could be judged (hover over a count to see what wasn't met). "n/a" means the figure can't be measured (hover over it to see why), for example growth from a loss year. Each company's years are shown under its name.</p>
   </section>

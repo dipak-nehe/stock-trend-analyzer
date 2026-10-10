@@ -74,7 +74,7 @@ test.describe('showing the picks', () => {
   });
 
   test('Save to My portfolio adds them to the saved list, without duplicates', async ({ portfolio, sp500View }) => {
-    await portfolio.goto('t=KO');
+    await portfolio.goto('add=KO');
     await expect(portfolio.row('KO')).toContainText('COCA COLA CO');
     await sp500View.gotoView('t=KO,AAPL');
     await expect(sp500View.median).toBeVisible();

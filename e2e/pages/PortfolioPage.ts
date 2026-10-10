@@ -83,6 +83,33 @@ export class PortfolioPage extends BasePage {
     return this.page.getByTestId('pf-legend');
   }
 
+  /** The list saved in this browser (what My portfolio shows), as stored. */
+  async savedList(): Promise<string | null> {
+    return this.page.evaluate(() => localStorage.getItem('portfolio'));
+  }
+
+  // ---------- sharing ----------
+  get shareButton(): Locator {
+    return this.page.getByRole('button', { name: either('Copy link to share', 'Copiar enlace para compartir') });
+  }
+
+  /** The banner shown for a list opened from someone's share link. */
+  get sharedBanner(): Locator {
+    return this.page.getByTestId('pf-shared');
+  }
+
+  get addShared(): Locator {
+    return this.page.getByRole('button', { name: either('Add these to My portfolio', 'Añadir estas a Mi cartera') });
+  }
+
+  get goToMine(): Locator {
+    return this.sharedBanner.getByRole('link', { name: either('Go to My portfolio →', 'Ir a Mi cartera →') });
+  }
+
+  get sharedStatus(): Locator {
+    return this.page.getByTestId('pf-shared-status');
+  }
+
   /** Company links in the first column, each opening its full analysis. */
   companyLink(ticker: string): Locator {
     return this.row(ticker).getByRole('link');

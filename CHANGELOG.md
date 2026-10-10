@@ -4,6 +4,9 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Fixed
+- My portfolio showed an out-of-date list after coming Back from saving S&P 500 picks (it trusted its old address, `?t=KO`, over the saved list) and then saved that over the new picks. It now always shows the list saved in the browser, re-reads it on Back and when another tab saves, and keeps the list out of its address. Opening a shared link no longer replaces your own list: it's shown read-only with *Add these to My portfolio*; *Copy link to share* makes such a link.
+
 ### Changed
 - The business-rule unit tests (financial figures, filing history, API responses, insider trades; 80 tests) are now behave (Gherkin) scenarios in `tests/features/`, replacing `tests/test_stock_data.py` and `tests/test_insiders.py`. Same cases, same coverage; they appear in Allure as "1 · Unit" by feature.
 

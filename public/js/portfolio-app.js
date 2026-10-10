@@ -1,24 +1,49 @@
-// "My portfolio" page wiring: add and remove stocks, load each one's financials, sort, and keep the list in the
-// browser (localStorage) and in the address (?t=KO,AAPL), so it survives a reload and can be bookmarked or shared.
-// The measures themselves come from portfolio.js.
+// "My portfolio" page wiring: add and remove stocks, load each one's financials, sort, and keep the list in this browser
+// (localStorage). The measures themselves come from portfolio.js; the table and loader from stock-table.js.
+//
+// Two modes:
+// - mine: the list saved in this browser. It's re-read whenever it may have changed elsewhere (another tab saving to
+//   it, or coming Back to this page), and the address never carries it, so an old address can't bring back an
+//   out-of-date list and save it over the real one. "Copy link to share" gives a link with the list (?t=KO,AAPL).
+// - shared: opened from such a link. The shared list is shown read-only and never replaces the visitor's own;
+//   "Add these to My portfolio" merges it in. (A link whose list is the visitor's own opens as mine.)
+// ?add=KO (the "+ Add to my portfolio" link on a result) adds companies to the saved list and opens as mine.
 import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, enableWhenFilled, initialLang, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { bindSuggest } from "./suggest.js";
 import { MAX_ROWS, parseTickers } from "./portfolio.js";
-import { langQuery, loader, nextSort, same, savedTickers, saveTickers, tableHtml } from "./stock-table.js";
-import { setLang, t } from "./i18n.js";
+import { addToSaved, langQuery, loader, nextSort, same, savedTickers, saveTickers, tableHtml } from "./stock-table.js";
+import { setLang, t, tn } from "./i18n.js";
 
 /** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
 /** @type {import("./stock-table.js").Sort} */
 let sort = { key: "", dir: 1 };
+/** @type {"mine" | "shared"} */
+let mode = "mine";
 
-// ---------- saving the list ----------
+const tickersOf = (/** @type {import("./stock-table.js").Entry[]} */ list) => list.filter((e) => e.status !== "error").map((e) => e.ticker);
+
+// ---------- saving the list (mine only) ----------
 function save() {
-  const tickers = entries.filter((e) => e.status !== "error").map((e) => e.ticker);
-  saveTickers(tickers);
-  const q = new URLSearchParams({ ...(tickers.length ? { t: tickers.join(",") } : {}), ...langQuery() });
+  if (mode !== "mine") return;
+  saveTickers(tickersOf(entries));
+  cleanUrl();
+}
+
+/** The address without the list (only the language), so reloading or coming back always shows the saved list. */
+function cleanUrl() {
+  const q = new URLSearchParams(langQuery());
   history.replaceState(null, "", `${location.pathname}${q.toString() ? `?${q}` : ""}`);
+}
+
+/** Bring the table in line with the saved list: keep loaded rows, start new ones, drop removed ones. */
+function syncFromStorage() {
+  if (mode !== "mine") return;
+  const saved = savedTickers();
+  entries = saved.map((ticker) => entries.find((e) => same(e.ticker, ticker)) || { ticker, status: /** @type {const} */ ("loading") });
+  render();
+  pump();
 }
 
 function status(text, isError = false) {
@@ -49,12 +74,16 @@ function remove(/** @type {string} */ ticker) {
   render();
 }
 
-// ---------- the table ----------
+// ---------- the page ----------
 function render() {
-  const has = entries.length > 0;
-  $("pfEmpty").hidden = has;
+  const shared = mode === "shared", has = entries.length > 0;
+  $("pfShared").hidden = !shared;
+  $("pfSearch").hidden = shared;
+  $("pfTools").hidden = shared;
+  if (shared) $("pfSharedTitle").textContent = tn("pf.sharedTitle", entries.length);
+  $("pfEmpty").hidden = has || shared;
   $("pfResult").hidden = !has;
-  if (has) $("pfTable").innerHTML = tableHtml(entries, sort, { removable: true });
+  if (has) $("pfTable").innerHTML = tableHtml(entries, sort, { removable: !shared });
 }
 
 // ---------- events ----------
@@ -92,23 +121,48 @@ $("pfClear").addEventListener("click", () => {
   render();
   $("pfTicker").focus();
 });
+$("pfShare").addEventListener("click", () => {
+  const url = `${location.origin}${location.pathname}?${new URLSearchParams({ t: tickersOf(entries).join(",") })}`;
+  const done = (/** @type {string} */ key) => status(t(key, { url }));
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => done("pf.copied"), () => done("pf.copyThis"));
+  else done("pf.copyThis");
+});
+$("pfSharedAdd").addEventListener("click", () => {
+  const r = addToSaved(tickersOf(entries));
+  const parts = [t("spv.saved", { n: r.added.length })];
+  if (r.skipped.length) parts.push(t("spv.already", { list: r.skipped.join(", ") }));
+  if (r.full.length) parts.push(t("spv.full", { max: MAX_ROWS, list: r.full.join(", ") }));
+  $("pfSharedStatus").textContent = parts.join(" ");
+});
+// Another tab (or the S&P 500 page) saved to the list: show it
+window.addEventListener("storage", (e) => { if (e.key === "portfolio") syncFromStorage(); });
+// Back to this page from the browser's memory: the list may have changed while away
+window.addEventListener("pageshow", (e) => { if (e.persisted) syncFromStorage(); });
 $$(".lang-switch [data-lang]").forEach((btn) => btn.addEventListener("click", () => {
   if (!useLang(btn.dataset.lang)) return;
   $("pfSuggest").setAttribute("aria-label", t("search.suggestions"));
-  save();
+  if (mode === "mine") cleanUrl();
+  else history.replaceState(null, "", `${location.pathname}?${new URLSearchParams({ t: tickersOf(entries).join(","), ...langQuery() })}`);
   render();
 }));
 bindSlashShortcut("pfTicker");
 const syncAdd = enableWhenFilled("pfTicker", "pfAdd");
 
 // ---------- start ----------
-// The list comes from the address when it has one (a bookmark or a shared link), else from this browser. ?add=KO (the
-// "Add to my portfolio" link on a result) adds one company to the saved list.
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
 $("pfSuggest").setAttribute("aria-label", t("search.suggestions"));
-add(params.has("t") ? parseTickers(params.get("t")) : savedTickers(), false);
-const toAdd = parseTickers(params.get("add"));
-if (toAdd.length) add(toAdd);
-if (!entries.length) $("pfTicker").focus();
+const linked = params.has("t") ? parseTickers(params.get("t")) : null;
+const mine = savedTickers();
+const sameList = (/** @type {string[]} */ a, /** @type {string[]} */ b) => a.length === b.length && a.every((x) => b.some((y) => same(x, y)));
+if (linked && !sameList(linked, mine)) {
+  mode = "shared";
+  add(linked, false);
+} else {
+  add(mine, false);
+  const toAdd = parseTickers(params.get("add"));
+  if (toAdd.length) add(toAdd);
+  cleanUrl();
+  if (!entries.length) $("pfTicker").focus();
+}

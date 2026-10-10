@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. The sections below are the `test.describe` groups in the spec files, in the same order, and the same groups appear in the Allure report (under each spec file). They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**187 tests:** 95 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 13 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 50 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**192 tests:** 95 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 17 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 51 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one group with `npx playwright test -g "<group name>"` (e.g. `-g "insider trades"`). Run one test with `npx playwright test -g "<name>"`.
 
@@ -223,13 +223,13 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 112 | phone width has no sideways scroll |
 | 113 | Home leaves the compare page |
 
-## My portfolio (`e2e/portfolio.spec.ts`, 13)
+## My portfolio (`e2e/portfolio.spec.ts`, 17)
 
 ### Adding and removing stocks (5)
 
 | # | Test |
 |---|---|
-| 114 | a stock added by ticker gets a row, and the list is kept in the address and in the browser |
+| 114 | a stock added by ticker gets a row, and the list is kept in this browser |
 | 115 | a company name is turned into its ticker, and a chip adds one |
 | 116 | the same stock twice is not added again |
 | 117 | an unknown ticker shows its error in its row and can be removed |
@@ -253,35 +253,44 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 125 | the page reads in Spanish, and the list survives a language switch |
 | 126 | at phone width the table scrolls inside its card, not the page |
 
+### Coming back and sharing (4)
+
+| # | Test |
+|---|---|
+| 127 | coming Back after saving picks from the S&P 500 page shows them, and keeps them |
+| 128 | a save made in another tab shows up in an open My portfolio |
+| 129 | a shared link shows that list read-only and never replaces mine; Add these merges it in |
+| 130 | Copy link to share gives a link with the list; opening my own list's link shows My portfolio |
+
 ## S&P 500 picker and picks (`e2e/sp500.spec.ts`, 11)
 
 ### Picking companies (4)
 
 | # | Test |
 |---|---|
-| 127 | the list can be searched by name or ticker and filtered by sector |
-| 128 | ticked companies show in the selection bar, and Show waits for at least one |
-| 129 | no more than 10 can be picked: the others are disabled until one is removed |
-| 130 | a link with more than 10 keeps the first 10 and says so |
+| 131 | the list can be searched by name or ticker and filtered by sector |
+| 132 | ticked companies show in the selection bar, and Show waits for at least one |
+| 133 | no more than 10 can be picked: the others are disabled until one is removed |
+| 134 | a link with more than 10 keeps the first 10 and says so |
 
 ### Showing the picks (4)
 
 | # | Test |
 |---|---|
-| 131 | Show opens them side by side, read-only, and Change selection keeps the ticks |
-| 132 | Save to My portfolio adds them to the saved list, without duplicates |
-| 133 | viewing picks never changes My portfolio by itself |
-| 134 | more than 10 in the address: the first 10 are loaded, with a note |
+| 135 | Show opens them side by side, read-only, and Change selection keeps the ticks |
+| 136 | Save to My portfolio adds them to the saved list, without duplicates |
+| 137 | viewing picks never changes My portfolio by itself |
+| 138 | more than 10 in the address: the first 10 are loaded, with a note |
 
 ### Getting there, language and layout (3)
 
 | # | Test |
 |---|---|
-| 135 | S&P 500 is in the header of every page |
-| 136 | both pages read in Spanish, and the language carries over |
-| 137 | at phone width neither page scrolls sideways |
+| 139 | S&P 500 is in the header of every page |
+| 140 | both pages read in Spanish, and the language carries over |
+| 141 | at phone width neither page scrolls sideways |
 
-## Accessibility (`e2e/accessibility.spec.ts`, 50)
+## Accessibility (`e2e/accessibility.spec.ts`, 51)
 
 axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA) plus best practices; a test fails on any violation and attaches the full axe output. The keyboard tests use only the keyboard.
 
@@ -289,78 +298,79 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 
 | # | Test |
 |---|---|
-| 138 | landing page (desktop, light) |
-| 139 | landing page (desktop, dark) |
-| 140 | landing page (phone, light) |
-| 141 | landing page (phone, dark) |
-| 142 | results tab: overview (light) |
-| 143 | results tab: overview (dark) |
-| 144 | results tab: flags (light) |
-| 145 | results tab: flags (dark) |
-| 146 | results tab: history (light) |
-| 147 | results tab: history (dark) |
-| 148 | results tab: insiders (light) |
-| 149 | results tab: insiders (dark) |
-| 150 | results tab: value (light) |
-| 151 | results tab: value (dark) |
-| 152 | results tab: durable (light) |
-| 153 | results tab: durable (dark) |
-| 154 | results tab: charts (light) |
-| 155 | results tab: charts (dark) |
-| 156 | results tab: data (light) |
-| 157 | results tab: data (dark) |
-| 158 | phone-width results: overview |
-| 159 | phone-width results: data |
-| 160 | Spanish page |
-| 161 | error state |
-| 162 | search suggestions open |
-| 163 | guide before and after a search |
+| 142 | landing page (desktop, light) |
+| 143 | landing page (desktop, dark) |
+| 144 | landing page (phone, light) |
+| 145 | landing page (phone, dark) |
+| 146 | results tab: overview (light) |
+| 147 | results tab: overview (dark) |
+| 148 | results tab: flags (light) |
+| 149 | results tab: flags (dark) |
+| 150 | results tab: history (light) |
+| 151 | results tab: history (dark) |
+| 152 | results tab: insiders (light) |
+| 153 | results tab: insiders (dark) |
+| 154 | results tab: value (light) |
+| 155 | results tab: value (dark) |
+| 156 | results tab: durable (light) |
+| 157 | results tab: durable (dark) |
+| 158 | results tab: charts (light) |
+| 159 | results tab: charts (dark) |
+| 160 | results tab: data (light) |
+| 161 | results tab: data (dark) |
+| 162 | phone-width results: overview |
+| 163 | phone-width results: data |
+| 164 | Spanish page |
+| 165 | error state |
+| 166 | search suggestions open |
+| 167 | guide before and after a search |
 
 ### Keyboard only (3)
 
 | # | Test |
 |---|---|
-| 164 | search and results work with the keyboard |
-| 165 | wide tables can be scrolled with the keyboard |
-| 166 | every interactive element has a name |
+| 168 | search and results work with the keyboard |
+| 169 | wide tables can be scrolled with the keyboard |
+| 170 | every interactive element has a name |
 
 ### Axe: compare page (7)
 
 | # | Test |
 |---|---|
-| 167 | compare page: one-side (light) |
-| 168 | compare page: one-side (dark) |
-| 169 | compare page: both-priced (light) |
-| 170 | compare page: both-priced (dark) |
-| 171 | compare page: spanish (light) |
-| 172 | compare page: spanish (dark) |
-| 173 | compare page at phone width |
+| 171 | compare page: one-side (light) |
+| 172 | compare page: one-side (dark) |
+| 173 | compare page: both-priced (light) |
+| 174 | compare page: both-priced (dark) |
+| 175 | compare page: spanish (light) |
+| 176 | compare page: spanish (dark) |
+| 177 | compare page at phone width |
 
 ### Axe: disclaimer page (4)
 
 | # | Test |
 |---|---|
-| 174 | disclaimer page (en, light) |
-| 175 | disclaimer page (en, dark) |
-| 176 | disclaimer page (es, light) |
-| 177 | disclaimer page (es, dark) |
+| 178 | disclaimer page (en, light) |
+| 179 | disclaimer page (en, dark) |
+| 180 | disclaimer page (es, light) |
+| 181 | disclaimer page (es, dark) |
 
-### Axe: portfolio page (5)
+### Axe: portfolio page (6)
 
 | # | Test |
 |---|---|
-| 178 | portfolio page (en, light) |
-| 179 | portfolio page (en, dark) |
-| 180 | portfolio page (es, light) |
-| 181 | portfolio page (es, dark) |
-| 182 | portfolio page at phone width, and empty |
+| 182 | portfolio page (en, light) |
+| 183 | portfolio page (en, dark) |
+| 184 | portfolio page (es, light) |
+| 185 | portfolio page (es, dark) |
+| 186 | portfolio page showing a shared list, in both themes |
+| 187 | portfolio page at phone width, and empty |
 
 ### Axe: S&P 500 pages (5)
 
 | # | Test |
 |---|---|
-| 183 | S&P 500 picker and picks (en, light) |
-| 184 | S&P 500 picker and picks (en, dark) |
-| 185 | S&P 500 picker and picks (es, light) |
-| 186 | S&P 500 picker and picks (es, dark) |
-| 187 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |
+| 188 | S&P 500 picker and picks (en, light) |
+| 189 | S&P 500 picker and picks (en, dark) |
+| 190 | S&P 500 picker and picks (es, light) |
+| 191 | S&P 500 picker and picks (es, dark) |
+| 192 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |

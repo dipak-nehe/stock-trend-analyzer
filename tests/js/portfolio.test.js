@@ -2,13 +2,17 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { COLUMNS, MAX_ROWS, medians, parseTickers, portfolioRow, sortRows, tone } from "../../public/js/portfolio.js";
 import { YEARS, company, nulls } from "./company.js";
+import { analyze } from "../../public/js/flags.js";
+import { valueChecks } from "../../public/js/valuation.js";
+import { durableChecks } from "../../public/js/durable.js";
 
 const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-9, `${a} != ${b}`);
 const cagr = (a, b, n = 9) => Math.pow(b / a, 1 / n) - 1;
 const col = (key) => COLUMNS.find((c) => c.key === key);
 
-test("ten columns, all percentages over the company's own years", () => {
-  assert.equal(COLUMNS.length, 10);
+test("ten percentage columns and two checklist scores, over the company's own years", () => {
+  assert.equal(COLUMNS.filter((c) => c.kind !== "score").length, 10);
+  assert.deepEqual(COLUMNS.filter((c) => c.kind === "score").map((c) => c.key), ["buffett", "balance"]);
   const row = portfolioRow(company());
   assert.deepEqual(Object.keys(row.cells), COLUMNS.map((c) => c.key));
   assert.deepEqual([row.ticker, row.from, row.to], ["TEST", 2016, 2025]);
@@ -70,6 +74,41 @@ test("cell colours: growth and returns by their yardsticks, and fewer shares is 
   assert.equal(tone(col("shares"), 0.01), "");
   assert.equal(tone(col("shares"), 0.05), "bad");    // dilution
   assert.equal(tone(col("eps"), null), "");
+});
+
+test("Buffett's criteria count as on the value tab, without the margin-of-safety test (it needs a price)", () => {
+  const d = company(), cell = portfolioRow(d).cells.buffett;
+  const rows = valueChecks(d, null, analyze(d)).buffett;
+  const judged = rows.filter((c) => c.status === "pass" || c.status === "fail");
+  assert.equal(rows.find((c) => c.name === "Margin of safety").status, "price");
+  assert.equal(cell.judged, judged.length);
+  assert.equal(cell.judged, rows.length - 1);
+  assert.equal(cell.met, judged.filter((c) => c.status === "pass").length);
+  assert.deepEqual(cell.notMet, judged.filter((c) => c.status === "fail").map((c) => c.name));
+  close(cell.v, cell.met / cell.judged);
+});
+
+test("the balance-sheet column counts the Durable advantage tab's four balance-sheet tests", () => {
+  const d = company(), cell = portfolioRow(d).cells.balance;
+  const ids = ["retained", "debtToEquity", "longTermDebt", "preferred"];
+  const rows = durableChecks(d, analyze(d)).filter((c) => ids.includes(c.id) && (c.status === "pass" || c.status === "fail"));
+  assert.equal(cell.judged, rows.length);
+  assert.equal(cell.met, rows.filter((c) => c.status === "pass").length);
+  // A preferred-stock issue fails one of them and is named
+  const pref = portfolioRow(company({ preferredStock: YEARS.map(() => 50e6) })).cells.balance;
+  assert.equal(pref.met, cell.met - 1);
+  assert.ok(pref.notMet.some((n) => /preferred/i.test(n)), pref.notMet.join());
+  // For a bank, the debt tests are N/A: only the two that apply (retained earnings, preferred stock) are counted
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
+                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9),
+                         retainedEarnings: YEARS.map((_, i) => 5e9 + i * 1e8) });
+  assert.equal(portfolioRow(bank).cells.balance.judged, 2);
+});
+
+test("checklist scores are green from three quarters met and red under half", () => {
+  assert.equal(tone(col("buffett"), 0.75), "good");
+  assert.equal(tone(col("buffett"), 0.6), "");
+  assert.equal(tone(col("balance"), 0.25), "bad");
 });
 
 test("the median row skips stocks without a value", () => {

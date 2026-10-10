@@ -46,7 +46,7 @@
     </div>
   </header>
   <h2 class="page-title" data-i18n="ui.pf.title">My portfolio</h2>
-  <p class="sub" data-i18n="ui.pf.sub">Your stocks side by side: ten measures of the last 10 years from their SEC filings, all in %. Add a company, click a column to sort, and click a name for its full analysis.</p>
+  <p class="sub" data-i18n="ui.pf.sub">Your stocks side by side: ten measures of the last 10 years from their SEC filings in %, plus how many of Buffett's criteria and balance-sheet checks each one passes. Add a company, click a column to sort, and click a name for its full analysis.</p>
 
   <section class="search card">
     <div class="search-label"><label for="pfTicker" id="pfLabel" data-i18n="ui.pf.add.label">Add a company by name or ticker</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
@@ -75,8 +75,8 @@
       <h3 class="sr-only" id="pfTableTitle" data-i18n="ui.pf.tableTitle">Your stocks, 10-year measures</h3>
       <table class="pf-table" id="pfTable" data-testid="pf-table"></table>
     </div>
-    <p class="section-note" id="pfLegend" data-testid="pf-legend" data-i18n="ui.pf.legend"><span class="pf-swatch good" aria-hidden="true"></span> Green and <span class="pf-swatch bad" aria-hidden="true"></span> red use simple yardsticks: growth of 7% a year (5% for dividends and book value) or more is green, shrinking is red; margins and returns at 10-15% or more are green; for shares, buybacks are green and dilution of over 2% a year is red. They're a reading aid, not a verdict.</p>
-    <p class="note" data-i18n="ui.pf.note">Growth columns are the average change per year from the first to the latest fiscal year (CAGR); margins and returns are totals over the period. "n/a" means the figure can't be measured (hover over it to see why), for example growth from a loss year. Each company's years are shown under its name.</p>
+    <p class="section-note" id="pfLegend" data-testid="pf-legend" data-i18n="ui.pf.legend"><span class="pf-swatch good" aria-hidden="true"></span> Green and <span class="pf-swatch bad" aria-hidden="true"></span> red use simple yardsticks: growth of 7% a year (5% for dividends and book value) or more is green, shrinking is red; margins and returns at 10-15% or more are green; for shares, buybacks are green and dilution of over 2% a year is red; for the two checklist columns, three quarters or more met is green and under half is red. They're a reading aid, not a verdict.</p>
+    <p class="note" data-i18n="ui.pf.note">Growth columns are the average change per year from the first to the latest fiscal year (CAGR); margins and returns are totals over the period. The two checklist columns count the tests that could be judged, as on the Graham &amp; Buffett and Durable advantage tabs (hover over a count to see what wasn't met). "n/a" means the figure can't be measured (hover over it to see why), for example growth from a loss year. Each company's years are shown under its name.</p>
     <button type="button" class="chip" id="pfClear" data-testid="pf-clear" data-i18n="ui.pf.clear">Remove all</button>
   </section>
   <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions. <a href="disclaimer.html" data-testid="full-disclaimer-link">Full disclaimer</a></p>

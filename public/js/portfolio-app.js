@@ -69,10 +69,18 @@ function remove(/** @type {string} */ ticker) {
 }
 
 // ---------- the table ----------
-function cell(/** @type {(typeof COLUMNS)[number]} */ col, /** @type {{v: number|null, why?: string}} */ c) {
+/** @param {(typeof COLUMNS)[number]} col @param {{v: number|null, why?: string, met?: number, judged?: number, notMet?: string[]}} c */
+function cell(col, c) {
   if (c.v == null) {
     const why = t(`pf.why.${c.why || "notEnough"}`);
     return `<td class="nm" title="${esc(why)}">${t("cmp.na")}<span class="sr-only"> (${esc(why)})</span></td>`;
+  }
+  if (col.kind === "score") {
+    // "6 of 7", with the criteria not met on hover; the median row has only the share met
+    if (c.met == null) return `<td class="pf-cell ${tone(col, c.v)}">${esc(t("pf.scoreMedian", { pct: pct(c.v, 0) }))}</td>`;
+    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.join(", ") }) : t("pf.allMet");
+    return `<td class="pf-cell ${tone(col, c.v)}" title="${esc(detail)}">${esc(t("pf.score", { met: c.met, judged: c.judged }))}`
+      + `<span class="sr-only"> (${esc(detail)})</span></td>`;
   }
   const text = col.kind === "growth" && c.v > 0 ? `+${pct(c.v)}` : pct(c.v);
   return `<td class="pf-cell ${tone(col, c.v)}">${text}</td>`;

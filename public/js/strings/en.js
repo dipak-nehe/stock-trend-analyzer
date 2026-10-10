@@ -690,6 +690,7 @@ export default {
   "pf.why.negativeEnd": "Zero, negative or a loss in the latest year, so there's no growth rate",
   "pf.why.noDividend": "No dividend",
   "pf.why.startedDividend": "Started paying a dividend during the period",
+  "pf.why.stoppedDividend": "Dividend suspended or stopped by the latest year",
   "pf.why.bank": "Not meaningful for banks and insurers",
   "pf.why.negativeEquity": "Shareholders' equity was negative in some years",
   "pf.loading": "Loading {ticker}…",

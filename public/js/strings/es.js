@@ -850,6 +850,7 @@ export default {
   "pf.why.negativeEnd": "Cero, negativo o pérdidas en el último año, así que no hay tasa de crecimiento",
   "pf.why.noDividend": "Sin dividendo",
   "pf.why.startedDividend": "Empezó a pagar dividendo durante el periodo",
+  "pf.why.stoppedDividend": "Dividendo suspendido o eliminado en el último año",
   "pf.why.bank": "No aplicable a bancos y aseguradoras",
   "pf.why.negativeEquity": "El patrimonio fue negativo algunos años",
   "pf.loading": "Cargando {ticker}…",

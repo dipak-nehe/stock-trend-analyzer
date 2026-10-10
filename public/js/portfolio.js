@@ -34,7 +34,8 @@ function totalRatio(a, b) {
 }
 
 /**
- * Why a growth rate can't be given (for the cell's tooltip): too few years, a loss or zero at one end, or never paid.
+ * Why a growth rate can't be given (for the cell's tooltip): too few years, a loss or zero at one end, or a dividend
+ * never paid, started or stopped during the period.
  * @param {(number|null)[]} arr @param {boolean} [dividend]
  */
 function growthWhy(arr, dividend = false) {
@@ -42,6 +43,7 @@ function growthWhy(arr, dividend = false) {
   if (dividend && (i < 0 || arr.every((v) => v == null || v === 0))) return "noDividend";
   if (i < 0 || i === j) return "notEnough";
   if (dividend && arr[i] === 0 && arr[j] > 0) return "startedDividend";
+  if (dividend && arr[j] <= 0) return "stoppedDividend";
   if (arr[j] <= 0) return "negativeEnd";
   return "negativeStart";
 }

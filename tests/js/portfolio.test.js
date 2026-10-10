@@ -46,6 +46,8 @@ test("growth that can't be measured says why", () => {
   assert.deepEqual(portfolioRow(company({ dps: YEARS.map(() => 0) })).cells.dps, { v: null, why: "noDividend" });
   assert.deepEqual(portfolioRow(company({ dps: nulls() })).cells.dps, { v: null, why: "noDividend" });
   assert.deepEqual(portfolioRow(company({ dps: YEARS.map((_, i) => (i < 3 ? 0 : 0.5)) })).cells.dps, { v: null, why: "startedDividend" });
+  // Intel suspended its dividend in 2024: a stopped dividend, not a loss
+  assert.deepEqual(portfolioRow(company({ dps: YEARS.map((_, i) => (i > 7 ? 0 : 0.5)) })).cells.dps, { v: null, why: "stoppedDividend" });
   assert.equal(portfolioRow(company({ revenue: YEARS.map((_, i) => (i === 9 ? 5e8 : null)) })).cells.revenue.why, "notEnough");
   assert.deepEqual(portfolioRow(company({ equity: YEARS.map((_, i) => (i === 4 ? -1e6 : 1e9)) })).cells.roe, { v: null, why: "negativeEquity" });
 });

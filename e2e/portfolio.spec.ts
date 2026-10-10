@@ -78,6 +78,7 @@ test.describe('the ten measures', () => {
     await expect(portfolio.cell('INTC', COL.eps)).toHaveAttribute('title', 'Zero, negative or a loss in the latest year, so there\'s no growth rate');
     await expect(portfolio.cell('JPM', COL.fcf)).toHaveAttribute('title', 'Not meaningful for banks and insurers');
     await expect(portfolio.cell('SMCI', COL.dps)).toHaveAttribute('title', 'No dividend');
+    await expect(portfolio.cell('INTC', COL.dps)).toHaveAttribute('title', 'Dividend suspended or stopped by the latest year');
   });
 
   test('cells are coloured by simple yardsticks, explained under the table', async ({ portfolio }) => {

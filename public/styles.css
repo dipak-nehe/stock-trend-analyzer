@@ -456,7 +456,7 @@
 .pf-remove { display: inline-grid; place-items: center; padding: 0; min-width: 0; background: none; border: 1px solid var(--border); border-radius: 999px; width: 28px; height: 28px; font-size: 13px; line-height: 1; cursor: pointer; color: var(--text-2); }
 .pf-remove:hover { color: var(--critical); border-color: var(--critical); }
 .pf-remove:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-#pfClear { margin-top: 4px; }
+#pfClear { margin: 10px 0 12px; }
 #pfResult { margin-top: 16px; }
 .pf-table th[scope="row"] a { color: var(--accent); }
 /* the company column stays in view while the measures scroll sideways (phones) */

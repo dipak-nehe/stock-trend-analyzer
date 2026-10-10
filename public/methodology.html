@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How we calculate · 10-Year Stock Value Analysis</title>
+<meta name="description" content="Where the figures come from and every rule behind the red flags, the Graham, Buffett, Lynch, Piotroski and Durable advantage checklists, and the portfolio measures.">
+<meta name="theme-color" content="#2a78d6">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://stock-value-analysis.vercel.app/methodology.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How we calculate · 10-Year Stock Value Analysis">
+<meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
+<meta property="og:url" content="https://stock-value-analysis.vercel.app/methodology.html">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+  // Vercel Web Analytics (cookieless page-view counts) and Speed Insights (real-visitor page-speed scores).
+  // The scripts are served by Vercel, so load them only on the deployed site (never on localhost, where they
+  // don't exist and visits shouldn't count).
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+    for (const src of ["/_vercel/insights/script.js", "/_vercel/speed-insights/script.js"]) {
+      const s = document.createElement("script");
+      s.defer = true;
+      s.src = src;
+      document.head.appendChild(s);
+    }
+  }
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="portfolio-page meth-page">
+  <header class="top">
+    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
+    <div class="top-actions">
+      <a class="home-btn" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
+      <a class="nav-btn" href="portfolio.html" data-portfolio-link><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
+      <a class="nav-btn" href="sp500.html" data-sp500-link><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
+      <div class="lang-switch" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+      </div>
+    </div>
+  </header>
+  <h2 class="page-title" data-i18n="ui.meth.title">How we calculate</h2>
+  <p class="sub" data-i18n="ui.meth.sub">Where every figure comes from, and the exact rule behind each red flag, checklist test and portfolio measure. The rules below are drawn from the same text the results pages show.</p>
+  <nav class="card meth-toc" aria-labelledby="methTocTitle">
+    <h3 id="methTocTitle" data-i18n="ui.meth.toc">On this page</h3>
+    <ul>
+      <li><a href="#data" data-i18n="ui.meth.h.data">Where the figures come from</a></li>
+      <li><a href="#trends" data-i18n="ui.meth.h.trends">Growth and trends</a></li>
+      <li><a href="#flags" data-i18n="ui.meth.h.flags">Red flags</a></li>
+      <li><a href="#checklists" data-i18n="ui.meth.h.checklists">Checklists</a></li>
+      <li><a href="#portfolio" data-i18n="ui.meth.h.portfolio">My portfolio and S&amp;P 500 measures</a></li>
+      <li><a href="#choices" data-i18n="ui.meth.h.choices">Choices we made</a></li>
+      <li><a href="#feedback" data-i18n="ui.meth.h.feedback">Spotted a wrong number?</a></li>
+    </ul>
+  </nav>
+
+  <section class="card meth-section" id="data">
+    <h3 id="h-data" data-i18n="ui.meth.h.data">Where the figures come from</h3>
+    <ul data-i18n="ui.meth.data">
+      <li>Every figure comes from the company's own filings with the US Securities and Exchange Commission (SEC), through SEC EDGAR's free XBRL data: the annual reports (10-K for US companies, 20-F and 40-F for foreign ones).</li>
+      <li>Each metric keeps one full-year value per fiscal year. When a later report restates a year, the latest filed value is used.</li>
+      <li>Companies tag the same item differently (revenue has several tags, for example), so alternative tags are tried in turn, year by year.</li>
+      <li>Per-share figures are adjusted for stock splits; a foreign company's figures stay in its reporting currency.</li>
+      <li>The SEC filing history comes from the company's filing list (8-K items, late-filing notices, amendments, SEC comment letters); insider trades from its Form 4 filings.</li>
+      <li>Results are stored and re-checked against SEC once a day; "Data as of" on each page says when.</li>
+    </ul>
+  </section>
+
+  <section class="card meth-section" id="trends">
+    <h3 id="h-trends" data-i18n="ui.meth.h.trends">Growth and trends</h3>
+    <ul data-i18n="ui.meth.trends">
+      <li><strong>Growth per year (CAGR):</strong> the steady yearly growth that turns the first value into the latest one. It can't be worked out from a loss or a zero, so it then shows n/a with the reason.</li>
+      <li><strong>Trend labels:</strong> "strong growth" at 10% a year or more, "growing" at 3% or more, "flat" between -3% and 3%, "declining" below -3%. "Volatile" is added when the figure fell by more than 2% in three or more years, and "had losses" when any year was negative.</li>
+      <li><strong>Ratios over the whole period</strong> (margins, returns, debt against earnings) are total ÷ total across the years, so one odd year can't decide a test.</li>
+    </ul>
+  </section>
+
+  <section class="card meth-section" id="flags">
+    <h3 id="h-flags" data-i18n="ui.meth.h.flags">Red flags</h3>
+    <p data-i18n="ui.meth.flagsIntro">Automated checks, most serious first on the Red flags tab. Critical items are worth a close look in the filings; strengths show what's going well.</p>
+    <div id="methFlags" data-testid="meth-flags"></div>
+  </section>
+
+  <section class="card meth-section" id="checklists">
+    <h3 id="h-checklists" data-i18n="ui.meth.h.checklists">Checklists</h3>
+    <p data-i18n="ui.meth.checklistsIntro">Each test is met, not met, or not applicable (with the reason). Tests that need a share price wait for one. Scores count only the tests that could be judged.</p>
+    <h4 id="h-graham" data-i18n="ui.graham.title">Benjamin Graham: the defensive investor</h4>
+    <p class="src" data-i18n="ui.graham.src">From <em>The Intelligent Investor</em>, chapter 14</p>
+    <div id="methGraham" data-testid="meth-graham"></div>
+    <h4 id="h-buffett" data-i18n="ui.buffett.title">Warren Buffett: a wonderful business at a fair price</h4>
+    <p class="src" data-i18n="ui.buffett.src">Quantitative tests drawn from his shareholder letters</p>
+    <div id="methBuffett" data-testid="meth-buffett"></div>
+    <h4 id="h-lynch" data-i18n="ui.lynch.title">Peter Lynch: growth at a reasonable price</h4>
+    <p class="src" data-i18n="ui.lynch.src">From <em>One Up on Wall Street</em>, using the last 5 years' earnings growth (Lynch used the growth he expected)</p>
+    <div id="methLynch" data-testid="meth-lynch"></div>
+    <h4 id="h-piotroski" data-i18n="ui.piotroski.title">Piotroski F-score: is the business getting stronger?</h4>
+    <p class="src" data-i18n="ui.piotroski.src">Nine yes/no tests of the latest year against the year before, from Joseph Piotroski's 2000 study of value stocks</p>
+    <div id="methPiotroski" data-testid="meth-piotroski"></div>
+    <h4 data-i18n="ui.durable.title">Durable advantage: what the statements show</h4>
+    <p class="src" data-i18n="ui.meth.durableSrc">Ratios from the income statement, balance sheet and cash flow, after Mary Buffett and David Clark's <em>Warren Buffett and the Interpretation of Financial Statements</em></p>
+    <div id="methDurable" data-testid="meth-durable"></div>
+  </section>
+
+  <section class="card meth-section" id="portfolio">
+    <h3 id="h-portfolio" data-i18n="ui.meth.h.portfolio">My portfolio and S&amp;P 500 measures</h3>
+    <div id="methMeasures" data-testid="meth-measures"></div>
+    <p class="section-note" data-i18n="ui.pf.legend"><span class="pf-swatch good" aria-hidden="true"></span> Green and <span class="pf-swatch bad" aria-hidden="true"></span> red use simple yardsticks: growth of 7% a year (5% for dividends and book value) or more is green, shrinking is red; margins and returns at 10-15% or more are green; for shares, buybacks are green and dilution of over 2% a year is red; for the two checklist columns, three quarters or more met is green and under half is red. They're a reading aid, not a verdict.</p>
+  </section>
+
+  <section class="card meth-section" id="choices">
+    <h3 id="h-choices" data-i18n="ui.meth.h.choices">Choices we made</h3>
+    <p data-i18n="ui.meth.choicesIntro">Where a source gives no exact number, or the filings can't give what it asks for, we had to choose. These are our choices, not the authors':</p>
+    <ul data-i18n="ui.meth.choices">
+      <li><strong>Graham's size test</strong> uses $750 million of revenue (his $100 million from 1972, adjusted for inflation), and his 20-year dividend record becomes the 10 years available here.</li>
+      <li><strong>Buffett's tests</strong> are common numerical readings of his letters (15% returns, 7% earnings growth, debt within 4 years of earnings, and so on); Buffett himself rarely gives hard numbers.</li>
+      <li><strong>The value estimate</strong> discounts free cash flow per share at 10%, with growth capped at 12% for 10 years and 3% after; you can change all three on the Graham &amp; Buffett tab.</li>
+      <li><strong>Lynch's growth</strong> is the last 5 years' EPS growth, not expected growth; his price tests don't apply above 25% a year, and growth plus yield over P/E passes at 1.5.</li>
+      <li><strong>"Rising steadily"</strong> means EPS, or retained earnings, rose in at least 7 of every 10 years.</li>
+      <li><strong>R&amp;D</strong> counts as a modest burden under 30% of gross profit.</li>
+      <li><strong>The colour yardsticks</strong> on My portfolio and the S&amp;P 500 picks are ours.</li>
+    </ul>
+  </section>
+
+  <section class="card meth-section" id="feedback">
+    <h3 id="h-feedback" data-i18n="ui.meth.h.feedback">Spotted a wrong number?</h3>
+    <p data-i18n="ui.meth.feedback">Companies sometimes tag figures in unusual ways, and a figure can come out wrong. If you find one, please <a href="https://github.com/dipak-nehe/stock-trend-analyzer/issues/new?labels=data&amp;title=Wrong%20number%3A%20&amp;body=Ticker%3A%0AWhere%20on%20the%20page%3A%0AWhat%20it%20shows%3A%0AWhat%20the%20filing%20says%20(link%20if%20possible)%3A" target="_blank" rel="noopener" data-testid="report-link">report it on GitHub ↗</a> with the ticker, where it appears, and what the filing says.</p>
+  </section>
+  <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions. <a href="disclaimer.html" data-testid="full-disclaimer-link">Full disclaimer</a></p>
+</main>
+<footer>
+  <span data-i18n="ui.footer.data">Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
+  <span data-i18n="ui.footer.privacy">Visits and page speed are measured anonymously with Vercel Web Analytics and Speed Insights: no cookies, no personal data.</span>
+  <span data-i18n="ui.footer.legal"><a href="methodology.html">How we calculate</a> · <a href="disclaimer.html">Disclaimer</a></span>
+  <span data-i18n="ui.footer.built">Built by <a class="author" href="https://www.linkedin.com/in/dipaknehe/" target="_blank" rel="noopener">Dipak Nehe</a> · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
+</footer>
+<script type="module" src="js/methodology-app.js"></script>
+</body>
+</html>

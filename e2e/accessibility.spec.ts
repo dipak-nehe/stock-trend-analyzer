@@ -230,3 +230,16 @@ test.describe('axe: S&P 500 pages', () => {
     expect(await violations(sp500, testInfo)).toEqual([]);
   });
 });
+
+test.describe('axe: How we calculate', () => {
+  for (const lang of ['en', 'es'] as const) {
+    for (const scheme of SCHEMES) {
+      test(`How we calculate (${lang}, ${scheme})`, async ({ methodology, page }, testInfo) => {
+        await prepare(page, 1100, scheme);
+        await methodology.goto(lang === 'es' ? 'lang=es' : '');
+        await methodology.flagRows.first().waitFor();
+        expect(await violations(methodology, testInfo)).toEqual([]);
+      });
+    }
+  }
+});

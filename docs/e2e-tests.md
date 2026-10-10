@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. The sections below are the `test.describe` groups in the spec files, in the same order, and the same groups appear in the Allure report (under each spec file). They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**194 tests:** 96 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 18 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 51 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**200 tests:** 96 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 18 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 2 in `e2e/methodology.spec.ts` (How we calculate), 55 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one group with `npx playwright test -g "<group name>"` (e.g. `-g "insider trades"`). Run one test with `npx playwright test -g "<name>"`.
 
@@ -297,7 +297,16 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 142 | both pages read in Spanish, and the language carries over |
 | 143 | at phone width neither page scrolls sideways |
 
-## Accessibility (`e2e/accessibility.spec.ts`, 51)
+## How we calculate (`e2e/methodology.spec.ts`, 2)
+
+### How we calculate (2)
+
+| # | Test |
+|---|---|
+| 144 | lists every red flag and checklist test with its rule |
+| 145 | every page links to it in the footer, keeping the language |
+
+## Accessibility (`e2e/accessibility.spec.ts`, 55)
 
 axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA) plus best practices; a test fails on any violation and attaches the full axe output. The keyboard tests use only the keyboard.
 
@@ -305,79 +314,88 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 
 | # | Test |
 |---|---|
-| 144 | landing page (desktop, light) |
-| 145 | landing page (desktop, dark) |
-| 146 | landing page (phone, light) |
-| 147 | landing page (phone, dark) |
-| 148 | results tab: overview (light) |
-| 149 | results tab: overview (dark) |
-| 150 | results tab: flags (light) |
-| 151 | results tab: flags (dark) |
-| 152 | results tab: history (light) |
-| 153 | results tab: history (dark) |
-| 154 | results tab: insiders (light) |
-| 155 | results tab: insiders (dark) |
-| 156 | results tab: value (light) |
-| 157 | results tab: value (dark) |
-| 158 | results tab: durable (light) |
-| 159 | results tab: durable (dark) |
-| 160 | results tab: charts (light) |
-| 161 | results tab: charts (dark) |
-| 162 | results tab: data (light) |
-| 163 | results tab: data (dark) |
-| 164 | phone-width results: overview |
-| 165 | phone-width results: data |
-| 166 | Spanish page |
-| 167 | error state |
-| 168 | search suggestions open |
-| 169 | guide before and after a search |
+| 146 | landing page (desktop, light) |
+| 147 | landing page (desktop, dark) |
+| 148 | landing page (phone, light) |
+| 149 | landing page (phone, dark) |
+| 150 | results tab: overview (light) |
+| 151 | results tab: overview (dark) |
+| 152 | results tab: flags (light) |
+| 153 | results tab: flags (dark) |
+| 154 | results tab: history (light) |
+| 155 | results tab: history (dark) |
+| 156 | results tab: insiders (light) |
+| 157 | results tab: insiders (dark) |
+| 158 | results tab: value (light) |
+| 159 | results tab: value (dark) |
+| 160 | results tab: durable (light) |
+| 161 | results tab: durable (dark) |
+| 162 | results tab: charts (light) |
+| 163 | results tab: charts (dark) |
+| 164 | results tab: data (light) |
+| 165 | results tab: data (dark) |
+| 166 | phone-width results: overview |
+| 167 | phone-width results: data |
+| 168 | Spanish page |
+| 169 | error state |
+| 170 | search suggestions open |
+| 171 | guide before and after a search |
 
 ### Keyboard only (3)
 
 | # | Test |
 |---|---|
-| 170 | search and results work with the keyboard |
-| 171 | wide tables can be scrolled with the keyboard |
-| 172 | every interactive element has a name |
+| 172 | search and results work with the keyboard |
+| 173 | wide tables can be scrolled with the keyboard |
+| 174 | every interactive element has a name |
 
 ### Axe: compare page (7)
 
 | # | Test |
 |---|---|
-| 173 | compare page: one-side (light) |
-| 174 | compare page: one-side (dark) |
-| 175 | compare page: both-priced (light) |
-| 176 | compare page: both-priced (dark) |
-| 177 | compare page: spanish (light) |
-| 178 | compare page: spanish (dark) |
-| 179 | compare page at phone width |
+| 175 | compare page: one-side (light) |
+| 176 | compare page: one-side (dark) |
+| 177 | compare page: both-priced (light) |
+| 178 | compare page: both-priced (dark) |
+| 179 | compare page: spanish (light) |
+| 180 | compare page: spanish (dark) |
+| 181 | compare page at phone width |
 
 ### Axe: disclaimer page (4)
 
 | # | Test |
 |---|---|
-| 180 | disclaimer page (en, light) |
-| 181 | disclaimer page (en, dark) |
-| 182 | disclaimer page (es, light) |
-| 183 | disclaimer page (es, dark) |
+| 182 | disclaimer page (en, light) |
+| 183 | disclaimer page (en, dark) |
+| 184 | disclaimer page (es, light) |
+| 185 | disclaimer page (es, dark) |
 
 ### Axe: portfolio page (6)
 
 | # | Test |
 |---|---|
-| 184 | portfolio page (en, light) |
-| 185 | portfolio page (en, dark) |
-| 186 | portfolio page (es, light) |
-| 187 | portfolio page (es, dark) |
-| 188 | portfolio page showing a shared list, in both themes |
-| 189 | portfolio page at phone width, and empty |
+| 186 | portfolio page (en, light) |
+| 187 | portfolio page (en, dark) |
+| 188 | portfolio page (es, light) |
+| 189 | portfolio page (es, dark) |
+| 190 | portfolio page showing a shared list, in both themes |
+| 191 | portfolio page at phone width, and empty |
 
 ### Axe: S&P 500 pages (5)
 
 | # | Test |
 |---|---|
-| 190 | S&P 500 picker and picks (en, light) |
-| 191 | S&P 500 picker and picks (en, dark) |
-| 192 | S&P 500 picker and picks (es, light) |
-| 193 | S&P 500 picker and picks (es, dark) |
-| 194 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |
+| 192 | S&P 500 picker and picks (en, light) |
+| 193 | S&P 500 picker and picks (en, dark) |
+| 194 | S&P 500 picker and picks (es, light) |
+| 195 | S&P 500 picker and picks (es, dark) |
+| 196 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |
+
+### Axe: How we calculate (4)
+
+| # | Test |
+|---|---|
+| 197 | How we calculate (en, light) |
+| 198 | How we calculate (en, dark) |
+| 199 | How we calculate (es, light) |
+| 200 | How we calculate (es, dark) |

@@ -21,6 +21,13 @@ test("growth table explains sign changes instead of showing a percentage", () =>
   assert.match(growthRow(d, "Dividend"), /Fell to zero n\/m/);
 });
 
+test("growth table says a company that never paid a dividend paid none, rather than lacking data", () => {
+  assert.match(growthRow(company({ dps: nulls(), dividendsPaid: nulls() }), "Dividend"), /– – No dividend paid/);
+  assert.match(growthRow(company({ dps: Array(10).fill(0), dividendsPaid: nulls() }), "Dividend"), /No dividend paid/);
+  // Dividends paid but no per-share figure filed: the data is missing, not the dividend
+  assert.match(growthRow(company({ dps: nulls() }), "Dividend"), /Not enough data/);
+});
+
 test("growth table notes when a metric starts in a later year", () => {
   const d = company({ capex: [null, null, 30e6, 30e6, 30e6, 30e6, 30e6, 30e6, 30e6, 30e6] });
   assert.match(growthRow(d, "Free cash flow"), /\(2018\)/);

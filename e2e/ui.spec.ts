@@ -500,6 +500,12 @@ test.describe('overview and trends', () => {
     expect(anyContains(titles, 'Dividend cut, then suspended')).toBe(true);
   });
 
+  test('a company that never paid a dividend says so in the growth table', async ({ analysis }) => {
+    await analysis.open('SMCI');
+    await expect(analysis.growthRow('Dividend / share')).toContainText('No dividend paid');
+    await expect(analysis.growthRow('Dividend / share')).not.toContainText('Not enough data');
+  });
+
   test('trend tiles show a sparkline', async ({ analysis }) => {
     await analysis.open('AAPL');
     await expect(analysis.sparklines).toHaveCount(5); // revenue, earnings, EPS, dividend and R&D (Apple reports R&D)

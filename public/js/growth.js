@@ -22,6 +22,9 @@ export function growthView(d, r) {
     const [k, fmt] = row;
     const arr = k === "fcf" ? r.fcf : s[k];
     const i = firstIdx(arr), j = lastIdx(arr);
+    // Never paid one (no dividend per share or total paid in any year): say so, rather than "not enough data".
+    const none = (/** @type {(number|null)[] | undefined} */ a) => !a || a.every((v) => !v);
+    if (k === "dps" && none(s.dps) && none(s.dividendsPaid)) return `<tr><td>${labelOf(k)}</td><td>–</td><td>–</td><td class="nm" colspan="3">${t("growth.noDividend")}</td></tr>`;
     if (i < 0 || i === j) return `<tr><td>${labelOf(k)}</td><td>–</td><td>–</td><td class="nm" colspan="3">${t("growth.notEnough")}</td></tr>`;
     const a = arr[i], b = arr[j], n = j - i;
     const cell = (v, idx, headerYear) => `${fmt(v, cur)}${Y[idx] !== headerYear ? `<span class="yr">(${Y[idx]})</span>` : ""}`;

@@ -504,6 +504,7 @@ export default {
   "growth.total": "Crecimiento total",
   "growth.perYear": "Anual ({cagr})",
   "growth.notEnough": "Datos insuficientes",
+  "growth.noDividend": "No paga dividendo",
   "growth.nm": "n/s",
   "growth.startedZero": "Empezó en cero",
   "growth.fromZero": "Desde cero",

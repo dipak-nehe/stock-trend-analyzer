@@ -1,4 +1,5 @@
-// Benjamin Graham's defensive-investor criteria, Buffett-style business-quality tests and the Piotroski F-score.
+// Benjamin Graham's defensive-investor criteria, Buffett-style business-quality tests, Peter Lynch's growth-at-a-
+// reasonable-price tests and the Piotroski F-score.
 // Each row is { name, rule, status: "pass" | "fail" | "na" | "price", actual }.
 import { fixed, money, num, pct, perShare } from "./format.js";
 import { t } from "./i18n.js";
@@ -124,6 +125,40 @@ export function valueChecks(d, price, r, assume = {}) {
       : t(price <= iv ? "val.mos.below" : "val.mos.above",
           { price: ps(price), iv: ps(iv), diff: price <= iv ? pct(1 - price / iv, 0) : pct(price / iv - 1, 0) })));
 
+  // --- Peter Lynch (One Up on Wall Street): growth at a reasonable price ---
+  // Growth is the EPS growth rate over the last 5 years. Lynch used the growth he expected; the filings can only show
+  // past growth, and the rule texts say so. P/E is on the latest annual EPS, as in his examples.
+  const lynch = [];
+  const lg = cagr(s.eps, 5), lgPct = lg != null ? lg * 100 : null;
+  const lynchPe = price && latestEps > 0 ? price / latestEps : null;
+  const yieldPct = (divYield ?? 0) * 100;
+  // Why a price-based Lynch test can't be worked out, or null when it can
+  const lynchNa = lg == null ? t("val.lynch.noGrowth") : !(latestEps > 0) ? t("val.lynch.loss") : null;
+  lynch.push(row("lynchGrowth", lg == null ? "na" : tf(lg >= 0.10 && lg <= 0.25),
+    lg == null ? t("val.lynch.noGrowth") : t("val.lynchGrowth.actual", { rate: pct(lg) })));
+  // Above 25% a year growth rarely lasts, and a ratio built on it would flatter the price: Lynch didn't stretch his
+  // rules that far, so the price-based tests are N/A there (the growth test above already fails it)
+  const tooFast = lg > 0.25 ? t("val.lynch.tooFast", { rate: pct(lg) }) : null;
+  // PEG: the P/E divided by the growth rate in percent; about 1 is fair, below 1 attractive
+  const peg = lynchPe != null && lg > 0 ? lynchPe / lgPct : null;
+  const shrinking = lg != null && lg <= 0 ? t("val.lynch.shrinking") : null;
+  lynch.push(row("lynchPeg", lynchNa || shrinking || tooFast ? "na" : !price ? "price" : tf(peg <= 1),
+    lynchNa || shrinking || tooFast || (!price ? ENTER_PRICE : t("val.lynchPeg.actual", { peg: fixed(peg, 2), pe: fixed(lynchPe, 1), g: fixed(lgPct, 1) }))));
+  // Dividend-adjusted, his choice for dividend payers: (growth % + dividend yield %) / P/E; 2 is very good, under 1 poor
+  const pegy = lynchPe != null && lg != null ? (lgPct + yieldPct) / lynchPe : null;
+  lynch.push(row("lynchPegy", lynchNa || tooFast ? "na" : !price ? "price" : tf(pegy >= 1.5),
+    lynchNa || tooFast || (!price ? ENTER_PRICE : t("val.lynchPegy.actual", { v: fixed(pegy, 2), g: fixed(lgPct, 1), y: fixed(yieldPct, 1), pe: fixed(lynchPe, 1) }))));
+  // Fair P/E = the growth rate, so a fair price of EPS x growth
+  const lynchFair = !lynchNa && !shrinking && !tooFast ? latestEps * lgPct : null;
+  lynch.push(row("lynchFair", lynchFair == null ? "na" : !price ? "price" : tf(price <= lynchFair),
+    lynchNa || shrinking || tooFast || (!price ? t("val.lynchFair.needPrice", { fair: ps(lynchFair) })
+      : t(price <= lynchFair ? "val.lynchFair.below" : "val.lynchFair.above",
+          { price: ps(price), fair: ps(lynchFair), diff: price <= lynchFair ? pct(1 - price / lynchFair, 0) : pct(price / lynchFair - 1, 0) }))));
+  // A normal balance sheet, he wrote, is about 75% equity and 25% debt: debt at most a third of equity
+  lynch.push(row("lynchDebt", fin || debt == null || eq == null ? "na" : eq <= 0 ? "fail" : tf(debt / eq <= 1 / 3),
+    fin ? NA_BANK : debt == null ? t("val.debt.none") : eq == null ? NOT_REPORTED : eq <= 0 ? t("val.lynchDebt.negative")
+      : t("val.lynchDebt.actual", { pct: pct(debt / eq, 0) })));
+
   // --- Piotroski F-score: nine yes/no tests of the latest year against the year before ---
   const e = lastIdx(s.netIncome), p = e - 1, yr = d.years[e], prevYr = d.years[p];
   const at = (arr, i) => (arr && i >= 0 && arr[i] != null ? arr[i] : null);
@@ -152,5 +187,5 @@ export function valueChecks(d, price, r, assume = {}) {
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { graham, buffett, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL };
+  return { graham, buffett, lynch, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL, lynchGrowth: lg, peg, pegy, lynchFair };
 }

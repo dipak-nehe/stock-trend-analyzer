@@ -118,6 +118,74 @@ test("dividend and free-cash-flow yields use the latest year and need a price", 
   assert.ok(Math.abs(v.fcfYield - fcf / d.sharesOutstanding.value / 20) < 1e-12);
 });
 
+// ---------- Peter Lynch: growth at a reasonable price ----------
+const growing = (rate, start = 1.5) => YEARS.map((_, i) => start * Math.pow(1 + rate, i));  // EPS growing at `rate`
+const lynchRow = (d, name, price = null) => row(checks(d, price).lynch, name);
+
+test("Lynch's growth test wants 10-25% EPS growth a year over the last 5 years", () => {
+  assert.equal(lynchRow(company({ eps: growing(0.15) }), "Earnings growing 10-25% a year").status, "pass");
+  assert.match(lynchRow(company({ eps: growing(0.15) }), "Earnings growing 10-25% a year").actual, /EPS grew 15\.0% a year/);
+  assert.equal(lynchRow(company({ eps: growing(0.05) }), "Earnings growing 10-25% a year").status, "fail");
+  assert.equal(lynchRow(company({ eps: growing(0.40) }), "Earnings growing 10-25% a year").status, "fail");  // rarely lasts
+  // Only the last 5 years count: a slump before them doesn't matter
+  const recovered = company({ eps: YEARS.map((_, i) => (i < 4 ? 5 - i : Math.pow(1.15, i - 4))) });
+  assert.equal(checks(recovered).lynchGrowth.toFixed(4), "0.1500");
+  // A loss at the start of the 5 years leaves no growth rate
+  const fromLoss = company({ eps: YEARS.map((_, i) => (i === 4 ? -1 : 1 + i)) });
+  assert.equal(lynchRow(fromLoss, "Earnings growing 10-25% a year").status, "na");
+});
+
+test("the PEG ratio is the P/E on the latest EPS divided by the growth rate, and needs a price", () => {
+  const d = company({ eps: growing(0.15) }), eps = d.series.eps.at(-1);
+  assert.equal(lynchRow(d, "PEG ratio").status, "price");
+  const fair = lynchRow(d, "PEG ratio", eps * 15);                      // P/E 15, growth 15%: PEG 1
+  assert.equal(lynchRow(d, "PEG ratio", eps * 14.5).status, "pass");     // PEG 0.97
+  assert.match(fair.actual, /PEG 1\.00: P\/E 15\.0 ÷ growth 15\.0/);
+  assert.equal(lynchRow(d, "PEG ratio", eps * 20).status, "fail");        // PEG 1.33
+  assert.equal(lynchRow(company({ eps: growing(-0.05) }), "PEG ratio", 10).status, "na");  // shrinking earnings
+  // Growth above 25% would make almost any price look cheap: N/A, not a flattering pass
+  const fast = company({ eps: growing(0.40) });
+  assert.equal(lynchRow(fast, "PEG ratio", 10).status, "na");
+  assert.match(lynchRow(fast, "PEG ratio", 10).actual, /above 25%, which rarely lasts/);
+  assert.equal(lynchRow(fast, "Growth plus dividend yield against the P/E", 10).status, "na");
+});
+
+test("the dividend-adjusted measure adds the yield to growth and divides by the P/E", () => {
+  const d = company({ eps: growing(0.10), dps: YEARS.map(() => 1) }), eps = d.series.eps.at(-1);
+  const price = eps * 8;                                     // P/E 8
+  const v = checks(d, price), expected = (10 + (1 / price) * 100) / 8;
+  assert.ok(Math.abs(v.pegy - expected) < 1e-9);
+  assert.equal(row(v.lynch, "Growth plus dividend yield against the P/E").status, expected >= 1.5 ? "pass" : "fail");
+  assert.equal(lynchRow(d, "Growth plus dividend yield against the P/E", eps * 30).status, "fail");  // (10 + ~0) / 30
+  assert.equal(lynchRow(d, "Growth plus dividend yield against the P/E").status, "price");
+});
+
+test("Lynch's fair value is EPS x growth rate; it isn't stretched to growth above 25% or used for losses", () => {
+  const d = company({ eps: growing(0.15) }), eps = d.series.eps.at(-1), fairValue = eps * 15;
+  assert.ok(Math.abs(checks(d).lynchFair - fairValue) < 1e-9);
+  assert.match(lynchRow(d, "Price below Lynch's fair value").actual, /Fair value \$\d+\.\d\d; enter a price above/);
+  assert.equal(lynchRow(d, "Price below Lynch's fair value", fairValue * 0.9).status, "pass");
+  assert.match(lynchRow(d, "Price below Lynch's fair value", fairValue * 0.9).actual, /\(10% below\)/);
+  assert.equal(lynchRow(d, "Price below Lynch's fair value", fairValue * 1.2).status, "fail");
+  const fast = lynchRow(company({ eps: growing(0.30) }), "Price below Lynch's fair value", 100);
+  assert.equal(fast.status, "na");
+  assert.match(fast.actual, /above 25%/);
+  const loss = company({ eps: YEARS.map((_, i) => (i === 9 ? -0.5 : 1 + i)) });
+  assert.equal(lynchRow(loss, "Price below Lynch's fair value", 10).status, "na");
+  assert.equal(lynchRow(loss, "PEG ratio", 10).status, "na");
+});
+
+test("a normal balance sheet has debt of at most a third of equity; N/A for banks", () => {
+  const ok = company(), equity = ok.series.equity.at(-1);
+  assert.equal(lynchRow(ok, "A normal balance sheet").status, "pass");
+  assert.match(lynchRow(ok, "A normal balance sheet").actual, new RegExp(`Debt is ${Math.round(300e6 / equity * 100)}% of equity`));
+  assert.equal(lynchRow(company({ totalDebt: YEARS.map(() => 800e6) }), "A normal balance sheet").status, "fail");
+  assert.equal(lynchRow(company({ equity: YEARS.map(() => -5e6) }), "A normal balance sheet").status, "fail");
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
+                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9) });
+  assert.equal(lynchRow(bank, "A normal balance sheet").status, "na");
+});
+
 // ---------- Piotroski F-score ----------
 const fscore = (v) => v.piotroski.filter((c) => c.status === "pass").length;
 

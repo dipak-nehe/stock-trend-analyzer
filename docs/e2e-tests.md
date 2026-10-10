@@ -2,13 +2,13 @@
 
 Every browser test in `e2e/`, by feature. The sections below are the `test.describe` groups in the spec files, in the same order, and the same groups appear in the Allure report (under each spec file). They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**131 tests:** 78 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 16 in `e2e/compare.spec.ts` (compare page), 37 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
+**153 tests:** 95 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 40 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices).
 
 Regenerate the list with `npx playwright test --list`. Run one group with `npx playwright test -g "<group name>"` (e.g. `-g "insider trades"`). Run one test with `npx playwright test -g "<name>"`.
 
-## Start and results page (`e2e/ui.spec.ts`, 78)
+## Start and results page (`e2e/ui.spec.ts`, 95)
 
-### Search (7)
+### Search (8)
 
 | # | Test |
 |---|---|
@@ -16,241 +16,273 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 2 | chips load a company |
 | 3 | search box has a visible label and works by label |
 | 4 | slash jumps to search but not while typing elsewhere |
-| 5 | Analyze needs a ticker: it stays disabled while the search box is empty |
-| 6 | Analyze is ready right away when the page opens with a ticker, and after a lookup |
-| 7 | search button waits for the script |
+| 5 | Analyze with an empty box shows a hint instead of looking anything up |
+| 6 | the empty-box hint is in Spanish too |
+| 7 | Analyze is ready right away when the page opens with a ticker, and after a lookup |
+| 8 | search button waits for the script |
+
+### Start-page quote of the day (4)
+
+| # | Test |
+|---|---|
+| 9 | a Buffett quote shows on the start page, chosen by the day of the month |
+| 10 | another day brings another quote |
+| 11 | the quote is translated into Spanish, and follows a language switch |
+| 12 | the quote makes way once a company is shown |
+
+### Smart search (4)
+
+| # | Test |
+|---|---|
+| 13 | a company name suggests tickers; arrow keys and Enter look one up |
+| 14 | Analyze with a company name looks up the best match |
+| 15 | clicking a suggestion loads it, and Escape closes the list |
+| 16 | typing a ticker still works exactly as before |
 
 ### Wrong tickers and errors (6)
 
 | # | Test |
 |---|---|
-| 8 | a wrong ticker typed on the start page shows its error on screen |
-| 9 | a wrong ticker after a result replaces it, and the address follows |
-| 10 | switching language after a wrong ticker translates the error and never brings back the old result |
-| 11 | a badly formed ticker shows its error on screen |
-| 12 | unknown ticker shows a friendly error |
-| 13 | invalid input is rejected |
+| 17 | a wrong ticker typed on the start page shows its error on screen |
+| 18 | a wrong ticker after a result replaces it, and the address follows |
+| 19 | switching language after a wrong ticker translates the error and never brings back the old result |
+| 20 | a badly formed ticker shows its error on screen |
+| 21 | unknown ticker shows a friendly error |
+| 22 | invalid input is rejected |
 
 ### Results guide (5)
 
 | # | Test |
 |---|---|
-| 14 | guide explains the results before a search |
-| 15 | guide collapses after a search and can be reopened |
-| 16 | guide card before a search shows an example on that tab |
-| 17 | guide card after a search opens its tab for that company |
-| 18 | guide toggle looks and reads like a control |
+| 23 | guide starts collapsed, with a gently pulsing "Show guide", and explains the results |
+| 24 | guide collapses after a search and can be reopened |
+| 25 | guide card before a search shows an example on that tab |
+| 26 | guide card after a search opens its tab for that company |
+| 27 | guide toggle looks and reads like a control |
 
 ### At a glance (5)
 
 | # | Test |
 |---|---|
-| 19 | glance summarises each area in one line |
-| 20 | glance rows open their tab |
-| 21 | clean company glance and badges |
-| 22 | badges count serious problems |
-| 23 | glance has a title and hint |
+| 28 | glance summarises each area in one line |
+| 29 | glance rows open their tab |
+| 30 | clean company glance and badges |
+| 31 | badges count serious problems |
+| 32 | glance has a title and hint |
 
 ### Tabs (10)
 
 | # | Test |
 |---|---|
-| 24 | tab tour: each tab opens alone, updates the address and shows its content |
-| 25 | each tab has a short explanation |
-| 26 | link with a tab opens that tab |
-| 27 | tabs work with the keyboard |
-| 28 | charts are drawn only when their tab opens |
-| 29 | new search stays on the current tab |
-| 30 | previous and next buttons walk through the tabs |
-| 31 | tabs carry the same icons as the guide |
-| 32 | previous/next buttons sit at the bottom of every tab |
-| 33 | phone tab bar keeps the active tab in view |
+| 33 | tab tour: each tab opens alone, updates the address and shows its content |
+| 34 | each tab has a short explanation |
+| 35 | link with a tab opens that tab |
+| 36 | tabs work with the keyboard |
+| 37 | charts are drawn only when their tab opens |
+| 38 | new search stays on the current tab |
+| 39 | previous and next buttons walk through the tabs |
+| 40 | tabs carry the same icons as the guide |
+| 41 | previous/next buttons sit at the bottom of every tab |
+| 42 | phone tab bar keeps the active tab in view |
 
 ### Overview and trends (4)
 
 | # | Test |
 |---|---|
-| 34 | growth table compares first and latest year |
-| 35 | loss-making company is described in words |
-| 36 | trend tiles show a sparkline |
-| 37 | jargon is explained |
+| 43 | growth table compares first and latest year |
+| 44 | loss-making company is described in words |
+| 45 | trend tiles show a sparkline |
+| 46 | jargon is explained |
 
 ### Red flags and SEC history (5)
 
 | # | Test |
 |---|---|
-| 38 | restatements and late filings are flagged |
-| 39 | filing history filters and expands |
-| 40 | clean filer gets a strength |
-| 41 | "Show all" keeps the price and raises no errors |
-| 42 | red flags are grouped with explanations |
+| 47 | restatements and late filings are flagged |
+| 48 | filing history filters and expands |
+| 49 | clean filer gets a strength |
+| 50 | "Show all" keeps the price and raises no errors |
+| 51 | red flags are grouped with explanations |
 
-### Graham & Buffett and the share price (8)
+### Graham & Buffett and the share price (16)
 
 | # | Test |
 |---|---|
-| 43 | price runs valuation tests and is kept in the URL |
-| 44 | price from link is applied on load |
-| 45 | new search clears the previous price |
-| 46 | checklist scores add up |
-| 47 | bank-specific rules are skipped |
-| 48 | checklist scores have a bar |
-| 49 | value tab is named after Graham and Buffett |
-| 50 | price box links to public quote pages |
+| 52 | price runs valuation tests and is kept in the URL |
+| 53 | price from link is applied on load |
+| 54 | new search clears the previous price |
+| 55 | Peter Lynch: PEG, dividend-adjusted, fair value and debt, from 5 years of EPS growth |
+| 56 | checklist scores add up |
+| 57 | the latest 12 months from quarterly reports show on the Overview, against the last fiscal year |
+| 58 | the Overview compares the company with its industry |
+| 59 | a small industry falls back to related industries, and banks get only growth and return on equity |
+| 60 | R&D spending shows on the Overview for companies that report it, and not otherwise |
+| 61 | the value estimate can be recalculated with your own assumptions, and reset |
+| 62 | the Durable advantage tab scores the statements, with the figures behind each test |
+| 63 | return on tangible capital, the Piotroski F-score and the yields show on the value tab |
+| 64 | bank-specific rules are skipped |
+| 65 | checklist scores have a bar |
+| 66 | value tab is named after Graham and Buffett |
+| 67 | price box links to public quote pages |
 
 ### Insider trades (Form 4) (6)
 
 | # | Test |
 |---|---|
-| 51 | insider trades: open-market buys and sales in the last 12 months, with the filings |
-| 52 | several insiders buying is called out in the Insiders tab |
-| 53 | insider trades in Spanish |
-| 54 | insider trades load only when the Insiders tab is opened, and only once |
-| 55 | a link to the Insiders tab loads them straight away |
-| 56 | insider trades that fail to load can be tried again |
+| 68 | insider trades: open-market buys and sales in the last 12 months, with the filings |
+| 69 | several insiders buying is called out in the Insiders tab |
+| 70 | insider trades in Spanish |
+| 71 | insider trades load only when the Insiders tab is opened, and only once |
+| 72 | a link to the Insiders tab loads them straight away |
+| 73 | insider trades that fail to load can be tried again |
 
 ### Spanish and language choice (10)
 
 | # | Test |
 |---|---|
-| 57 | Spanish link shows the whole page in Spanish |
-| 58 | English browser gets English |
-| 59 | switching language keeps tab and price and updates the link |
-| 60 | language choice is remembered |
-| 61 | Spanish stays on across every page after pressing ES |
-| 62 | Spanish stays on across every page after a Spanish link |
-| 63 | switching back to English is remembered the same way |
-| 64 | errors are translated |
-| 65 | no English left in Spanish results |
-| 66 | gets Spanish automatically |
+| 74 | Spanish link shows the whole page in Spanish |
+| 75 | English browser gets English |
+| 76 | switching language keeps tab and price and updates the link |
+| 77 | language choice is remembered |
+| 78 | Spanish stays on across every page after pressing ES |
+| 79 | Spanish stays on across every page after a Spanish link |
+| 80 | switching back to English is remembered the same way |
+| 81 | errors are translated |
+| 82 | no English left in Spanish results |
+| 83 | gets Spanish automatically |
 
 ### Home button (3)
 
 | # | Test |
 |---|---|
-| 67 | Home button returns to a fresh landing page |
-| 68 | Home keeps the language |
-| 69 | Home button appears only after a lookup |
+| 84 | Home button returns to a fresh landing page |
+| 85 | Home keeps the language |
+| 86 | Home button appears only after a lookup |
 
 ### Disclaimer (4)
 
 | # | Test |
 |---|---|
-| 70 | disclaimer is always visible |
-| 71 | the short notice and the footer link to the full disclaimer |
-| 72 | the compare page links to the full disclaimer too |
-| 73 | the disclaimer reads in Spanish, from Spanish pages and by switching |
+| 87 | disclaimer is always visible, at the bottom of the page |
+| 88 | the short notice and the footer link to the full disclaimer |
+| 89 | the compare page links to the full disclaimer too |
+| 90 | the disclaimer reads in Spanish, from Spanish pages and by switching |
 
 ### Page basics: layout, privacy and data freshness (5)
 
 | # | Test |
 |---|---|
-| 74 | phone layout has no horizontal scroll |
-| 75 | page loads nothing from other sites |
-| 76 | analytics script is not loaded locally |
-| 77 | company header says when the data was fetched |
-| 78 | saved-copy notice when SEC is unreachable |
+| 91 | phone layout has no horizontal scroll |
+| 92 | page loads nothing from other sites |
+| 93 | analytics scripts are not loaded locally |
+| 94 | company header says when the data was fetched |
+| 95 | saved-copy notice when SEC is unreachable |
 
-## Compare page (`e2e/compare.spec.ts`, 16)
+## Compare page (`e2e/compare.spec.ts`, 18)
 
 ### Opening from a result (2)
 
 | # | Test |
 |---|---|
-| 79 | compare link appears only after a result |
-| 80 | compare link opens with the first stock loaded |
+| 96 | compare link appears only after a result |
+| 97 | compare link opens with the first stock loaded |
 
-### Loading and comparing (4)
+### Loading and comparing (6)
 
 | # | Test |
 |---|---|
-| 81 | second stock is fetched and compared |
-| 82 | chip loads the second stock |
-| 83 | marks follow direction and sizes get none |
-| 84 | bank shows n/a for current ratio |
+| 98 | second stock is fetched and compared |
+| 99 | the comparison includes the newer measures |
+| 100 | both boxes suggest companies by name, and a typed name loads its best match |
+| 101 | chip loads the second stock |
+| 102 | marks follow direction and sizes get none |
+| 103 | bank shows n/a for current ratio |
 
 ### Prices and links (3)
 
 | # | Test |
 |---|---|
-| 85 | valuation rows need prices |
-| 86 | deep link with prices restores everything |
-| 87 | swap switches sides and prices |
+| 104 | valuation rows need prices |
+| 105 | deep link with prices restores everything |
+| 106 | swap switches sides and prices |
 
 ### Errors and input (4)
 
 | # | Test |
 |---|---|
-| 88 | same ticker is rejected |
-| 89 | unknown second ticker keeps the first |
-| 90 | Compare and Load need a ticker in their box |
-| 91 | a quick submit before the script loads is not lost |
+| 107 | same ticker is rejected |
+| 108 | unknown second ticker keeps the first |
+| 109 | Compare and Load need a ticker in their box |
+| 110 | a quick submit before the script loads is not lost |
 
 ### Language, layout and navigation (3)
 
 | # | Test |
 |---|---|
-| 92 | language carries over and switches |
-| 93 | phone width has no sideways scroll |
-| 94 | Home leaves the compare page |
+| 111 | language carries over and switches |
+| 112 | phone width has no sideways scroll |
+| 113 | Home leaves the compare page |
 
-## Accessibility (`e2e/accessibility.spec.ts`, 37)
+## Accessibility (`e2e/accessibility.spec.ts`, 40)
 
 axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA) plus best practices; a test fails on any violation and attaches the full axe output. The keyboard tests use only the keyboard.
 
-### Axe: start and results pages (23)
+### Axe: start and results pages (26)
 
 | # | Test |
 |---|---|
-| 95 | landing page (desktop, light) |
-| 96 | landing page (desktop, dark) |
-| 97 | landing page (phone, light) |
-| 98 | landing page (phone, dark) |
-| 99 | results tab: overview (light) |
-| 100 | results tab: overview (dark) |
-| 101 | results tab: flags (light) |
-| 102 | results tab: flags (dark) |
-| 103 | results tab: history (light) |
-| 104 | results tab: history (dark) |
-| 105 | results tab: insiders (light) |
-| 106 | results tab: insiders (dark) |
-| 107 | results tab: value (light) |
-| 108 | results tab: value (dark) |
-| 109 | results tab: charts (light) |
-| 110 | results tab: charts (dark) |
-| 111 | results tab: data (light) |
-| 112 | results tab: data (dark) |
-| 113 | phone-width results: overview |
-| 114 | phone-width results: data |
-| 115 | Spanish page |
-| 116 | error state |
-| 117 | guide before and after a search |
+| 114 | landing page (desktop, light) |
+| 115 | landing page (desktop, dark) |
+| 116 | landing page (phone, light) |
+| 117 | landing page (phone, dark) |
+| 118 | results tab: overview (light) |
+| 119 | results tab: overview (dark) |
+| 120 | results tab: flags (light) |
+| 121 | results tab: flags (dark) |
+| 122 | results tab: history (light) |
+| 123 | results tab: history (dark) |
+| 124 | results tab: insiders (light) |
+| 125 | results tab: insiders (dark) |
+| 126 | results tab: value (light) |
+| 127 | results tab: value (dark) |
+| 128 | results tab: durable (light) |
+| 129 | results tab: durable (dark) |
+| 130 | results tab: charts (light) |
+| 131 | results tab: charts (dark) |
+| 132 | results tab: data (light) |
+| 133 | results tab: data (dark) |
+| 134 | phone-width results: overview |
+| 135 | phone-width results: data |
+| 136 | Spanish page |
+| 137 | error state |
+| 138 | search suggestions open |
+| 139 | guide before and after a search |
 
 ### Keyboard only (3)
 
 | # | Test |
 |---|---|
-| 118 | search and results work with the keyboard |
-| 119 | wide tables can be scrolled with the keyboard |
-| 120 | every interactive element has a name |
+| 140 | search and results work with the keyboard |
+| 141 | wide tables can be scrolled with the keyboard |
+| 142 | every interactive element has a name |
 
 ### Axe: compare page (7)
 
 | # | Test |
 |---|---|
-| 121 | compare page: one-side (light) |
-| 122 | compare page: one-side (dark) |
-| 123 | compare page: both-priced (light) |
-| 124 | compare page: both-priced (dark) |
-| 125 | compare page: spanish (light) |
-| 126 | compare page: spanish (dark) |
-| 127 | compare page at phone width |
+| 143 | compare page: one-side (light) |
+| 144 | compare page: one-side (dark) |
+| 145 | compare page: both-priced (light) |
+| 146 | compare page: both-priced (dark) |
+| 147 | compare page: spanish (light) |
+| 148 | compare page: spanish (dark) |
+| 149 | compare page at phone width |
 
 ### Axe: disclaimer page (4)
 
 | # | Test |
 |---|---|
-| 128 | disclaimer page (en, light) |
-| 129 | disclaimer page (en, dark) |
-| 130 | disclaimer page (es, light) |
-| 131 | disclaimer page (es, dark) |
+| 150 | disclaimer page (en, light) |
+| 151 | disclaimer page (en, dark) |
+| 152 | disclaimer page (es, light) |
+| 153 | disclaimer page (es, dark) |

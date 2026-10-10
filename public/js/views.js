@@ -193,6 +193,7 @@ export function valueView(d, price, v) {
     tiles, priceHint, note, links: priceLinks(d.ticker),
     graham: list(v.graham), grahamScore: score(v.graham),
     buffett: list(v.buffett), buffettScore: score(v.buffett),
+    lynch: list(v.lynch), lynchScore: score(v.lynch),
     piotroski: list(v.piotroski), piotroskiScore: score(v.piotroski),
   };
 }

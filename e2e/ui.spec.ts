@@ -604,6 +604,23 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.price).toHaveValue('');
   });
 
+  test('Peter Lynch: PEG, dividend-adjusted, fair value and debt, from 5 years of EPS growth', async ({ analysis }) => {
+    await analysis.open('KO', 68);
+    await analysis.openTab('value');
+    await expect(analysis.lynch.getByTestId('check')).toHaveCount(5);
+    await expect(analysis.lynchScore).toContainText('Meets 1 of 5');
+    await expect(analysis.checkRow('Earnings growing 10-25% a year')).toContainText('EPS grew 11.2% a year');
+    await expect(analysis.checkRow('PEG ratio')).toContainText('PEG 2.00: P/E 22.4 ÷ growth 11.2');
+    await expect(analysis.checkRow('Growth plus dividend yield')).toContainText('0.63: (11.2 + 3.0) ÷ P/E 22.4');
+    await expect(analysis.checkRow("Price below Lynch's fair value")).toContainText('Price $68.00 vs fair value $33.97');
+    await expect(analysis.checkRow('A normal balance sheet')).toContainText('Debt is 141% of equity');
+    // Very fast growth rarely lasts: the price tests are N/A rather than a flattering pass
+    await analysis.step('look up SMCI (EPS up 73% a year) at 30', () => analysis.open('SMCI', 30));
+    await analysis.openTab('value');
+    await expect(analysis.checkRow('PEG ratio')).toContainText('above 25%, which rarely lasts');
+    await expect(analysis.lynchScore).toContainText('Meets 1 of 2');
+  });
+
   test('checklist scores add up', async ({ analysis }) => {
     await analysis.open('KO', 68);
     await expect(analysis.grahamScore).toContainText('Meets 4 of 8');

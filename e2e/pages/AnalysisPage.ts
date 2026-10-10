@@ -324,6 +324,15 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('durable-score');
   }
 
+  /** The Peter Lynch card on the value tab (growth at a reasonable price) and its score. */
+  get lynch(): Locator {
+    return this.page.getByTestId('lynch');
+  }
+
+  get lynchScore(): Locator {
+    return this.page.getByTestId('lynch-score');
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

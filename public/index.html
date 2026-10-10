@@ -206,7 +206,7 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>
-      <p class="section-note" data-testid="section-note" data-i18n="ui.note.value"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's and Warren Buffett's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
+      <p class="section-note" data-testid="section-note" data-i18n="ui.note.value"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's, Warren Buffett's and Peter Lynch's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
     <div class="card price-row">
       <label for="price" data-i18n="ui.price.label">Current share price <span class="muted">(optional)</span></label>
       <input id="price" type="number" inputmode="decimal" min="0" step="any" placeholder="e.g. 185.50" data-i18n-placeholder="ui.price.placeholder">
@@ -238,6 +238,12 @@
         <p class="src" data-i18n="ui.buffett.src">Quantitative tests drawn from his shareholder letters</p>
         <div class="checks-score" id="buffettScore" data-testid="buffett-score"></div>
         <div id="buffettChecks"></div>
+      </div>
+      <div class="card checklist wide lynch" data-testid="lynch">
+        <h3 data-i18n="ui.lynch.title">Peter Lynch: growth at a reasonable price</h3>
+        <p class="src" data-i18n="ui.lynch.src">From <em>One Up on Wall Street</em>, using the last 5 years' earnings growth (Lynch used the growth he expected)</p>
+        <div class="checks-score" id="lynchScore" data-testid="lynch-score"></div>
+        <div id="lynchChecks" class="checks-cols"></div>
       </div>
       <div class="card checklist piotroski" data-testid="piotroski">
         <h3 data-i18n="ui.piotroski.title">Piotroski F-score: is the business getting stronger?</h3>

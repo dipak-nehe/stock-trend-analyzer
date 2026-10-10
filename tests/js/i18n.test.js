@@ -98,7 +98,6 @@ test("every results tab has a name in both languages, for the previous / next bu
 
 test("every balance-sheet term has a name and a meaning in English and Spanish", async () => {
   const { BALANCE_TERMS, termsHtml } = await import("../../public/js/terms.js");
-  const EN = (await import("../../public/js/strings/en.js")).default;
   for (const id of BALANCE_TERMS) {
     for (const part of ["term", "def"]) {
       assert.ok(EN[`bs.${id}.${part}`], `English bs.${id}.${part}`);

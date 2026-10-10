@@ -942,4 +942,11 @@ export default {
   "bs.preferredStock.term": "Acciones preferentes",
   "bs.preferredStock.def": "Acciones a las que hay que pagar un dividendo fijo antes que a los accionistas ordinarios, casi como un préstamo. Los negocios con una ventaja duradera rara vez necesitan emitirlas.",
   "ui.bsTerms.summary": "Términos del balance explicados",
+  "csv.unit": "Unidad",
+  "csv.perShare": "{cur} por acción",
+  "csv.shares": "acciones",
+  "csv.ticker": "Ticker",
+  "csv.from": "Primer año",
+  "csv.to": "Último año",
+  "ui.csv.download": "Descargar CSV",
 };

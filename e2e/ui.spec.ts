@@ -1034,6 +1034,19 @@ test.describe('disclaimer', () => {
   });
 });
 
+test.describe('downloads', () => {
+  test('the Data tab downloads every figure as CSV, as filed', async ({ analysis }) => {
+    await analysis.open('KO');
+    await analysis.openTab('data');
+    const { name, text } = await analysis.step('press Download CSV', () => analysis.downloadCsv());
+    expect(name).toBe('KO-10-year-figures.csv');
+    const lines = text.replace(/^\uFEFF/, '').trim().split('\r\n');
+    expect(lines[0]).toBe('Metric,Unit,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025');
+    expect(lines.find((l) => l.startsWith('Revenue,USD,'))).toMatch(/^Revenue,USD,\d{8,}(,\d+)*$/);   // raw figures, not "$41.9B"
+    expect(lines.find((l) => l.startsWith('EPS (diluted),USD per share,'))).toBeTruthy();
+  });
+});
+
 test.describe('page basics: layout, privacy and data freshness', () => {
   test('phone layout has no horizontal scroll', async ({ analysis, page }) => {
     await page.setViewportSize({ width: 375, height: 812 });

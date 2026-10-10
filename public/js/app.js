@@ -13,6 +13,7 @@ import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fe
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { durableChecks } from "./durable.js";
 import { termsHtml } from "./terms.js";
+import { companyRows, downloadCsv } from "./csv.js";
 import { industryComparison } from "./industry.js";
 import { quoteOfTheDay } from "./quotes.js";
 import { bindSuggest } from "./suggest.js";
@@ -262,6 +263,9 @@ function switchLang(lang) {
 // ---------- events ----------
 // a price belongs to one ticker, so clear it when the user looks up another
 // "/" jumps to the search box from anywhere (unless the user is typing in a field)
+$("dataCsv").addEventListener("click", () => {
+  if (current) downloadCsv(`${current.data.ticker}-10-year-figures.csv`, companyRows(current.data, current.result));
+});
 bindSlashShortcut("ticker");
 // Analyze starts disabled in the HTML (an early submit would just reload the page). Once the script runs it stays
 // ready: a greyed-out button looked broken, so an empty box gets a hint instead.

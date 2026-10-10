@@ -15,6 +15,7 @@ import { MAX_ROWS, parseTickers } from "./portfolio.js";
 import { addToSaved, langQuery, loader, nextSort, same, savedTickers, saveTickers, tableHtml } from "./stock-table.js";
 import { setLang, t, tn } from "./i18n.js";
 import { termsHtml } from "./terms.js";
+import { downloadCsv, tableRows } from "./csv.js";
 
 /** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
@@ -123,6 +124,7 @@ $("pfClear").addEventListener("click", () => {
   render();
   $("pfTicker").focus();
 });
+$("pfCsv").addEventListener("click", () => downloadCsv("my-portfolio.csv", tableRows(entries)));
 $("pfShare").addEventListener("click", () => {
   const url = `${location.origin}${location.pathname}?${new URLSearchParams({ t: tickersOf(entries).join(",") })}`;
   const done = (/** @type {string} */ key) => status(t(key, { url }));

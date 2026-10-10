@@ -69,6 +69,9 @@ test.describe('showing the picks', () => {
     await expect(sp500View.columnHeader(/^Buffett criteria met/)).toBeVisible();
     await expect(sp500View.cell('KO', 10)).toContainText('7 of 7');           // Buffett criteria
     await expect(sp500View.cell('KO', 11)).toContainText('4 of 5');           // balance-sheet checks
+    const { name, text } = await sp500View.step('press Download CSV', () => sp500View.downloadCsv());
+    expect(name).toBe('sp500-picks.csv');
+    expect(text.trim().split('\r\n')).toHaveLength(4);                        // a header and the three picks
     await expect(sp500View.table.getByRole('button', { name: /^Remove/ })).toHaveCount(0);   // read-only
     await sp500View.step('press Change selection', () => sp500View.changeSelection.click());
     await expect(page).toHaveURL(/sp500\.html\?pick=KO%2CAAPL%2CINTC$/);

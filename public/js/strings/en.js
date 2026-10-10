@@ -750,4 +750,10 @@ export default {
   "bs.treasuryStock.def": "The company's own shares that it bought back and still holds, at their cost; it's subtracted from equity. Companies that cancel the shares they buy back hold none, so having none isn't counted against them.",
   "bs.preferredStock.term": "Preferred stock",
   "bs.preferredStock.def": "Shares that must be paid a fixed dividend before ordinary shareholders get anything, much like a loan. Businesses with a lasting edge rarely need to issue them.",
+  "csv.unit": "Unit",
+  "csv.perShare": "{cur} per share",
+  "csv.shares": "shares",
+  "csv.ticker": "Ticker",
+  "csv.from": "First year",
+  "csv.to": "Latest year",
 };

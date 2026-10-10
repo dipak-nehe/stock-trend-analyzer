@@ -165,6 +165,20 @@ test.describe('getting there and language', () => {
 });
 
 test.describe('coming back and sharing', () => {
+  test('Download CSV saves the table: percentages as numbers, scores as counts', async ({ portfolio }) => {
+    await portfolio.goto('add=KO,INTC');
+    await expect(portfolio.median).toBeVisible();
+    const { name, text } = await portfolio.step('press Download CSV', () => portfolio.downloadCsv());
+    expect(name).toBe('my-portfolio.csv');
+    const lines = text.replace(/^\uFEFF/, '').trim().split('\r\n');
+    expect(lines).toHaveLength(3);
+    expect(lines[0]).toMatch(/^Company,Ticker,First year,Latest year,Revenue growth \(%\),/);
+    expect(lines[1]).toMatch(/^COCA COLA CO,KO,2016,2025,1\.5,8\.2,/);
+    expect(lines[1]).toMatch(/,7 of 7,4 of 5$/);
+    expect(lines[2]).toMatch(/^INTEL CORP,INTC,2016,2025,-1\.3,n\/a,/);
+  });
+
+
   test('coming Back after saving picks from the S&P 500 page shows them, and keeps them', async ({ portfolio, sp500View, page }) => {
     // Regression: the page trusted its old address (?t=KO) over the saved list, then saved that over the new picks
     await portfolio.goto('add=KO');

@@ -33,6 +33,20 @@ export class BasePage {
     return this.page.getByTestId('balance-terms').filter({ visible: true });
   }
 
+  /** "Download CSV" (the Data tab, My portfolio, the S&P 500 picks). */
+  get csvButton(): Locator {
+    return this.page.getByRole('button', { name: /^(Download CSV|Descargar CSV)$/ }).filter({ visible: true });
+  }
+
+  /** Press Download CSV and return the file's name and text. */
+  async downloadCsv(): Promise<{ name: string; text: string }> {
+    const [download] = await Promise.all([this.page.waitForEvent('download'), this.csvButton.click()]);
+    const stream = await download.createReadStream();
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream) chunks.push(chunk as Buffer);
+    return { name: download.suggestedFilename(), text: Buffer.concat(chunks).toString('utf8') };
+  }
+
   languageButton(lang: 'en' | 'es'): Locator {
     return this.page.getByRole('group', { name: 'Language / Idioma' }).getByRole('button', { name: lang.toUpperCase(), exact: true });
   }

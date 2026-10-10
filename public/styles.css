@@ -514,3 +514,5 @@
 .spv-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 0; }
 @media (max-width: 560px) { #spHint { display: none; } .sp-filters { grid-template-columns: 1fr; } .sp-sector { margin-left: 0; width: 100%; } .sp-list { max-height: 60vh; } }
 #spvStatus:empty { display: none; }
+.csv-row { display: flex; justify-content: flex-end; margin: 0 0 8px; }
+.spv-buttons { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }

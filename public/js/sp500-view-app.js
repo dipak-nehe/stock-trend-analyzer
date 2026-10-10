@@ -6,6 +6,7 @@ import { MAX_ROWS } from "./portfolio.js";
 import { addToSaved, esc, langQuery, loader, nextSort, tableHtml } from "./stock-table.js";
 import { setLang, t } from "./i18n.js";
 import { termsHtml } from "./terms.js";
+import { downloadCsv, tableRows } from "./csv.js";
 
 /** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
@@ -37,6 +38,7 @@ $("pfTable").addEventListener("click", (/** @type {Event} */ e) => {
   render();
   $("pfTable").querySelector(`[data-sort="${key}"]`).focus();
 });
+$("spvCsv").addEventListener("click", () => downloadCsv("sp500-picks.csv", tableRows(entries)));
 $("spvSave").addEventListener("click", () => {
   const r = addToSaved(entries.filter((e) => e.status !== "error").map((e) => e.ticker));
   const parts = [t("spv.saved", { n: r.added.length })];

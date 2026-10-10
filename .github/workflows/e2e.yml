@@ -20,6 +20,7 @@ on:
           - ui               # e2e/ui.spec.ts: the analysis page
           - compare          # e2e/compare.spec.ts: the compare page
           - portfolio        # e2e/portfolio.spec.ts: My portfolio
+          - sp500            # e2e/sp500.spec.ts: the S&P 500 picker and picks
           - accessibility    # e2e/accessibility.spec.ts: axe-core and keyboard checks
         default: all
       grep:
@@ -83,6 +84,7 @@ jobs:
             ui) args="e2e/ui.spec.ts" ;;
             compare) args="e2e/compare.spec.ts" ;;
             portfolio) args="e2e/portfolio.spec.ts" ;;
+            sp500) args="e2e/sp500.spec.ts" ;;
             accessibility) args="e2e/accessibility.spec.ts" ;;
           esac
           set -- $args

@@ -1,0 +1,58 @@
+name: S&P 500 list
+
+# Rebuilds public/data/sp500.json (the S&P 500 companies for the picker page, sp500.html) once a month and on demand,
+# and commits it if the list changed. The commit deploys like any other push. Two requests only: Wikipedia's list of
+# S&P 500 companies (names and sectors) and SEC's ticker list; each company's figures are looked up live when a
+# visitor picks it. Needs the repository secret SEC_USER_AGENT (its email is also the commit author: Vercel only
+# deploys the owner's commits). If the list can't be read, the run fails and the previous file stays.
+on:
+  schedule:
+    - cron: "0 7 4 * *"  # the 4th of every month, 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+    steps:
+      # 1. Get the code (and the current list, to compare against).
+      - uses: actions/checkout@v7
+
+      # 2. Python for the builder (standard library only).
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # 3. SEC asks automated requests to name a contact.
+      - name: Check the SEC contact secret is set
+        run: |
+          if [ -z "$SEC_USER_AGENT" ]; then
+            echo "::error::Add the SEC_USER_AGENT repository secret, e.g. 'StockTrendAnalyzer you@example.com'."
+            exit 1
+          fi
+
+      # 4. Read the list and write public/data/sp500.json.
+      - name: Build the S&P 500 list
+        run: python scripts/build_sp500.py
+
+      # 5. Commit only when the companies changed (not just the date it was built).
+      - name: Commit it if it changed
+        run: |
+          python - <<'EOF'
+          import json, subprocess
+          new = json.load(open("public/data/sp500.json"))
+          old = json.loads(subprocess.run(["git", "show", "HEAD:public/data/sp500.json"], capture_output=True, text=True).stdout or "{}")
+          same = {k: v for k, v in new.items() if k != "generated"} == {k: v for k, v in old.items() if k != "generated"}
+          open("unchanged", "w").write("yes" if same else "")
+          EOF
+          if [ -s unchanged ]; then echo "S&P 500 list unchanged"; exit 0; fi
+          git config user.name "dipak-nehe"
+          git config user.email "${SEC_USER_AGENT##* }"
+          git add public/data/sp500.json
+          git commit -m "Monthly S&P 500 list refresh"
+          git push

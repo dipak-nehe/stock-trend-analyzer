@@ -7,6 +7,8 @@ import { AnalysisPage } from './pages/AnalysisPage';
 import { ComparePage } from './pages/ComparePage';
 import { DisclaimerPage } from './pages/DisclaimerPage';
 import { PortfolioPage } from './pages/PortfolioPage';
+import { Sp500Page } from './pages/Sp500Page';
+import { Sp500ViewPage } from './pages/Sp500ViewPage';
 
 type Fixtures = {
   /** The start and results page (index.html). */
@@ -17,6 +19,10 @@ type Fixtures = {
   disclaimer: DisclaimerPage;
   /** My portfolio (portfolio.html). */
   portfolio: PortfolioPage;
+  /** The S&P 500 picker (sp500.html). */
+  sp500: Sp500Page;
+  /** The S&P 500 picks (sp500-view.html). */
+  sp500View: Sp500ViewPage;
   /** JavaScript errors and console errors raised while the test runs. */
   consoleErrors: string[];
   /** A screenshot at the end of a test that failed, or that has no step screenshots of its own. */
@@ -37,6 +43,12 @@ export const test = base.extend<Fixtures>({
   },
   portfolio: async ({ page }, use) => {
     await use(new PortfolioPage(page));
+  },
+  sp500: async ({ page }, use) => {
+    await use(new Sp500Page(page));
+  },
+  sp500View: async ({ page }, use) => {
+    await use(new Sp500ViewPage(page));
   },
   consoleErrors: async ({ page }, use) => {
     const errors: string[] = [];

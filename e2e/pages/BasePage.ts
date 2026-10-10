@@ -23,6 +23,11 @@ export class BasePage {
     return this.page.getByRole('link', { name: either('My portfolio', 'Mi cartera') });
   }
 
+  /** "S&P 500" in the header. */
+  get sp500Link(): Locator {
+    return this.page.getByRole('link', { name: 'S&P 500', exact: true });
+  }
+
   languageButton(lang: 'en' | 'es'): Locator {
     return this.page.getByRole('group', { name: 'Language / Idioma' }).getByRole('button', { name: lang.toUpperCase(), exact: true });
   }

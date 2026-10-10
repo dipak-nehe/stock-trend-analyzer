@@ -58,6 +58,7 @@ export function applyStaticText() {
   // Home (and other links back to the start page) go to a fresh landing page in the same language
   $$("a.home-btn, a.home-link, a[data-start-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
   $$("a[data-portfolio-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "portfolio.html" : `portfolio.html?lang=${lang}`));
+  $$("a[data-sp500-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "sp500.html" : `sp500.html?lang=${lang}`));
 }
 
 /**

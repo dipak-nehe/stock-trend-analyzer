@@ -133,9 +133,10 @@ export function sortRows(rows, key, dir) {
   });
 }
 
-/** Tickers from a link or storage: upper-case, de-duplicated, at most MAX_ROWS. @param {string|null|undefined} text */
-export function parseTickers(text) {
+/** Tickers from a link or storage: upper-case, de-duplicated, at most `max`.
+ * @param {string|null|undefined} text @param {number} [max] */
+export function parseTickers(text, max = MAX_ROWS) {
   const seen = new Set();
   return String(text || "").split(/[\s,]+/).map((x) => x.trim().toUpperCase()).filter((x) => /^[A-Z0-9][A-Z0-9.-]{0,9}$/.test(x))
-    .filter((x) => !seen.has(x) && seen.add(x)).slice(0, MAX_ROWS);
+    .filter((x) => !seen.has(x) && seen.add(x)).slice(0, max);
 }

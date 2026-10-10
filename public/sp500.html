@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;P 500 · 10-Year Stock Value Analysis</title>
+<meta name="description" content="Pick up to 10 S&amp;P 500 companies and see ten 10-year measures from their SEC filings side by side.">
+<meta name="theme-color" content="#2a78d6">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://stock-value-analysis.vercel.app/sp500.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="S&amp;P 500 · 10-Year Stock Value Analysis">
+<meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
+<meta property="og:url" content="https://stock-value-analysis.vercel.app/sp500.html">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+  // Vercel Web Analytics (cookieless page-view counts) and Speed Insights (real-visitor page-speed scores).
+  // The scripts are served by Vercel, so load them only on the deployed site (never on localhost, where they
+  // don't exist and visits shouldn't count).
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  if (!/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+    for (const src of ["/_vercel/insights/script.js", "/_vercel/speed-insights/script.js"]) {
+      const s = document.createElement("script");
+      s.defer = true;
+      s.src = src;
+      document.head.appendChild(s);
+    }
+  }
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="portfolio-page sp500-page">
+  <header class="top">
+    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
+    <div class="top-actions">
+      <a class="home-btn" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
+      <a class="nav-btn" href="portfolio.html" data-portfolio-link><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
+      <a class="nav-btn" href="sp500.html" data-sp500-link aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
+      <div class="lang-switch" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
+      </div>
+    </div>
+  </header>
+  <h2 class="page-title" data-i18n="ui.sp.title">S&amp;P 500</h2>
+  <p class="sub" data-i18n="ui.sp.sub">Pick up to 10 companies from the S&amp;P 500 and press Show to see their 10-year measures side by side.</p>
+
+  <div class="card sp-controls">
+    <h3 class="sr-only" id="spListTitle" data-i18n="ui.sp.listTitle">S&amp;P 500 companies</h3>
+    <div class="sp-filters">
+      <div class="sp-field"><label for="spSearch" data-i18n="ui.sp.search">Search by name or ticker</label>
+        <input id="spSearch" type="search" placeholder="e.g. Coca-Cola or KO" data-i18n-placeholder="ui.sp.searchPlaceholder" autocomplete="off" spellcheck="false"></div>
+      <div class="sp-field"><label for="spSector" data-i18n="ui.sp.sector">Sector</label>
+        <select id="spSector"><option value="" data-i18n="ui.sp.allSectors">All sectors</option></select></div>
+    </div>
+    <p class="muted sp-count" id="spCount" role="status" data-testid="sp-count"></p>
+    <div class="sp-list" id="spList" tabindex="0" role="region" aria-labelledby="spListTitle" data-testid="sp-list"></div>
+    <p class="note" id="spSource" data-testid="sp-source"></p>
+  </div>
+
+  <section class="card sp-bar" aria-labelledby="spPickedTitle" data-testid="sp-bar">
+    <div class="sp-bar-head">
+      <h3 id="spPickedTitle" class="sp-picked-title"></h3>
+      <a class="sp-show" id="spShow" href="sp500-view.html" aria-disabled="true" data-testid="sp-show"></a>
+    </div>
+    <div class="sp-chips-row"><div class="sp-chips" id="spChips" data-testid="sp-chips"></div>
+      <button type="button" class="chip" id="spClear" data-testid="sp-clear" data-i18n="ui.sp.clear">Clear selection</button></div>
+    <p class="cmp-status" id="spStatus" role="status" data-testid="sp-status"></p>
+    <p class="note" id="spHint" data-testid="sp-hint" data-i18n="ui.sp.hint">5–7 companies are easiest to compare side by side.</p>
+  </section>
+  <p class="disclaimer" data-testid="disclaimer" data-i18n="ui.disclaimer"><strong>Not investment advice.</strong> This is an automated screen of public filings for educational use. Figures can be incomplete or mis-tagged; always check the original filings before making decisions. <a href="disclaimer.html" data-testid="full-disclaimer-link">Full disclaimer</a></p>
+</main>
+<footer>
+  <span data-i18n="ui.footer.data">Data: <a href="https://www.sec.gov/edgar/sec-api-documentation" target="_blank" rel="noopener">SEC EDGAR</a> company filings. Not affiliated with the SEC or any company shown.</span>
+  <span data-i18n="ui.footer.privacy">Visits and page speed are measured anonymously with Vercel Web Analytics and Speed Insights: no cookies, no personal data.</span>
+  <span data-i18n="ui.footer.legal"><a href="disclaimer.html">Disclaimer</a></span>
+  <span data-i18n="ui.footer.built">Built by <a class="author" href="https://www.linkedin.com/in/dipaknehe/" target="_blank" rel="noopener">Dipak Nehe</a> · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
+</footer>
+<script type="module" src="js/sp500-app.js"></script>
+</body>
+</html>

@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My portfolio · 10-Year Stock Value Analysis</title>
-<meta name="description" content="Your stocks side by side: ten 10-year measures from their SEC filings, from revenue and dividend growth to returns and buybacks.">
+<title>Your S&amp;P 500 picks · 10-Year Stock Value Analysis</title>
+<meta name="description" content="Up to 10 S&amp;P 500 companies side by side: ten 10-year measures from their SEC filings.">
 <meta name="theme-color" content="#2a78d6">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="canonical" href="https://stock-value-analysis.vercel.app/portfolio.html">
+<link rel="canonical" href="https://stock-value-analysis.vercel.app/sp500-view.html">
 <meta property="og:type" content="website">
-<meta property="og:title" content="My portfolio · 10-Year Stock Value Analysis">
+<meta property="og:title" content="Your S&amp;P 500 picks · 10-Year Stock Value Analysis">
 <meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
 <meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
-<meta property="og:url" content="https://stock-value-analysis.vercel.app/portfolio.html">
+<meta property="og:url" content="https://stock-value-analysis.vercel.app/sp500-view.html">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -39,45 +39,29 @@
     <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
     <div class="top-actions">
       <a class="home-btn" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
-      <a class="nav-btn" href="portfolio.html" data-portfolio-link aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
-      <a class="nav-btn" href="sp500.html" data-sp500-link><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
+      <a class="nav-btn" href="portfolio.html" data-portfolio-link><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
+      <a class="nav-btn" href="sp500.html" data-sp500-link aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
       <div class="lang-switch" role="group" aria-label="Language / Idioma">
         <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
       </div>
     </div>
   </header>
-  <h2 class="page-title" data-i18n="ui.pf.title">My portfolio</h2>
-  <p class="sub" data-i18n="ui.pf.sub">Your stocks side by side: ten measures of the last 10 years from their SEC filings in %, plus how many balance-sheet checks each one passes. Add a company, click a column to sort, and click a name for its full analysis.</p>
+  <h2 class="page-title" data-i18n="ui.spv.title">Your S&amp;P 500 picks</h2>
+  <p class="sub" data-i18n="ui.spv.sub">Ten measures of the last 10 years from each company's SEC filings, side by side. Click a column to sort, and a name for its full analysis. This view doesn't change My portfolio.</p>
+  <div class="spv-actions">
+    <a class="back-link" id="spvBack" href="sp500.html" data-testid="spv-back" data-i18n="ui.spv.back">← Change selection</a>
+    <button type="button" class="sp-show" id="spvSave" data-testid="spv-save" data-i18n="ui.spv.save">Save to My portfolio</button>
+  </div>
+  <p class="cmp-status" id="spvStatus" role="status" data-testid="spv-status"></p>
 
-  <section class="search card">
-    <div class="search-label"><label for="pfTicker" id="pfLabel" data-i18n="ui.pf.add.label">Add a company by name or ticker</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
-    <form id="pfForm" role="search" aria-labelledby="pfLabel">
-      <div class="search-field">
-        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="pfTicker" type="text" placeholder="Coca-Cola or KO" data-i18n-placeholder="ui.cmp.placeholderA" autocomplete="off" spellcheck="false"
-          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="pfSuggest">
-        <ul id="pfSuggest" class="suggest" role="listbox" aria-label="Suggestions" data-testid="suggestions" hidden></ul>
-      </div>
-      <button type="submit" id="pfAdd" disabled data-i18n="ui.pf.add.go">Add</button>
-    </form>
-    <div class="chips"><span data-i18n="ui.try">Try:</span>
-      <button class="chip" type="button" data-t="KO">KO</button>
-      <button class="chip" type="button" data-t="AAPL">AAPL</button>
-      <button class="chip" type="button" data-t="MSFT">MSFT</button>
-      <button class="chip" type="button" data-t="JPM">JPM</button>
-    </div>
-    <p class="cmp-status" id="pfStatus" role="status" data-testid="pf-status"></p>
-  </section>
-
-  <div class="card cmp-empty" id="pfEmpty" data-testid="pf-empty" data-i18n="ui.pf.empty">No stocks yet. Add one above: your list is saved in this browser, and the page's address keeps it too, so you can bookmark or share it.</div>
+  <div class="card cmp-empty" id="spvEmpty" data-testid="spv-empty" hidden><span data-i18n="ui.spv.empty">No companies picked.</span> <a href="sp500.html" data-i18n="ui.spv.pick">Pick some from the S&amp;P 500 →</a></div>
 
   <section id="pfResult" data-testid="portfolio" hidden>
     <div class="card table-wrap" tabindex="0" role="region" aria-labelledby="pfTableTitle">
       <h3 class="sr-only" id="pfTableTitle" data-i18n="ui.pf.tableTitle">Your stocks, 10-year measures</h3>
       <table class="pf-table" id="pfTable" data-testid="pf-table"></table>
     </div>
-    <button type="button" class="chip" id="pfClear" data-testid="pf-clear" data-i18n="ui.pf.clear">Remove all</button>
     <p class="section-note" id="pfLegend" data-testid="pf-legend" data-i18n="ui.pf.legend"><span class="pf-swatch good" aria-hidden="true"></span> Green and <span class="pf-swatch bad" aria-hidden="true"></span> red use simple yardsticks: growth of 7% a year (5% for dividends and book value) or more is green, shrinking is red; margins and returns at 10-15% or more are green; for shares, buybacks are green and dilution of over 2% a year is red; for balance-sheet checks, three quarters or more passed is green and under half is red. They're a reading aid, not a verdict.</p>
     <p class="note" data-i18n="ui.pf.note">Growth columns are the average change per year from the first to the latest fiscal year (CAGR); margins and returns are totals over the period. Balance-sheet checks are the four on the Durable advantage tab (retained earnings, debt to equity, long-term debt, preferred stock), counting those that could be judged (hover over a count to see what wasn't met). "n/a" means the figure can't be measured (hover over it to see why), for example growth from a loss year. Each company's years are shown under its name.</p>
   </section>
@@ -89,6 +73,6 @@
   <span data-i18n="ui.footer.legal"><a href="disclaimer.html">Disclaimer</a></span>
   <span data-i18n="ui.footer.built">Built by <a class="author" href="https://www.linkedin.com/in/dipaknehe/" target="_blank" rel="noopener">Dipak Nehe</a> · <a href="https://github.com/dipak-nehe/stock-trend-analyzer" target="_blank" rel="noopener">Source on GitHub</a></span>
 </footer>
-<script type="module" src="js/portfolio-app.js"></script>
+<script type="module" src="js/sp500-view-app.js"></script>
 </body>
 </html>

@@ -200,3 +200,24 @@ test.describe('axe: portfolio page', () => {
     expect(await violations(portfolio, testInfo)).toEqual([]);
   });
 });
+
+test.describe('axe: S&P 500 pages', () => {
+  for (const lang of ['en', 'es'] as const) {
+    for (const scheme of SCHEMES) {
+      test(`S&P 500 picker and picks (${lang}, ${scheme})`, async ({ sp500, sp500View, page }, testInfo) => {
+        await prepare(page, 1100, scheme);
+        await sp500.goto(`pick=KO,AAPL${lang === 'es' ? '&lang=es' : ''}`);
+        expect(await violations(sp500, testInfo)).toEqual([]);
+        await sp500View.gotoView(`t=KO,AAPL,JPM${lang === 'es' ? '&lang=es' : ''}`);
+        await sp500View.median.waitFor();
+        expect(await violations(sp500View, testInfo)).toEqual([]);
+      });
+    }
+  }
+
+  test('S&P 500 picker at phone width, with 10 picked (the rest disabled)', async ({ sp500, page }, testInfo) => {
+    await prepare(page, 375);
+    await sp500.goto('pick=AAPL,AMZN,BRK.B,GOOGL,INTC,JNJ,JPM,KO,META,MSFT');
+    expect(await violations(sp500, testInfo)).toEqual([]);
+  });
+});

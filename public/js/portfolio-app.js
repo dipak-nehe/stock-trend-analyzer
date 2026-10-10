@@ -1,29 +1,22 @@
 // "My portfolio" page wiring: add and remove stocks, load each one's financials, sort, and keep the list in the
 // browser (localStorage) and in the address (?t=KO,AAPL), so it survives a reload and can be bookmarked or shared.
 // The measures themselves come from portfolio.js.
-import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, enableWhenFilled, fetchFinancials, initialLang, useLang } from "./page.js";
+import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, enableWhenFilled, initialLang, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { bindSuggest } from "./suggest.js";
-import { COLUMNS, MAX_ROWS, checkName, medians, parseTickers, portfolioRow, sortRows, tone } from "./portfolio.js";
-import { getLang, setLang, t } from "./i18n.js";
-import { pct } from "./format.js";
+import { MAX_ROWS, parseTickers } from "./portfolio.js";
+import { langQuery, loader, nextSort, same, savedTickers, saveTickers, tableHtml } from "./stock-table.js";
+import { setLang, t } from "./i18n.js";
 
-const STORE = "portfolio";
-const PARALLEL = 3;  // companies loaded at the same time (a first-time lookup makes the server ask SEC)
-
-/** @typedef {{ ticker: string, status: "loading" | "ok" | "error", row?: any, error?: string }} Entry */
-/** @type {Entry[]} */
+/** @type {import("./stock-table.js").Entry[]} */
 let entries = [];
-let sort = { key: "", dir: /** @type {1|-1} */ (1) };
-
-const esc = (/** @type {string} */ s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const same = (/** @type {string} */ a, /** @type {string} */ b) => a.toUpperCase().replace(/[./]/g, "-") === b.toUpperCase().replace(/[./]/g, "-");
-const langQuery = () => (getLang() !== "en" ? { lang: getLang() } : {});
+/** @type {import("./stock-table.js").Sort} */
+let sort = { key: "", dir: 1 };
 
 // ---------- saving the list ----------
 function save() {
   const tickers = entries.filter((e) => e.status !== "error").map((e) => e.ticker);
-  try { localStorage.setItem(STORE, tickers.join(",")); } catch { /* storage unavailable: the address still has them */ }
+  saveTickers(tickers);
   const q = new URLSearchParams({ ...(tickers.length ? { t: tickers.join(",") } : {}), ...langQuery() });
   history.replaceState(null, "", `${location.pathname}${q.toString() ? `?${q}` : ""}`);
 }
@@ -34,19 +27,7 @@ function status(text, isError = false) {
 }
 
 // ---------- loading ----------
-let running = 0;
-function pump() {
-  for (const e of entries) {
-    if (running >= PARALLEL) return;
-    if (e.status !== "loading" || e.row || e.error || /** @type {any} */ (e).started) continue;
-    /** @type {any} */ (e).started = true;
-    running++;
-    fetchFinancials(e.ticker)
-      .then((d) => { e.ticker = d.ticker; e.row = portfolioRow(d); e.status = "ok"; })
-      .catch((err) => { e.error = /** @type {Error} */ (err).message; e.status = "error"; })
-      .finally(() => { running--; save(); render(); pump(); });
-  }
-}
+const pump = loader(() => entries, () => { save(); render(); });
 
 /** Add tickers to the list (skipping ones already there) and start loading them. @param {string[]} tickers */
 function add(tickers, announce = true) {
@@ -69,58 +50,11 @@ function remove(/** @type {string} */ ticker) {
 }
 
 // ---------- the table ----------
-/** @param {(typeof COLUMNS)[number]} col @param {{v: number|null, why?: string, met?: number, judged?: number, notMet?: string[]}} c */
-function cell(col, c) {
-  if (c.v == null) {
-    const why = t(`pf.why.${c.why || "notEnough"}`);
-    return `<td class="nm" title="${esc(why)}">${t("cmp.na")}<span class="sr-only"> (${esc(why)})</span></td>`;
-  }
-  if (col.kind === "score") {
-    // "6 of 7", with the criteria not met on hover; the median row has only the share met
-    if (c.met == null) return `<td class="pf-cell ${tone(col, c.v)}">${esc(t("pf.scoreMedian", { pct: pct(c.v, 0) }))}</td>`;
-    const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map(checkName).join(", ") }) : t("pf.allMet");
-    return `<td class="pf-cell ${tone(col, c.v)}" title="${esc(detail)}">${esc(t("pf.score", { met: c.met, judged: c.judged }))}`
-      + `<span class="sr-only"> (${esc(detail)})</span></td>`;
-  }
-  const text = col.kind === "growth" && c.v > 0 ? `+${pct(c.v)}` : pct(c.v);
-  return `<td class="pf-cell ${tone(col, c.v)}">${text}</td>`;
-}
-
 function render() {
   const has = entries.length > 0;
   $("pfEmpty").hidden = has;
   $("pfResult").hidden = !has;
-  if (!has) return;
-
-  const header = (/** @type {string} */ key, /** @type {string} */ label, /** @type {string} */ help = "") => {
-    const ariaSort = sort.key === key ? (sort.dir === 1 ? "ascending" : "descending") : "none";
-    const arrow = sort.key === key ? (sort.dir === 1 ? " ▲" : " ▼") : "";
-    return `<th scope="col" aria-sort="${ariaSort}"${help ? ` title="${esc(help)}"` : ""}><button type="button" class="pf-sort" data-sort="${key}">${esc(label)}${arrow}</button></th>`;
-  };
-  const head = `<thead><tr>${header("ticker", t("pf.company"))}${COLUMNS.map((c) => header(c.key, t(`pf.col.${c.key}`), t(`pf.help.${c.key}`))).join("")}<th scope="col"><span class="sr-only">${t("pf.actions")}</span></th></tr></thead>`;
-
-  const ok = entries.filter((e) => e.row);
-  const others = entries.filter((e) => !e.row);
-  const sorted = sort.key ? sortRows(ok.map((e) => ({ ...e.row, entry: e })), sort.key, sort.dir).map((r) => r.entry) : ok;
-  const removeBtn = (/** @type {string} */ ticker) => `<td><button type="button" class="pf-remove" data-remove="${esc(ticker)}" aria-label="${esc(t("pf.remove", { ticker }))}">✕</button></td>`;
-  const link = (/** @type {string} */ ticker) => `index.html?${new URLSearchParams({ t: ticker, ...langQuery() })}`;
-  const rows = [...sorted, ...others].map((e) => {
-    if (e.row) {
-      const r = e.row;
-      return `<tr data-testid="pf-row"><th scope="row"><a href="${link(r.ticker)}">${esc(r.name)} (${esc(r.ticker)})</a><span class="pf-years">${r.from}–${r.to}</span></th>`
-        + COLUMNS.map((c) => cell(c, r.cells[c.key])).join("") + removeBtn(r.ticker) + "</tr>";
-    }
-    const msg = e.status === "error" ? `<span class="error-text">${esc(e.error || "")}</span>` : `<span class="muted">${esc(t("pf.loading", { ticker: e.ticker }))}</span>`;
-    return `<tr data-testid="pf-row"><th scope="row">${esc(e.ticker)}</th><td colspan="${COLUMNS.length}">${msg}</td>${removeBtn(e.ticker)}</tr>`;
-  }).join("");
-
-  let foot = "";
-  if (ok.length >= 2) {
-    const m = medians(ok.map((e) => e.row));
-    foot = `<tfoot><tr data-testid="pf-median"><th scope="row">${esc(t("pf.median", { n: ok.length }))}</th>`
-      + COLUMNS.map((c) => cell(c, { v: m[c.key] })).join("") + "<td></td></tr></tfoot>";
-  }
-  $("pfTable").innerHTML = `${head}<tbody>${rows}</tbody>${foot}`;
+  if (has) $("pfTable").innerHTML = tableHtml(entries, sort, { removable: true });
 }
 
 // ---------- events ----------
@@ -143,8 +77,7 @@ $("pfTable").addEventListener("click", (/** @type {Event} */ e) => {
   const sortBtn = /** @type {HTMLElement | null} */ (el.closest("[data-sort]"));
   if (sortBtn) {
     const key = sortBtn.dataset.sort || "";
-    // Numbers start high-to-low (the best growth first); names start A-Z. A second click reverses.
-    sort = sort.key === key ? { key, dir: /** @type {1|-1} */ (-sort.dir) } : { key, dir: key === "ticker" ? 1 : -1 };
+    sort = nextSort(sort, key);
     render();
     $("pfTable").querySelector(`[data-sort="${key}"]`).focus();
     return;
@@ -175,9 +108,7 @@ const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
 $("pfSuggest").setAttribute("aria-label", t("search.suggestions"));
-let saved = "";
-try { saved = localStorage.getItem(STORE) || ""; } catch { /* storage unavailable */ }
-add(parseTickers(params.has("t") ? params.get("t") : saved), false);
+add(params.has("t") ? parseTickers(params.get("t")) : savedTickers(), false);
 const toAdd = parseTickers(params.get("add"));
 if (toAdd.length) add(toAdd);
 if (!entries.length) $("pfTicker").focus();

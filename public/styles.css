@@ -467,3 +467,46 @@
   .nav-btn { padding: 5px 8px; }
   .nav-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
+
+/* ---------- S&P 500 picker (sp500.html) and its results (sp500-view.html) ---------- */
+.top-actions { flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; }
+.nav-btn[aria-current="page"] { color: var(--accent); border-color: var(--accent); }
+.sp-filters { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; }
+.sp-field { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px; }
+.sp-field input, .sp-field select { font: inherit; font-weight: 400; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--text-1); }
+.sp-field input:focus-visible, .sp-field select:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.sp-count { margin: 10px 0 6px; font-size: 13px; }
+/* about 12 rows visible; the whole list scrolls inside the card */
+.sp-list { max-height: 520px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; }
+.sp-list:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sp-rows { list-style: none; margin: 0; padding: 0; }
+.sp-row { display: flex; align-items: center; gap: 10px; padding: 0 12px; border-bottom: 1px solid var(--border); min-height: 42px; }
+.sp-row:last-child { border-bottom: 0; }
+.sp-row.on { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.sp-row input { width: 18px; height: 18px; flex: none; accent-color: var(--accent); }
+.sp-row label { flex: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 10px 0; cursor: pointer; }
+.sp-row input:disabled + label { cursor: not-allowed; color: var(--muted); }
+.sp-name { font-weight: 600; }
+.sp-ticker { font-size: 13px; color: var(--text-2); }
+.sp-sector { margin-left: auto; font-size: 12px; color: var(--muted); }
+.sp-none { padding: 16px; margin: 0; }
+/* the selection stays in reach while the list scrolls */
+.sp-bar { position: sticky; bottom: 8px; z-index: 2; margin-top: 12px; box-shadow: 0 4px 18px rgb(0 0 0 / 12%); }
+.sp-bar-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.sp-picked-title { margin: 0; font-size: 16px; }
+.sp-chips-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.sp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.sp-chips:empty { display: none; }
+#spStatus:empty { display: none; }
+.sp-show { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: 14px;
+  background: var(--accent-strong); color: #fff; text-decoration: none; }
+.sp-show[aria-disabled="true"] { background: var(--border); color: var(--text-2); pointer-events: none; }
+.sp-show { border: 0; cursor: pointer; font-family: inherit; }
+.sp-show:hover { filter: brightness(1.08); }
+.sp-show:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+#spHint, #spStatus { margin: 8px 0 0; }
+#spClear[hidden] { display: none; }
+.spv-actions .back-link { margin: 0; }
+.spv-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 0; }
+@media (max-width: 560px) { #spHint { display: none; } .sp-filters { grid-template-columns: 1fr; } .sp-sector { margin-left: 0; width: 100%; } .sp-list { max-height: 60vh; } }
+#spvStatus:empty { display: none; }

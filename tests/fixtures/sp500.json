@@ -1,0 +1,78 @@
+{
+ "generated": "2026-10-01",
+ "source": "Wikipedia: List of S&P 500 companies",
+ "count": 14,
+ "companies": [
+  {
+   "t": "GOOGL",
+   "n": "Alphabet Inc. (Class A)",
+   "s": "Communication Services"
+  },
+  {
+   "t": "AMZN",
+   "n": "Amazon",
+   "s": "Consumer Discretionary"
+  },
+  {
+   "t": "AAPL",
+   "n": "Apple Inc.",
+   "s": "Information Technology"
+  },
+  {
+   "t": "BRK.B",
+   "n": "Berkshire Hathaway",
+   "s": "Financials"
+  },
+  {
+   "t": "KO",
+   "n": "Coca-Cola Company (The)",
+   "s": "Consumer Staples"
+  },
+  {
+   "t": "XOM",
+   "n": "ExxonMobil",
+   "s": "Energy"
+  },
+  {
+   "t": "INTC",
+   "n": "Intel",
+   "s": "Information Technology"
+  },
+  {
+   "t": "JNJ",
+   "n": "Johnson & Johnson",
+   "s": "Health Care"
+  },
+  {
+   "t": "JPM",
+   "n": "JPMorgan Chase",
+   "s": "Financials"
+  },
+  {
+   "t": "META",
+   "n": "Meta Platforms",
+   "s": "Communication Services"
+  },
+  {
+   "t": "MSFT",
+   "n": "Microsoft",
+   "s": "Information Technology"
+  },
+  {
+   "t": "NVDA",
+   "n": "Nvidia",
+   "s": "Information Technology"
+  },
+  {
+   "t": "PEP",
+   "n": "PepsiCo",
+   "s": "Consumer Staples"
+  },
+  {
+   "t": "SMCI",
+   "n": "Supermicro",
+   "s": "Information Technology"
+  }
+ ],
+ "notOnSec": []
+}

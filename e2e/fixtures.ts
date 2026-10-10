@@ -6,6 +6,7 @@ import { parentSuite } from 'allure-js-commons';
 import { AnalysisPage } from './pages/AnalysisPage';
 import { ComparePage } from './pages/ComparePage';
 import { DisclaimerPage } from './pages/DisclaimerPage';
+import { PortfolioPage } from './pages/PortfolioPage';
 
 type Fixtures = {
   /** The start and results page (index.html). */
@@ -14,6 +15,8 @@ type Fixtures = {
   compare: ComparePage;
   /** The disclaimer page (disclaimer.html). */
   disclaimer: DisclaimerPage;
+  /** My portfolio (portfolio.html). */
+  portfolio: PortfolioPage;
   /** JavaScript errors and console errors raised while the test runs. */
   consoleErrors: string[];
   /** A screenshot at the end of a test that failed, or that has no step screenshots of its own. */
@@ -31,6 +34,9 @@ export const test = base.extend<Fixtures>({
   },
   disclaimer: async ({ page }, use) => {
     await use(new DisclaimerPage(page));
+  },
+  portfolio: async ({ page }, use) => {
+    await use(new PortfolioPage(page));
   },
   consoleErrors: async ({ page }, use) => {
     const errors: string[] = [];

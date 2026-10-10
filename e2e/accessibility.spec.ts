@@ -176,3 +176,27 @@ test.describe('axe: disclaimer page', () => {
     }
   }
 });
+
+test.describe('axe: portfolio page', () => {
+  for (const lang of ['en', 'es'] as const) {
+    for (const scheme of SCHEMES) {
+      test(`portfolio page (${lang}, ${scheme})`, async ({ portfolio, page }, testInfo) => {
+        await prepare(page, 1100, scheme);
+        // A bank (n/a cells), a loss maker and two others: every kind of cell, the median row and the legend
+        await portfolio.goto(`t=KO,AAPL,INTC,JPM${lang === 'es' ? '&lang=es' : ''}`);
+        await portfolio.median.waitFor();
+        expect(await violations(portfolio, testInfo)).toEqual([]);
+      });
+    }
+  }
+
+  test('portfolio page at phone width, and empty', async ({ portfolio, page }, testInfo) => {
+    await prepare(page, 375);
+    await portfolio.goto('t=KO,JPM');
+    await portfolio.median.waitFor();
+    expect(await violations(portfolio, testInfo)).toEqual([]);
+    await portfolio.removeAll.click();
+    await portfolio.empty.waitFor();
+    expect(await violations(portfolio, testInfo)).toEqual([]);
+  });
+});

@@ -19,6 +19,7 @@ on:
           - all              # every browser test
           - ui               # e2e/ui.spec.ts: the analysis page
           - compare          # e2e/compare.spec.ts: the compare page
+          - portfolio        # e2e/portfolio.spec.ts: My portfolio
           - accessibility    # e2e/accessibility.spec.ts: axe-core and keyboard checks
         default: all
       grep:
@@ -81,6 +82,7 @@ jobs:
           case "$SUITE" in
             ui) args="e2e/ui.spec.ts" ;;
             compare) args="e2e/compare.spec.ts" ;;
+            portfolio) args="e2e/portfolio.spec.ts" ;;
             accessibility) args="e2e/accessibility.spec.ts" ;;
           esac
           set -- $args

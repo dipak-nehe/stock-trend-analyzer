@@ -9,7 +9,7 @@ import { renderCharts } from "./charts.js";
 import { checklist, checklistScore, dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
-import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, targetOf, useLang } from "./page.js";
+import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, portfolioHref, targetOf, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { durableChecks } from "./durable.js";
 import { industryComparison } from "./industry.js";
@@ -34,6 +34,7 @@ function render(d) {
     + t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur, cik: d.cik });
   $("secLink").href = d.secUrl;
   $("compareLink").href = compareHref(d.ticker);
+  $("portfolioAddLink").href = portfolioHref(d.ticker);
   // When the data was fetched from SEC (results are stored and reused for up to a day)
   const asOf = d.dataAsOf ? new Date(d.dataAsOf).toLocaleString(getLocale(), { dateStyle: "medium", timeStyle: "short" }) : "";
   $("coAsOf").textContent = asOf ? t("company.asOf", { date: asOf }) : "";

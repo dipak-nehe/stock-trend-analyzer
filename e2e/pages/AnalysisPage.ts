@@ -333,6 +333,11 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('lynch-score');
   }
 
+  /** "+ Add to my portfolio" next to the compare link on a result. */
+  get addToPortfolioLink(): Locator {
+    return this.page.getByRole('link', { name: either('+ Add to my portfolio', '+ Añadir a mi cartera') });
+  }
+
   get piotroski(): Locator {
     return this.page.getByTestId('piotroski');
   }

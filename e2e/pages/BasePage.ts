@@ -18,6 +18,11 @@ export class BasePage {
     return this.page.getByRole('link', { name: either('Home', 'Inicio') });
   }
 
+  /** "My portfolio" in the header (every page but the portfolio itself). */
+  get portfolioLink(): Locator {
+    return this.page.getByRole('link', { name: either('My portfolio', 'Mi cartera') });
+  }
+
   languageButton(lang: 'en' | 'es'): Locator {
     return this.page.getByRole('group', { name: 'Language / Idioma' }).getByRole('button', { name: lang.toUpperCase(), exact: true });
   }

@@ -57,6 +57,7 @@ export function applyStaticText() {
   $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   // Home (and other links back to the start page) go to a fresh landing page in the same language
   $$("a.home-btn, a.home-link, a[data-start-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
+  $$("a[data-portfolio-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "portfolio.html" : `portfolio.html?lang=${lang}`));
 }
 
 /**
@@ -105,6 +106,13 @@ export function enableWhenFilled(inputId, buttonId) {
   window.addEventListener("pageshow", update); // the browser can restore a typed value on Back
   update();
   return update;
+}
+
+/** Link that adds a ticker to "My portfolio" (portfolio.html), keeping the language. @param {string} ticker */
+export function portfolioHref(ticker) {
+  const q = new URLSearchParams({ add: ticker });
+  if (getLang() !== "en") q.set("lang", getLang());
+  return `portfolio.html?${q}`;
 }
 
 /** Link to the compare page for a ticker, keeping the language. @param {string} ticker */

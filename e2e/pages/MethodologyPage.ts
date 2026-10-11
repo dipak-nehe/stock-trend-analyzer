@@ -27,8 +27,4 @@ export class MethodologyPage extends BasePage {
     return this.page.getByTestId('report-link');
   }
 
-  /** "How we calculate" in the footer of any page. */
-  get footerLink(): Locator {
-    return this.footer.getByRole('link', { name: either('How we calculate', 'Cómo calculamos') });
-  }
 }

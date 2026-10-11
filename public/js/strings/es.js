@@ -797,7 +797,7 @@ export default {
   "ui.home": "Inicio",
   "ui.footer.data": "Datos: presentaciones de empresas en <a href=\"https://www.sec.gov/edgar/sec-api-documentation\" target=\"_blank\" rel=\"noopener\">SEC EDGAR</a>. Sin relación con la SEC ni con ninguna de las empresas mostradas.",
   "ui.footer.privacy": "Las visitas y la velocidad de la página se miden de forma anónima con Vercel Web Analytics y Speed Insights: sin cookies ni datos personales.",
-  "ui.footer.legal": "<a href=\"methodology.html?lang=es\">Cómo calculamos</a> · <a href=\"disclaimer.html?lang=es\">Aviso legal</a>",
+  "ui.footer.legal": "<a href=\"disclaimer.html?lang=es\">Aviso legal</a>",
   "ui.legal.pageTitle": "Aviso legal · 10-Year Stock Value Analysis",
   "ui.legal.title": "Aviso sobre riesgos de inversión",
   "ui.legal.advice.title": "No es asesoramiento",

@@ -63,4 +63,5 @@ def test_the_sitemap_lists_the_site_pages_and_a_page_per_company():
     assert locs[0] == "https://stock-value-analysis.vercel.app/"
     assert locs[-2:] == ["https://stock-value-analysis.vercel.app/stock/BRK.B", "https://stock-value-analysis.vercel.app/stock/KO"]
     assert "lastmod" not in xml   # no dates: the file only changes when the list does
+    assert not any("methodology" in loc for loc in locs)   # unlisted
 

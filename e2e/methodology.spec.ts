@@ -17,13 +17,13 @@ test.describe('How we calculate', () => {
     expect(consoleErrors).toEqual([]);
   });
 
-  test('every page links to it in the footer, keeping the language', async ({ analysis, methodology, page }) => {
-    for (const path of ['/', '/compare.html', '/portfolio.html', '/sp500.html', '/disclaimer.html']) {
+  test('unlisted: no page links to it and search engines are asked not to index it, but it still opens, in Spanish too', async ({ methodology, page }) => {
+    for (const path of ['/', '/?lang=es', '/compare.html', '/portfolio.html', '/sp500.html', '/sp500-view.html', '/disclaimer.html']) {
       await page.goto(path);
-      await expect(methodology.footerLink).toHaveAttribute('href', 'methodology.html');
+      await expect(page.locator('a[href^="methodology.html"]')).toHaveCount(0);
     }
-    await analysis.goto('/?lang=es');
-    await analysis.step('open Cómo calculamos from the footer', () => methodology.footerLink.click());
+    await methodology.goto('lang=es');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
     await expect(methodology.heading).toHaveText('Cómo calculamos');
     await expect(methodology.flagRows.first()).toContainText('Los ingresos cayeron más de un 3 % al año');
   });

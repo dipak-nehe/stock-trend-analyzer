@@ -315,7 +315,7 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | # | Test |
 |---|---|
 | 150 | lists every red flag and checklist test with its rule |
-| 151 | every page links to it in the footer, keeping the language |
+| 151 | unlisted: no page links to it and search engines are asked not to index it, but it still opens, in Spanish too |
 
 ## Accessibility (`e2e/accessibility.spec.ts`, 55)
 

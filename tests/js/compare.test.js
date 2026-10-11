@@ -117,3 +117,12 @@ test("the comparison carries the newer measures: tangible return, both extra che
   assert.equal(measures(prepare(company())).divYield, null);  // no price, no yield
 });
 
+test("EV / free cash flow is compared at the entered prices, lower being more favourable", () => {
+  assert.equal(DIRECTIONS.evFcf, "lower");
+  const m = measures(prepare(company(), 20));
+  assert.ok(m.evFcf > 0);
+  assert.equal(measures(prepare(company())).evFcf, null);  // needs a price
+  const rows = compareRows(prepare(company(), 20), prepare(company(), 40));
+  assert.equal(row(rows, "evFcf").label, "EV / free cash flow");
+});
+

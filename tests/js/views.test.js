@@ -84,7 +84,7 @@ test("glance: with a price, a last line values the business at that price (never
   const last = rows.at(-1);
   assert.equal(last.what, "At your price");
   assert.equal(last.tab, "value");
-  assert.match(last.say, /^\$20\.00: owner earnings yield \d+\.\d% · \d+% (below|above) the owner-earnings value · EV \/ free cash flow \d+\.\d$/);
+  assert.match(last.say, /^\$20\.00: owner earnings yield \d+\.\d% · \d+% (below|above) the owner-earnings value$/);
   assert.ok(!glanceRows(d, r, valueChecks(d, null, r)).some((row) => row.what === "At your price"));
 });
 
@@ -235,19 +235,17 @@ test("the value-estimate tile spells out the assumptions in use, or why there is
   assert.match(text(bad.tiles), /The discount rate must be above the growth after year 10/);
 });
 
-test("value estimates need no price; the valuation at a price comes separately, owner earnings first", () => {
+test("only Buffett's numbers: the owner-earnings value with no price, then owner earnings yield and margin of safety at a price", () => {
   const d = company(), r = analyze(d);
   const labels = (html) => [...html.matchAll(/<div class="label">([^<]*)<\/div>/g)].map((m) => m[1]);
   const none = valueView(d, null, valueChecks(d, null, r));
-  assert.deepEqual(labels(none.tiles), ["Owner-earnings value", "Graham Number", "Book value per share"]);
-  assert.match(text(none.tiles), /most high-return, asset-light companies stay above it/);
-  assert.deepEqual(labels(none.priceTiles), ["Owner earnings yield", "Margin of safety", "EV / free cash flow", "P/E on 3-year average EPS",
-    "Price to book", "Dividend yield"]);
-  assert.equal(text(none.priceTiles).match(/Enter a price to calculate/g).length, 6);
+  assert.deepEqual(labels(none.tiles), ["Owner-earnings value"]);
+  assert.deepEqual(labels(none.priceTiles), ["Owner earnings yield", "Margin of safety"]);
+  assert.equal(text(none.priceTiles).match(/Enter a price to calculate/g).length, 2);
   const v = valueChecks(d, 1, r);  // a price far below the estimate
   const at = text(valueView(d, 1, v).priceTiles);
   assert.match(at, new RegExp(`Margin of safety ${Math.round((1 - 1 / v.iv) * 100)}% below`));
-  assert.match(at, /EV \/ free cash flow \d+\.\d Enterprise value/);
+  assert.match(at, /Owner earnings yield \d+(\.\d)?%/);
 });
 
 // ---------- "Latest 12 months" (Overview) ----------

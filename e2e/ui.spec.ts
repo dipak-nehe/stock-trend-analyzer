@@ -609,7 +609,9 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.priceTiles).not.toContainText('Graham Number');  // Graham's own P/B test covers the price
     await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
     await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% (below|above)/);
-    await expect(analysis.priceTiles).toContainText(/EV \/ free cash flow\s*\d+\.\d/);
+    // only Buffett's numbers here: Graham's P/E and price to book are in his checklist, EV / free cash flow on Compare
+    await expect(analysis.valueTiles.getByTestId('tile')).toHaveCount(1);
+    await expect(analysis.priceTiles.getByTestId('tile')).toHaveCount(2);
     // the overview gets one line for the price, after the business lines
     await analysis.step('back to the overview', () => analysis.openTab('overview'));
     await expect(analysis.glanceRows.last()).toContainText(/At your price\s*\$68\.00: owner earnings yield 1\.8%/);
@@ -736,11 +738,9 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.piotroski).toBeVisible();
     await expect(analysis.piotroski.getByTestId('check')).toHaveCount(9);
     await expect(analysis.piotroski).toContainText('2025: cash flow $7.4B, net income $13.1B');
-    // the yields wait for a price, then use the latest dividend and free cash flow per share
-    await expect(analysis.priceTiles).toContainText('Dividend yield');
+    // the owner earnings yield waits for a price, then uses the latest free cash flow per share
     await expect(analysis.priceTiles).toContainText('Enter a price to calculate');
     await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
-    await expect(analysis.priceTiles).toContainText(/Dividend yield\s*3\.0%/);
     await expect(analysis.priceTiles).toContainText(/Owner earnings yield\s*1\.8%/);
   });
 

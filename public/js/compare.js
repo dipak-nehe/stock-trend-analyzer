@@ -61,6 +61,7 @@ export function measures(ctx) {
     priceVsValue: price && v.iv ? price / v.iv - 1 : null,
     divYield: v.divYield,
     fcfYield: v.fcfYield,
+    evFcf: v.evFcf,
   };
 }
 
@@ -94,6 +95,7 @@ const ROWS = [
   ["valuation", "priceVsValue", "signed", LOWER],
   ["valuation", "divYield", "pct", HIGHER],
   ["valuation", "fcfYield", "pct", HIGHER],
+  ["valuation", "evFcf", "ratio1", LOWER],  // the whole business, debt included: fair between companies that borrow differently
 ];
 export const DIRECTIONS = Object.fromEntries(ROWS.map(([, key, , dir]) => [key, dir]));
 

@@ -116,6 +116,10 @@ test.describe('prices and links', () => {
       await expect(pe).not.toContainText('add a price');
     });
     await expect(compare.favouriteMarks(pe)).toHaveCount(1);
+    // EV / free cash flow prices each whole business, debt included; lower is marked
+    const ev = compare.figureRow('EV / free cash flow');
+    await expect(ev.getByRole('cell').first()).toHaveText(/^\d+\.\d/);
+    await expect(compare.favouriteMarks(ev)).toHaveCount(1);
     await expect(page).toHaveURL(/pa=60&pb=200/);
   });
 

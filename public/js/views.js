@@ -170,28 +170,20 @@ export function valueView(d, price, v) {
   const cur = d.currency;
   const ps = (x) => perShare(x, cur);
   const tileV = (label, value, detail, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
-  // What the business might be worth, from the filings alone: no price needed
+  // What the business might be worth, from the filings alone: Buffett's owner-earnings value, no price needed
   const tiles = [
     tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
       : v.oe > 0 ? t("vv.oe.badRates") : t("vv.oe.none")),
-    tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail")),
-    tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", t("vv.bvps.detail")),
   ].join("");
 
-  // Valuation at the entered price, last on the tab: the business is judged first, then the price. Owner earnings
-  // and the margin of safety lead, as in Buffett's approach.
+  // Valuation at the entered price, last on the tab: the business is judged first, then the price, with Buffett's two
+  // measures (Graham's P/E and price-to-book show in his checklist; EV / free cash flow is on the Compare page).
   const ENTER = t("vv.pe.enter");
   const priceTiles = [
     tileV(t("vv.fcfYield.label"), v.fcfYield != null ? pct(v.fcfYield) : "–",
       v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : ENTER),
     tileV(t("vv.mos.label"), price && v.iv ? (price <= v.iv ? t("vv.mos.below", { pct: pct(1 - price / v.iv, 0) }) : t("vv.mos.above", { pct: pct(price / v.iv - 1, 0) })) : "–",
       !v.iv ? t("vv.mos.none") : price ? t("vv.mos.detail", { iv: ps(v.iv) }) : ENTER),
-    tileV(t("vv.ev.label"), v.evFcf != null ? fixed(v.evFcf, 1) : "–",
-      v.fcfPs == null ? t("vv.fcfYield.none") : !(v.fcfL > 0) ? t("vv.ev.none") : price ? t("vv.ev.detail", { ev: money(v.ev, cur), fcf: money(v.fcfL, cur) }) : ENTER),
-    tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : ENTER),
-    tileV(t("vv.pb.label"), v.pb ? fixed(v.pb, 2) : "–", !(v.bvps > 0) ? t("vv.pb.none") : price ? t("vv.pb.detail", { bvps: ps(v.bvps) }) : ENTER),
-    tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",
-      !v.dpsL ? t("vv.divYield.none") : price ? t("vv.divYield.detail", { dps: ps(v.dpsL) }) : ENTER),
   ].join("");
 
   const list = checklist, score = checklistScore;
@@ -270,7 +262,6 @@ export function glanceRows(d, r, v) {
     const parts = [
       v.fcfYield != null && t("glance.price.oey", { pct: pct(v.fcfYield) }),
       v.iv && (v.price <= v.iv ? t("glance.price.below", { pct: pct(1 - v.price / v.iv, 0) }) : t("glance.price.above", { pct: pct(v.price / v.iv - 1, 0) })),
-      v.evFcf != null && t("glance.price.ev", { x: fixed(v.evFcf, 1) }),
     ].filter(Boolean);
     if (parts.length) rows.push({ what: t("glance.price"), sev: "info", icon: "¤", tab: "value",
                                   say: t("glance.price.at", { price: perShare(v.price, d.currency) }) + parts.join(" · ") });

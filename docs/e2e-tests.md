@@ -257,7 +257,7 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 124 | each stock shows its 10-year growth, margins, returns and share count, with a median row |
 | 125 | a measure that can't be worked out says why |
 | 126 | cells are coloured by simple yardsticks, explained under the table |
-| 127 | Buffett criteria met and balance-sheet checks passed, with what wasn't met on hover |
+| 127 | Buffett criteria met, balance-sheet checks passed and the Piotroski F-score, with what wasn't met on hover |
 | 128 | clicking a column sorts by it, best first, and again the other way |
 
 ### Getting there and language (3)

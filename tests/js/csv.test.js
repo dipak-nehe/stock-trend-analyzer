@@ -28,11 +28,12 @@ test("a stock table: one row per loaded stock, percentages as numbers, scores as
   const rows = tableRows([{ ticker: "TEST", status: "ok", row }, { ticker: "ZZZ", status: "error", error: "x" }]);
   assert.equal(rows.length, 2);                                                         // the failed one is left out
   assert.deepEqual(rows[0].slice(0, 5), ["Company", "Ticker", "First year", "Latest year", "Revenue growth (%)"]);
-  assert.equal(rows[0].at(-1), "Balance-sheet checks passed");
+  assert.equal(rows[0].at(-1), "Piotroski F-score");
   assert.deepEqual(rows[1].slice(0, 4), ["Test Co", "TEST", 2016, 2025]);
   assert.equal(rows[1][4], Math.round(row.cells.revenue.v * 1000) / 10);               // e.g. 6 for 6.0%
   assert.equal(rows[1][6], "n/a");                                                      // no dividend: no growth
   assert.match(String(rows[1].at(-2)), /^\d+ of \d+$/);
+  assert.match(String(rows[1].at(-1)), /^\d of 9$/);
 });
 
 test("labels follow the page's language", () => {

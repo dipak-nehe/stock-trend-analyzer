@@ -4,7 +4,7 @@
 import { fetchFinancials } from "./page.js";
 import { COLUMNS, MAX_ROWS, checkName, medians, parseTickers, portfolioRow, sortRows, tone } from "./portfolio.js";
 import { getLang, t } from "./i18n.js";
-import { pct } from "./format.js";
+import { fixed, pct } from "./format.js";
 
 /** @typedef {{ ticker: string, status: "loading" | "ok" | "error", row?: any, error?: string, started?: boolean }} Entry */
 /** @typedef {{ key: string, dir: 1 | -1 }} Sort */
@@ -67,15 +67,17 @@ export function loader(getEntries, onChange) {
 }
 
 // ---------- the table ----------
-/** @param {(typeof COLUMNS)[number]} col @param {{v: number|null, why?: string, met?: number, judged?: number, notMet?: string[]}} c */
+/** @param {(typeof COLUMNS)[number]} col @param {{v: number|null, why?: string, met?: number|null, judged?: number|null, notMet?: string[], avg?: boolean}} c */
 function cell(col, c) {
   if (c.v == null) {
     const why = t(`pf.why.${c.why || "notEnough"}`);
     return `<td class="nm" title="${esc(why)}">${t("cmp.na")}<span class="sr-only"> (${esc(why)})</span></td>`;
   }
   if (col.kind === "score") {
-    // "3 of 4", with the checks not met on hover (named as on their tab); the median row has only the share met
-    if (c.met == null) return `<td class="pf-cell ${tone(col, c.v)}">${esc(t("pf.scoreMedian", { pct: pct(c.v, 0) }))}</td>`;
+    // "3 of 4", with the checks not met on hover (named as on their tab). The bottom row has the average: "6.5 of 9 on
+    // average", or the share met when the stocks were judged on different numbers of tests.
+    if (c.avg) return `<td class="pf-cell ${tone(col, c.v)}">${esc(c.met != null && c.judged != null
+      ? t("pf.scoreAvg", { met: Number.isInteger(c.met) ? String(c.met) : fixed(c.met, 1), judged: c.judged }) : t("pf.scoreAvgPct", { pct: pct(c.v, 0) }))}</td>`;
     const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map((id) => checkName(col.key, id)).join(", ") }) : t("pf.allMet");
     return `<td class="pf-cell ${tone(col, c.v)}" title="${esc(detail)}">${esc(t("pf.score", { met: c.met, judged: c.judged }))}`
       + `<span class="sr-only"> (${esc(detail)})</span></td>`;
@@ -118,7 +120,7 @@ export function tableHtml(entries, sort, { removable = false } = {}) {
   if (ok.length >= 2) {
     const m = medians(ok.map((e) => e.row));
     foot = `<tfoot><tr data-testid="pf-median"><th scope="row">${esc(t("pf.median", { n: ok.length }))}</th>`
-      + COLUMNS.map((c) => cell(c, { v: m[c.key] })).join("") + (removable ? "<td></td>" : "") + "</tr></tfoot>";
+      + COLUMNS.map((c) => { const x = m[c.key]; return cell(c, c.kind === "score" && x ? { ...x, avg: true } : { v: x }); }).join("") + (removable ? "<td></td>" : "") + "</tr></tfoot>";
   }
   return `${head}<tbody>${rows}</tbody>${foot}`;
 }

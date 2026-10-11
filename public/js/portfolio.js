@@ -1,5 +1,5 @@
-// "My portfolio": ten 10-year measures per stock, all in %, plus two checklist scores (Buffett's criteria and the
-// Durable advantage tab's balance-sheet tests), from the same API response and the same rules as the results page
+// "My portfolio": ten 10-year measures per stock, all in %, plus three checklist scores (Buffett's criteria, the
+// Durable advantage tab's balance-sheet tests and the Piotroski F-score), from the same API response and the same rules as the results page
 // (free cash flow and the bank test from flags.js, the value checks from valuation.js, the statement tests from
 // durable.js).
 // No page code here, so it can be unit-tested; portfolio-app.js puts it on the page.
@@ -29,6 +29,8 @@ export const COLUMNS = [
   { key: "shares", kind: "growth", good: 0, bad: 0.02, lowerIsBetter: true },
   { key: "buffett", kind: "score", good: 0.75, bad: 0.5 },
   { key: "balance", kind: "score", good: 0.75, bad: 0.5 },
+  // Piotroski's own bands: 8-9 of 9 strong, 0-2 weak
+  { key: "piotroski", kind: "score", good: 0.85, bad: 0.3 },
 ];
 
 // The Durable advantage tab's balance-sheet tests (durable.js groups its rows by statement)
@@ -48,11 +50,11 @@ function score(rows) {
 }
 
 /**
- * The display name of a test in a score column's notMet list: Buffett's criteria are named as on the Graham & Buffett
- * tab, the balance-sheet tests as on the Durable advantage tab. @param {string} column @param {string} id
+ * The display name of a test in a score column's notMet list: Buffett's criteria and the Piotroski tests are named as on
+ * the Graham & Buffett tab, the balance-sheet tests as on the Durable advantage tab. @param {string} column @param {string} id
  */
 export function checkName(column, id) {
-  return t(column === "buffett" ? `val.${id}.name` : `dur.${id}.name`);
+  return t(column === "balance" ? `dur.${id}.name` : `val.${id}.name`);
 }
 
 export const MAX_ROWS = 30;
@@ -107,6 +109,7 @@ export function portfolioRow(d) {
     shares: growth(s.dilutedShares),
     buffett: score(value.buffett),
     balance: score(durableChecks(d, r).filter((c) => BALANCE_SHEET.has(c.id))),
+    piotroski: fin ? { v: null, why: "bank" } : score(value.piotroski),
   };
   return { ticker: d.ticker, name: d.name, from: d.years[0], to: d.years[d.years.length - 1], cells };
 }
@@ -118,12 +121,23 @@ export function tone(col, v) {
   return v >= col.good ? "good" : v < col.bad ? "bad" : "";
 }
 
-/** The median of each column over the rows that have it (null when none do). @param {{cells: any}[]} rows */
+/**
+ * The bottom row: the median of each measure over the rows that have it, but the average for the checklist scores,
+ * where a median hides the misses (5, 5 and 4 of 5 has a median of 5 of 5). A score's average is
+ * { v: average share met, met: average count met, judged } when every row was judged on the same number of tests
+ * (met and judged null otherwise). Null when no row has a value. @param {{cells: any}[]} rows
+ */
 export function medians(rows) {
   return Object.fromEntries(COLUMNS.map((c) => {
-    const vals = rows.map((row) => row.cells[c.key].v).filter((v) => v != null).sort((a, b) => a - b);
-    const m = vals.length ? (vals.length % 2 ? vals[(vals.length - 1) / 2] : (vals[vals.length / 2 - 1] + vals[vals.length / 2]) / 2) : null;
-    return [c.key, m];
+    const cells = rows.map((row) => row.cells[c.key]).filter((x) => x.v != null);
+    if (!cells.length) return [c.key, null];
+    const mean = (/** @type {number[]} */ a) => a.reduce((x, y) => x + y, 0) / a.length;
+    if (c.kind === "score") {
+      const same = cells.every((x) => x.judged === cells[0].judged);
+      return [c.key, { v: mean(cells.map((x) => x.v)), met: same ? mean(cells.map((x) => x.met)) : null, judged: same ? cells[0].judged : null }];
+    }
+    const vals = cells.map((x) => x.v).sort((a, b) => a - b);
+    return [c.key, vals.length % 2 ? vals[(vals.length - 1) / 2] : (vals[vals.length / 2 - 1] + vals[vals.length / 2]) / 2];
   }));
 }
 

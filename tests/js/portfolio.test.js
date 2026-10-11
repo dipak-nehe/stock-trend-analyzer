@@ -10,9 +10,9 @@ const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-9, `${a} != ${b}`);
 const cagr = (a, b, n = 9) => Math.pow(b / a, 1 / n) - 1;
 const col = (key) => COLUMNS.find((c) => c.key === key);
 
-test("ten percentage columns and two checklist scores, over the company's own years", () => {
+test("ten percentage columns and three checklist scores, over the company's own years", () => {
   assert.equal(COLUMNS.filter((c) => c.kind !== "score").length, 10);
-  assert.deepEqual(COLUMNS.filter((c) => c.kind === "score").map((c) => c.key), ["buffett", "balance"]);
+  assert.deepEqual(COLUMNS.filter((c) => c.kind === "score").map((c) => c.key), ["buffett", "balance", "piotroski"]);
   const row = portfolioRow(company());
   assert.deepEqual(Object.keys(row.cells), COLUMNS.map((c) => c.key));
   assert.deepEqual([row.ticker, row.from, row.to], ["TEST", 2016, 2025]);
@@ -110,6 +110,31 @@ test("the balance-sheet score is green from three quarters passed and red under 
   assert.equal(tone(col("balance"), 0.75), "good");
   assert.equal(tone(col("balance"), 0.6), "");
   assert.equal(tone(col("balance"), 0.25), "bad");
+});
+
+test("the Piotroski F-score: nine tests from the Graham & Buffett tab, coloured by his own bands, n/a for banks", () => {
+  const d = company(), r = analyze(d);
+  const cell = portfolioRow(d).cells.piotroski;
+  const rows = valueChecks(d, null, r).piotroski;
+  assert.equal(cell.judged, rows.filter((c) => c.status === "pass" || c.status === "fail").length);
+  assert.equal(cell.met, rows.filter((c) => c.status === "pass").length);
+  assert.deepEqual(cell.notMet.map((id) => checkName("piotroski", id)), rows.filter((c) => c.status === "fail").map((c) => c.name));
+  assert.equal(tone(col("piotroski"), 8 / 9), "good");
+  assert.equal(tone(col("piotroski"), 7 / 9), "");
+  assert.equal(tone(col("piotroski"), 3 / 9), "");
+  assert.equal(tone(col("piotroski"), 2 / 9), "bad");
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
+                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9) });
+  assert.deepEqual(portfolioRow(bank).cells.piotroski, { v: null, why: "bank" });
+});
+
+test("the bottom row averages the checklist scores, so misses aren't hidden by a median", () => {
+  const sc = (met, judged) => ({ cells: { ...Object.fromEntries(COLUMNS.map((c) => [c.key, { v: null }])), balance: { v: met / judged, met, judged } } });
+  const m = medians([sc(5, 5), sc(5, 5), sc(4, 5)]).balance;   // the median would be 5 of 5
+  close(m.met, 14 / 3); assert.equal(m.judged, 5); close(m.v, 14 / 15);
+  const mixed = medians([sc(4, 4), sc(3, 5)]).balance;         // judged on different numbers of tests: the share only
+  assert.equal(mixed.met, null); close(mixed.v, (1 + 0.6) / 2);
+  assert.equal(medians([{ cells: Object.fromEntries(COLUMNS.map((c) => [c.key, { v: null }])) }]).balance, null);
 });
 
 test("the median row skips stocks without a value", () => {

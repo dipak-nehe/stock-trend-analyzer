@@ -1120,6 +1120,16 @@ test.describe('downloads', () => {
 });
 
 test.describe('page basics: layout, privacy and data freshness', () => {
+  test('the footer links to the author\'s portfolio site on every page, in both languages', async ({ page }) => {
+    // Spanish last: the language choice is remembered for the pages after it
+    for (const path of ['/', '/compare.html', '/portfolio.html', '/sp500.html', '/sp500-view.html', '/disclaimer.html', '/?lang=es']) {
+      await page.goto(path);
+      const link = page.getByTestId('portfolio-site');
+      await expect(link).toHaveAttribute('href', 'https://dipak-nehe.vercel.app/');
+      await expect(link).toHaveText(path.includes('lang=es') ? 'Portafolio' : 'Portfolio');
+    }
+  });
+
   test('a news link opens Google News for the stock in a new tab, in the page\'s language', async ({ analysis }) => {
     await analysis.open('KO');
     await expect(analysis.newsLink).toHaveText('Latest news on Google News ↗');

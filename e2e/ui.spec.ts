@@ -1100,6 +1100,16 @@ test.describe('downloads', () => {
 });
 
 test.describe('page basics: layout, privacy and data freshness', () => {
+  test('a news link opens Google News for the stock in a new tab, in the page\'s language', async ({ analysis }) => {
+    await analysis.open('KO');
+    await expect(analysis.newsLink).toHaveText('Latest news on Google News ↗');
+    await expect(analysis.newsLink).toHaveAttribute('href', 'https://news.google.com/search?q=KO%20stock&hl=en-US&gl=US&ceid=US:en');
+    await expect(analysis.newsLink).toHaveAttribute('target', '_blank');
+    await analysis.step('switch to Spanish', () => analysis.goto('/?t=KO&lang=es'));
+    await expect(analysis.newsLink).toHaveText('Últimas noticias en Google Noticias ↗');
+    await expect(analysis.newsLink).toHaveAttribute('href', 'https://news.google.com/search?q=KO%20acciones&hl=es&gl=ES&ceid=ES:es');
+  });
+
   test('phone layout has no horizontal scroll', async ({ analysis, page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await analysis.open('AAPL');

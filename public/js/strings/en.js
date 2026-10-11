@@ -379,6 +379,7 @@ export default {
   "vv.note.diluted": "the latest diluted share count",
   "vv.lookup": "Look up today's price:",
   "vv.lookup.query": "{ticker} stock price",
+  "news.query": "{ticker} stock",
 
   // ---------- trend tiles ----------
   "tile.revenue": "Revenue",

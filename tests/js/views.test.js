@@ -4,7 +4,8 @@ import { analyze } from "../../public/js/flags.js";
 import { growthView } from "../../public/js/growth.js";
 import { historyView } from "../../public/js/history.js";
 import { valueChecks } from "../../public/js/valuation.js";
-import { flagCounts, footnote, industryView, rdTile, ttmView, valueView } from "../../public/js/views.js";
+import { flagCounts, footnote, industryView, newsUrl, rdTile, ttmView, valueView } from "../../public/js/views.js";
+import { setLang } from "../../public/js/i18n.js";
 import { company, events, history, nulls } from "./company.js";
 
 const text = (html) => html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -277,3 +278,13 @@ test("the industry card names the group, and shows each ratio against the median
   assert.match(industryView(d, cmp), /<div class="ind-wrap" role="region" tabindex="0" aria-label="Compared with its industry">/);
 });
 
+
+test("the news link searches Google News for the stock, in the page's language", () => {
+  assert.equal(newsUrl("BRK.B"), "https://news.google.com/search?q=BRK.B%20stock&hl=en-US&gl=US&ceid=US:en");
+  setLang("es");
+  try {
+    assert.equal(newsUrl("KO"), "https://news.google.com/search?q=KO%20acciones&hl=es&gl=ES&ceid=ES:es");
+  } finally {
+    setLang("en");
+  }
+});

@@ -1,7 +1,7 @@
 // HTML for the trend tiles, red flags, data table, checklists and footnote.
 // Pure functions: data in, markup or text out. app.js puts the results on the page.
 import { fixed, money, num, pct, perShare } from "./format.js";
-import { getLocale, t, tn } from "./i18n.js";
+import { getLang, getLocale, t, tn } from "./i18n.js";
 import { classify, firstIdx, lastIdx } from "./series.js";
 import { labelOf } from "./labels.js";
 import { abbr } from "./help.js";
@@ -141,6 +141,14 @@ export function footnote(d) {
   const splits = d.splits.filter((x) => !x.detectedInFiling || x.detectedInFiling > first);
   const list = splits.map((x) => x.ratio >= 1 ? t("split.forward", { n: x.ratio }) : t("split.reverse", { n: Math.round(1 / x.ratio) })).join(", ");
   return t("footnote") + (splits.length ? t("footnote.splits", { list }) : "");
+}
+
+/** Google News search for the stock, in the page's language (English: US edition; Spanish: Spain's). The site shows no
+ * news itself: headlines are licensed, so the link leaves the reading to Google News. @param {string} ticker */
+export function newsUrl(ticker) {
+  const q = encodeURIComponent(t("news.query", { ticker }));
+  const edition = getLang() === "es" ? "hl=es&gl=ES&ceid=ES:es" : "hl=en-US&gl=US&ceid=US:en";
+  return `https://news.google.com/search?q=${q}&${edition}`;
 }
 
 // Links to look up today's price on public quote pages. The site doesn't fetch or show prices itself:

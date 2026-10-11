@@ -111,6 +111,11 @@ export class AnalysisPage extends BasePage {
     return this.page.locator('#compareLink');
   }
 
+  /** "Latest news on Google News ↗" in the results header. */
+  get newsLink(): Locator {
+    return this.page.getByTestId('news-link');
+  }
+
   // ---------- at a glance ----------
   get glance(): Locator {
     return this.page.getByTestId('glance');

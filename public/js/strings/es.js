@@ -387,6 +387,7 @@ export default {
   "vv.note.diluted": "el último número de acciones diluidas",
   "vv.lookup": "Consulta el precio de hoy:",
   "vv.lookup.query": "{ticker} cotización",
+  "news.query": "{ticker} acciones",
 
   // ---------- trend tiles ----------
   "tile.revenue": "Ingresos",
@@ -714,6 +715,7 @@ export default {
   "ui.quotes.title": "Cita del día",
   "ui.loading": "Obteniendo presentaciones de SEC EDGAR…",
   "ui.secLink": "Ver presentaciones en la SEC ↗",
+  "ui.newsLink": "Últimas noticias en Google Noticias ↗",
   "ui.compareLink": "Comparar con otra acción →",
   "ui.glance.title": "De un vistazo",
   "ui.glance.hint": "Pulsa cualquier línea para ver el detalle",

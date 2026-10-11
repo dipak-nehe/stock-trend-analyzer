@@ -74,8 +74,8 @@ function cell(col, c) {
     return `<td class="nm" title="${esc(why)}">${t("cmp.na")}<span class="sr-only"> (${esc(why)})</span></td>`;
   }
   if (col.kind === "score") {
-    // "3 of 4", with the checks not met on hover (named as on their tab). The bottom row has the average: "6.5 of 9 on
-    // average", or the share met when the stocks were judged on different numbers of tests.
+    // "3 of 4", with the checks not met on hover (named as on their tab). The bottom row has the average ("6.5 of 9",
+    // its label says so), or the share met when the stocks were judged on different numbers of tests.
     if (c.avg) return `<td class="pf-cell ${tone(col, c.v)}">${esc(c.met != null && c.judged != null
       ? t("pf.scoreAvg", { met: Number.isInteger(c.met) ? String(c.met) : fixed(c.met, 1), judged: c.judged }) : t("pf.scoreAvgPct", { pct: pct(c.v, 0) }))}</td>`;
     const detail = c.notMet && c.notMet.length ? t("pf.notMet", { list: c.notMet.map((id) => checkName(col.key, id)).join(", ") }) : t("pf.allMet");

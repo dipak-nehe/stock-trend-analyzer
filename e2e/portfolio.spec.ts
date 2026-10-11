@@ -100,19 +100,19 @@ test.describe('the measures and checklist scores', () => {
     await expect(portfolio.cell('INTC', COL.buffett)).toHaveClass(/bad/);
     await expect(portfolio.cell('INTC', COL.buffett)).toHaveAttribute('title', /^Not met: Consistent, growing earnings, High return on equity/);
     // the bottom row averages the scores (a median would hide the misses); judged on different numbers of tests, so as a share
-    await expect(portfolio.median.getByRole('cell').nth(COL.buffett)).toHaveText('68% met on average');
+    await expect(portfolio.median.getByRole('cell').nth(COL.buffett)).toHaveText('68% met');
     await expect(portfolio.cell('KO', COL.balance)).toContainText('4 of 5');
     await expect(portfolio.cell('KO', COL.balance)).toHaveAttribute('title', 'Not met: Low debt to equity');
     await expect(portfolio.cell('JPM', COL.balance)).toContainText('3 of 3');           // a bank: the debt tests don't apply
     await expect(portfolio.cell('INTC', COL.balance)).toContainText('3 of 4');          // cancels bought-back shares: no treasury stock, not counted
     await expect(portfolio.cell('JPM', COL.balance)).toHaveAttribute('title', 'All met');
-    await expect(portfolio.median.getByRole('cell').nth(COL.balance)).toHaveText('85% met on average');
+    await expect(portfolio.median.getByRole('cell').nth(COL.balance)).toHaveText('85% met');
     await expect(portfolio.median).toContainText('Median of 3 stocks (scores: average)');
     // Piotroski F-score: his nine tests, n/a for a bank, averaged as a count when every stock was judged on all nine
     await expect(portfolio.cell('KO', COL.piotroski)).toContainText('7 of 9');
     await expect(portfolio.cell('KO', COL.piotroski)).toHaveAttribute('title', 'Not met: Earnings backed by cash, More sales from assets');
     await expect(portfolio.cell('JPM', COL.piotroski)).toContainText('n/a');
-    await expect(portfolio.median.getByRole('cell').nth(COL.piotroski)).toHaveText('6.5 of 9 on average');
+    await expect(portfolio.median.getByRole('cell').nth(COL.piotroski)).toHaveText('6.5 of 9');
     await portfolio.step('open Balance-sheet terms explained', () => portfolio.balanceTerms.locator('summary').click());
     await expect(portfolio.balanceTerms.getByRole('term')).toHaveCount(8);
     await expect(portfolio.balanceTerms).toContainText('Total liabilities divided by shareholders\' equity, with treasury stock added back');

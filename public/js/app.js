@@ -9,6 +9,7 @@ import { renderCharts } from "./charts.js";
 import { checklist, checklistScore, dataTable, filingProblems, flagCounts, flagsList, footnote, glanceView, industryView, newsUrl, rdTile, trendTile, ttmView, valueView } from "./views.js";
 import { fixed, money, perShare } from "./format.js";
 import { getLang, getLocale, setLang, t } from "./i18n.js";
+import { chipList, clearRecent, loadRecent, rememberRecent } from "./recent.js";
 import { $, $$, API_VERSION, applyStaticText, bindSlashShortcut, compareHref, fetchFinancials, fetchInsiders, initialLang, portfolioHref, targetOf, useLang } from "./page.js";
 import { resolveTicker, searchCompanies } from "./company-search.js";
 import { durableChecks } from "./durable.js";
@@ -220,6 +221,8 @@ async function run(ticker) {
   try {
     render(await fetchFinancials(ticker));
     failed = null;
+    rememberRecent(current.data.ticker);  // only companies that opened, under the ticker SEC knows them by
+    drawChips();
   } catch (e) {
     // Forget the previous company: its results are hidden, and the address, language switch and price box
     // must not bring them back while the error shows.
@@ -263,9 +266,18 @@ function showQuote() {
   $("quoteAuthor").textContent = q.author;
 }
 
+// The chips under the search box: this visitor's recent companies (with Clear), or examples before there are any
+function drawChips() {
+  const { recent, tickers } = chipList(loadRecent());
+  $("tryChips").innerHTML = `<span>${t(recent ? "chips.recent" : "chips.try")}</span>`
+    + tickers.map((tk) => `<button class="chip" type="button" data-t="${tk}">${tk}</button>`).join("")
+    + (recent ? `<button class="chip chip-clear" type="button" id="clearRecent" data-testid="clear-recent">${t("chips.clear")}</button>` : "");
+}
+
 function switchLang(lang) {
   if (!useLang(lang)) return;
   showQuote();
+  drawChips();
   labelSuggestions();
   if (current) render(current.data);  // re-renders in the new language, keeping the open tab and any price
   else if (failed) return void run(failed);  // shows the error again, in the new language
@@ -304,7 +316,11 @@ $("form").addEventListener("submit", async (e) => {
   resetAssumptions();  // a new company starts from its own defaults
   run(await resolveTicker($("ticker").value, API_VERSION));  // a company name becomes its ticker
 });
-$$(".chip[data-t]").forEach((b) => b.addEventListener("click", () => { $("price").value = ""; resetAssumptions(); run(b.dataset.t); }));
+$("tryChips").addEventListener("click", (e) => {
+  const chip = /** @type {HTMLElement | null} */ (targetOf(e).closest(".chip[data-t]"));
+  if (chip) { $("price").value = ""; resetAssumptions(); run(chip.dataset.t || ""); return; }
+  if (targetOf(e).closest("#clearRecent")) { clearRecent(); drawChips(); $("ticker").focus(); }
+});
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   chartsStale = true;  // chart colours come from the theme
   if (current && activeTab === "charts") showTab("charts");
@@ -361,6 +377,7 @@ $("aReset").addEventListener("click", () => { resetAssumptions(); renderValue();
 const params = new URLSearchParams(location.search);
 setLang(initialLang(params));
 applyStaticText();
+drawChips();
 showQuote();
 labelSuggestions();
 $$(".lang-switch [data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));

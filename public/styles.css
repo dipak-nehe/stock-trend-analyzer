@@ -73,6 +73,7 @@
   .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--muted); align-items: center; }
   .chip { background: var(--surface); color: var(--text-1); border: 1px solid var(--border); padding: 5px 12px; font-weight: 600; font-size: 13px; border-radius: 999px; }
   .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chip.chip-clear { font-weight: 500; color: var(--muted); border-style: dashed; }
   @media (max-width: 600px) {
     .search { padding: 14px; }
     .kbd-hint { display: none; }

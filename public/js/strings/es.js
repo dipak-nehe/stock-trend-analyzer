@@ -387,6 +387,9 @@ export default {
   "vv.note.diluted": "el último número de acciones diluidas",
   "vv.lookup": "Consulta el precio de hoy:",
   "vv.lookup.query": "{ticker} cotización",
+  "chips.try": "Prueba:",
+  "chips.recent": "Recientes:",
+  "chips.clear": "Borrar",
   "news.query": "{ticker} acciones",
 
   // ---------- trend tiles ----------

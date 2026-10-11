@@ -30,6 +30,26 @@ test.describe('search', () => {
     await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
   });
 
+  test('the chips become the companies opened recently, newest first, until cleared', async ({ analysis }) => {
+    await analysis.goto('/');
+    await expect(analysis.tryChips).toHaveText(/^Try:\s*AAPL\s*KO\s*MSFT\s*JPM\s*INTC\s*T$/);
+    await analysis.open('KO');
+    await analysis.open('INTC');
+    await analysis.open('KO');                 // opened again: back to the front, not twice
+    await analysis.step('look up a ticker that doesn\'t exist', () => analysis.search('ZZZZ'));
+    await expect(analysis.error).toBeVisible();
+    await analysis.goto('/');
+    await expect(analysis.tryChips).toHaveText(/^Recent:\s*KO\s*INTC\s*Clear$/);  // a failed lookup isn't kept
+    await analysis.step('open INTC from its chip', () => analysis.exampleButton('INTC').click());
+    await expect(analysis.companyName).toHaveText('INTEL CORP (INTC)');
+    await expect(analysis.tryChips).toHaveText(/^Recent:\s*INTC\s*KO\s*Clear$/);
+    await analysis.step('switch to Spanish', () => analysis.goto('/?lang=es'));
+    await expect(analysis.tryChips).toHaveText(/^Recientes:\s*INTC\s*KO\s*Borrar$/);
+    await analysis.step('clear the list', () => analysis.clearRecent.click());
+    await expect(analysis.tryChips).toHaveText(/^Prueba:\s*AAPL\s*KO/);
+    await expect(analysis.searchBox).toBeFocused();
+  });
+
   test('search box has a visible label and works by label', async ({ analysis }) => {
     await analysis.goto('/');
     await expect(analysis.searchBox).toBeFocused(); // ready to type on arrival

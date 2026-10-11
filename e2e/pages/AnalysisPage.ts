@@ -31,6 +31,15 @@ export class AnalysisPage extends BasePage {
   }
 
   /** One of the "Try:" example tickers under the search box. */
+  /** The chips under the search box: "Try:" examples, or "Recent:" companies with a Clear chip. */
+  get tryChips(): Locator {
+    return this.page.getByTestId('try-chips');
+  }
+
+  get clearRecent(): Locator {
+    return this.page.getByTestId('clear-recent');
+  }
+
   exampleButton(ticker: string): Locator {
     return this.page.getByRole('button', { name: ticker, exact: true });
   }

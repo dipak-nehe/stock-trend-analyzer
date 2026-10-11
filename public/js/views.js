@@ -172,16 +172,30 @@ export function valueView(d, price, v) {
   const vs = (x) => !price || x == null ? "" : `<div class="trend ${price <= x ? "up" : "down"}">${
     price <= x ? t("vv.priceBelow", { pct: pct(1 - price / x, 0) }) : t("vv.priceAbove", { pct: pct(price / x - 1, 0) })}</div>`;
   const tileV = (label, value, detail, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
+  // What the business might be worth, from the filings alone: no price needed
   const tiles = [
-    tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail"), vs(v.grahamNumber)),
     tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
-      : v.oe > 0 ? t("vv.oe.badRates") : t("vv.oe.none"), vs(v.iv)),
-    tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", v.pb ? t("vv.bvps.pb", { pb: fixed(v.pb, 2) }) : t("vv.bvps.detail")),
-    tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : t("vv.pe.enter")),
-    tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",
-      !v.dpsL ? t("vv.divYield.none") : price ? t("vv.divYield.detail", { dps: ps(v.dpsL) }) : t("vv.pe.enter")),
+      : v.oe > 0 ? t("vv.oe.badRates") : t("vv.oe.none")),
+    tileV(t("vv.graham.label"), v.grahamNumber ? ps(v.grahamNumber) : "–", t("vv.graham.detail")),
+    tileV(t("vv.bvps.label"), v.bvps != null ? ps(v.bvps) : "–", t("vv.bvps.detail")),
+  ].join("");
+
+  // Valuation at the entered price, last on the tab: the business is judged first, then the price. Owner earnings
+  // and the margin of safety lead, as in Buffett's approach.
+  const ENTER = t("vv.pe.enter");
+  const priceTiles = [
     tileV(t("vv.fcfYield.label"), v.fcfYield != null ? pct(v.fcfYield) : "–",
-      v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : t("vv.pe.enter")),
+      v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : ENTER),
+    tileV(t("vv.mos.label"), price && v.iv ? (price <= v.iv ? t("vv.mos.below", { pct: pct(1 - price / v.iv, 0) }) : t("vv.mos.above", { pct: pct(price / v.iv - 1, 0) })) : "–",
+      !v.iv ? t("vv.mos.none") : price ? t("vv.mos.detail", { iv: ps(v.iv) }) : ENTER),
+    tileV(t("vv.ev.label"), v.evFcf != null ? fixed(v.evFcf, 1) : "–",
+      v.fcfPs == null ? t("vv.fcfYield.none") : !(v.fcfL > 0) ? t("vv.ev.none") : price ? t("vv.ev.detail", { ev: money(v.ev, cur), fcf: money(v.fcfL, cur) }) : ENTER),
+    tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : ENTER),
+    tileV(t("vv.pb.label"), v.pb ? fixed(v.pb, 2) : "–", !(v.bvps > 0) ? t("vv.pb.none") : price ? t("vv.pb.detail", { bvps: ps(v.bvps) }) : ENTER),
+    tileV(t("vv.gn.label"), price && v.grahamNumber ? ps(price) : "–",
+      !v.grahamNumber ? t("vv.gn.none") : price ? t("vv.gn.detail", { gn: ps(v.grahamNumber) }) : ENTER, vs(v.grahamNumber)),
+    tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",
+      !v.dpsL ? t("vv.divYield.none") : price ? t("vv.divYield.detail", { dps: ps(v.dpsL) }) : ENTER),
   ].join("");
 
   const list = checklist, score = checklistScore;
@@ -190,7 +204,7 @@ export function valueView(d, price, v) {
   const priceHint = cur === "USD" ? t("vv.hint.usd") : t("vv.hint.foreign", { cur });
   const note = t("vv.note", { shares: so ? t("vv.note.shares", { n: num(so.value), date: so.asOf }) : t("vv.note.diluted") });
   return {
-    tiles, priceHint, note, links: priceLinks(d.ticker),
+    tiles, priceTiles, priceHint, note, links: priceLinks(d.ticker),
     graham: list(v.graham), grahamScore: score(v.graham),
     buffett: list(v.buffett), buffettScore: score(v.buffett),
     lynch: list(v.lynch), lynchScore: score(v.lynch),
@@ -255,6 +269,16 @@ export function glanceRows(d, r, v) {
   const g = score(v.graham), b = score(v.buffett);
   rows.push({ what: t("glance.value"), sev: "info", icon: "★", tab: "value",
               say: t("glance.scores", { g: g.met, gj: g.judged, b: b.met, bj: b.judged }) + (g.needPrice || b.needPrice ? t("glance.addPrice") : "") });
+  // Price last, after the business: only once a price is entered
+  if (v.price) {
+    const parts = [
+      v.fcfYield != null && t("glance.price.oey", { pct: pct(v.fcfYield) }),
+      v.iv && (v.price <= v.iv ? t("glance.price.below", { pct: pct(1 - v.price / v.iv, 0) }) : t("glance.price.above", { pct: pct(v.price / v.iv - 1, 0) })),
+      v.evFcf != null && t("glance.price.ev", { x: fixed(v.evFcf, 1) }),
+    ].filter(Boolean);
+    if (parts.length) rows.push({ what: t("glance.price"), sev: "info", icon: "¤", tab: "value",
+                                  say: t("glance.price.at", { price: perShare(v.price, d.currency) }) + parts.join(" · ") });
+  }
   return rows;
 }
 

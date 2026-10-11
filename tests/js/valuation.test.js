@@ -118,6 +118,18 @@ test("dividend and free-cash-flow yields use the latest year and need a price", 
   assert.ok(Math.abs(v.fcfYield - fcf / d.sharesOutstanding.value / 20) < 1e-12);
 });
 
+test("EV / free cash flow prices the whole business: market value plus debt minus cash, over the latest free cash flow", () => {
+  const d = company();
+  assert.equal(checks(d).evFcf, null);  // needs a price
+  const v = checks(d, 20), s = d.series;
+  const ev = 20 * d.sharesOutstanding.value + s.totalDebt.at(-1) - s.cash.at(-1);
+  assert.ok(Math.abs(v.ev - ev) < 1e-3);
+  assert.ok(Math.abs(v.evFcf - ev / (s.operatingCashFlow.at(-1) - s.capex.at(-1))) < 1e-9);
+  // no multiple when free cash flow isn't positive
+  const burning = company({ capex: s.operatingCashFlow.map((x) => x * 2) });
+  assert.equal(checks(burning, 20).evFcf, null);
+});
+
 // ---------- Peter Lynch: growth at a reasonable price ----------
 const growing = (rate, start = 1.5) => YEARS.map((_, i) => start * Math.pow(1 + rate, i));  // EPS growing at `rate`
 const lynchRow = (d, name, price = null) => row(checks(d, price).lynch, name);

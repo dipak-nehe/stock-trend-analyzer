@@ -594,8 +594,25 @@ test.describe('Graham & Buffett and the share price', () => {
     });
     await expect(analysis.checkRow('Moderate P/E')).toContainText('P/E 25.6');
     await expect(analysis.checkRow('Margin of safety')).toContainText('Not met');
-    await expect(analysis.valueTiles).toContainText('Price is');
+    await expect(analysis.priceTiles).toContainText('Price is');
     await expect(page).toHaveURL(/\?t=KO&p=68#value$/);
+  });
+
+  test('business first, price last: the checklists, then the estimates, then the valuation at the price', async ({ analysis }) => {
+    await analysis.open('KO');
+    await analysis.openTab('value');
+    const top = async (l: Locator) => (await l.boundingBox())!.y;
+    const buffett = await top(analysis.checkRow('Margin of safety'));
+    expect(buffett).toBeLessThan(await top(analysis.valueTiles));
+    expect(await top(analysis.valueTiles)).toBeLessThan(await top(analysis.atPrice));
+    expect(await top(analysis.price)).toBeGreaterThan(await top(analysis.valueTiles));  // the price box is in the last section
+    await expect(analysis.valueTiles).not.toContainText('Price is');
+    await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
+    await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% (below|above)/);
+    await expect(analysis.priceTiles).toContainText(/EV \/ free cash flow\s*\d+\.\d/);
+    // the overview gets one line for the price, after the business lines
+    await analysis.step('back to the overview', () => analysis.openTab('overview'));
+    await expect(analysis.glanceRows.last()).toContainText(/At your price\s*\$68\.00: owner earnings yield 1\.8%/);
   });
 
   test('price from link is applied on load', async ({ analysis }) => {
@@ -720,11 +737,11 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.piotroski.getByTestId('check')).toHaveCount(9);
     await expect(analysis.piotroski).toContainText('2025: cash flow $7.4B, net income $13.1B');
     // the yields wait for a price, then use the latest dividend and free cash flow per share
-    await expect(analysis.valueTiles).toContainText('Dividend yield');
-    await expect(analysis.valueTiles).toContainText('Enter a price to calculate');
+    await expect(analysis.priceTiles).toContainText('Dividend yield');
+    await expect(analysis.priceTiles).toContainText('Enter a price to calculate');
     await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
-    await expect(analysis.valueTiles).toContainText(/Dividend yield\s*3\.0%/);
-    await expect(analysis.valueTiles).toContainText(/Free cash flow yield\s*1\.8%/);
+    await expect(analysis.priceTiles).toContainText(/Dividend yield\s*3\.0%/);
+    await expect(analysis.priceTiles).toContainText(/Owner earnings yield\s*1\.8%/);
   });
 
   test('bank-specific rules are skipped', async ({ analysis }) => {

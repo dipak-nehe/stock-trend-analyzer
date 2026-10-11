@@ -197,6 +197,7 @@ function renderValue() {
   const view = valueView(d, price, checks);
   $("glance").innerHTML = glanceView(d, current.result, checks);
   $("valueTiles").innerHTML = view.tiles;
+  $("priceTiles").innerHTML = view.priceTiles;
   $("grahamChecks").innerHTML = view.graham; $("grahamScore").innerHTML = view.grahamScore;
   $("buffettChecks").innerHTML = view.buffett; $("buffettScore").innerHTML = view.buffettScore;
   $("lynchChecks").innerHTML = view.lynch; $("lynchScore").innerHTML = view.lynchScore;

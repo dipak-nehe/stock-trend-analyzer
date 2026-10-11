@@ -62,6 +62,10 @@ export function valueChecks(d, price, r, assume = {}) {
   const dpsL = L(s.dps), fcfL = L(r.fcf), fcfPs = !fin && fcfL != null && shares ? fcfL / shares : null;
   const divYield = price && dpsL != null ? dpsL / price : null;
   const fcfYield = price && fcfPs != null ? fcfPs / price : null;
+  // Enterprise value (market value + debt − cash) over the latest free cash flow: the price of the whole business,
+  // debt included, against what it earned for its owners. Not for banks, whose debt is their raw material.
+  const ev = price && shares && !fin ? price * shares + (L(s.totalDebt) ?? 0) - (L(s.cash) ?? 0) : null;
+  const evFcf = ev != null && fcfL != null && fcfL > 0 ? ev / fcfL : null;
 
   // --- Graham ---
   const graham = [];
@@ -187,5 +191,5 @@ export function valueChecks(d, price, r, assume = {}) {
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { graham, buffett, lynch, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, dpsL, lynchGrowth: lg, peg, pegy, lynchFair };
+  return { price, graham, buffett, lynch, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
 }

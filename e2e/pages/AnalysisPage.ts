@@ -278,8 +278,18 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('check').filter({ hasText: criterion });
   }
 
+  /** The value estimates (no price needed): owner-earnings value, Graham Number, book value per share. */
   get valueTiles(): Locator {
     return this.page.getByTestId('value-tiles');
+  }
+
+  /** "Valuation at this price", last on the tab: the price box and the figures at that price. */
+  get atPrice(): Locator {
+    return this.page.getByTestId('at-price');
+  }
+
+  get priceTiles(): Locator {
+    return this.page.getByTestId('price-tiles');
   }
 
   get grahamScore(): Locator {

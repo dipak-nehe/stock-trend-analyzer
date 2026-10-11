@@ -240,10 +240,10 @@ test("value estimates need no price; the valuation at a price comes separately, 
   const labels = (html) => [...html.matchAll(/<div class="label">([^<]*)<\/div>/g)].map((m) => m[1]);
   const none = valueView(d, null, valueChecks(d, null, r));
   assert.deepEqual(labels(none.tiles), ["Owner-earnings value", "Graham Number", "Book value per share"]);
-  assert.doesNotMatch(text(none.tiles), /Price is/);
+  assert.match(text(none.tiles), /most high-return, asset-light companies stay above it/);
   assert.deepEqual(labels(none.priceTiles), ["Owner earnings yield", "Margin of safety", "EV / free cash flow", "P/E on 3-year average EPS",
-    "Price to book", "Price against the Graham Number", "Dividend yield"]);
-  assert.equal(text(none.priceTiles).match(/Enter a price to calculate/g).length, 7);
+    "Price to book", "Dividend yield"]);
+  assert.equal(text(none.priceTiles).match(/Enter a price to calculate/g).length, 6);
   const v = valueChecks(d, 1, r);  // a price far below the estimate
   const at = text(valueView(d, 1, v).priceTiles);
   assert.match(at, new RegExp(`Margin of safety ${Math.round((1 - 1 / v.iv) * 100)}% below`));

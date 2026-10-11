@@ -594,7 +594,7 @@ test.describe('Graham & Buffett and the share price', () => {
     });
     await expect(analysis.checkRow('Moderate P/E')).toContainText('P/E 25.6');
     await expect(analysis.checkRow('Margin of safety')).toContainText('Not met');
-    await expect(analysis.priceTiles).toContainText('Price is');
+    await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% above/);
     await expect(page).toHaveURL(/\?t=KO&p=68#value$/);
   });
 
@@ -606,7 +606,7 @@ test.describe('Graham & Buffett and the share price', () => {
     expect(buffett).toBeLessThan(await top(analysis.valueTiles));
     expect(await top(analysis.valueTiles)).toBeLessThan(await top(analysis.atPrice));
     expect(await top(analysis.price)).toBeGreaterThan(await top(analysis.valueTiles));  // the price box is in the last section
-    await expect(analysis.valueTiles).not.toContainText('Price is');
+    await expect(analysis.priceTiles).not.toContainText('Graham Number');  // Graham's own P/B test covers the price
     await analysis.step('enter a price of 68', () => analysis.price.fill('68'));
     await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% (below|above)/);
     await expect(analysis.priceTiles).toContainText(/EV \/ free cash flow\s*\d+\.\d/);

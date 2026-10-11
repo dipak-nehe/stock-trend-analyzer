@@ -169,8 +169,6 @@ export function checklistScore(rows) {
 export function valueView(d, price, v) {
   const cur = d.currency;
   const ps = (x) => perShare(x, cur);
-  const vs = (x) => !price || x == null ? "" : `<div class="trend ${price <= x ? "up" : "down"}">${
-    price <= x ? t("vv.priceBelow", { pct: pct(1 - price / x, 0) }) : t("vv.priceAbove", { pct: pct(price / x - 1, 0) })}</div>`;
   const tileV = (label, value, detail, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   // What the business might be worth, from the filings alone: no price needed
   const tiles = [
@@ -192,8 +190,6 @@ export function valueView(d, price, v) {
       v.fcfPs == null ? t("vv.fcfYield.none") : !(v.fcfL > 0) ? t("vv.ev.none") : price ? t("vv.ev.detail", { ev: money(v.ev, cur), fcf: money(v.fcfL, cur) }) : ENTER),
     tileV(t("vv.pe.label"), v.pe3 ? fixed(v.pe3, 1) : "–", price ? (v.pe3 ? t("vv.pe.limit") : t("vv.pe.negative")) : ENTER),
     tileV(t("vv.pb.label"), v.pb ? fixed(v.pb, 2) : "–", !(v.bvps > 0) ? t("vv.pb.none") : price ? t("vv.pb.detail", { bvps: ps(v.bvps) }) : ENTER),
-    tileV(t("vv.gn.label"), price && v.grahamNumber ? ps(price) : "–",
-      !v.grahamNumber ? t("vv.gn.none") : price ? t("vv.gn.detail", { gn: ps(v.grahamNumber) }) : ENTER, vs(v.grahamNumber)),
     tileV(t("vv.divYield.label"), v.divYield != null ? pct(v.divYield) : "–",
       !v.dpsL ? t("vv.divYield.none") : price ? t("vv.divYield.detail", { dps: ps(v.dpsL) }) : ENTER),
   ].join("");

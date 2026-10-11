@@ -297,9 +297,6 @@ export default {
   "vv.pb.label": "Precio / valor contable",
   "vv.pb.detail": "Precio ÷ valor contable por acción de {bvps}",
   "vv.pb.none": "El valor contable no es positivo",
-  "vv.gn.label": "Precio frente al número de Graham",
-  "vv.gn.detail": "Número de Graham {gn}: su precio máximo para un inversor defensivo",
-  "vv.gn.none": "Sin número de Graham (necesita BPA y valor contable positivos)",
   "val.f.change": "{y}: {now} · {py}: {was}",
   "val.f.one": "{y}: {v}",
   "val.f.accruals": "{y}: flujo de caja {cash}, beneficio neto {ni}",
@@ -371,10 +368,8 @@ export default {
   "val.lynchDebt.negative": "El patrimonio es negativo",
 
   // ---------- value tab tiles, tags and notes ----------
-  "vv.priceBelow": "El precio está un {pct} por debajo",
-  "vv.priceAbove": "El precio está un {pct} por encima",
   "vv.graham.label": "Número de Graham",
-  "vv.graham.detail": "√(22,5 × BPA × valor contable por acción): el precio máximo de Graham para un inversor defensivo",
+  "vv.graham.detail": "√(22,5 × BPA × valor contable por acción): el precio máximo de Graham para un inversor defensivo. Conservador: la mayoría de las empresas muy rentables y con pocos activos quedan por encima",
   "vv.oe.label": "Valor por beneficios del propietario",
   "vv.oe.detail": "Flujo de caja libre de {fcf}/acción, creciendo un {g} durante 10 años y luego un {tg}, descontado al {disc}",
   "vv.oe.none": "Necesita un flujo de caja libre positivo",

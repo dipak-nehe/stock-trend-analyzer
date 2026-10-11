@@ -297,9 +297,6 @@ export default {
   "vv.pb.label": "Price to book",
   "vv.pb.detail": "Price ÷ book value per share of {bvps}",
   "vv.pb.none": "Book value isn't positive",
-  "vv.gn.label": "Price against the Graham Number",
-  "vv.gn.detail": "Graham Number {gn}: his ceiling price for a defensive investor",
-  "vv.gn.none": "No Graham Number (needs positive EPS and book value)",
   "val.f.change": "{y}: {now} · {py}: {was}",
   "val.f.one": "{y}: {v}",
   "val.f.accruals": "{y}: cash flow {cash}, net income {ni}",
@@ -369,10 +366,8 @@ export default {
   "val.lynchDebt.negative": "Equity is negative",
 
   // ---------- value tab tiles, tags and notes ----------
-  "vv.priceBelow": "Price is {pct} below",
-  "vv.priceAbove": "Price is {pct} above",
   "vv.graham.label": "Graham Number",
-  "vv.graham.detail": "√(22.5 × EPS × book value per share): Graham's ceiling price for a defensive investor",
+  "vv.graham.detail": "√(22.5 × EPS × book value per share): Graham's ceiling price for a defensive investor. Conservative: most high-return, asset-light companies stay above it",
   "vv.oe.label": "Owner-earnings value",
   "vv.oe.detail": "Free cash flow {fcf}/share, growing {g} for 10 years, then {tg}, discounted at {disc}",
   "vv.oe.none": "Needs positive free cash flow",

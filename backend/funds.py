@@ -22,7 +22,7 @@ from typing import Any
 from . import stock_data as sd
 
 FUND_TICKERS_URL = "https://www.sec.gov/files/company_tickers_mf.json"
-CACHE_VERSION = "f2"   # f2: top holdings from N-PORT
+CACHE_VERSION = "f3"   # f2: top holdings from N-PORT; f3: returns before the sales charge
 FRESH_SECONDS = 7 * 24 * 3600       # reports come twice a year (annual and semi-annual): a week is plenty
 KEEP_SECONDS = 400 * 24 * 3600
 X = "{http://www.xbrl.org/2003/instance}"
@@ -95,10 +95,12 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
     is_mine = lambda member: member.endswith(mine)  # noqa: E731
     own_return_member = lambda member: class_id in member and "Index" not in member  # Fidelity's tagging  # noqa: E731
     out: dict[str, Any] = {"returns": {}, "indexes": [], "breakdown": None, "topHoldings": None}
+    by_load: dict[str, dict[str, float]] = {"without": {}, "with": {}, "untagged": {}}
     labels: dict[str, str] = {}
     breakdowns: dict[str, dict[str, float]] = {}
     section_indexes: list[tuple[str, str]] = []   # (member, "broad" | "additional"), in report order
     legend_indexes: list[tuple[str, str]] = []    # the same, from the performance chart's legend only
+    legend_names: list[str] = []                  # this class's lines in the chart legend
     current = ""
     legend_class = ""
     found = False
@@ -108,6 +110,8 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
             # The chart legend lists a class, then the indexes it's set against
             if dims.get("ClassAxis"):
                 legend_class = dims["ClassAxis"]
+                if is_mine(legend_class):
+                    legend_names.append(text)
             elif index_member:
                 labels.setdefault(_base_member(index_member), text)
                 kind = "broad" if dims.get("BroadBasedIndexAxis") else "additional"
@@ -138,10 +142,14 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
             out[SIMPLE[name]] = value
             if name == "AssetsNet":
                 out["asOf"] = end
-        elif name == "AvgAnnlRtrPct" and dims.get("SalesLoadAxis", "WithoutSalesLoadMember").endswith("WithoutSalesLoadMember"):
+        elif name == "AvgAnnlRtrPct":
+            # A fund with a sales charge reports returns before it (tagged WithoutSalesLoad) and after it (tagged
+            # WithSalesLoad, or left untagged: American Funds does that). Funds without one tag only one set.
             years = _years(start, end)
             if years and value is not None:
-                out["returns"].setdefault(str(years), value)
+                load = dims.get("SalesLoadAxis", "").split(":")[-1]
+                kind = "without" if load == "WithoutSalesLoadMember" else "with" if load == "WithSalesLoadMember" else "untagged"
+                by_load[kind].setdefault(str(years), value)
                 out["periodEnd"] = max(out.get("periodEnd", ""), end)
         elif name == "PctOfNav" and value is not None:
             if "LargestHoldingAxis" in dims:
@@ -152,6 +160,19 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
                     breakdowns.setdefault(axis, {}).setdefault(dims[axis], value)
     if not found:
         return None
+    # The same tags mean different things in different families. An ETF's chart shows its "Net Asset Value" and its
+    # "Market Price" lines: Vanguard tags the market-price returns WithoutSalesLoad and leaves the NAV ones untagged.
+    # A fund with a sales charge (American Funds' Class A) tags the returns before the charge WithoutSalesLoad and
+    # leaves the ones after it untagged. The fund's own performance is the NAV / before-charge set.
+    etf_lines = any(re.search(r"market price|net asset value", n, re.I) for n in legend_names)
+    out["returnsAfterSalesCharge"] = None
+    if etf_lines:
+        out["returns"] = {**out["returns"], **(by_load["untagged"] or by_load["without"])}
+    elif by_load["without"]:
+        out["returns"] = {**out["returns"], **by_load["without"]}
+        out["returnsAfterSalesCharge"] = (by_load["with"] or by_load["untagged"]) or None
+    else:
+        out["returns"] = {**out["returns"], **by_load["untagged"], **by_load["with"]}
 
     # The indexes this class is set against (from its chart legend, else from its section), with their returns
     # over the same periods. Fidelity names one index per period (..._1YRMember, _5YR, _10YR): merged by base name.

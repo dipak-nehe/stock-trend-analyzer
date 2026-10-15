@@ -22,7 +22,7 @@ def test_a_share_class_gets_its_costs_returns_and_portfolio():
     assert (voo["fund"], voo["shareClass"]) == ("500 Index Fund", "ETF Shares")
     assert voo["expenseRatio"] == pytest.approx(0.0003)
     assert voo["costPer10k"] == 3
-    assert voo["returns"] == {"1": 0.1784, "5": 0.1438, "10": 0.1478}
+    assert voo["returns"] == {"1": 0.1782, "5": 0.1438, "10": 0.1478}   # its NAV return, not the market price's 17.84%
     assert voo["periodEnd"] == "2025-12-31"
     assert voo["netAssets"] == 1480375000000 and voo["holdings"] == 517 and voo["turnover"] == 0.02
     assert voo["breakdown"]["by"] == "IndustrySector"
@@ -49,6 +49,20 @@ def test_fidelity_own_returns_and_per_period_indexes_are_read_correctly():
     assert fxaix["returns"] == {"1": 0.1698, "5": 0.1418, "10": 0.1549}   # tagged as an "additional index"
     assert fxaix["indexes"] == [{"name": "", "kind": "broad", "returns": {"1": 0.1699, "5": 0.1419, "10": 0.155}}]
     assert fxaix["topHoldings"] == {"count": 10, "pct": 0.369}             # names aren't shown: only the share
+
+
+def test_a_class_with_a_sales_charge_shows_its_returns_before_the_charge_and_keeps_the_after():
+    # American Funds tags the returns before the 5.75% charge, and leaves the ones after it untagged
+    agthx = funds.parse_report(report("fund_000119312525260203.xml"), "C000025064")
+    assert agthx["returns"] == {"1": 0.2326, "5": 0.1322, "10": 0.1505}
+    assert agthx["returnsAfterSalesCharge"] == {"1": 0.1618, "5": 0.1189, "10": 0.1437}
+
+
+def test_an_etf_shows_its_nav_return_not_its_market_price_and_has_no_sales_charge():
+    # Vanguard tags an ETF's market-price returns "without sales load" and leaves the NAV returns untagged
+    bnd = funds.parse_report(report("fund_000110465926021506.xml"), "C000046844")
+    assert bnd["returns"] == {"1": 0.0711, "5": -0.004, "10": 0.02}       # market price: 7.08%, -0.44%, 1.98%
+    assert bnd["returnsAfterSalesCharge"] is None
 
 
 def test_a_class_not_in_the_report_is_none():

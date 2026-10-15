@@ -432,7 +432,7 @@ export default {
   "fund.error.notFund": "{ticker} no está en la lista de tickers de fondos y ETF de la SEC. Revisa el ticker o analízalo como acción en la página de inicio.",
   "fund.error.notCovered": "{ticker} no presenta los informes a los partícipes que lee esta página (los unit investment trusts como SPY, QQQ y DIA no lo hacen).",
   "fund.error.upstream": "No se ha podido cargar el informe de {ticker} desde SEC EDGAR. Inténtalo de nuevo en un momento.",
-  "ui.fundsLink": "Fondos",
+  "ui.fundsLink": "Fondos y ETF",
   "ui.funds.title": "Fondos de inversión y ETF",
   "ui.funds.sub": "Lo que cuesta un fondo de inversión o ETF de EE. UU., lo que rindió frente a su índice y lo que contiene, según el informe a los partícipes que presenta ante la SEC. Añade hasta cuatro para compararlos.",
   "ui.funds.label": "Ticker del fondo o ETF",

@@ -136,7 +136,7 @@ test.describe('navigation', () => {
       const nav = page.locator('.top-actions a.nav-btn');
       const labels = await nav.allInnerTexts();
       const sp = labels.findIndex((l) => l.includes('S&P 500'));
-      expect(labels[sp + 1]).toMatch(/^(Funds|Fondos)$/);
+      expect(labels[sp + 1]).toMatch(/^(Funds & ETFs|Fondos y ETF)$/);
       await expect(page.locator('a[data-funds-link]')).toHaveAttribute('href', path.includes('lang=es') ? 'funds.html?lang=es' : 'funds.html');
     }
   });

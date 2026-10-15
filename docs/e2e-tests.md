@@ -2,7 +2,7 @@
 
 Every browser test in `e2e/`, by feature. The sections below are the `test.describe` groups in the spec files, in the same order, and the same groups appear in the Allure report (under each spec file). They drive the real pages in Chromium (Playwright Test, TypeScript) against the real Python server running on saved SEC filings, so they're offline and repeatable. Each test's named steps carry screenshots, and every test has a video, in the [Allure report](https://stock-trend-test-report.vercel.app). How these fit with the other test layers: [test-plan.md](test-plan.md).
 
-**219 tests:** 103 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 19 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 6 in `e2e/funds.spec.ts` (mutual funds & ETFs), 2 in `e2e/methodology.spec.ts` (How we calculate), 60 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices); funds VOO, VFIAX, FXAIX, SCHD, BND, AGTHX, QQQ.
+**221 tests:** 103 in `e2e/ui.spec.ts` (start, results and disclaimer pages), 18 in `e2e/compare.spec.ts` (compare page), 19 in `e2e/portfolio.spec.ts` (My portfolio), 11 in `e2e/sp500.spec.ts` (S&P 500 picker and picks), 8 in `e2e/funds.spec.ts` (mutual funds & ETFs), 2 in `e2e/methodology.spec.ts` (How we calculate), 60 in `e2e/accessibility.spec.ts` (WCAG and keyboard). Test companies: AAPL, KO, INTC, JPM (a bank), SMCI (restatement, late filings, exchange notices); funds VOO, VFIAX, FXAIX, SCHD, BND, AGTHX, QQQ.
 
 Regenerate the list with `npx playwright test --list`. Run one group with `npx playwright test -g "<group name>"` (e.g. `-g "insider trades"`). Run one test with `npx playwright test -g "<name>"`.
 
@@ -310,7 +310,7 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 150 | both pages read in Spanish, and the language carries over |
 | 151 | at phone width neither page scrolls sideways |
 
-## Mutual funds & ETFs (`e2e/funds.spec.ts`, 6)
+## Mutual funds & ETFs (`e2e/funds.spec.ts`, 8)
 
 ### One fund (2)
 
@@ -326,17 +326,24 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | 154 | up to four side by side, with the lower cost, higher return and lower turnover marked |
 | 155 | a shared link opens the same funds, in Spanish too |
 
+### Overlap, growth and ups and downs (2)
+
+| # | Test |
+|---|---|
+| 156 | two share classes of one fund are the same portfolio; other pairs show what they share |
+| 157 | growth of $10,000 against the index, the worst year, and a chart that does not add up is left out |
+
 ### Errors (1)
 
 | # | Test |
 |---|---|
-| 156 | a ticker that is not a fund, a trust without reports, a duplicate |
+| 158 | a ticker that is not a fund, a trust without reports, a duplicate |
 
 ### Navigation (1)
 
 | # | Test |
 |---|---|
-| 157 | every page links to Funds next to S&P 500, keeping the language |
+| 159 | every page links to Funds next to S&P 500, keeping the language |
 
 ## How we calculate (`e2e/methodology.spec.ts`, 2)
 
@@ -344,8 +351,8 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 
 | # | Test |
 |---|---|
-| 158 | lists every red flag and checklist test with its rule |
-| 159 | unlisted: no page links to it and search engines are asked not to index it, but it still opens, in Spanish too |
+| 160 | lists every red flag and checklist test with its rule |
+| 161 | unlisted: no page links to it and search engines are asked not to index it, but it still opens, in Spanish too |
 
 ## Accessibility (`e2e/accessibility.spec.ts`, 60)
 
@@ -355,98 +362,98 @@ axe-core checks every state below against WCAG 2.0, 2.1 and 2.2 (levels A and AA
 
 | # | Test |
 |---|---|
-| 160 | landing page (desktop, light) |
-| 161 | landing page (desktop, dark) |
-| 162 | landing page (phone, light) |
-| 163 | landing page (phone, dark) |
-| 164 | results tab: overview (light) |
-| 165 | results tab: overview (dark) |
-| 166 | results tab: flags (light) |
-| 167 | results tab: flags (dark) |
-| 168 | results tab: history (light) |
-| 169 | results tab: history (dark) |
-| 170 | results tab: insiders (light) |
-| 171 | results tab: insiders (dark) |
-| 172 | results tab: value (light) |
-| 173 | results tab: value (dark) |
-| 174 | results tab: durable (light) |
-| 175 | results tab: durable (dark) |
-| 176 | results tab: charts (light) |
-| 177 | results tab: charts (dark) |
-| 178 | results tab: data (light) |
-| 179 | results tab: data (dark) |
-| 180 | phone-width results: overview |
-| 181 | phone-width results: data |
-| 182 | Spanish page |
-| 183 | error state |
-| 184 | search suggestions open |
-| 185 | guide before and after a search |
+| 162 | landing page (desktop, light) |
+| 163 | landing page (desktop, dark) |
+| 164 | landing page (phone, light) |
+| 165 | landing page (phone, dark) |
+| 166 | results tab: overview (light) |
+| 167 | results tab: overview (dark) |
+| 168 | results tab: flags (light) |
+| 169 | results tab: flags (dark) |
+| 170 | results tab: history (light) |
+| 171 | results tab: history (dark) |
+| 172 | results tab: insiders (light) |
+| 173 | results tab: insiders (dark) |
+| 174 | results tab: value (light) |
+| 175 | results tab: value (dark) |
+| 176 | results tab: durable (light) |
+| 177 | results tab: durable (dark) |
+| 178 | results tab: charts (light) |
+| 179 | results tab: charts (dark) |
+| 180 | results tab: data (light) |
+| 181 | results tab: data (dark) |
+| 182 | phone-width results: overview |
+| 183 | phone-width results: data |
+| 184 | Spanish page |
+| 185 | error state |
+| 186 | search suggestions open |
+| 187 | guide before and after a search |
 
 ### Keyboard only (3)
 
 | # | Test |
 |---|---|
-| 186 | search and results work with the keyboard |
-| 187 | wide tables can be scrolled with the keyboard |
-| 188 | every interactive element has a name |
+| 188 | search and results work with the keyboard |
+| 189 | wide tables can be scrolled with the keyboard |
+| 190 | every interactive element has a name |
 
 ### Axe: compare page (7)
 
 | # | Test |
 |---|---|
-| 189 | compare page: one-side (light) |
-| 190 | compare page: one-side (dark) |
-| 191 | compare page: both-priced (light) |
-| 192 | compare page: both-priced (dark) |
-| 193 | compare page: spanish (light) |
-| 194 | compare page: spanish (dark) |
-| 195 | compare page at phone width |
+| 191 | compare page: one-side (light) |
+| 192 | compare page: one-side (dark) |
+| 193 | compare page: both-priced (light) |
+| 194 | compare page: both-priced (dark) |
+| 195 | compare page: spanish (light) |
+| 196 | compare page: spanish (dark) |
+| 197 | compare page at phone width |
 
 ### Axe: disclaimer page (4)
 
 | # | Test |
 |---|---|
-| 196 | disclaimer page (en, light) |
-| 197 | disclaimer page (en, dark) |
-| 198 | disclaimer page (es, light) |
-| 199 | disclaimer page (es, dark) |
+| 198 | disclaimer page (en, light) |
+| 199 | disclaimer page (en, dark) |
+| 200 | disclaimer page (es, light) |
+| 201 | disclaimer page (es, dark) |
 
 ### Axe: portfolio page (6)
 
 | # | Test |
 |---|---|
-| 200 | portfolio page (en, light) |
-| 201 | portfolio page (en, dark) |
-| 202 | portfolio page (es, light) |
-| 203 | portfolio page (es, dark) |
-| 204 | portfolio page showing a shared list, in both themes |
-| 205 | portfolio page at phone width, and empty |
+| 202 | portfolio page (en, light) |
+| 203 | portfolio page (en, dark) |
+| 204 | portfolio page (es, light) |
+| 205 | portfolio page (es, dark) |
+| 206 | portfolio page showing a shared list, in both themes |
+| 207 | portfolio page at phone width, and empty |
 
 ### Axe: S&P 500 pages (5)
 
 | # | Test |
 |---|---|
-| 206 | S&P 500 picker and picks (en, light) |
-| 207 | S&P 500 picker and picks (en, dark) |
-| 208 | S&P 500 picker and picks (es, light) |
-| 209 | S&P 500 picker and picks (es, dark) |
-| 210 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |
+| 208 | S&P 500 picker and picks (en, light) |
+| 209 | S&P 500 picker and picks (en, dark) |
+| 210 | S&P 500 picker and picks (es, light) |
+| 211 | S&P 500 picker and picks (es, dark) |
+| 212 | S&P 500 picker at phone width, with 10 picked (the rest disabled) |
 
 ### Axe: Funds page (5)
 
 | # | Test |
 |---|---|
-| 211 | Funds: four funds side by side (en, light) |
-| 212 | Funds: four funds side by side (en, dark) |
-| 213 | Funds: four funds side by side (es, light) |
-| 214 | Funds: four funds side by side (es, dark) |
-| 215 | Funds at phone width, empty and with two funds |
+| 213 | Funds: four funds side by side (en, light) |
+| 214 | Funds: four funds side by side (en, dark) |
+| 215 | Funds: four funds side by side (es, light) |
+| 216 | Funds: four funds side by side (es, dark) |
+| 217 | Funds at phone width, empty and with two funds |
 
 ### Axe: How we calculate (4)
 
 | # | Test |
 |---|---|
-| 216 | How we calculate (en, light) |
-| 217 | How we calculate (en, dark) |
-| 218 | How we calculate (es, light) |
-| 219 | How we calculate (es, dark) |
+| 218 | How we calculate (en, light) |
+| 219 | How we calculate (en, dark) |
+| 220 | How we calculate (es, light) |
+| 221 | How we calculate (es, dark) |

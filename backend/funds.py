@@ -22,7 +22,7 @@ from typing import Any
 from . import stock_data as sd
 
 FUND_TICKERS_URL = "https://www.sec.gov/files/company_tickers_mf.json"
-CACHE_VERSION = "f3"   # f2: top holdings from N-PORT; f3: returns before the sales charge
+CACHE_VERSION = "f5"   # f2: top holdings from N-PORT; f3: returns before the sales charge
 FRESH_SECONDS = 7 * 24 * 3600       # reports come twice a year (annual and semi-annual): a week is plenty
 KEEP_SECONDS = 400 * 24 * 3600
 X = "{http://www.xbrl.org/2003/instance}"
@@ -96,6 +96,9 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
     own_return_member = lambda member: class_id in member and "Index" not in member  # Fidelity's tagging  # noqa: E731
     out: dict[str, Any] = {"returns": {}, "indexes": [], "breakdown": None, "topHoldings": None}
     by_load: dict[str, dict[str, float]] = {"without": {}, "with": {}, "untagged": {}}
+    # Growth of $10,000 (the report's line chart): the class's lines by sales-load tag, and every index line
+    fund_lines: dict[str, list[tuple[str, float]]] = {"without": [], "with": [], "untagged": []}
+    index_lines: dict[str, list[tuple[str, float]]] = {}
     labels: dict[str, str] = {}
     breakdowns: dict[str, dict[str, float]] = {}
     section_indexes: list[tuple[str, str]] = []   # (member, "broad" | "additional"), in report order
@@ -123,6 +126,20 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
             kind = "broad" if dims.get("BroadBasedIndexAxis") else "additional"
             if (index_member, kind) not in section_indexes:
                 section_indexes.append((index_member, kind))
+        if name == "AccmVal":
+            value = _num(text)
+            date = _as_of(index_member or "", end)
+            if value is not None:
+                if is_mine(dims.get("ClassAxis", "")):
+                    load = dims.get("SalesLoadAxis", "").split(":")[-1]
+                    kind = "without" if load == "WithoutSalesLoadMember" else "with" if load == "WithSalesLoadMember" else "untagged"
+                    fund_lines[kind].append((date, value))
+                elif index_member and own_return_member(index_member):
+                    fund_lines["untagged"].append((date, value))     # Fidelity: the class's line under an index axis
+                elif index_member and (is_mine(current) or class_id in index_member):
+                    # only the index lines in this class's section: other classes' sections reuse the names
+                    index_lines.setdefault(_base_member(index_member), []).append((date, value))
+            continue
         if index_member and own_return_member(index_member) and name == "AvgAnnlRtrPct":
             years = _years(start, end)
             if years and _num(text) is not None:
@@ -174,6 +191,39 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
     else:
         out["returns"] = {**out["returns"], **by_load["untagged"], **by_load["with"]}
 
+    # The fund's line in the chart: the same set as its returns (NAV, before any charge) when the report has it
+    order = ["untagged", "without", "with"] if etf_lines else ["without", "untagged", "with"]
+    line = next((fund_lines[k] for k in order if fund_lines[k]), [])
+    out["growth"] = None
+    if len(line) >= 2:
+        own = {_base_member(m) for m, _ in (legend_indexes or section_indexes)}
+        candidates = [(b, pts) for b, pts in index_lines.items() if b in own or class_id in b or not own]
+        # its own index (an "additional" one) first, as for the returns
+        additional = {_base_member(m) for m, k in (legend_indexes or section_indexes) if k == "additional"}
+        candidates.sort(key=lambda bp: 0 if bp[0] in additional or "Additional" in bp[0] else 1)
+        # a usable line: enough points, starting near $10,000 (some sections chart a $100-million class instead)
+        candidates = [(b, sorted(set(pts))) for b, pts in candidates]
+        candidates = [(b, pts) for b, pts in candidates
+                      if len(pts) >= max(3, len(line) // 2) and 5000 <= pts[0][1] <= 20000 and max(v for _, v in pts) < 1e6]
+        index: dict[str, Any] | None = None
+        index_points: list[tuple[str, float]] = []
+        if candidates:
+            base, index_points = candidates[0]
+            label = _clean_label(labels.get(base, ""))
+            index = {"name": "" if not label or re.search(r"C\d{9}", label) else label, "points": index_points}
+        fund_line = sorted(set(line))
+        # Some filers tag the chart's values against the wrong dates. The line must end where the fund's (and the
+        # index's) own 10-year return says it should, or it isn't shown at all.
+        rates = [r["10"] for r in (out["returns"], out.get("returnsAfterSalesCharge") or {}) if r.get("10") is not None]
+        if not _consistent(fund_line, rates):
+            out["growth"] = {"fund": None, "index": None, "inconsistent": True}
+        else:
+            if index:
+                idx_rates = [i["returns"]["10"] for i in out["indexes"] if i["returns"].get("10") is not None]
+                if not _consistent(index_points, idx_rates):
+                    index = None
+            out["growth"] = {"fund": fund_line, "index": index}
+
     # The indexes this class is set against (from its chart legend, else from its section), with their returns
     # over the same periods. Fidelity names one index per period (..._1YRMember, _5YR, _10YR): merged by base name.
     period_end = out.get("periodEnd")
@@ -208,9 +258,29 @@ def parse_report(xml: bytes | str, class_id: str) -> dict[str, Any] | None:
     return out
 
 
+def _consistent(points: list[tuple[str, float]], rates: list[float]) -> bool:
+    """Whether a growth line spanning about ten years ends within 3% of what one of the 10-year returns gives.
+    Lines covering a shorter period, or with no 10-year return to check against, are taken as they are."""
+    if len(points) < 2 or not rates:
+        return True
+    (d0, v0), (d1, v1) = points[0], points[-1]
+    years = (int(d1[:4]) * 12 + int(d1[5:7]) - int(d0[:4]) * 12 - int(d0[5:7])) / 12
+    if abs(years - 10) > 0.6:
+        return True
+    start = 10000.0 if v0 < 10000 else v0   # a line starting below $10,000 already had the sales charge taken
+    return any(abs(v1 / (start * (1 + r) ** 10) - 1) <= 0.03 or abs(v1 / (v0 * (1 + r) ** 10) - 1) <= 0.03 for r in rates)
+
+
+def _as_of(member: str, end: str) -> str:
+    """The date of a chart point: the context's date, or, in Fidelity's tagging (every point dated the report's end,
+    the year in the member name: ..._AsOf_2017Member), that year with the report's month and day."""
+    m = re.search(r"_AsOf_(\d{4})Member$", member)
+    return f"{m.group(1)}{end[4:]}" if m and len(end) == 10 else end
+
+
 def _base_member(member: str) -> str:
     """'fmr:C000100045_0_BBIndexMember_5YRMember' -> 'fmr:C000100045_0_BBIndexMember' (one index per period)."""
-    return re.sub(r"_\d+YRMember$", "", member)
+    return re.sub(r"_(\d+YR|AsOf_\d{4})Member$", "", member)
 
 
 # Single figures for a class: XBRL name -> field
@@ -233,6 +303,7 @@ NPORT = "{http://www.sec.gov/edgar/nport}"
 # vehicles (often collateral for securities lending)
 NOT_HOLDINGS = {"DE", "DIR", "DCO", "DCR", "DFE", "DO", "STIV"}
 TOP_N = 10
+OVERLAP_HOLDINGS = 1000   # the largest issuers kept for overlap: over 95% of even a total-market fund
 
 
 KEEP_UPPER = {"AG", "NV", "SA", "SE", "PLC", "ASA", "AB", "LP", "LLC", "ADR", "II", "III", "US", "USA", "N.V.", "S.A."}
@@ -261,6 +332,7 @@ def top_holdings(xml: bytes, n: int = TOP_N) -> dict[str, Any] | None:
     Read as a stream, so a bond fund's 17,000-line filing doesn't sit in memory twice."""
     totals: dict[str, float] = {}
     classes: dict[str, int] = {}
+    keys: dict[str, str] = {}   # name -> the issuer's CUSIP prefix, the same in every fund family's filing
     as_of = ""
     for _, el in ET.iterparse(io.BytesIO(xml)):
         tag = _local(el.tag)
@@ -273,12 +345,25 @@ def top_holdings(xml: bytes, n: int = TOP_N) -> dict[str, Any] | None:
             if name and name.upper() != "N/A" and pct and pct > 0 and cat not in NOT_HOLDINGS:
                 totals[name] = totals.get(name, 0.0) + pct
                 classes[name] = classes.get(name, 0) + 1
+                cusip = (el.findtext(f"{NPORT}cusip") or "").strip().upper()
+                if name not in keys and re.fullmatch(r"[0-9A-Z]{9}", cusip) and cusip != "000000000":
+                    keys[name] = cusip[:6]
             el.clear()
     if not totals:
         return None
-    top = sorted(totals.items(), key=lambda kv: -kv[1])[:n]
+    ranked = sorted(totals.items(), key=lambda kv: -kv[1])
+    top = ranked[:n]
+    # For overlap between funds: each issuer's weight, by CUSIP prefix (by name when there's none), largest first
+    weights: dict[str, list[Any]] = {}
+    for name, p in ranked:
+        key = keys.get(name) or "name:" + re.sub(r"[^a-z0-9]", "", holding_name(name).lower())
+        if key in weights:
+            weights[key][1] = round(weights[key][1] + p, 3)
+        elif len(weights) < OVERLAP_HOLDINGS:
+            weights[key] = [key, round(p, 3), holding_name(name)]
     return {"asOf": as_of, "count": len(totals), "pct": round(sum(p for _, p in top), 2),
-            "rows": [{"name": holding_name(name), "pct": round(p, 2), "securities": classes[name]} for name, p in top]}
+            "rows": [{"name": holding_name(name), "pct": round(p, 2), "securities": classes[name]} for name, p in top],
+            "weights": list(weights.values())}
 
 
 # ---------- lookups (network) ----------

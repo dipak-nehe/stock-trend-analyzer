@@ -581,3 +581,18 @@
 .fund-holdings { counter-reset: holding; }
 .fund-holdings li { counter-increment: holding; }
 .fund-holdings .fund-bar-label::before { content: counter(holding) ". "; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.fund-overlap { display: grid; gap: 14px; margin-bottom: 18px; }
+.fund-overlap-head { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.fund-overlap-row .fund-bar { display: block; height: 10px; }
+.fund-overlap-row p { margin: 4px 0 0; font-size: 13px; }
+.fund-growth { margin-bottom: 18px; }
+.fund-growth figure { margin: 0; }
+.fund-chart { width: 100%; height: 120px; display: block; }
+.fund-chart polyline { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.fund-chart-fund { stroke: var(--accent); }
+.fund-chart-index { stroke: var(--text-2); stroke-dasharray: 4 3; }
+.fund-chart-base { stroke: var(--border); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.fund-growth figcaption { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; margin-top: 6px; }
+.fund-key::before { content: ""; display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--accent); vertical-align: middle; margin-right: 6px; }
+.fund-key.index::before { border-top: 2px dashed var(--text-2); }
+.fund-key-note { flex-basis: 100%; }

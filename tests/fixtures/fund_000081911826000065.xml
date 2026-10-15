@@ -22,6 +22,138 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000103359_LG_1_AdditionalIndexMember_11YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -31,6 +163,138 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2015-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103359_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103359_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -537,6 +801,102 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000211233_LG_1_AdditionalIndexMember_8YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -546,6 +906,102 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2018-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000211233_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000211233_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -1052,6 +1508,138 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000103357_LG_1_AdditionalIndexMember_11YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -1061,6 +1649,138 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2015-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103357_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103357_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -1579,6 +2299,126 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000177590_LG_1_AdditionalIndexMember_10YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -1588,6 +2428,126 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2016-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -1603,6 +2563,126 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_2_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000177590_2_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000177590_0_LG_BBIndexMember_10YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -1612,6 +2692,126 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2016-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000177590_0_BBIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">fmr:C000177590_0_BBIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -2118,6 +3318,138 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000103355_LG_1_AdditionalIndexMember_11YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -2130,6 +3462,138 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000103355_LG_2_AdditionalIndexMember_11YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -2139,6 +3603,138 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2015-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000103355_2_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000103355_2_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -2693,6 +4289,138 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000100045_LG_1_AdditionalIndexMember_11YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -2702,6 +4430,138 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2015-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2016">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2016Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2017">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2017Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2018">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2018Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2019">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2019Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2020">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2020Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2021">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2021Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2022">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2022Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2023">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2023Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2024">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2024Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000100045_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000100045_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -3124,6 +4984,30 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000261866_ClassMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_ClassMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000261866_ClassMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_ClassMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000261866_LG_1_AdditionalIndexMember_2YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -3136,6 +5020,30 @@
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="C000261866_1_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_1_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000261866_1_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_1_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="C000261866_LG_2_AdditionalIndexMember_2YR">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
@@ -3145,6 +5053,30 @@
         </ns0:entity>
         <ns0:period>
             <ns0:startDate>2024-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000261866_2_AdditionalIndexMember_AsOf_2025">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_2_AdditionalIndexMember_AsOf_2025Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
+            <ns0:endDate>2026-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="C000261866_2_AdditionalIndexMember_AsOf_2026">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000819118</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:AdditionalIndexAxis">fmr:C000261866_2_AdditionalIndexMember_AsOf_2026Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-02-28</ns0:startDate>
             <ns0:endDate>2026-02-28</ns0:endDate>
         </ns0:period>
     </ns0:context>
@@ -3464,7 +5396,29 @@
 <oef:ExpensesPaidAmt contextRef="C000103359_ClassMember" decimals="0" id="ixv-239824" unitRef="usd">2</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000103359_ClassMember" decimals="INF" id="ixv-239825" unitRef="pure">0.0002</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000103359_LG_ClassMember_11YR" id="ixv-244">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity® Total Market Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2016" decimals="0" id="ixv-239826" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2017" decimals="0" id="ixv-239827" unitRef="usd">12632</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2018" decimals="0" id="ixv-239828" unitRef="usd">14684</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2019" decimals="0" id="ixv-239829" unitRef="usd">15421</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2020" decimals="0" id="ixv-239830" unitRef="usd">16465</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2021" decimals="0" id="ixv-239831" unitRef="usd">22310</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2022" decimals="0" id="ixv-239832" unitRef="usd">24974</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2023" decimals="0" id="ixv-239833" unitRef="usd">22922</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2024" decimals="0" id="ixv-239834" unitRef="usd">29492</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2025" decimals="0" id="ixv-239835" unitRef="usd">34653</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_ClassMember_AsOf_2026" decimals="0" id="ixv-239836" unitRef="usd">40515</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000103359_LG_1_AdditionalIndexMember_11YR" id="ixv-293">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Dow Jones U.S. Total Stock Market Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2016" decimals="0" id="ixv-239837" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-239838" unitRef="usd">12626</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-239839" unitRef="usd">14675</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-239840" unitRef="usd">15408</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-239841" unitRef="usd">16451</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-239842" unitRef="usd">22292</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-239843" unitRef="usd">24952</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-239844" unitRef="usd">22898</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-239845" unitRef="usd">29446</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-239846" unitRef="usd">34601</oef:AccmVal>
+<oef:AccmVal contextRef="C000103359_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-239847" unitRef="usd">40455</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000103359_NoLoadClassMember_1YR" decimals="INF" id="ixv-239848" unitRef="pure">0.1692</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103359_NoLoadClassMember_5YR" decimals="INF" id="ixv-239849" unitRef="pure">0.1267</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103359_NoLoadClassMember_10YR" decimals="INF" id="ixv-239850" unitRef="pure">0.1502</oef:AvgAnnlRtrPct>
@@ -3513,7 +5467,23 @@
 <oef:ExpensesPaidAmt contextRef="C000211233_ClassMember" decimals="0" id="ixv-239891" unitRef="usd">0</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000211233_ClassMember" decimals="INF" id="ixv-239892" unitRef="pure">0.0000</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000211233_LG_ClassMember_8YR" id="ixv-1242">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity® Series Total Market Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2019" decimals="0" id="ixv-239893" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2020" decimals="0" id="ixv-239894" unitRef="usd">10138</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2021" decimals="0" id="ixv-239895" unitRef="usd">13743</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2022" decimals="0" id="ixv-239896" unitRef="usd">15375</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2023" decimals="0" id="ixv-239897" unitRef="usd">14116</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2024" decimals="0" id="ixv-239898" unitRef="usd">18167</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2025" decimals="0" id="ixv-239899" unitRef="usd">21343</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_ClassMember_AsOf_2026" decimals="0" id="ixv-239900" unitRef="usd">24957</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000211233_LG_1_AdditionalIndexMember_8YR" id="ixv-1279">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Dow Jones U.S. Total Stock Market Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-239901" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-239902" unitRef="usd">10141</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-239903" unitRef="usd">13741</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-239904" unitRef="usd">15381</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-239905" unitRef="usd">14115</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-239906" unitRef="usd">18151</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-239907" unitRef="usd">21329</oef:AccmVal>
+<oef:AccmVal contextRef="C000211233_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-239908" unitRef="usd">24937</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000211233_NoLoadClassMember_1YR" decimals="INF" id="ixv-239909" unitRef="pure">0.1694</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000211233_NoLoadClassMember_5YR" decimals="INF" id="ixv-239910" unitRef="pure">0.1267</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000211233_NoLoadClassMember_2025-03-01_2026-02-28" decimals="INF" id="ixv-239911" unitRef="pure">0.1429</oef:AvgAnnlRtrPct>
@@ -3562,7 +5532,29 @@
 <oef:ExpensesPaidAmt contextRef="C000103357_ClassMember" decimals="0" id="ixv-239952" unitRef="usd">4</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000103357_ClassMember" decimals="INF" id="ixv-239953" unitRef="pure">0.0004</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000103357_LG_ClassMember_11YR" id="ixv-2209">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity® International Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2016" decimals="0" id="ixv-239954" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2017" decimals="0" id="ixv-239955" unitRef="usd">11585</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2018" decimals="0" id="ixv-239956" unitRef="usd">13881</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2019" decimals="0" id="ixv-239957" unitRef="usd">13128</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2020" decimals="0" id="ixv-239958" unitRef="usd">13204</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2021" decimals="0" id="ixv-239959" unitRef="usd">16039</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2022" decimals="0" id="ixv-239960" unitRef="usd">16490</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2023" decimals="0" id="ixv-239961" unitRef="usd">15984</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2024" decimals="0" id="ixv-239962" unitRef="usd">18376</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2025" decimals="0" id="ixv-239963" unitRef="usd">20117</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_ClassMember_AsOf_2026" decimals="0" id="ixv-239964" unitRef="usd">27023</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000103357_LG_1_AdditionalIndexMember_11YR" id="ixv-2258">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;MSCI EAFE Index&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2016" decimals="0" id="ixv-239965" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-239966" unitRef="usd">11598</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-239967" unitRef="usd">13961</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-239968" unitRef="usd">13147</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-239969" unitRef="usd">13101</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-239970" unitRef="usd">16073</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-239971" unitRef="usd">16560</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-239972" unitRef="usd">16073</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-239973" unitRef="usd">18429</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-239974" unitRef="usd">20093</oef:AccmVal>
+<oef:AccmVal contextRef="C000103357_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-239975" unitRef="usd">27126</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000103357_NoLoadClassMember_1YR" decimals="INF" id="ixv-239976" unitRef="pure">0.3433</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103357_NoLoadClassMember_5YR" decimals="INF" id="ixv-239977" unitRef="pure">0.1100</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103357_NoLoadClassMember_10YR" decimals="INF" id="ixv-239978" unitRef="pure">0.1045</oef:AvgAnnlRtrPct>
@@ -3612,9 +5604,49 @@
 <oef:ExpensesPaidAmt contextRef="C000177590_ClassMember" decimals="0" id="ixv-240020" unitRef="usd">0</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000177590_ClassMember" decimals="INF" id="ixv-240021" unitRef="pure">0.0000</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000177590_LG_ClassMember_10YR" id="ixv-3189">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity Flex® 500 Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2017" decimals="0" id="ixv-240022" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2018" decimals="0" id="ixv-240023" unitRef="usd">11691</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2019" decimals="0" id="ixv-240024" unitRef="usd">12236</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2020" decimals="0" id="ixv-240025" unitRef="usd">13248</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2021" decimals="0" id="ixv-240026" unitRef="usd">17395</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2022" decimals="0" id="ixv-240027" unitRef="usd">20245</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2023" decimals="0" id="ixv-240028" unitRef="usd">18680</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2024" decimals="0" id="ixv-240029" unitRef="usd">24376</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2025" decimals="0" id="ixv-240030" unitRef="usd">28858</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_ClassMember_AsOf_2026" decimals="0" id="ixv-240031" unitRef="usd">33577</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000177590_LG_1_AdditionalIndexMember_10YR" id="ixv-3234">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity Flex 500 Linked Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-240032" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-240033" unitRef="usd">11696</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-240034" unitRef="usd">12243</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-240035" unitRef="usd">13246</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-240036" unitRef="usd">17391</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-240037" unitRef="usd">20242</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-240038" unitRef="usd">18685</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-240039" unitRef="usd">24375</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240040" unitRef="usd">28861</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240041" unitRef="usd">33573</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000177590_LG_2_AdditionalIndexMember_10YR" id="ixv-3279">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity U.S. Large Cap Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-240042" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-240043" unitRef="usd">11691</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-240044" unitRef="usd">12237</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-240045" unitRef="usd">13296</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-240046" unitRef="usd">17738</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-240047" unitRef="usd">20298</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-240048" unitRef="usd">18594</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-240049" unitRef="usd">24411</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240050" unitRef="usd">28973</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_2_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240051" unitRef="usd">33781</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000177590_0_LG_BBIndexMember_10YR" id="ixv-3324">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;S&amp;amp;P 500® Index&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2017" decimals="0" id="ixv-240052" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2018" decimals="0" id="ixv-240053" unitRef="usd">11696</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2019" decimals="0" id="ixv-240054" unitRef="usd">12243</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2020" decimals="0" id="ixv-240055" unitRef="usd">13246</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2021" decimals="0" id="ixv-240056" unitRef="usd">17391</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2022" decimals="0" id="ixv-240057" unitRef="usd">20242</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2023" decimals="0" id="ixv-240058" unitRef="usd">18685</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2024" decimals="0" id="ixv-240059" unitRef="usd">24375</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2025" decimals="0" id="ixv-240060" unitRef="usd">28861</oef:AccmVal>
+<oef:AccmVal contextRef="C000177590_0_BBIndexMember_AsOf_2026" decimals="0" id="ixv-240061" unitRef="usd">33765</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000177590_NoLoadClassMember_1YR" decimals="INF" id="ixv-240062" unitRef="pure">0.1635</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000177590_NoLoadClassMember_5YR" decimals="INF" id="ixv-240063" unitRef="pure">0.1406</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000177590_NoLoadClassMember_2025-03-01_2026-02-28" decimals="INF" id="ixv-240064" unitRef="pure">0.1444</oef:AvgAnnlRtrPct>
@@ -3663,8 +5695,41 @@
 <oef:ExpensesPaidAmt contextRef="C000103355_ClassMember" decimals="0" id="ixv-240105" unitRef="usd">4</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000103355_ClassMember" decimals="INF" id="ixv-240106" unitRef="pure">0.0004</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000103355_LG_ClassMember_11YR" id="ixv-4257">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity® Extended Market Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2016" decimals="0" id="ixv-240107" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2017" decimals="0" id="ixv-240108" unitRef="usd">13258</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2018" decimals="0" id="ixv-240109" unitRef="usd">14895</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2019" decimals="0" id="ixv-240110" unitRef="usd">15903</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2020" decimals="0" id="ixv-240111" unitRef="usd">15903</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2021" decimals="0" id="ixv-240112" unitRef="usd">24845</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2022" decimals="0" id="ixv-240113" unitRef="usd">23210</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2023" decimals="0" id="ixv-240114" unitRef="usd">20710</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2024" decimals="0" id="ixv-240115" unitRef="usd">24650</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2025" decimals="0" id="ixv-240116" unitRef="usd">27554</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_ClassMember_AsOf_2026" decimals="0" id="ixv-240117" unitRef="usd">32114</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000103355_LG_1_AdditionalIndexMember_11YR" id="ixv-4306">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Dow Jones U.S. Completion Total Stock Market Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2016" decimals="0" id="ixv-240118" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-240119" unitRef="usd">13227</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-240120" unitRef="usd">14845</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-240121" unitRef="usd">15816</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-240122" unitRef="usd">15810</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-240123" unitRef="usd">24696</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-240124" unitRef="usd">23056</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-240125" unitRef="usd">20530</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-240126" unitRef="usd">24370</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240127" unitRef="usd">27221</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240128" unitRef="usd">31701</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000103355_LG_2_AdditionalIndexMember_11YR" id="ixv-4355">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Dow Jones U.S. Total Stock Market Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2016" decimals="0" id="ixv-240129" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-240130" unitRef="usd">12626</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-240131" unitRef="usd">14675</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-240132" unitRef="usd">15408</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-240133" unitRef="usd">16451</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-240134" unitRef="usd">22292</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-240135" unitRef="usd">24952</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-240136" unitRef="usd">22898</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-240137" unitRef="usd">29446</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240138" unitRef="usd">34601</oef:AccmVal>
+<oef:AccmVal contextRef="C000103355_2_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240139" unitRef="usd">40455</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000103355_NoLoadClassMember_1YR" decimals="INF" id="ixv-240140" unitRef="pure">0.1655</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103355_NoLoadClassMember_5YR" decimals="INF" id="ixv-240141" unitRef="pure">0.0527</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000103355_NoLoadClassMember_10YR" decimals="INF" id="ixv-240142" unitRef="pure">0.1238</oef:AvgAnnlRtrPct>
@@ -3717,7 +5782,29 @@
 <oef:ExpensesPaidAmt contextRef="C000100045_ClassMember" decimals="0" id="ixv-240187" unitRef="usd">2</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000100045_ClassMember" decimals="INF" id="ixv-240188" unitRef="pure">0.0002</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000100045_LG_ClassMember_11YR" id="ixv-5336">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity® 500 Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2016" decimals="0" id="ixv-240189" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2017" decimals="0" id="ixv-240190" unitRef="usd">12497</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2018" decimals="0" id="ixv-240191" unitRef="usd">14631</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2019" decimals="0" id="ixv-240192" unitRef="usd">15314</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2020" decimals="0" id="ixv-240193" unitRef="usd">16567</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2021" decimals="0" id="ixv-240194" unitRef="usd">21750</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2022" decimals="0" id="ixv-240195" unitRef="usd">25312</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2023" decimals="0" id="ixv-240196" unitRef="usd">23360</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2024" decimals="0" id="ixv-240197" unitRef="usd">30473</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2025" decimals="0" id="ixv-240198" unitRef="usd">36076</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_ClassMember_AsOf_2026" decimals="0" id="ixv-240199" unitRef="usd">42201</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000100045_LG_1_AdditionalIndexMember_11YR" id="ixv-5385">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;S&amp;amp;P 500® Index&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2016" decimals="0" id="ixv-240200" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2017" decimals="0" id="ixv-240201" unitRef="usd">12498</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2018" decimals="0" id="ixv-240202" unitRef="usd">14635</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2019" decimals="0" id="ixv-240203" unitRef="usd">15320</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2020" decimals="0" id="ixv-240204" unitRef="usd">16575</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2021" decimals="0" id="ixv-240205" unitRef="usd">21761</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2022" decimals="0" id="ixv-240206" unitRef="usd">25327</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2023" decimals="0" id="ixv-240207" unitRef="usd">23379</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2024" decimals="0" id="ixv-240208" unitRef="usd">30499</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240209" unitRef="usd">36113</oef:AccmVal>
+<oef:AccmVal contextRef="C000100045_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240210" unitRef="usd">42249</oef:AccmVal>
 <oef:AvgAnnlRtrPct contextRef="C000100045_NoLoadClassMember_1YR" decimals="INF" id="ixv-240211" unitRef="pure">0.1698</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000100045_NoLoadClassMember_5YR" decimals="INF" id="ixv-240212" unitRef="pure">0.1418</oef:AvgAnnlRtrPct>
 <oef:AvgAnnlRtrPct contextRef="C000100045_NoLoadClassMember_10YR" decimals="INF" id="ixv-240213" unitRef="pure">0.1549</oef:AvgAnnlRtrPct>
@@ -3759,8 +5846,14 @@
 <oef:ExpensesPaidAmt contextRef="C000261866_ClassMember" decimals="0" id="ixv-240247" unitRef="usd">0</oef:ExpensesPaidAmt>
 <oef:ExpenseRatioPct contextRef="C000261866_ClassMember" decimals="INF" id="ixv-240248" unitRef="pure">0.0000</oef:ExpenseRatioPct>
 <oef:LineGraphAndTableMeasureName contextRef="C000261866_LG_ClassMember_2YR" id="ixv-6251">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity Flex® Large Cap Focused Index Fund&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000261866_ClassMember_AsOf_2025" decimals="0" id="ixv-240249" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000261866_ClassMember_AsOf_2026" decimals="0" id="ixv-240250" unitRef="usd">10776</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000261866_LG_1_AdditionalIndexMember_2YR" id="ixv-6264">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;Fidelity U.S. Large Cap Focused Index℠&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000261866_1_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240251" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000261866_1_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240252" unitRef="usd">10769</oef:AccmVal>
 <oef:LineGraphAndTableMeasureName contextRef="C000261866_LG_2_AdditionalIndexMember_2YR" id="ixv-6277">&lt;span style="font-family:'Fidelity Sans';font-size:9px;color:#000000;font-style:normal;font-weight:normal;"&gt;S&amp;amp;P 500® Index&lt;/span&gt;</oef:LineGraphAndTableMeasureName>
+<oef:AccmVal contextRef="C000261866_2_AdditionalIndexMember_AsOf_2025" decimals="0" id="ixv-240253" unitRef="usd">10000</oef:AccmVal>
+<oef:AccmVal contextRef="C000261866_2_AdditionalIndexMember_AsOf_2026" decimals="0" id="ixv-240254" unitRef="usd">10890</oef:AccmVal>
 <us-gaap:AssetsNet contextRef="C000261866_InstantMember" decimals="0" id="ixv-240255" unitRef="usd">190374600</us-gaap:AssetsNet>
 <oef:HoldingsCount contextRef="C000261866_InstantMember" decimals="INF" id="ixv-240256" unitRef="holding">191</oef:HoldingsCount>
 <oef:AdvisoryFeesPaidAmt contextRef="C000261866_ClassMember" decimals="0" id="ixv-240257" unitRef="usd">0</oef:AdvisoryFeesPaidAmt>

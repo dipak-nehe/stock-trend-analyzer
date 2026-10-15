@@ -67,6 +67,14 @@
     <div class="table-wrap" tabindex="0" role="region" aria-labelledby="fundTableTitle"><table class="pf-table fund-table" id="fundTable" data-testid="fund-table"></table></div>
     <p class="note" id="fundCaveat" data-testid="fund-caveat" hidden></p>
     <p class="note" id="fundMarks" data-testid="fund-marks" hidden data-i18n="ui.funds.marks">● marks the lower cost, higher return or lower turnover where the funds differ. Size and number of holdings get no mark.</p>
+    <div id="fundOverlapWrap" hidden>
+      <h3 class="fund-h" data-i18n="ui.funds.overlapTitle">How much they overlap</h3>
+      <p class="note" data-i18n="ui.funds.overlapNote">The share of the portfolio two funds hold in common: for each company or issuer both own, the smaller of the two weights, added up. 100% would be the same portfolio.</p>
+      <div class="fund-overlap" id="fundOverlap" data-testid="fund-overlap"></div>
+    </div>
+    <h3 class="fund-h" data-i18n="ui.funds.growthTitle">Growth of $10,000</h3>
+    <p class="note" data-i18n="ui.funds.growthNote">$10,000 invested ten years before the report, after the fund's costs, against its index (dashed), as charted in the fund's shareholder report.</p>
+    <div class="fund-mix fund-growth" id="fundGrowth" data-testid="fund-growth"></div>
     <h3 class="fund-h" id="fundTopTitle" data-i18n="ui.funds.topTitle">Top 10 holdings</h3>
     <div class="fund-mix fund-top" id="fundTop" data-testid="fund-top"></div>
     <h3 class="fund-h" id="fundMixTitle" data-i18n="ui.funds.mixTitle">What's inside</h3>

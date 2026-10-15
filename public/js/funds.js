@@ -73,8 +73,13 @@ export const ROWS = [
   ["returns", "ret1", (f) => f.returns && f.returns["1"], (v) => pct(v), "higher"],
   ["returns", "ret5", (f) => f.returns && f.returns["5"], (v) => pct(v), "higher"],
   ["returns", "ret10", (f) => f.returns && f.returns["10"], (v) => pct(v), "higher"],
+  // only for funds with a sales charge: what a buyer who paid it got (rows nobody has are left out)
+  ["returns", "afterCharge10", (f) => f.returnsAfterSalesCharge && (f.returnsAfterSalesCharge["10"] ?? f.returnsAfterSalesCharge["5"]),
+    (v, f) => `${pct(v)}<span class="muted fund-vs">${t(f.returnsAfterSalesCharge["10"] != null ? "fund.years10" : "fund.years5")}</span>`, null],
   ["returns", "vsIndex10", (f) => versusIndex(f, "10") ?? versusIndex(f, "5"), (v, f) => `${signedPct(v)}<span class="muted fund-vs">${
     t(versusIndex(f, "10") != null ? "fund.vs10" : "fund.vs5", { index: escHtml(indexName(benchmark(f))) })}</span>`, null],
+  ["risk", "worstYear", (f) => risk(f)?.worst.ret, (v, f) => `${pct(v)}<span class="muted fund-vs">${t("fund.yearTo", { date: reportDate(risk(f)?.worst.date) })}</span>`, null],
+  ["risk", "lossYears", (f) => risk(f)?.down, (v, f) => t("fund.lossYears", { n: v, of: risk(f)?.years }), null],
   ["portfolio", "netAssets", (f) => f.netAssets, (v) => usd(v), null],
   ["portfolio", "holdings", (f) => f.holdings, (v) => count(v), null],
   ["portfolio", "top10", (f) => topShare(f), (v) => t("fund.topShare", { pct: pct(v, 0), n: 10 }), null],
@@ -115,6 +120,62 @@ export function topShare(fund) {
  * bonds of one issuer are one row). @param {any} fund */
 export function holdingRows(fund) {
   return fund.topTen ? fund.topTen.rows.map((r, i) => ({ rank: i + 1, name: r.name, share: r.pct / 100, securities: r.securities })) : [];
+}
+
+/**
+ * The chart's points one year apart, ending at the last one (the report charts quarters or months for some funds).
+ * @param {any[]} points [date, value] pairs, in date order
+ */
+export function yearly(points) {
+  if (!points || points.length < 2) return [];
+  const last = points[points.length - 1][0];
+  const kept = points.filter(([d]) => d.slice(5, 7) === last.slice(5, 7));
+  return kept.length >= 2 ? kept : [];
+}
+
+/**
+ * Risk from the growth-of-$10,000 line: the worst 12 months (between the yearly points), and how many of those years
+ * lost money. When the line starts below $10,000 (a sales charge taken on day one), the first year is left out, so
+ * the charge doesn't count as a market loss. Null without a line. @param {any} fund
+ * @returns {{ worst: { ret: number, date: string }, down: number, years: number } | null}
+ */
+export function risk(fund) {
+  let pts = yearly(fund.growth && fund.growth.fund);
+  if (pts.length && pts[0][1] < 9900) pts = pts.slice(1);
+  if (pts.length < 3) return null;
+  const years = pts.slice(1).map(([date, v], i) => ({ date, ret: v / pts[i][1] - 1 }));
+  const worst = years.reduce((a, b) => (b.ret < a.ret ? b : a));
+  return { worst, down: years.filter((y) => y.ret < 0).length, years: years.length };
+}
+
+/**
+ * How much two funds hold in common: the sum, over the issuers both hold, of the smaller of the two weights (the
+ * usual overlap measure: 100% = the same portfolio), and the largest shared holdings. Null unless both have weights.
+ * @param {any} a @param {any} b
+ */
+export function overlap(a, b) {
+  const wa = a.topTen && a.topTen.weights, wb = b.topTen && b.topTen.weights;
+  if (!wa || !wb || !wa.length || !wb.length) return null;
+  // two share classes of one fund (VOO and VFIAX) hold the very same portfolio
+  if (a.seriesId && a.seriesId === b.seriesId) {
+    return { pct: 1, same: true, count: wa.length, top: wa.slice(0, 5).map(([, weight, name]) => ({ name, pct: weight })) };
+  }
+  const mb = new Map(wb.map(([key, weight]) => [key, weight]));
+  const shared = wa.filter(([key]) => mb.has(key)).map(([key, weight, name]) => ({ name, pct: Math.min(weight, mb.get(key)) }))
+    .sort((x, y) => y.pct - x.pct);
+  return { pct: Math.min(100, shared.reduce((sum, h) => sum + h.pct, 0)) / 100, count: shared.length, top: shared.slice(0, 5) };
+}
+
+/** Every pair of funds shown, with their overlap (pairs without holdings data left out). @param {any[]} funds */
+export function overlapPairs(funds) {
+  const out = [];
+  for (let i = 0; i < funds.length; i++) {
+    for (let j = i + 1; j < funds.length; j++) {
+      const o = overlap(funds[i], funds[j]);
+      if (o) out.push({ a: funds[i].ticker, b: funds[j].ticker, ...o });
+    }
+  }
+  return out;
 }
 
 /** "Dec 31, 2025" / "31 dic 2025" for a report date ("2025-12-31"). @param {string | null | undefined} iso */

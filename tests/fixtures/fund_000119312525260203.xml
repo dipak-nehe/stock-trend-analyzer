@@ -3401,6 +3401,1182 @@
             <ns0:endDate>2025-08-31</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="P04_07_2017To04_07_2017_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-07</ns0:startDate>
+            <ns0:endDate>2017-04-07</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_07_2017To04_07_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-07</ns0:startDate>
+            <ns0:endDate>2017-04-07</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_07_2017To04_07_2017_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-07</ns0:startDate>
+            <ns0:endDate>2017-04-07</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_27_2017To01_27_2017_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-27</ns0:startDate>
+            <ns0:endDate>2017-01-27</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_27_2017To01_27_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-27</ns0:startDate>
+            <ns0:endDate>2017-01-27</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_30_2020To10_30_2020_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-30</ns0:startDate>
+            <ns0:endDate>2020-10-30</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_30_2020To10_30_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-30</ns0:startDate>
+            <ns0:endDate>2020-10-30</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_30_2020To10_30_2020_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-30</ns0:startDate>
+            <ns0:endDate>2020-10-30</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_20_2015To11_20_2015_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-20</ns0:startDate>
+            <ns0:endDate>2015-11-20</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_20_2015To11_20_2015_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-20</ns0:startDate>
+            <ns0:endDate>2015-11-20</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2016_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2019_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2021_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2023_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2017_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2017_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2018_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2018_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2019_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2019_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2020_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2020_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2021_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2021_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2022_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2022_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2023_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2023_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2024_C000189487MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189487Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P04_08_2017To08_31_2024_C000189486MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000189486Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-04-08</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="P04_08_2017To08_31_2025_C000189487MemberoefClassAxis">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
@@ -3463,6 +4639,1158 @@
             <ns0:endDate>2025-08-31</ns0:endDate>
         </ns0:period>
     </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P08_31_2015To08_31_2015_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-08-31</ns0:startDate>
+            <ns0:endDate>2015-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2017_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2018_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2020_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2022_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025064MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025064Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025071MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025071Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025072MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025072Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000068598MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000068598Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025073MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025073Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025075MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025075Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025076MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025076Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025077MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025077Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025065MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025065Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025066MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025066Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000148456MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000148456Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025067MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025067Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025068MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025068Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000025069MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000025069Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P09_01_2015To08_31_2024_C000077891MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000077891Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-09-01</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
     <ns0:context id="P01_28_2017To10_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
         <ns0:entity>
             <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
@@ -3485,6 +5813,414 @@
         <ns0:period>
             <ns0:startDate>2017-01-28</ns0:startDate>
             <ns0:endDate>2025-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2017_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2018_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2019_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2020_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2021_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2021-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2021-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2023_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2023-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2023-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2024_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2024-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2024-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2022-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P01_28_2017To10_31_2022_C000180003MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000180003Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2017-01-28</ns0:startDate>
+            <ns0:endDate>2022-10-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2016_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2016_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2016-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2017_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2017-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2018_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2018-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2019_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2019-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2020_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2020-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2021_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2022_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2023_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2024_C000162626MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000162626Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P11_21_2015To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2015-11-21</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
         </ns0:period>
     </ns0:context>
     <ns0:context id="P11_21_2015To08_31_2025_C000162626MemberoefClassAxis">
@@ -3547,7 +6283,612 @@
             <ns0:endDate>2025-08-31</ns0:endDate>
         </ns0:period>
     </ns0:context>
-    <oef:PctOfNav contextRef="PAsOn08_31_2025_C000025064MemberoefClassAxis_HealthcareSectorMemberoefIndustrySectorAxis" decimals="INF" id="ixv-30704" unitRef="Unit_pure">0.1053</oef:PctOfNav>
+    <ns0:context id="P10_31_2020To02_28_2021_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2021_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2021_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2021_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2021-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2023_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2023_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2024_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2024_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2022_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To08_31_2022_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-08-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_29_2024_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-02-29</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_29_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-02-29</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_29_2024_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2024-02-29</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2025_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2025-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2025-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2025_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2025-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2022_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2022_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2022-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:BroadBasedIndexAxis">us-gaap:StandardPoors500IndexMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2023_C000224555MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224555Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="P10_31_2020To02_28_2023_C000224556MemberoefClassAxis">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0000044201</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">cik0000044201:C000224556Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2020-10-31</ns0:startDate>
+            <ns0:endDate>2023-02-28</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <oef:AccmVal contextRef="P09_01_2015To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30419" unitRef="Unit_USD">39076</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30420" unitRef="Unit_USD">22876</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025064MemberoefClassAxis" decimals="0" id="ixv-30421" unitRef="Unit_USD">23893</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30422" unitRef="Unit_USD">26524</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025064MemberoefClassAxis" decimals="0" id="ixv-30423" unitRef="Unit_USD">31076</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30424" unitRef="Unit_USD">33721</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025064MemberoefClassAxis" decimals="0" id="ixv-30425" unitRef="Unit_USD">38304</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30426" unitRef="Unit_USD">16112</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025064MemberoefClassAxis" decimals="0" id="ixv-30427" unitRef="Unit_USD">20585</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30428" unitRef="Unit_USD">19647</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025064MemberoefClassAxis" decimals="0" id="ixv-30429" unitRef="Unit_USD">26656</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30430" unitRef="Unit_USD">25770</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025064MemberoefClassAxis" decimals="0" id="ixv-30431" unitRef="Unit_USD">20317</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30432" unitRef="Unit_USD">11255</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025064MemberoefClassAxis" decimals="0" id="ixv-30433" unitRef="Unit_USD">12323</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30434" unitRef="Unit_USD">13082</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025064MemberoefClassAxis" decimals="0" id="ixv-30435" unitRef="Unit_USD">15218</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30436" unitRef="Unit_USD">15655</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025064MemberoefClassAxis" decimals="0" id="ixv-30437" unitRef="Unit_USD">15018</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025064MemberoefClassAxis" decimals="0" id="ixv-30438" unitRef="Unit_USD">9425</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30439" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025064MemberoefClassAxis" decimals="0" id="ixv-30440" unitRef="Unit_USD">10303</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025071MemberoefClassAxis" decimals="0" id="ixv-30441" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025071MemberoefClassAxis" decimals="0" id="ixv-30442" unitRef="Unit_USD">10847</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025071MemberoefClassAxis" decimals="0" id="ixv-30443" unitRef="Unit_USD">12867</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025071MemberoefClassAxis" decimals="0" id="ixv-30444" unitRef="Unit_USD">15768</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025071MemberoefClassAxis" decimals="0" id="ixv-30445" unitRef="Unit_USD">15437</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025071MemberoefClassAxis" decimals="0" id="ixv-30446" unitRef="Unit_USD">21005</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025071MemberoefClassAxis" decimals="0" id="ixv-30447" unitRef="Unit_USD">26999</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025071MemberoefClassAxis" decimals="0" id="ixv-30448" unitRef="Unit_USD">20422</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025071MemberoefClassAxis" decimals="0" id="ixv-30449" unitRef="Unit_USD">23838</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025071MemberoefClassAxis" decimals="0" id="ixv-30450" unitRef="Unit_USD">31004</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025071MemberoefClassAxis" decimals="0" id="ixv-30451" unitRef="Unit_USD">38215</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2024_C000189487MemberoefClassAxis" decimals="0" id="ixv-30452" unitRef="Unit_USD">26904</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30453" unitRef="Unit_USD">27267</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2025_C000189487MemberoefClassAxis" decimals="0" id="ixv-30454" unitRef="Unit_USD">33245</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30455" unitRef="Unit_USD">31597</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2021_C000189487MemberoefClassAxis" decimals="0" id="ixv-30456" unitRef="Unit_USD">22900</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30457" unitRef="Unit_USD">20838</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2022_C000189487MemberoefClassAxis" decimals="0" id="ixv-30458" unitRef="Unit_USD">17499</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30459" unitRef="Unit_USD">18498</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2023_C000189487MemberoefClassAxis" decimals="0" id="ixv-30460" unitRef="Unit_USD">20634</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30461" unitRef="Unit_USD">21447</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2018_C000189487MemberoefClassAxis" decimals="0" id="ixv-30462" unitRef="Unit_USD">12987</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30463" unitRef="Unit_USD">12659</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2019_C000189487MemberoefClassAxis" decimals="0" id="ixv-30464" unitRef="Unit_USD">12844</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30465" unitRef="Unit_USD">13028</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2020_C000189487MemberoefClassAxis" decimals="0" id="ixv-30466" unitRef="Unit_USD">17648</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30467" unitRef="Unit_USD">15886</oef:AccmVal>
+<oef:AccmVal contextRef="P04_07_2017To04_07_2017_C000189487MemberoefClassAxis" decimals="0" id="ixv-30468" unitRef="Unit_USD">9751</oef:AccmVal>
+<oef:AccmVal contextRef="P04_07_2017To04_07_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30469" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2017_C000189487MemberoefClassAxis" decimals="0" id="ixv-30470" unitRef="Unit_USD">10494</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30471" unitRef="Unit_USD">10579</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025072MemberoefClassAxis" decimals="0" id="ixv-30472" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025072MemberoefClassAxis" decimals="0" id="ixv-30473" unitRef="Unit_USD">10928</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025072MemberoefClassAxis" decimals="0" id="ixv-30474" unitRef="Unit_USD">13060</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025072MemberoefClassAxis" decimals="0" id="ixv-30475" unitRef="Unit_USD">16120</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025072MemberoefClassAxis" decimals="0" id="ixv-30476" unitRef="Unit_USD">15895</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025072MemberoefClassAxis" decimals="0" id="ixv-30477" unitRef="Unit_USD">21783</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025072MemberoefClassAxis" decimals="0" id="ixv-30478" unitRef="Unit_USD">28187</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025072MemberoefClassAxis" decimals="0" id="ixv-30479" unitRef="Unit_USD">21473</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025072MemberoefClassAxis" decimals="0" id="ixv-30480" unitRef="Unit_USD">25245</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025072MemberoefClassAxis" decimals="0" id="ixv-30481" unitRef="Unit_USD">32815</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025072MemberoefClassAxis" decimals="0" id="ixv-30482" unitRef="Unit_USD">40429</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000068598MemberoefClassAxis" decimals="0" id="ixv-30483" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000068598MemberoefClassAxis" decimals="0" id="ixv-30484" unitRef="Unit_USD">10957</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000068598MemberoefClassAxis" decimals="0" id="ixv-30485" unitRef="Unit_USD">13129</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000068598MemberoefClassAxis" decimals="0" id="ixv-30486" unitRef="Unit_USD">16248</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000068598MemberoefClassAxis" decimals="0" id="ixv-30487" unitRef="Unit_USD">16069</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000068598MemberoefClassAxis" decimals="0" id="ixv-30488" unitRef="Unit_USD">22075</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000068598MemberoefClassAxis" decimals="0" id="ixv-30489" unitRef="Unit_USD">28644</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000068598MemberoefClassAxis" decimals="0" id="ixv-30490" unitRef="Unit_USD">21879</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000068598MemberoefClassAxis" decimals="0" id="ixv-30491" unitRef="Unit_USD">25789</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000068598MemberoefClassAxis" decimals="0" id="ixv-30492" unitRef="Unit_USD">33607</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000068598MemberoefClassAxis" decimals="0" id="ixv-30493" unitRef="Unit_USD">41510</oef:AccmVal>
+<oef:AccmVal contextRef="P01_27_2017To01_27_2017_C000180003MemberoefClassAxis" decimals="0" id="ixv-30494" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30495" unitRef="Unit_USD">32586</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30496" unitRef="Unit_USD">19077</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2023_C000180003MemberoefClassAxis" decimals="0" id="ixv-30497" unitRef="Unit_USD">21783</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30498" unitRef="Unit_USD">22118</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2024_C000180003MemberoefClassAxis" decimals="0" id="ixv-30499" unitRef="Unit_USD">28417</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30500" unitRef="Unit_USD">28120</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2025_C000180003MemberoefClassAxis" decimals="0" id="ixv-30501" unitRef="Unit_USD">35136</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30502" unitRef="Unit_USD">13436</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2020_C000180003MemberoefClassAxis" decimals="0" id="ixv-30503" unitRef="Unit_USD">18588</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30504" unitRef="Unit_USD">16383</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2021_C000180003MemberoefClassAxis" decimals="0" id="ixv-30505" unitRef="Unit_USD">24142</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30506" unitRef="Unit_USD">21490</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To10_31_2022_C000180003MemberoefClassAxis" decimals="0" id="ixv-30507" unitRef="Unit_USD">18461</oef:AccmVal>
+<oef:AccmVal contextRef="P01_27_2017To01_27_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30508" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2017_C000180003MemberoefClassAxis" decimals="0" id="ixv-30509" unitRef="Unit_USD">11023</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30510" unitRef="Unit_USD">10910</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2018_C000180003MemberoefClassAxis" decimals="0" id="ixv-30511" unitRef="Unit_USD">13654</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30512" unitRef="Unit_USD">13055</oef:AccmVal>
+<oef:AccmVal contextRef="P01_28_2017To08_31_2019_C000180003MemberoefClassAxis" decimals="0" id="ixv-30513" unitRef="Unit_USD">13515</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025073MemberoefClassAxis" decimals="0" id="ixv-30514" unitRef="Unit_USD">31658</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025073MemberoefClassAxis" decimals="0" id="ixv-30515" unitRef="Unit_USD">39012</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025073MemberoefClassAxis" decimals="0" id="ixv-30516" unitRef="Unit_USD">15542</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025073MemberoefClassAxis" decimals="0" id="ixv-30517" unitRef="Unit_USD">15328</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025073MemberoefClassAxis" decimals="0" id="ixv-30518" unitRef="Unit_USD">21001</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025073MemberoefClassAxis" decimals="0" id="ixv-30519" unitRef="Unit_USD">27183</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025073MemberoefClassAxis" decimals="0" id="ixv-30520" unitRef="Unit_USD">20716</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025073MemberoefClassAxis" decimals="0" id="ixv-30521" unitRef="Unit_USD">24351</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025073MemberoefClassAxis" decimals="0" id="ixv-30522" unitRef="Unit_USD">9650</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025073MemberoefClassAxis" decimals="0" id="ixv-30523" unitRef="Unit_USD">10540</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025073MemberoefClassAxis" decimals="0" id="ixv-30524" unitRef="Unit_USD">12594</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025075MemberoefClassAxis" decimals="0" id="ixv-30525" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025075MemberoefClassAxis" decimals="0" id="ixv-30526" unitRef="Unit_USD">10839</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025075MemberoefClassAxis" decimals="0" id="ixv-30527" unitRef="Unit_USD">24296</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025075MemberoefClassAxis" decimals="0" id="ixv-30528" unitRef="Unit_USD">31586</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025075MemberoefClassAxis" decimals="0" id="ixv-30529" unitRef="Unit_USD">38924</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025075MemberoefClassAxis" decimals="0" id="ixv-30530" unitRef="Unit_USD">12853</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025075MemberoefClassAxis" decimals="0" id="ixv-30531" unitRef="Unit_USD">15740</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025075MemberoefClassAxis" decimals="0" id="ixv-30532" unitRef="Unit_USD">15408</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025075MemberoefClassAxis" decimals="0" id="ixv-30533" unitRef="Unit_USD">20953</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025075MemberoefClassAxis" decimals="0" id="ixv-30534" unitRef="Unit_USD">27121</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025075MemberoefClassAxis" decimals="0" id="ixv-30535" unitRef="Unit_USD">20668</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025076MemberoefClassAxis" decimals="0" id="ixv-30536" unitRef="Unit_USD">21514</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025076MemberoefClassAxis" decimals="0" id="ixv-30537" unitRef="Unit_USD">27782</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025076MemberoefClassAxis" decimals="0" id="ixv-30538" unitRef="Unit_USD">21119</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025076MemberoefClassAxis" decimals="0" id="ixv-30539" unitRef="Unit_USD">24766</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025076MemberoefClassAxis" decimals="0" id="ixv-30540" unitRef="Unit_USD">32123</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025076MemberoefClassAxis" decimals="0" id="ixv-30541" unitRef="Unit_USD">39487</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025076MemberoefClassAxis" decimals="0" id="ixv-30542" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025076MemberoefClassAxis" decimals="0" id="ixv-30543" unitRef="Unit_USD">10899</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025076MemberoefClassAxis" decimals="0" id="ixv-30544" unitRef="Unit_USD">12992</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025076MemberoefClassAxis" decimals="0" id="ixv-30545" unitRef="Unit_USD">15994</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025076MemberoefClassAxis" decimals="0" id="ixv-30546" unitRef="Unit_USD">15738</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2023_C000189486MemberoefClassAxis" decimals="0" id="ixv-30547" unitRef="Unit_USD">20570</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2024_C000189486MemberoefClassAxis" decimals="0" id="ixv-30548" unitRef="Unit_USD">26804</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2025_C000189486MemberoefClassAxis" decimals="0" id="ixv-30549" unitRef="Unit_USD">33104</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2020_C000189486MemberoefClassAxis" decimals="0" id="ixv-30550" unitRef="Unit_USD">17620</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2021_C000189486MemberoefClassAxis" decimals="0" id="ixv-30551" unitRef="Unit_USD">22854</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2022_C000189486MemberoefClassAxis" decimals="0" id="ixv-30552" unitRef="Unit_USD">17452</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2017_C000189486MemberoefClassAxis" decimals="0" id="ixv-30553" unitRef="Unit_USD">10492</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2018_C000189486MemberoefClassAxis" decimals="0" id="ixv-30554" unitRef="Unit_USD">12979</oef:AccmVal>
+<oef:AccmVal contextRef="P04_08_2017To08_31_2019_C000189486MemberoefClassAxis" decimals="0" id="ixv-30555" unitRef="Unit_USD">12830</oef:AccmVal>
+<oef:AccmVal contextRef="P04_07_2017To04_07_2017_C000189486MemberoefClassAxis" decimals="0" id="ixv-30556" unitRef="Unit_USD">9751</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025077MemberoefClassAxis" decimals="0" id="ixv-30557" unitRef="Unit_USD">28551</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025077MemberoefClassAxis" decimals="0" id="ixv-30558" unitRef="Unit_USD">21792</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025077MemberoefClassAxis" decimals="0" id="ixv-30559" unitRef="Unit_USD">25670</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025077MemberoefClassAxis" decimals="0" id="ixv-30560" unitRef="Unit_USD">33441</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025077MemberoefClassAxis" decimals="0" id="ixv-30561" unitRef="Unit_USD">41280</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025077MemberoefClassAxis" decimals="0" id="ixv-30562" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025077MemberoefClassAxis" decimals="0" id="ixv-30563" unitRef="Unit_USD">10946</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025077MemberoefClassAxis" decimals="0" id="ixv-30564" unitRef="Unit_USD">13109</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025077MemberoefClassAxis" decimals="0" id="ixv-30565" unitRef="Unit_USD">16213</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025077MemberoefClassAxis" decimals="0" id="ixv-30566" unitRef="Unit_USD">16022</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025077MemberoefClassAxis" decimals="0" id="ixv-30567" unitRef="Unit_USD">22007</oef:AccmVal>
+<oef:AccmVal contextRef="P10_30_2020To10_30_2020_C000224555MemberoefClassAxis" decimals="0" id="ixv-30568" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P10_30_2020To10_30_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30569" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2021_C000224555MemberoefClassAxis" decimals="0" id="ixv-30570" unitRef="Unit_USD">12097</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30571" unitRef="Unit_USD">11719</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2021_C000224555MemberoefClassAxis" decimals="0" id="ixv-30572" unitRef="Unit_USD">13837</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30573" unitRef="Unit_USD">18329</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2025_C000224555MemberoefClassAxis" decimals="0" id="ixv-30574" unitRef="Unit_USD">17707</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30575" unitRef="Unit_USD">19448</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2025_C000224555MemberoefClassAxis" decimals="0" id="ixv-30576" unitRef="Unit_USD">20059</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30577" unitRef="Unit_USD">21240</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30578" unitRef="Unit_USD">12591</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2023_C000224555MemberoefClassAxis" decimals="0" id="ixv-30579" unitRef="Unit_USD">12461</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30580" unitRef="Unit_USD">14417</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_29_2024_C000224555MemberoefClassAxis" decimals="0" id="ixv-30581" unitRef="Unit_USD">14837</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_29_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30582" unitRef="Unit_USD">16425</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2024_C000224555MemberoefClassAxis" decimals="0" id="ixv-30583" unitRef="Unit_USD">16239</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30584" unitRef="Unit_USD">14007</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2022_C000224555MemberoefClassAxis" decimals="0" id="ixv-30585" unitRef="Unit_USD">12347</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30586" unitRef="Unit_USD">13640</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2022_C000224555MemberoefClassAxis" decimals="0" id="ixv-30587" unitRef="Unit_USD">10570</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30588" unitRef="Unit_USD">12434</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2023_C000224555MemberoefClassAxis" decimals="0" id="ixv-30589" unitRef="Unit_USD">10640</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2024_C000224556MemberoefClassAxis" decimals="0" id="ixv-30590" unitRef="Unit_USD">16268</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2025_C000224556MemberoefClassAxis" decimals="0" id="ixv-30591" unitRef="Unit_USD">17743</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2025_C000224556MemberoefClassAxis" decimals="0" id="ixv-30592" unitRef="Unit_USD">20105</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2021_C000224556MemberoefClassAxis" decimals="0" id="ixv-30593" unitRef="Unit_USD">13845</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2022_C000224556MemberoefClassAxis" decimals="0" id="ixv-30594" unitRef="Unit_USD">12356</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2022_C000224556MemberoefClassAxis" decimals="0" id="ixv-30595" unitRef="Unit_USD">10580</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2023_C000224556MemberoefClassAxis" decimals="0" id="ixv-30596" unitRef="Unit_USD">10652</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To08_31_2023_C000224556MemberoefClassAxis" decimals="0" id="ixv-30597" unitRef="Unit_USD">12477</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_29_2024_C000224556MemberoefClassAxis" decimals="0" id="ixv-30598" unitRef="Unit_USD">14861</oef:AccmVal>
+<oef:AccmVal contextRef="P10_30_2020To10_30_2020_C000224556MemberoefClassAxis" decimals="0" id="ixv-30599" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P10_31_2020To02_28_2021_C000224556MemberoefClassAxis" decimals="0" id="ixv-30600" unitRef="Unit_USD">12099</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025065MemberoefClassAxis" decimals="0" id="ixv-30601" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025065MemberoefClassAxis" decimals="0" id="ixv-30602" unitRef="Unit_USD">10849</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025065MemberoefClassAxis" decimals="0" id="ixv-30603" unitRef="Unit_USD">12873</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025065MemberoefClassAxis" decimals="0" id="ixv-30604" unitRef="Unit_USD">15770</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025065MemberoefClassAxis" decimals="0" id="ixv-30605" unitRef="Unit_USD">15441</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025065MemberoefClassAxis" decimals="0" id="ixv-30606" unitRef="Unit_USD">21003</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025065MemberoefClassAxis" decimals="0" id="ixv-30607" unitRef="Unit_USD">26987</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025065MemberoefClassAxis" decimals="0" id="ixv-30608" unitRef="Unit_USD">20412</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025065MemberoefClassAxis" decimals="0" id="ixv-30609" unitRef="Unit_USD">23825</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025065MemberoefClassAxis" decimals="0" id="ixv-30610" unitRef="Unit_USD">30749</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025065MemberoefClassAxis" decimals="0" id="ixv-30611" unitRef="Unit_USD">37611</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025066MemberoefClassAxis" decimals="0" id="ixv-30612" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025066MemberoefClassAxis" decimals="0" id="ixv-30613" unitRef="Unit_USD">10852</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025066MemberoefClassAxis" decimals="0" id="ixv-30614" unitRef="Unit_USD">12874</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025066MemberoefClassAxis" decimals="0" id="ixv-30615" unitRef="Unit_USD">15778</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025066MemberoefClassAxis" decimals="0" id="ixv-30616" unitRef="Unit_USD">37609</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025066MemberoefClassAxis" decimals="0" id="ixv-30617" unitRef="Unit_USD">15447</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025066MemberoefClassAxis" decimals="0" id="ixv-30618" unitRef="Unit_USD">21010</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025066MemberoefClassAxis" decimals="0" id="ixv-30619" unitRef="Unit_USD">26995</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025066MemberoefClassAxis" decimals="0" id="ixv-30620" unitRef="Unit_USD">20416</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025066MemberoefClassAxis" decimals="0" id="ixv-30621" unitRef="Unit_USD">23827</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025066MemberoefClassAxis" decimals="0" id="ixv-30622" unitRef="Unit_USD">30746</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000148456MemberoefClassAxis" decimals="0" id="ixv-30623" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000148456MemberoefClassAxis" decimals="0" id="ixv-30624" unitRef="Unit_USD">10889</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000148456MemberoefClassAxis" decimals="0" id="ixv-30625" unitRef="Unit_USD">12960</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000148456MemberoefClassAxis" decimals="0" id="ixv-30626" unitRef="Unit_USD">15928</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000148456MemberoefClassAxis" decimals="0" id="ixv-30627" unitRef="Unit_USD">15640</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000148456MemberoefClassAxis" decimals="0" id="ixv-30628" unitRef="Unit_USD">21338</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000148456MemberoefClassAxis" decimals="0" id="ixv-30629" unitRef="Unit_USD">27495</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000148456MemberoefClassAxis" decimals="0" id="ixv-30630" unitRef="Unit_USD">20854</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000148456MemberoefClassAxis" decimals="0" id="ixv-30631" unitRef="Unit_USD">24412</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000148456MemberoefClassAxis" decimals="0" id="ixv-30632" unitRef="Unit_USD">31595</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000148456MemberoefClassAxis" decimals="0" id="ixv-30633" unitRef="Unit_USD">38758</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025067MemberoefClassAxis" decimals="0" id="ixv-30634" unitRef="Unit_USD">21482</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025067MemberoefClassAxis" decimals="0" id="ixv-30635" unitRef="Unit_USD">27722</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025067MemberoefClassAxis" decimals="0" id="ixv-30636" unitRef="Unit_USD">21062</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025067MemberoefClassAxis" decimals="0" id="ixv-30637" unitRef="Unit_USD">39321</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025067MemberoefClassAxis" decimals="0" id="ixv-30638" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025067MemberoefClassAxis" decimals="0" id="ixv-30639" unitRef="Unit_USD">10899</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025067MemberoefClassAxis" decimals="0" id="ixv-30640" unitRef="Unit_USD">12989</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025067MemberoefClassAxis" decimals="0" id="ixv-30641" unitRef="Unit_USD">15985</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025067MemberoefClassAxis" decimals="0" id="ixv-30642" unitRef="Unit_USD">15722</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025067MemberoefClassAxis" decimals="0" id="ixv-30643" unitRef="Unit_USD">24690</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025067MemberoefClassAxis" decimals="0" id="ixv-30644" unitRef="Unit_USD">32003</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025068MemberoefClassAxis" decimals="0" id="ixv-30645" unitRef="Unit_USD">32870</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025068MemberoefClassAxis" decimals="0" id="ixv-30646" unitRef="Unit_USD">40502</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025068MemberoefClassAxis" decimals="0" id="ixv-30647" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025068MemberoefClassAxis" decimals="0" id="ixv-30648" unitRef="Unit_USD">10929</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025068MemberoefClassAxis" decimals="0" id="ixv-30649" unitRef="Unit_USD">13064</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025068MemberoefClassAxis" decimals="0" id="ixv-30650" unitRef="Unit_USD">16128</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025068MemberoefClassAxis" decimals="0" id="ixv-30651" unitRef="Unit_USD">15906</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025068MemberoefClassAxis" decimals="0" id="ixv-30652" unitRef="Unit_USD">21801</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025068MemberoefClassAxis" decimals="0" id="ixv-30653" unitRef="Unit_USD">28221</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025068MemberoefClassAxis" decimals="0" id="ixv-30654" unitRef="Unit_USD">21501</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025068MemberoefClassAxis" decimals="0" id="ixv-30655" unitRef="Unit_USD">25282</oef:AccmVal>
+<oef:AccmVal contextRef="P11_20_2015To11_20_2015_C000162626MemberoefClassAxis" decimals="0" id="ixv-30656" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P11_20_2015To11_20_2015_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30657" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2016_C000162626MemberoefClassAxis" decimals="0" id="ixv-30658" unitRef="Unit_USD">10361</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2016_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30659" unitRef="Unit_USD">10572</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2023_C000162626MemberoefClassAxis" decimals="0" id="ixv-30660" unitRef="Unit_USD">24313</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2023_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30661" unitRef="Unit_USD">24913</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2024_C000162626MemberoefClassAxis" decimals="0" id="ixv-30662" unitRef="Unit_USD">31674</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2024_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30663" unitRef="Unit_USD">31673</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2025_C000162626MemberoefClassAxis" decimals="0" id="ixv-30664" unitRef="Unit_USD">39107</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2025_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30665" unitRef="Unit_USD">36703</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2020_C000162626MemberoefClassAxis" decimals="0" id="ixv-30666" unitRef="Unit_USD">20843</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2020_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30667" unitRef="Unit_USD">18453</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2021_C000162626MemberoefClassAxis" decimals="0" id="ixv-30668" unitRef="Unit_USD">27032</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2021_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30669" unitRef="Unit_USD">24204</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2022_C000162626MemberoefClassAxis" decimals="0" id="ixv-30670" unitRef="Unit_USD">20635</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2022_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30671" unitRef="Unit_USD">21487</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2017_C000162626MemberoefClassAxis" decimals="0" id="ixv-30672" unitRef="Unit_USD">12410</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2017_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30673" unitRef="Unit_USD">12288</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2018_C000162626MemberoefClassAxis" decimals="0" id="ixv-30674" unitRef="Unit_USD">15354</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2018_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30675" unitRef="Unit_USD">14704</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2019_C000162626MemberoefClassAxis" decimals="0" id="ixv-30676" unitRef="Unit_USD">15174</oef:AccmVal>
+<oef:AccmVal contextRef="P11_21_2015To08_31_2019_StandardPoors500IndexMemberoefBroadBasedIndexAxis" decimals="0" id="ixv-30677" unitRef="Unit_USD">15134</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000025069MemberoefClassAxis" decimals="0" id="ixv-30678" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000025069MemberoefClassAxis" decimals="0" id="ixv-30679" unitRef="Unit_USD">21961</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000025069MemberoefClassAxis" decimals="0" id="ixv-30680" unitRef="Unit_USD">25899</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000025069MemberoefClassAxis" decimals="0" id="ixv-30681" unitRef="Unit_USD">33774</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000025069MemberoefClassAxis" decimals="0" id="ixv-30682" unitRef="Unit_USD">41741</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000025069MemberoefClassAxis" decimals="0" id="ixv-30683" unitRef="Unit_USD">10964</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000025069MemberoefClassAxis" decimals="0" id="ixv-30684" unitRef="Unit_USD">13145</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000025069MemberoefClassAxis" decimals="0" id="ixv-30685" unitRef="Unit_USD">16275</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000025069MemberoefClassAxis" decimals="0" id="ixv-30686" unitRef="Unit_USD">16100</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000025069MemberoefClassAxis" decimals="0" id="ixv-30687" unitRef="Unit_USD">22133</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000025069MemberoefClassAxis" decimals="0" id="ixv-30688" unitRef="Unit_USD">28736</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2024_C000077891MemberoefClassAxis" decimals="0" id="ixv-30689" unitRef="Unit_USD">33926</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2025_C000077891MemberoefClassAxis" decimals="0" id="ixv-30690" unitRef="Unit_USD">41948</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2018_C000077891MemberoefClassAxis" decimals="0" id="ixv-30691" unitRef="Unit_USD">16298</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2019_C000077891MemberoefClassAxis" decimals="0" id="ixv-30692" unitRef="Unit_USD">16133</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2020_C000077891MemberoefClassAxis" decimals="0" id="ixv-30693" unitRef="Unit_USD">22187</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2021_C000077891MemberoefClassAxis" decimals="0" id="ixv-30694" unitRef="Unit_USD">28820</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2022_C000077891MemberoefClassAxis" decimals="0" id="ixv-30695" unitRef="Unit_USD">22036</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2023_C000077891MemberoefClassAxis" decimals="0" id="ixv-30696" unitRef="Unit_USD">26002</oef:AccmVal>
+<oef:AccmVal contextRef="P08_31_2015To08_31_2015_C000077891MemberoefClassAxis" decimals="0" id="ixv-30697" unitRef="Unit_USD">10000</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2016_C000077891MemberoefClassAxis" decimals="0" id="ixv-30698" unitRef="Unit_USD">10968</oef:AccmVal>
+<oef:AccmVal contextRef="P09_01_2015To08_31_2017_C000077891MemberoefClassAxis" decimals="0" id="ixv-30699" unitRef="Unit_USD">13156</oef:AccmVal>
+<oef:PctOfNav contextRef="PAsOn08_31_2025_C000025064MemberoefClassAxis_HealthcareSectorMemberoefIndustrySectorAxis" decimals="INF" id="ixv-30704" unitRef="Unit_pure">0.1053</oef:PctOfNav>
 <oef:PctOfNav contextRef="PAsOn08_31_2025_C000025064MemberoefClassAxis_FinancialServicesSectorMemberoefIndustrySectorAxis" decimals="INF" id="ixv-30705" unitRef="Unit_pure">0.0966</oef:PctOfNav>
 <oef:PctOfNav contextRef="PAsOn08_31_2025_C000025064MemberoefClassAxis_UnclassifiedSectorMemberoefIndustrySectorAxis" decimals="INF" id="ixv-30706" unitRef="Unit_pure">0.0616</oef:PctOfNav>
 <oef:PctOfNav contextRef="PAsOn08_31_2025_C000025064MemberoefClassAxis_OtherSecuritiesMemberoefIndustrySectorAxis" decimals="INF" id="ixv-30707" unitRef="Unit_pure">0.0146</oef:PctOfNav>

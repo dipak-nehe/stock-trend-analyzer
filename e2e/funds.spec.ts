@@ -84,6 +84,35 @@ test.describe('comparing funds', () => {
   });
 });
 
+test.describe('overlap, growth and ups and downs', () => {
+  test('two share classes of one fund are the same portfolio; other pairs show what they share', async ({ funds, page }) => {
+    await funds.goto('f=VOO,VFIAX,AGTHX');
+    const pairs = page.getByTestId('fund-overlap-pair');
+    await expect(pairs).toHaveCount(3);
+    await expect(pairs.first()).toContainText('VOO & VFIAX');
+    await expect(pairs.first()).toContainText('100% in common');
+    await expect(pairs.first()).toContainText('The same portfolio: two share classes of one fund');
+    await expect(pairs.nth(1)).toContainText(/VOO & AGTHX\s*\d+% in common/);
+    await expect(pairs.nth(1)).toContainText(/holdings in common; the largest: NVIDIA Corp/);
+  });
+
+  test('growth of $10,000 against the index, the worst year, and a chart that does not add up is left out', async ({ funds, page }) => {
+    await funds.goto('f=VOO,AGTHX');
+    const cards = page.getByTestId('fund-growth-card');
+    await expect(cards.first()).toContainText('VOO 10 years to Dec 31, 2025');
+    await expect(cards.first()).toContainText('VOO $39,690');
+    await expect(cards.first()).toContainText('S&P 500 Index $39,827');
+    await expect(cards.first().locator('svg polyline')).toHaveCount(2);
+    await expect(cards.nth(1)).toContainText("doesn't match its own reported 10-year return");
+    await expect(funds.cell('worstYear', 0)).toHaveText(/^-18\.1%\s*year to Dec 31, 2022$/);
+    await expect(funds.cell('lossYears', 0)).toHaveText('2 of 10');
+    await expect(funds.cell('worstYear', 1)).toHaveText('n/a');
+    await expect(funds.cell('afterCharge10', 1)).toHaveText(/^14\.4%\s*10 years$/);   // AGTHX's 5.75% charge
+    await expect(funds.cell('afterCharge10', 0)).toHaveText('n/a');
+    await expect(funds.cell('ret10', 1)).toHaveText('15.0% ●(more favourable)');     // before the charge
+  });
+});
+
 test.describe('errors', () => {
   test('a ticker that is not a fund, a trust without reports, a duplicate', async ({ funds }) => {
     await funds.goto();

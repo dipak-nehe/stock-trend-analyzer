@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MAX_FUNDS, benchmark, breakdownRows, compareRows, costOverYears, holdingRows, parseFunds, reportDate, topShare, versusIndex } from "../../public/js/funds.js";
+import { MAX_FUNDS, benchmark, breakdownRows, compareRows, costOverYears, holdingRows, overlap, overlapPairs, parseFunds, reportDate, risk, topShare, versusIndex, yearly } from "../../public/js/funds.js";
 import { setLang } from "../../public/js/i18n.js";
 
 const fund = (over = {}) => ({
@@ -81,4 +81,42 @@ test("the top 10 come from the holdings list, with their share of the fund; else
   assert.equal(topShare(fund({ topHoldings: { count: 10, pct: 0.412 } })), 0.412);
   assert.equal(topShare(fund({ topHoldings: { count: 7, pct: 0.3 } })), null);    // not a top 10
   assert.deepEqual(holdingRows(fund()), []);
+});
+
+test("the growth chart's yearly points, the worst year and the years with a loss", () => {
+  const quarters = [["2023-12-31", 10000], ["2024-03-31", 9000], ["2024-12-31", 12000], ["2025-06-30", 11000], ["2025-12-31", 10800]];
+  assert.deepEqual(yearly(quarters).map(([d]) => d), ["2023-12-31", "2024-12-31", "2025-12-31"]);
+  const r = risk(fund({ growth: { fund: [["2021-12-31", 10000], ["2022-12-31", 8000], ["2023-12-31", 10000], ["2024-12-31", 12000], ["2025-12-31", 10800]] } }));
+  assert.ok(Math.abs(r.worst.ret + 0.2) < 1e-12);
+  assert.equal(r.worst.date, "2022-12-31");
+  assert.deepEqual([r.down, r.years], [2, 4]);
+  // a sales charge taken on day one isn't a market loss: that first year is left out
+  const charged = risk(fund({ growth: { fund: [["2021-08-31", 9425], ["2022-08-31", 9500], ["2023-08-31", 10500], ["2024-08-31", 11000]] } }));
+  assert.deepEqual([charged.down, charged.years], [0, 2]);
+  assert.equal(risk(fund({ growth: null })), null);
+});
+
+test("overlap: the smaller weight of each shared holding, added up, with the largest shared ones", () => {
+  const a = fund({ ticker: "A", topTen: { weights: [["NVDA", 7, "NVIDIA"], ["AAPL", 6, "Apple"], ["XOM", 1, "Exxon"]] } });
+  const b = fund({ ticker: "B", topTen: { weights: [["AAPL", 4, "Apple"], ["NVDA", 8, "NVIDIA"], ["BND", 50, "Bonds"]] } });
+  const o = overlap(a, b);
+  assert.ok(Math.abs(o.pct - 0.11) < 1e-12);                       // min(7,8) + min(6,4) = 11%
+  assert.deepEqual(o.top.map((h) => h.name), ["NVIDIA", "Apple"]);
+  assert.equal(o.count, 2);
+  assert.equal(overlap(a, fund({ topTen: null })), null);
+  assert.deepEqual(overlapPairs([a, b, fund({ ticker: "C" })]).map((p) => `${p.a}-${p.b}`), ["A-B"]);
+});
+
+test("returns after a sales charge get their own row, only when a fund has one", () => {
+  setLang("en");
+  const plain = compareRows([fund()]).rows;
+  assert.equal(plain.find((r) => r.key === "afterCharge10"), undefined);
+  const charged = compareRows([fund(), fund({ ticker: "C", returnsAfterSalesCharge: { 1: 0.16, 5: 0.12, 10: 0.1437 } })]).rows;
+  assert.deepEqual(charged.find((r) => r.key === "afterCharge10").cells.map((c) => c.text.replace(/<[^>]+>/g, " ")), ["n/a", "14.4% 10 years "]);
+});
+
+test("two share classes of one fund are the same portfolio", () => {
+  const w = { weights: [["NVDA", 7, "NVIDIA"]] };
+  const o = overlap(fund({ ticker: "VOO", seriesId: "S1", topTen: w }), fund({ ticker: "VFIAX", seriesId: "S1", topTen: w }));
+  assert.deepEqual([o.pct, o.same], [1, true]);
 });

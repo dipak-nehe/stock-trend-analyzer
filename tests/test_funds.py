@@ -143,3 +143,43 @@ def test_the_fund_carries_its_top_ten_and_still_shows_without_them(sec_fixtures,
     monkeypatch.setattr(funds.sd, "store", None)
     status, body, *_ = funds.fund_response("SCHD")
     assert status == 200 and body["topTen"] is None and body["expenseRatio"] == pytest.approx(0.0006)
+
+
+# ---------- growth of $10,000 and overlap ----------
+
+def test_the_growth_chart_is_the_fund_line_and_its_own_index_from_its_section():
+    voo = funds.parse_report(report(VANGUARD), "C000092055")
+    assert tuple(voo["growth"]["fund"][0]) == ("2015-12-31", 10000.0)
+    assert tuple(voo["growth"]["fund"][-1]) == ("2025-12-31", 39690.0)
+    assert voo["growth"]["index"]["name"] == "S&P 500 Index" and tuple(voo["growth"]["index"]["points"][-1]) == ("2025-12-31", 39827.0)
+    assert len(voo["growth"]["fund"]) == 41                                       # quarterly points
+
+
+def test_fidelity_dates_its_chart_points_by_the_year_in_the_name():
+    fxaix = funds.parse_report(report(FIDELITY), "C000100045")
+    assert [d for d, _ in fxaix["growth"]["fund"]][:2] == ["2016-02-28", "2017-02-28"]
+    assert tuple(fxaix["growth"]["fund"][-1]) == ("2026-02-28", 42201.0)
+
+
+def test_holdings_carry_their_weights_by_issuer_for_overlap():
+    top = funds.top_holdings(report("nport_000003640526000473.xml"))
+    weights = {w[0]: w for w in top["weights"]}
+    assert weights["02079K"][2] == "Alphabet Inc" and weights["02079K"][1] == pytest.approx(5.84, abs=0.005)  # A + C: one issuer
+    assert len(top["weights"]) <= funds.OVERLAP_HOLDINGS
+
+
+def test_a_chart_that_contradicts_the_reported_returns_is_not_shown():
+    # American Funds tagged AGTHX's chart values against the wrong dates: its line would end at $23,893, while its
+    # own 10-year return (14.37% a year after the charge) puts the end near $38,300
+    agthx = funds.parse_report(report("fund_000119312525260203.xml"), "C000025064")
+    assert agthx["growth"] == {"fund": None, "index": None, "inconsistent": True}
+
+
+@pytest.mark.parametrize("points,rates,ok", [
+    ([("2015-12-31", 10000), ("2025-12-31", 39690)], [0.1478], True),
+    ([("2015-08-31", 9425), ("2025-08-31", 38304)], [0.1505, 0.1437], True),      # charge taken at the start
+    ([("2015-08-31", 9425), ("2025-08-31", 23893)], [0.1505, 0.1437], False),
+    ([("2021-12-31", 10000), ("2025-12-31", 15000)], [0.1478], True),             # not ten years: nothing to check
+    ([("2015-12-31", 10000), ("2025-12-31", 99999)], [], True)])
+def test_the_ten_year_check(points, rates, ok):
+    assert funds._consistent(points, rates) is ok

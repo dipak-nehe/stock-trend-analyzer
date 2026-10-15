@@ -67,6 +67,8 @@
     <div class="table-wrap" tabindex="0" role="region" aria-labelledby="fundTableTitle"><table class="pf-table fund-table" id="fundTable" data-testid="fund-table"></table></div>
     <p class="note" id="fundCaveat" data-testid="fund-caveat" hidden></p>
     <p class="note" id="fundMarks" data-testid="fund-marks" hidden data-i18n="ui.funds.marks">● marks the lower cost, higher return or lower turnover where the funds differ. Size and number of holdings get no mark.</p>
+    <h3 class="fund-h" id="fundTopTitle" data-i18n="ui.funds.topTitle">Top 10 holdings</h3>
+    <div class="fund-mix fund-top" id="fundTop" data-testid="fund-top"></div>
     <h3 class="fund-h" id="fundMixTitle" data-i18n="ui.funds.mixTitle">What's inside</h3>
     <div class="fund-mix" id="fundMix" data-testid="fund-mix"></div>
   </section>
@@ -79,7 +81,7 @@
       <dt>Returns</dt><dd>Average total return a year over 1, 5 and 10 years, after the fund's costs and without any sales charge, as the fund reports them.</dd>
       <dt>Against its index</dt><dd>The fund's 10-year return minus its index's (its own benchmark when the report names one, otherwise the broad market). An index fund should trail by about its costs; an active fund is trying to beat it.</dd>
       <dt>Net assets</dt><dd>The fund's size, for all its share classes together.</dd>
-      <dt>Top 10 holdings</dt><dd>How much of the fund sits in its ten largest holdings, where the report gives them: a measure of concentration.</dd>
+      <dt>Top 10 holdings</dt><dd>The fund's ten largest holdings and how much of it sits in them, a measure of concentration, from its latest holdings report to the SEC (Form N-PORT, public about two months after each quarter). Share classes of one company (Alphabet A and C) and one issuer's bonds count as one holding; futures, swaps and cash are left out.</dd>
       <dt>Turnover</dt><dd>How much of the portfolio the fund bought and sold in the year. High turnover means more trading costs, which aren't in the expense ratio, and often more taxes in a taxable account.</dd>
     </dl>
     <p class="note" data-i18n="ui.funds.source">From each fund's latest annual shareholder report (Form N-CSR) on SEC EDGAR, or the half-year report when there's no recent annual one (it has no returns). Unit investment trusts such as SPY and DIA don't file these reports, so they can't be shown. No prices: look them up on the fund company's site.</p>

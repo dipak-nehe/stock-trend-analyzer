@@ -42,42 +42,66 @@
    "date": "2026-02-27",
    "folder": "https://www.sec.gov/Archives/edgar/data/36405/000110465926021519/",
    "fixture": "fund_000110465926021519.xml",
-   "file": "tm263123d8_ncsr_htm.xml"
+   "file": "tm263123d8_ncsr_htm.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/36405/000003640526000473/",
+    "fixture": "nport_000003640526000473.xml"
+   }
   },
   "S000006027": {
    "form": "N-CSR",
    "date": "2026-04-22",
    "folder": "https://www.sec.gov/Archives/edgar/data/819118/000081911826000065/",
    "file": "filing11607_htm.xml",
-   "fixture": "fund_000081911826000065.xml"
+   "fixture": "fund_000081911826000065.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/819118/000003540226004626/",
+    "fixture": "nport_000003540226004626.xml"
+   }
   },
   "S000034163": {
    "form": "N-CSR",
    "date": "2025-11-03",
    "folder": "https://www.sec.gov/Archives/edgar/data/1454889/000119312525262698/",
    "file": "d78826dncsr_htm.xml",
-   "fixture": "fund_000119312525262698.xml"
+   "fixture": "fund_000119312525262698.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/1454889/000141036826075040/",
+    "fixture": "nport_000141036826075040.xml"
+   }
   },
   "S000002564": {
    "form": "N-CSR",
    "date": "2026-02-27",
    "folder": "https://www.sec.gov/Archives/edgar/data/794105/000110465926021506/",
    "file": "tm263123d3_ncsr_htm.xml",
-   "fixture": "fund_000110465926021506.xml"
+   "fixture": "fund_000110465926021506.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/794105/000079410526000276/",
+    "fixture": "nport_000079410526000276.xml"
+   }
   },
   "S000009228": {
    "form": "N-CSR",
    "date": "2025-10-31",
    "folder": "https://www.sec.gov/Archives/edgar/data/44201/000119312525260203/",
    "file": "8de157439e338b7_htm.xml",
-   "fixture": "fund_000119312525260203.xml"
+   "fixture": "fund_000119312525260203.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/44201/000119312526323081/",
+    "fixture": "nport_000119312526323081.xml"
+   }
   },
   "S000101292": {
    "form": "N-CSRS",
    "date": "2026-06-01",
    "folder": "https://www.sec.gov/Archives/edgar/data/1067839/000119312526250483/",
    "file": "8deb6f921189c0e_htm.xml",
-   "fixture": "fund_000119312526250483.xml"
+   "fixture": "fund_000119312526250483.xml",
+   "nport": {
+    "folder": "https://www.sec.gov/Archives/edgar/data/1067839/000106783926000030/",
+    "fixture": "nport_000106783926000030.xml"
+   }
   }
  }
 }

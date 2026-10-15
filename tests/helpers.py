@@ -53,6 +53,16 @@ def fixture_sec_get_text(url):
     """Stand-in for stock_data.sec_get_text: a Form 4's (trimmed) XML from tests/fixtures/form4_<cik>.json."""
     if "browse-edgar" in url and "type=N-CSR" in url:
         return _fund_atom(re.search(r"CIK=(S\d+)", url).group(1))
+    if "browse-edgar" in url and "type=NPORT-P" in url:
+        saved = _funds_fixture()["series"].get(re.search(r"CIK=(S\d+)", url).group(1), {}).get("nport")
+        return (f"<feed><entry><content><filing-href>{saved['folder']}index.htm</filing-href>"
+                "<filing-type>NPORT-P</filing-type></content></entry></feed>") if saved else "<feed></feed>"
+    if url.endswith("/primary_doc.xml"):
+        for series in _funds_fixture()["series"].values():
+            if url == series["nport"]["folder"] + "primary_doc.xml":
+                with open(os.path.join(FIXTURES, series["nport"]["fixture"])) as fh:
+                    return fh.read()
+        raise _not_found(url)
     if url.endswith("_htm.xml"):
         for series in _funds_fixture()["series"].values():
             if url == series["folder"] + series["file"]:

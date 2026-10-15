@@ -577,3 +577,7 @@
   .fund-table th, .fund-table td { padding: 8px 6px; }
   .fund-table .fund-name, .fund-table .fund-class, .fund-table td .fund-vs { max-width: 140px; }
 }
+.fund-top { margin-bottom: 18px; }
+.fund-holdings { counter-reset: holding; }
+.fund-holdings li { counter-increment: holding; }
+.fund-holdings .fund-bar-label::before { content: counter(holding) ". "; color: var(--text-2); font-variant-numeric: tabular-nums; }

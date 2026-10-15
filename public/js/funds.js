@@ -77,7 +77,7 @@ export const ROWS = [
     t(versusIndex(f, "10") != null ? "fund.vs10" : "fund.vs5", { index: escHtml(indexName(benchmark(f))) })}</span>`, null],
   ["portfolio", "netAssets", (f) => f.netAssets, (v) => usd(v), null],
   ["portfolio", "holdings", (f) => f.holdings, (v) => count(v), null],
-  ["portfolio", "top10", (f) => f.topHoldings && f.topHoldings.pct, (v, f) => t("fund.topShare", { pct: pct(v, 0), n: f.topHoldings.count }), null],
+  ["portfolio", "top10", (f) => topShare(f), (v) => t("fund.topShare", { pct: pct(v, 0), n: 10 }), null],
   ["portfolio", "turnover", (f) => f.turnover, (v) => pct(v, 0), "lower"],
 ];
 
@@ -102,6 +102,19 @@ export function compareRows(funds) {
   const ends = [...new Set(funds.map((f) => f.periodEnd).filter(Boolean))];
   const caveat = ends.length > 1 ? t("fund.differentPeriods", { list: funds.filter((f) => f.periodEnd).map((f) => `${f.ticker} ${reportDate(f.periodEnd)}`).join(", ") }) : "";
   return { rows, caveat };
+}
+
+/** The share of the fund in its 10 largest holdings: from its N-PORT holdings list, else its shareholder report.
+ * @param {any} fund */
+export function topShare(fund) {
+  if (fund.topTen) return fund.topTen.pct / 100;
+  return fund.topHoldings && fund.topHoldings.count === 10 ? fund.topHoldings.pct : null;
+}
+
+/** The fund's ten largest holdings as rows { rank, name, share (0.075 = 7.5%), securities } (several share classes or
+ * bonds of one issuer are one row). @param {any} fund */
+export function holdingRows(fund) {
+  return fund.topTen ? fund.topTen.rows.map((r, i) => ({ rank: i + 1, name: r.name, share: r.pct / 100, securities: r.securities })) : [];
 }
 
 /** "Dec 31, 2025" / "31 dic 2025" for a report date ("2025-12-31"). @param {string | null | undefined} iso */

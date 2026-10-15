@@ -94,3 +94,38 @@ def test_sec_down_serves_the_stored_copy_marked_stale(sec_fixtures, monkeypatch)
     monkeypatch.setattr(funds, "build_fund", lambda t: (_ for _ in ()).throw(OSError("down")))
     status, body, cache, source = funds.fund_response("VOO")
     assert status == 200 and body["stale"] is True and source == "STALE" and cache == "no-store"
+
+
+# ---------- top holdings (Form N-PORT) ----------
+
+def test_top_ten_holdings_add_up_share_classes_and_leave_out_derivatives_and_cash():
+    top = funds.top_holdings(report("nport_000003640526000473.xml"))    # VOO's holdings report
+    assert top["asOf"] == "2026-06-30"
+    names = [r["name"] for r in top["rows"]]
+    assert names[:4] == ["NVIDIA Corp", "Apple Inc", "Alphabet Inc", "Microsoft Corp"]
+    assert top["rows"][2] == {"name": "Alphabet Inc", "pct": 5.84, "securities": 2}   # class A + class C
+    assert len(top["rows"]) == 10 and top["pct"] == pytest.approx(sum(r["pct"] for r in top["rows"]), abs=0.02)
+    assert not any("Liquidity" in n or "FUT" in n or n == "N/A" for n in names)       # cash collateral, futures
+
+
+def test_a_bond_fund_adds_up_each_issuer_bonds():
+    top = funds.top_holdings(report("nport_000079410526000276.xml"))    # BND (saved: its 40 largest lines)
+    assert top["rows"][0]["name"] == "United States Treasury Note/Bond" and top["rows"][0]["securities"] == 39
+
+
+@pytest.mark.parametrize("raw,shown", [("NVIDIA CORP", "Nvidia Corp"), ("ELI LILLY and CO", "Eli Lilly and Co"),
+                                       ("HSBC HOLDINGS PLC", "HSBC Holdings PLC"), ("Coca-Cola Co/The", "Coca-Cola Co"),
+                                       ("UNITED STATES TREASURY NOTE/BOND", "United States Treasury Note/Bond"),
+                                       ("Micron Technology, Inc.", "Micron Technology, Inc.")])
+def test_holding_names_read_as_people_write_them(raw, shown):
+    assert funds.holding_name(raw) == shown
+
+
+def test_the_fund_carries_its_top_ten_and_still_shows_without_them(sec_fixtures, monkeypatch):
+    body = funds.fund_response("SCHD")[1]
+    assert body["topTen"]["rows"][0] == {"name": "QUALCOMM Inc", "pct": 6.74, "securities": 1}
+    funds.sd.safe_set(f"{funds.CACHE_VERSION}:fund:SCHD", None, 1)
+    monkeypatch.setattr(funds, "latest_nport", lambda series: (_ for _ in ()).throw(OSError("down")))
+    monkeypatch.setattr(funds.sd, "store", None)
+    status, body, *_ = funds.fund_response("SCHD")
+    assert status == 200 and body["topTen"] is None and body["expenseRatio"] == pytest.approx(0.0006)

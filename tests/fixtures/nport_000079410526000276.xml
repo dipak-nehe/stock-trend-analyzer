@@ -1,0 +1,1737 @@
+<?xml version="1.0" encoding="UTF-8"?><edgarSubmission xmlns="http://www.sec.gov/edgar/nport" xmlns:com="http://www.sec.gov/edgar/common" xmlns:ncom="http://www.sec.gov/edgar/nportcommon" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sec.gov/edgar/nport eis_NPORT_Filer.xsd">
+  <headerData>
+    <submissionType>NPORT-P</submissionType>
+    <isConfidential>false</isConfidential>
+    <filerInfo>
+
+      <filer>
+        <issuerCredentials>
+          <cik>0000794105</cik>
+          <ccc>XXXXXXXX</ccc>
+        </issuerCredentials>
+      </filer>
+
+
+      <seriesClassInfo>
+        <seriesId>S000002564</seriesId>
+        <classId>C000170279</classId>
+        <classId>C000007063</classId>
+        <classId>C000007062</classId>
+        <classId>C000046844</classId>
+        <classId>C000007064</classId>
+        <classId>C000081425</classId>
+      </seriesClassInfo>
+
+
+    </filerInfo>
+  </headerData>
+  <formData>
+    <genInfo>
+      <regName>VANGUARD BOND INDEX FUNDS</regName>
+      <regFileNumber>811-04681</regFileNumber>
+      <regCik>0000794105</regCik>
+      <regLei>549300INE5BF80OGAZ51</regLei>
+      <regStreet1>100 Vanguard Boulevard</regStreet1>
+      <regCity>Malvern</regCity>
+      <regStateConditional regCountry="US" regState="US-PA"/>
+      <regZipOrPostalCode>19355</regZipOrPostalCode>
+      <regPhone>610-669-1000</regPhone>
+      <seriesName>VANGUARD TOTAL BOND MARKET INDEX FUND</seriesName>
+      <seriesId>S000002564</seriesId>
+      <seriesLei>CIJB0QNLPT2SSWMJ5W92</seriesLei>
+      <repPdEnd>2026-12-31</repPdEnd>
+      <repPdDate>2026-06-30</repPdDate>
+      <isFinalFiling>N</isFinalFiling>
+    </genInfo>
+    <fundInfo>
+      <totAssets>402240570426.72</totAssets>
+      <totLiabs>5133273859.83</totLiabs>
+      <netAssets>397107296566.89</netAssets>
+      <assetsAttrMiscSec>0.00000000</assetsAttrMiscSec>
+      <assetsInvested>0.00000000</assetsInvested>
+      <amtPayOneYrBanksBorr>0.00000000</amtPayOneYrBanksBorr>
+      <amtPayOneYrCtrldComp>0.00000000</amtPayOneYrCtrldComp>
+      <amtPayOneYrOthAffil>0.00000000</amtPayOneYrOthAffil>
+      <amtPayOneYrOther>0.00000000</amtPayOneYrOther>
+      <amtPayAftOneYrBanksBorr>0.00000000</amtPayAftOneYrBanksBorr>
+      <amtPayAftOneYrCtrldComp>0.00000000</amtPayAftOneYrCtrldComp>
+      <amtPayAftOneYrOthAffil>0.00000000</amtPayAftOneYrOthAffil>
+      <amtPayAftOneYrOther>0.00000000</amtPayAftOneYrOther>
+      <delayDeliv>3274028442.96000000</delayDeliv>
+      <standByCommit>0.00000000</standByCommit>
+      <liquidPref>0.00000000</liquidPref>
+      <cshNotRptdInCorD>1043771561.87000000</cshNotRptdInCorD>
+      <curMetrics>
+        <curMetric>
+          <curCd>USD</curCd>
+          <intrstRtRiskdv01 period10Yr="-86242242.46706608" period1Yr="-26381609.88995072" period30Yr="-48588765.93585961" period3Mon="-374185.91679064" period5Yr="-64203513.91043710"/>
+          <intrstRtRiskdv100 period10Yr="-8413012502.15894500" period1Yr="-2624961116.22410200" period30Yr="-4540781968.69735100" period3Mon="-37531035.75855026" period5Yr="-6376578164.95474000"/>
+        </curMetric>
+      </curMetrics>
+      <creditSprdRiskInvstGrade period10Yr="-46302380.80562703" period1Yr="-10666346.82603738" period30Yr="-21598872.55014251" period3Mon="-327742.17630838" period5Yr="-31218255.53239398"/>
+      <creditSprdRiskNonInvstGrade period10Yr="-391223.46270154" period1Yr="-83194.61311751" period30Yr="-190611.01706520" period3Mon="-1886.43026370" period5Yr="-236680.00938006"/>
+      <isNonCashCollateral>N</isNonCashCollateral>
+      <returnInfo>
+        <monthlyTotReturns>
+          <monthlyTotReturn classId="C000170279" rtn1="0.12659249" rtn2="0.34334398" rtn3="0.23401030"/>
+          <monthlyTotReturn classId="C000007063" rtn1="0.12411270" rtn2="0.34096739" rtn3="0.23171105"/>
+          <monthlyTotReturn classId="C000007062" rtn1="0.11506441" rtn2="0.33092817" rtn3="0.22194655"/>
+          <monthlyTotReturn classId="C000046844" rtn1="0.16352999" rtn2="0.30245420" rtn3="0.22876036"/>
+          <monthlyTotReturn classId="C000007064" rtn1="0.12536618" rtn2="0.34188980" rtn3="0.23260127"/>
+          <monthlyTotReturn classId="C000081425" rtn1="0.12526406" rtn2="0.34258708" rtn3="0.23327649"/>
+        </monthlyTotReturns>
+        <monthlyReturnCats>
+          <commodityContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </commodityContracts>
+          <creditContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </creditContracts>
+          <equityContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </equityContracts>
+          <foreignExchgContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </foreignExchgContracts>
+          <interestRtContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </interestRtContracts>
+          <otherContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </otherContracts>
+        </monthlyReturnCats>
+        <othMon1 netRealizedGain="-162585608.95000000" netUnrealizedAppr="-517078695.50000000"/>
+        <othMon2 netRealizedGain="-101997011.56000000" netUnrealizedAppr="-32623564.44000000"/>
+        <othMon3 netRealizedGain="-152754769.65000000" netUnrealizedAppr="-230348256.36000000"/>
+      </returnInfo>
+      <mon1Flow redemption="3492304596.79000000" reinvestment="757930712.13000000" sales="5543743201.35010000"/>
+      <mon2Flow redemption="4047678348.09000000" reinvestment="736526439.82000000" sales="8372063024.26001000"/>
+      <mon3Flow redemption="3495461435.64000000" reinvestment="762530300.98000000" sales="6394460362.73999000"/>
+
+
+    </fundInfo>
+    <invstOrSecs>
+<invstOrSec>
+        <name>Vanguard Cmt Funds-Vanguard Market Liquidity Fund</name>
+        <lei>1I6HV0TLSTR3A4XQ6L78</lei>
+        <title>Vanguard Market Liquidity Fund</title>
+        <cusip>N/A</cusip>
+        <identifiers>
+          <other otherDesc="FAID" value="CMT001142"/>
+        </identifiers>
+        <balance>35705086.46100000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3570151595.24000000</valUSD>
+        <pctVal>0.899039535688</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>STIV</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CGH8</cusip>
+        <identifiers>
+          <isin value="US91282CGH88"/>
+        </identifiers>
+        <balance>1892592700.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1873371055.39000000</valUSD>
+        <pctVal>0.471754377616</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2028-01-31</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CKQ3</cusip>
+        <identifiers>
+          <isin value="US91282CKQ32"/>
+        </identifiers>
+        <balance>1637295000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1638318309.38000000</valUSD>
+        <pctVal>0.412563134332</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2034-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.37500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CLW9</cusip>
+        <identifiers>
+          <isin value="US91282CLW90"/>
+        </identifiers>
+        <balance>1646393000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1630250627.02000000</valUSD>
+        <pctVal>0.410531521609</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2034-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CPL9</cusip>
+        <identifiers>
+          <isin value="US91282CPL99"/>
+        </identifiers>
+        <balance>1647605000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1629906114.05000000</valUSD>
+        <pctVal>0.410444765971</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2027-11-30</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.37500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CMM0</cusip>
+        <identifiers>
+          <isin value="US91282CMM00"/>
+        </identifiers>
+        <balance>1603937100.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1629750462.70000000</valUSD>
+        <pctVal>0.410405569675</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2035-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CPZ8</cusip>
+        <identifiers>
+          <isin value="US91282CPZ85"/>
+        </identifiers>
+        <balance>1656951000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1617015896.06000000</valUSD>
+        <pctVal>0.407198736976</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2036-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.12500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CLF6</cusip>
+        <identifiers>
+          <isin value="US91282CLF67"/>
+        </identifiers>
+        <balance>1671081000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1614094531.01000000</valUSD>
+        <pctVal>0.406463075587</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2034-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.87500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CJZ5</cusip>
+        <identifiers>
+          <isin value="US91282CJZ59"/>
+        </identifiers>
+        <balance>1636918000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1599895514.58000000</valUSD>
+        <pctVal>0.402887463517</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2034-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.00000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CNT4</cusip>
+        <identifiers>
+          <isin value="US91282CNT44"/>
+        </identifiers>
+        <balance>1568833700.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1548916869.84000000</valUSD>
+        <pctVal>0.390049964639</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2035-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CJJ1</cusip>
+        <identifiers>
+          <isin value="US91282CJJ18"/>
+        </identifiers>
+        <balance>1523074800.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1538543528.44000000</valUSD>
+        <pctVal>0.387437738299</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2033-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CHT1</cusip>
+        <identifiers>
+          <isin value="US91282CHT18"/>
+        </identifiers>
+        <balance>1465663000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1425357267.50000000</valUSD>
+        <pctVal>0.358935048492</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2033-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.87500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CNC1</cusip>
+        <identifiers>
+          <isin value="US91282CNC19"/>
+        </identifiers>
+        <balance>1437073200.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1420232498.44000000</valUSD>
+        <pctVal>0.357644523462</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2035-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CEP2</cusip>
+        <identifiers>
+          <isin value="US91282CEP23"/>
+        </identifiers>
+        <balance>1497300800.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1390208696.07000000</valUSD>
+        <pctVal>0.350083896238</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2032-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>2.87500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CFV8</cusip>
+        <identifiers>
+          <isin value="US91282CFV81"/>
+        </identifiers>
+        <balance>1388727100.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1376575737.88000000</valUSD>
+        <pctVal>0.346650829582</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2032-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.12500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CGQ8</cusip>
+        <identifiers>
+          <isin value="US91282CGQ87"/>
+        </identifiers>
+        <balance>1360251300.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1352227939.32000000</valUSD>
+        <pctVal>0.340519539935</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2030-02-28</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.00000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CCS8</cusip>
+        <identifiers>
+          <isin value="US91282CCS89"/>
+        </identifiers>
+        <balance>1564430100.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1352070932.12000000</valUSD>
+        <pctVal>0.340480002208</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2031-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CDJ7</cusip>
+        <identifiers>
+          <isin value="US91282CDJ71"/>
+        </identifiers>
+        <balance>1565253600.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1352048935.81000000</valUSD>
+        <pctVal>0.340474463073</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2031-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.37500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CQS3</cusip>
+        <identifiers>
+          <isin value="US91282CQS34"/>
+        </identifiers>
+        <balance>1298141000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1294388554.68000000</valUSD>
+        <pctVal>0.325954361924</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2028-05-31</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.00000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CCB5</cusip>
+        <identifiers>
+          <isin value="US91282CCB54"/>
+        </identifiers>
+        <balance>1435642000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1273571470.17000000</valUSD>
+        <pctVal>0.320712180607</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2031-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CGM7</cusip>
+        <identifiers>
+          <isin value="US91282CGM73"/>
+        </identifiers>
+        <balance>1334364900.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1273328127.21000000</valUSD>
+        <pctVal>0.320650901713</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2033-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CFF3</cusip>
+        <identifiers>
+          <isin value="US91282CFF32"/>
+        </identifiers>
+        <balance>1380175200.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1267604660.25000000</valUSD>
+        <pctVal>0.319209611913</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2032-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>2.75000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CDY4</cusip>
+        <identifiers>
+          <isin value="US91282CDY49"/>
+        </identifiers>
+        <balance>1434792500.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1265980194.92000000</valUSD>
+        <pctVal>0.318800537251</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2032-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.87500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CHC8</cusip>
+        <identifiers>
+          <isin value="US91282CHC82"/>
+        </identifiers>
+        <balance>1338943000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1264778103.70000000</valUSD>
+        <pctVal>0.318497825306</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2033-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.37500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CBL4</cusip>
+        <identifiers>
+          <isin value="US91282CBL46"/>
+        </identifiers>
+        <balance>1409566000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1230011522.04000000</valUSD>
+        <pctVal>0.309742866140</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2031-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.12500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CAE1</cusip>
+        <identifiers>
+          <isin value="US91282CAE12"/>
+        </identifiers>
+        <balance>1419504300.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1229202004.78000000</valUSD>
+        <pctVal>0.309539012606</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2030-08-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>0.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CPN5</cusip>
+        <identifiers>
+          <isin value="US91282CPN55"/>
+        </identifiers>
+        <balance>1213808000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1179859307.50000000</valUSD>
+        <pctVal>0.297113479832</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2030-11-30</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CPJ4</cusip>
+        <identifiers>
+          <isin value="US91282CPJ44"/>
+        </identifiers>
+        <balance>1200319300.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1161262038.28000000</valUSD>
+        <pctVal>0.292430294864</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2035-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.00000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>912828ZQ6</cusip>
+        <identifiers>
+          <isin value="US912828ZQ64"/>
+        </identifiers>
+        <balance>1279297000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1117935674.57000000</valUSD>
+        <pctVal>0.281519801886</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2030-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>0.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CBZ3</cusip>
+        <identifiers>
+          <isin value="US91282CBZ32"/>
+        </identifiers>
+        <balance>1119091700.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1062087966.53000000</valUSD>
+        <pctVal>0.267456170086</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2028-04-30</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CAV3</cusip>
+        <identifiers>
+          <isin value="US91282CAV37"/>
+        </identifiers>
+        <balance>1221604000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1060934439.60000000</valUSD>
+        <pctVal>0.267165687654</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2030-11-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>0.87500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CBP5</cusip>
+        <identifiers>
+          <isin value="US91282CBP59"/>
+        </identifiers>
+        <balance>1057053000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1005810706.82000000</valUSD>
+        <pctVal>0.253284368107</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2028-02-29</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>1.12500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CQE4</cusip>
+        <identifiers>
+          <isin value="US91282CQE48"/>
+        </identifiers>
+        <balance>1017919000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>1000860906.80000000</valUSD>
+        <pctVal>0.252037903975</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2029-03-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CQU8</cusip>
+        <identifiers>
+          <isin value="US91282CQU89"/>
+        </identifiers>
+        <balance>998536000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>995142535.32000000</valUSD>
+        <pctVal>0.250597897324</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2031-05-31</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.12500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CND9</cusip>
+        <identifiers>
+          <isin value="US91282CND91"/>
+        </identifiers>
+        <balance>999779400.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>992398218.65000000</valUSD>
+        <pctVal>0.249906820456</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2028-05-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>3.75000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>912810UR7</cusip>
+        <identifiers>
+          <isin value="US912810UR76"/>
+        </identifiers>
+        <balance>987644000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>959287812.37000000</valUSD>
+        <pctVal>0.241568921211</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2056-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.75000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CKP5</cusip>
+        <identifiers>
+          <isin value="US91282CKP58"/>
+        </identifiers>
+        <balance>936170000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>947396728.51000000</valUSD>
+        <pctVal>0.238574495281</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2029-04-30</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CKX8</cusip>
+        <identifiers>
+          <isin value="US91282CKX82"/>
+        </identifiers>
+        <balance>928749000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>930925755.47000000</valUSD>
+        <pctVal>0.234426756576</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2029-06-30</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.25000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>912810UG1</cusip>
+        <identifiers>
+          <isin value="US912810UG12"/>
+        </identifiers>
+        <balance>976832600.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>928639645.46000000</valUSD>
+        <pctVal>0.233851065817</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2055-02-15</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.62500000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>United States Treasury Note/Bond</name>
+        <lei>254900HROIFWPRGM1V77</lei>
+        <title>US TREASURY N/B</title>
+        <cusip>91282CKT7</cusip>
+        <identifiers>
+          <isin value="US91282CKT70"/>
+        </identifiers>
+        <balance>919875000.00000000</balance>
+        <units>PA</units>
+        <curCd>USD</curCd>
+        <valUSD>928247297.51000000</valUSD>
+        <pctVal>0.233752264321</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>DBT</assetCat>
+        <issuerCat>UST</issuerCat>
+        <invCountry>US</invCountry>
+
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>2</fairValLevel>
+        <debtSec>
+          <maturityDt>2029-05-31</maturityDt>
+          <couponKind>Fixed</couponKind>
+          <annualizedRt>4.50000000</annualizedRt>
+          <isDefault>N</isDefault>
+          <areIntrstPmntsInArrs>N</areIntrstPmntsInArrs>
+          <isPaidKind>N</isPaidKind>
+        </debtSec>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+</invstOrSecs>
+    <signature>
+      <ncom:dateSigned>2026-08-27</ncom:dateSigned>
+      <ncom:nameOfApplicant>VANGUARD BOND INDEX FUNDS</ncom:nameOfApplicant>
+      <ncom:signature>My Trieu-Gatt</ncom:signature>
+      <ncom:signerName>My Trieu-Gatt</ncom:signerName>
+      <ncom:title>Treasurer</ncom:title>
+    </signature>
+  </formData>
+</edgarSubmission>

@@ -2,7 +2,7 @@
 // portfolios side by side. The funds are kept in the address (?f=VOO,FXAIX) so the page can be bookmarked and shared.
 // The measures and comparison rules are in funds.js; the figures come from /api/fund.
 import { $, $$, applyStaticText, bindSlashShortcut, enableWhenFilled, errorText, initialLang, targetOf, useLang } from "./page.js";
-import { EXAMPLES, MAX_FUNDS, breakdownRows, compareRows, parseFunds, reportDate } from "./funds.js";
+import { EXAMPLES, MAX_FUNDS, breakdownRows, compareRows, holdingRows, parseFunds, reportDate } from "./funds.js";
 import { esc, langQuery } from "./stock-table.js";
 import { pct } from "./format.js";
 import { setLang, t } from "./i18n.js";
@@ -102,6 +102,21 @@ function drawTable(/** @type {any[]} */ shown) {
   $("fundMarks").hidden = shown.length < 2;
 }
 
+// Each fund's ten largest holdings, from its latest N-PORT filing; bars are scaled to the fund's largest holding
+function drawTop(/** @type {any[]} */ shown) {
+  $("fundTop").innerHTML = shown.map((d) => {
+    const rows = holdingRows(d);
+    if (!rows.length) return `<div class="fund-mix-card" data-testid="fund-top-card"><h4>${esc(d.ticker)}</h4><p class="muted">${esc(t("fund.noTop"))}</p></div>`;
+    const max = rows[0].share;
+    return `<div class="fund-mix-card" data-testid="fund-top-card"><h4>${esc(d.ticker)} <span class="muted">${
+      esc(t("fund.topAsOf", { pct: pct(d.topTen.pct / 100, 1), date: reportDate(d.topTen.asOf) }))}</span></h4>`
+      + `<ol class="fund-bars fund-holdings">${rows.map((r) => `<li data-testid="fund-holding"><span class="fund-bar-label">${esc(r.name)}`
+        + `${r.securities > 1 ? ` <span class="muted">${esc(t("fund.securities", { n: r.securities }))}</span>` : ""}</span>`
+        + `<span class="fund-bar" aria-hidden="true"><span style="width:${Math.max(2, Math.round((r.share / max) * 100))}%"></span></span>`
+        + `<span class="fund-bar-pct">${pct(r.share, 2)}</span></li>`).join("")}</ol></div>`;
+  }).join("");
+}
+
 function drawMix(/** @type {any[]} */ shown) {
   $("fundMix").innerHTML = shown.map((d) => {
     const rows = breakdownRows(d);
@@ -120,7 +135,7 @@ function render() {
   drawChips();
   const shown = funds.filter((f) => f.status === "ok").map((f) => f.data);
   $("fundResult").hidden = !shown.length;
-  if (shown.length) { drawTable(shown); drawMix(shown); }
+  if (shown.length) { drawTable(shown); drawTop(shown); drawMix(shown); }
   $("fundAdd").toggleAttribute("disabled", !$("fundInput").value.trim() || funds.length >= MAX_FUNDS);
   updateUrl();
 }

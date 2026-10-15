@@ -12,6 +12,7 @@ No prices: the reports give returns, and today's price is looked up elsewhere, a
 Funds that don't file N-CSR shareholder reports (unit investment trusts such as SPY, QQQ and DIA) are reported
 as not covered.
 """
+import io
 import re
 import time
 import xml.etree.ElementTree as ET
@@ -21,7 +22,7 @@ from typing import Any
 from . import stock_data as sd
 
 FUND_TICKERS_URL = "https://www.sec.gov/files/company_tickers_mf.json"
-CACHE_VERSION = "f1"
+CACHE_VERSION = "f2"   # f2: top holdings from N-PORT
 FRESH_SECONDS = 7 * 24 * 3600       # reports come twice a year (annual and semi-annual): a week is plenty
 KEEP_SECONDS = 400 * 24 * 3600
 X = "{http://www.xbrl.org/2003/instance}"
@@ -204,6 +205,61 @@ def _years(start: str, end: str) -> int | None:
     return next((n for n in (1, 5, 10) if abs(months - 12 * n) <= 1), None)
 
 
+# ---------- top holdings, from Form N-PORT (pure: tested on saved filings) ----------
+
+NPORT = "{http://www.sec.gov/edgar/nport}"
+# Not holdings in the everyday sense: derivatives (futures, swaps, options, forwards) and cash parked in money-market
+# vehicles (often collateral for securities lending)
+NOT_HOLDINGS = {"DE", "DIR", "DCO", "DCR", "DFE", "DO", "STIV"}
+TOP_N = 10
+
+
+KEEP_UPPER = {"AG", "NV", "SA", "SE", "PLC", "ASA", "AB", "LP", "LLC", "ADR", "II", "III", "US", "USA", "N.V.", "S.A."}
+
+
+def holding_name(name: str) -> str:
+    """A holding's name as people write it: 'NVIDIA CORP' -> 'Nvidia Corp', 'Coca-Cola Co/The' -> 'Coca-Cola Co'.
+    Names already in mixed case are kept, apart from the trailing '/The'."""
+    name = re.sub(r"\s*/The$", "", re.sub(r"\s+", " ", name).strip(), flags=re.I)
+    if re.sub(r"\band\b", "AND", name).upper() != re.sub(r"\band\b", "AND", name):
+        return name   # already in mixed case
+    words = []
+    for w in name.split(" "):
+        acronym = w.isalpha() and not re.search(r"[AEIOU]", w.upper()) and w.upper() not in ("LTD", "CO")
+        if w in KEEP_UPPER or acronym or w.upper() == "AND":
+            words.append(w.lower() if w.upper() == "AND" else w)
+        else:
+            words.append(re.sub(r"[^-/]+", lambda m: m.group(0)[:1] + m.group(0)[1:].lower(), w))
+    return " ".join(words)
+
+
+def top_holdings(xml: bytes, n: int = TOP_N) -> dict[str, Any] | None:
+    """A fund's largest holdings from its N-PORT filing: {asOf, count, pct, rows: [{name, pct, classes}]}. Lines of
+    one issuer (Alphabet's class A and C shares, or a government's many bonds) are added together; derivatives and
+    money-market cash are left out. Percentages are of the fund's net assets (7.51 = 7.51%), as N-PORT gives them.
+    Read as a stream, so a bond fund's 17,000-line filing doesn't sit in memory twice."""
+    totals: dict[str, float] = {}
+    classes: dict[str, int] = {}
+    as_of = ""
+    for _, el in ET.iterparse(io.BytesIO(xml)):
+        tag = _local(el.tag)
+        if tag == "repPdDate":
+            as_of = (el.text or "").strip()
+        elif tag == "invstOrSec":
+            name = (el.findtext(f"{NPORT}name") or "").strip()
+            pct = _num(el.findtext(f"{NPORT}pctVal"))
+            cat = (el.findtext(f"{NPORT}assetCat") or "").strip()
+            if name and name.upper() != "N/A" and pct and pct > 0 and cat not in NOT_HOLDINGS:
+                totals[name] = totals.get(name, 0.0) + pct
+                classes[name] = classes.get(name, 0) + 1
+            el.clear()
+    if not totals:
+        return None
+    top = sorted(totals.items(), key=lambda kv: -kv[1])[:n]
+    return {"asOf": as_of, "count": len(totals), "pct": round(sum(p for _, p in top), 2),
+            "rows": [{"name": holding_name(name), "pct": round(p, 2), "securities": classes[name]} for name, p in top]}
+
+
 # ---------- lookups (network) ----------
 
 def fund_table() -> dict[str, list[Any]]:
@@ -241,6 +297,28 @@ def latest_report(series_id: str) -> tuple[str, str, str] | None:
     return form.strip(), date.strip(), href.rsplit("/", 1)[0] + "/"
 
 
+def latest_nport(series_id: str) -> str | None:
+    """The folder URL of the series' latest N-PORT holdings report (public about 60 days after each quarter)."""
+    atom = sd.sec_get_text("https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK="
+                           f"{series_id}&type=NPORT-P&dateb=&owner=include&count=5&output=atom")
+    for block in re.findall(r"<entry>(.*?)</entry>", atom, re.S):
+        form = re.search(r"<filing-type>([^<]+)", block)
+        href = re.search(r"<filing-href>([^<]+)", block)
+        if form and href and form.group(1).strip() == "NPORT-P":
+            return href.group(1).rsplit("/", 1)[0] + "/"
+    return None
+
+
+def holdings(series_id: str) -> dict[str, Any] | None:
+    """The top holdings, or None when there's no N-PORT filing or it can't be read (the rest of the fund still shows)."""
+    try:
+        folder = latest_nport(series_id)
+        return top_holdings(sd.sec_get_text(folder + "primary_doc.xml").encode("utf-8")) if folder else None
+    except Exception:  # noqa: BLE001 - optional: never fail the fund for it
+        sd.log.exception("holdings failed for %s", series_id)
+        return None
+
+
 def report_xml(folder: str) -> bytes:
     """The XBRL instance of a filing (the '..._htm.xml' file next to the report)."""
     listing = sd.sec_get(folder + "index.json")
@@ -264,7 +342,7 @@ def build_fund(ticker: str) -> dict[str, Any] | None:
     if not data or data.get("expenseRatio") is None:
         raise NotCoveredError("the report has no tagged figures for this share class")
     data.update({"ticker": sd.normalize_ticker(ticker), "cik": cik, "seriesId": series, "classId": cls,
-                 "form": form, "filed": filed, "reportUrl": folder})
+                 "form": form, "filed": filed, "reportUrl": folder, "topTen": holdings(series)})
     return data
 
 

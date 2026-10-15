@@ -69,6 +69,11 @@ export class FundsPage extends BasePage {
     return this.page.getByTestId('fund-caveat');
   }
 
+  /** The Top 10 holdings card of each fund shown. */
+  get topCards(): Locator {
+    return this.page.getByTestId('fund-top-card');
+  }
+
   get mixCards(): Locator {
     return this.page.getByTestId('fund-mix-card');
   }

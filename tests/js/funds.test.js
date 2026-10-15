@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { MAX_FUNDS, benchmark, breakdownRows, compareRows, costOverYears, parseFunds, reportDate, versusIndex } from "../../public/js/funds.js";
+import { MAX_FUNDS, benchmark, breakdownRows, compareRows, costOverYears, holdingRows, parseFunds, reportDate, topShare, versusIndex } from "../../public/js/funds.js";
 import { setLang } from "../../public/js/i18n.js";
 
 const fund = (over = {}) => ({
@@ -72,4 +72,13 @@ test("report dates read naturally in each language", () => {
   assert.equal(reportDate("2025-12-31"), "Dec 31, 2025");
   setLang("es");
   try { assert.match(reportDate("2025-12-31"), /^31 dic\.? 2025$/); } finally { setLang("en"); }
+});
+
+test("the top 10 come from the holdings list, with their share of the fund; else the report's share", () => {
+  const topTen = { asOf: "2026-06-30", pct: 37.87, rows: [{ name: "NVIDIA Corp", pct: 7.51, securities: 1 }, { name: "Alphabet Inc", pct: 5.84, securities: 2 }] };
+  assert.deepEqual(holdingRows(fund({ topTen })), [{ rank: 1, name: "NVIDIA Corp", share: 0.0751, securities: 1 }, { rank: 2, name: "Alphabet Inc", share: 0.0584, securities: 2 }]);
+  assert.ok(Math.abs(topShare(fund({ topTen })) - 0.3787) < 1e-12);
+  assert.equal(topShare(fund({ topHoldings: { count: 10, pct: 0.412 } })), 0.412);
+  assert.equal(topShare(fund({ topHoldings: { count: 7, pct: 0.3 } })), null);    // not a top 10
+  assert.deepEqual(holdingRows(fund()), []);
 });

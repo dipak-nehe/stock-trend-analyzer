@@ -17,7 +17,13 @@ test.describe('one fund', () => {
     await expect(funds.cell('netAssets', 0)).toHaveText('$1.5T');
     await expect(funds.cell('holdings', 0)).toHaveText('517');
     await expect(funds.cell('turnover', 0)).toHaveText('2%');
-    await expect(funds.row('top10')).toHaveCount(0);           // Vanguard doesn't tag its top 10: no row of n/a
+    await expect(funds.cell('top10', 0)).toHaveText('38% in the top 10');
+    const top = funds.topCards.first();
+    await expect(top).toContainText('VOO 37.9% of the fund in these 10 · as of Jun 30, 2026');
+    await expect(top.getByTestId('fund-holding')).toHaveCount(10);
+    await expect(top.getByTestId('fund-holding').first()).toHaveText(/NVIDIA Corp\s*7\.51%/);
+    await expect(top.getByTestId('fund-holding').nth(2)).toHaveText(/Alphabet Inc \(2 securities\)\s*5\.84%/);   // class A + C
+    await expect(top).not.toContainText('Liquidity');     // cash collateral and futures aren't holdings
     await expect(funds.cell('report', 0)).toContainText('Annual, year to Dec 31, 2025');
     await expect(funds.cell('report', 0).getByRole('link')).toHaveAttribute('href', /sec\.gov\/Archives\/edgar\/data\/36405\//);
     await expect(funds.mixCards).toHaveCount(1);
@@ -32,7 +38,7 @@ test.describe('one fund', () => {
     await expect(funds.cell('expenseRatio', 0)).toHaveText('0.19%');
     await expect(funds.row('ret1')).toHaveCount(0);          // no returns in a half-year report: no row of n/a
     await expect(funds.row('costPer10k')).toHaveCount(0);    // its cost covers half a year, so it isn't shown
-    await expect(funds.cell('top10', 0)).toHaveText('47% in the top 10');
+    await expect(funds.cell('top10', 0)).toHaveText('48% in the top 10');
     await expect(funds.cell('report', 0)).toContainText('Half-year, to Mar 31, 2026 (no returns)');
   });
 });
@@ -53,7 +59,7 @@ test.describe('comparing funds', () => {
     await expect(funds.row('cost20').getByRole('cell')).toHaveText(['$216', /\$144/, '$4,116', '$216']);
     await expect(marked('turnover')).toHaveText(['2% ●(more favourable)']);
     await expect(funds.row('netAssets').locator('td.fav')).toHaveCount(0);   // size isn't better or worse
-    await expect(funds.cell('top10', 1)).toHaveText('37% in the top 10');
+    await expect(funds.cell('top10', 1)).toHaveText('41% in the top 10');
     await expect(funds.cell('vsIndex10', 1)).toHaveText(/vs the broad market index, 10 years/);   // Fidelity doesn't name it
     await expect(funds.caveat).toHaveText(/different dates \(VOO Dec 31, 2025, FXAIX Feb 28, 2026, AGTHX Aug 31, 2025, BND Dec 31, 2025\)/);
     await expect(funds.mixCards.nth(3)).toContainText('BND by investment type');

@@ -1,0 +1,1471 @@
+<?xml version="1.0" encoding="UTF-8"?><edgarSubmission xmlns="http://www.sec.gov/edgar/nport" xmlns:com="http://www.sec.gov/edgar/common" xmlns:ncom="http://www.sec.gov/edgar/nportcommon" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sec.gov/edgar/nport eis_NPORT_Filer.xsd">
+  <headerData>
+    <submissionType>NPORT-P</submissionType>
+    <isConfidential>false</isConfidential>
+    <filerInfo>
+
+      <filer>
+        <issuerCredentials>
+          <cik>0000819118</cik>
+          <ccc>XXXXXXXX</ccc>
+        </issuerCredentials>
+      </filer>
+
+
+      <seriesClassInfo>
+        <seriesId>S000006027</seriesId>
+        <classId>C000100045</classId>
+      </seriesClassInfo>
+
+
+    </filerInfo>
+  </headerData>
+  <formData>
+    <genInfo>
+      <regName>Fidelity Concord Street Trust</regName>
+      <regFileNumber>811-05251</regFileNumber>
+      <regCik>0000819118</regCik>
+      <regLei>EEX0N4ID1C226M44VF22</regLei>
+      <regStreet1>245 Summer Street</regStreet1>
+      <regCity>Boston</regCity>
+      <regStateConditional regCountry="US" regState="US-MA"/>
+      <regZipOrPostalCode>02210</regZipOrPostalCode>
+      <regPhone>1-800-FIDELITY</regPhone>
+      <seriesName>Fidelity 500 Index Fund</seriesName>
+      <seriesId>S000006027</seriesId>
+      <seriesLei>VNHOOHES3TKXOTQ3FS51</seriesLei>
+      <repPdEnd>2027-02-28</repPdEnd>
+      <repPdDate>2026-05-31</repPdDate>
+      <isFinalFiling>N</isFinalFiling>
+    </genInfo>
+    <fundInfo>
+      <totAssets>834292475458.43</totAssets>
+      <totLiabs>2139224050.02</totLiabs>
+      <netAssets>832153251408.41</netAssets>
+      <assetsAttrMiscSec>0.00000000</assetsAttrMiscSec>
+      <assetsInvested>0.00000000</assetsInvested>
+      <amtPayOneYrBanksBorr>0.00000000</amtPayOneYrBanksBorr>
+      <amtPayOneYrCtrldComp>0.00000000</amtPayOneYrCtrldComp>
+      <amtPayOneYrOthAffil>0.00000000</amtPayOneYrOthAffil>
+      <amtPayOneYrOther>0.00000000</amtPayOneYrOther>
+      <amtPayAftOneYrBanksBorr>0.00000000</amtPayAftOneYrBanksBorr>
+      <amtPayAftOneYrCtrldComp>0.00000000</amtPayAftOneYrCtrldComp>
+      <amtPayAftOneYrOthAffil>0.00000000</amtPayAftOneYrOthAffil>
+      <amtPayAftOneYrOther>0.00000000</amtPayAftOneYrOther>
+      <delayDeliv>0.00000000</delayDeliv>
+      <standByCommit>0.00000000</standByCommit>
+      <liquidPref>0.00000000</liquidPref>
+      <cshNotRptdInCorD>6389113.97000000</cshNotRptdInCorD>
+      <borrowers>
+        <borrower aggrVal="186973108.00000000" lei="FOR8UP27PHTHYVLBNG30" name="GOLDMAN SACHS and CO LLC (GOV REPO)"/>
+        <borrower aggrVal="761873686.28000000" lei="9R7GPTSO7KV3UQJZQ078" name="MORGAN STANLEY and CO LLC"/>
+        <borrower aggrVal="7797383.00000000" lei="549300H8L46OOZOFHU82" name="CANADIAN IMPRL BK COMM NY BRH"/>
+        <borrower aggrVal="2920277.00000000" lei="VYVVCKR63DVZZN70PB21" name="WELLS FARGO SECURITIES, LLC(GOV REPO)"/>
+        <borrower aggrVal="159750554.84000000" lei="571474TGEMMWANRLN572" name="STATE STREET BANK AND TRUST COMPANY"/>
+        <borrower aggrVal="290294191.00000000" lei="549300HN4UKV1E2R3U73" name="BOFA SECURITIES INC"/>
+        <borrower aggrVal="3368200.00000000" lei="549300K66TF1ST7A3V76" name="NATIONAL BANK OF CANADA FINANCIAL INC"/>
+        <borrower aggrVal="100387.00000000" lei="AC28XWWI3WIBK2824319" name="BARCLAYS CAPITAL INC."/>
+        <borrower aggrVal="1168311482.51000000" lei="G5GSEF7VJP5I7OUK5573" name="BARCLAYS BANK PLC"/>
+        <borrower aggrVal="9908928.00000000" lei="58PU97L1C0WSRCWADL48" name="JEFFERIES LLC"/>
+        <borrower aggrVal="1072713325.87000000" lei="MBNUM2BPBDO7JBLYG310" name="CITIGROUP GLOBAL MARKETS INC."/>
+        <borrower aggrVal="2357740.00000000" lei="OXTKY6Q8X53C9ILVV871" name="NOMURA SECURITIES INTERNATIONAL INC"/>
+        <borrower aggrVal="392148.00000000" lei="SUVUFHICNZMP2WKHG940" name="TD SECURITIES (USA) LLC"/>
+        <borrower aggrVal="132807.32000000" lei="KBVRJ5K57JZ3E2AVWX40" name="ING FINANCIAL MARKETS LLC"/>
+        <borrower aggrVal="22755677.00000000" lei="BFM8T61CT2L1QCEMIK50" name="UBS AG"/>
+        <borrower aggrVal="24720462.00000000" lei="ZBUT11V806EZRVTWT807" name="JPMORGAN SECURITIES LLC"/>
+        <borrower aggrVal="170947757.32000000" lei="549300KUN9K9K32C6D97" name="BNP PARIBAS PRIME BROKERAGE INTERNATIONAL LIMITED"/>
+        <borrower aggrVal="3846989.63000000" lei="7TK5RJIZDFROZCA6XF66" name="MIZUHO SECURITIES USA LLC."/>
+        <borrower aggrVal="37893114.00000000" lei="ZI8Q1A8EI8LQFJNM0D94" name="PERSHING LLC"/>
+        <borrower aggrVal="7191487.00000000" lei="RUC0QBLBRPRCU4W1NE59" name="BMO CAPITAL MARKETS CORP"/>
+        <borrower aggrVal="3906549.45000000" lei="549300BLWPABP1VNME36" name="SCOTIA CAPITAL (USA) INC."/>
+      </borrowers>
+      <aggregateCondition isNonCashCollateral="Y">
+        <aggregateInfos>
+          <aggregateInfo amt="2141772679.00000000" collatrl="2044147468.33000000">
+            <invstCat>UST</invstCat>
+          </aggregateInfo>
+        </aggregateInfos>
+      </aggregateCondition>
+      <returnInfo>
+        <monthlyTotReturns>
+          <monthlyTotReturn classId="C000100045" rtn1="-4.98000000" rtn2="10.49000000" rtn3="5.26000000"/>
+        </monthlyTotReturns>
+        <monthlyReturnCats>
+          <commodityContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </commodityContracts>
+          <creditContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </creditContracts>
+          <equityContracts>
+            <mon1 netRealizedGain="-29381916.86000000" netUnrealizedAppr="-13257595.83000000"/>
+            <mon2 netRealizedGain="17259962.14000000" netUnrealizedAppr="36926454.01000000"/>
+            <mon3 netRealizedGain="12715207.03000000" netUnrealizedAppr="19063771.32000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="-29381916.86000000" netUnrealizedAppr="-13257595.83000000"/>
+              <instrMon2 netRealizedGain="17259962.14000000" netUnrealizedAppr="36926454.01000000"/>
+              <instrMon3 netRealizedGain="12715207.03000000" netUnrealizedAppr="19063771.32000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </equityContracts>
+          <foreignExchgContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </foreignExchgContracts>
+          <interestRtContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </interestRtContracts>
+          <otherContracts>
+            <mon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <mon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            <forwardCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </forwardCategory>
+            <futureCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </futureCategory>
+            <optionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </optionCategory>
+            <swaptionCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swaptionCategory>
+            <swapCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </swapCategory>
+            <warrantCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </warrantCategory>
+            <otherCategory>
+              <instrMon1 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon2 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+              <instrMon3 netRealizedGain="0.00000000" netUnrealizedAppr="0.00000000"/>
+            </otherCategory>
+          </otherContracts>
+        </monthlyReturnCats>
+        <othMon1 netRealizedGain="316434047.72000000" netUnrealizedAppr="-38479508921.79000000"/>
+        <othMon2 netRealizedGain="1198331961.90000000" netUnrealizedAppr="73416317777.53000000"/>
+        <othMon3 netRealizedGain="1646230973.30000000" netUnrealizedAppr="39064226635.04000000"/>
+      </returnInfo>
+      <mon1Flow redemption="11576630219.61000000" reinvestment="171.94000000" sales="14738004644.11000000"/>
+      <mon2Flow redemption="11427209415.47000000" reinvestment="1949793223.50000000" sales="13227223148.85000000"/>
+      <mon3Flow redemption="14471923162.31000000" reinvestment="29290.73000000" sales="13289560934.60000000"/>
+
+
+
+    </fundInfo>
+    <invstOrSecs>
+<invstOrSec>
+        <name>NVIDIA CORP</name>
+        <lei>549300S4KLFTLO7GSQ80</lei>
+        <title>NVIDIA CORP</title>
+        <cusip>67066G104</cusip>
+        <identifiers>
+          <isin value="US67066G1040"/>
+        </identifiers>
+        <balance>310967665.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>65657712788.10000000</valUSD>
+        <pctVal>7.890098689991</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>APPLE INC</name>
+        <lei>HWUPKR0MPOU8FGXBT394</lei>
+        <title>APPLE INC</title>
+        <cusip>037833100</cusip>
+        <identifiers>
+          <isin value="US0378331005"/>
+        </identifiers>
+        <balance>187874889.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>58628237861.34000000</valUSD>
+        <pctVal>7.045365473500</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>MICROSOFT CORP</name>
+        <lei>INR2EJN1ERAN0W5ZP974</lei>
+        <title>MICROSOFT CORP</title>
+        <cusip>594918104</cusip>
+        <identifiers>
+          <isin value="US5949181045"/>
+        </identifiers>
+        <balance>95025947.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>42784482377.28000000</valUSD>
+        <pctVal>5.141418639519</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>AMAZON.COM INC</name>
+        <lei>ZXTILKJKG63JELOEG630</lei>
+        <title>AMAZON.COM INC</title>
+        <cusip>023135106</cusip>
+        <identifiers>
+          <isin value="US0231351067"/>
+        </identifiers>
+        <balance>125011282.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>33833053360.48000000</valUSD>
+        <pctVal>4.065723867955</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ALPHABET INC</name>
+        <lei>5493006MHB84DD0ZWV18</lei>
+        <title>ALPHABET INC CL A</title>
+        <cusip>02079K305</cusip>
+        <identifiers>
+          <isin value="US02079K3059"/>
+        </identifiers>
+        <balance>74504325.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>28336974970.50000000</valUSD>
+        <pctVal>3.405259178227</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>BROADCOM INC</name>
+        <lei>549300WV6GIDOZJTV909</lei>
+        <title>BROADCOM INC</title>
+        <cusip>11135F101</cusip>
+        <identifiers>
+          <isin value="US11135F1012"/>
+        </identifiers>
+        <balance>60674193.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>27107409206.61000000</valUSD>
+        <pctVal>3.257502047937</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ALPHABET INC</name>
+        <lei>5493006MHB84DD0ZWV18</lei>
+        <title>ALPHABET INC CL C</title>
+        <cusip>02079K107</cusip>
+        <identifiers>
+          <isin value="US02079K1079"/>
+        </identifiers>
+        <balance>59847525.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>22528403835.75000000</valUSD>
+        <pctVal>2.707242181367</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>META PLATFORMS INC</name>
+        <lei>BQ4BKCS1HXDV9HN80Z93</lei>
+        <title>META PLATFORMS INC CL A</title>
+        <cusip>30303M102</cusip>
+        <identifiers>
+          <isin value="US30303M1027"/>
+        </identifiers>
+        <balance>27989367.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>17703554521.17000000</valUSD>
+        <pctVal>2.127439205603</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>TESLA INC</name>
+        <lei>54930043XZGB27CTOV49</lei>
+        <title>TESLA INC</title>
+        <cusip>88160R101</cusip>
+        <identifiers>
+          <isin value="US88160R1014"/>
+        </identifiers>
+        <balance>35990842.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>15684449035.18000000</valUSD>
+        <pctVal>1.884802950494</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>MICRON TECHNOLOGY INC</name>
+        <lei>B3DXGBC8GAIYWI2Z0172</lei>
+        <title>MICRON TECHNOLOGY INC</title>
+        <cusip>595112103</cusip>
+        <identifiers>
+          <isin value="US5951121038"/>
+        </identifiers>
+        <balance>14403165.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>13985473215.00000000</valUSD>
+        <pctVal>1.680636732636</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ELI LILLY and CO</name>
+        <lei>FRDRIPF3EKNDJ2CQJL29</lei>
+        <title>ELI LILLY and CO</title>
+        <cusip>532457108</cusip>
+        <identifiers>
+          <isin value="US5324571083"/>
+        </identifiers>
+        <balance>10140616.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>11205380680.00000000</valUSD>
+        <pctVal>1.346552532365</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>BERKSHIRE HATHAWAY INC DEL</name>
+        <lei>5493000C01ZX7D35SD85</lei>
+        <title>BERKSHIRE HATHAWAY INC CL B</title>
+        <cusip>084670702</cusip>
+        <identifiers>
+          <isin value="US0846707026"/>
+        </identifiers>
+        <balance>23466345.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>11134311375.60000000</valUSD>
+        <pctVal>1.338012121776</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ADVANCED MICRO DEVICES INC</name>
+        <lei>R2I72C950HOYXII45366</lei>
+        <title>ADVANCED MICRO DEVICES INC</title>
+        <cusip>007903107</cusip>
+        <identifiers>
+          <isin value="US0079031078"/>
+        </identifiers>
+        <balance>20864407.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>10768120452.70000000</valUSD>
+        <pctVal>1.294006895301</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>JPMORGAN CHASE and CO</name>
+        <lei>8I5DZWZKVSZI1NUHU748</lei>
+        <title>JPMORGAN CHASE and CO</title>
+        <cusip>46625H100</cusip>
+        <identifiers>
+          <isin value="US46625H1005"/>
+        </identifiers>
+        <balance>34503332.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>10327192300.92000000</valUSD>
+        <pctVal>1.241020483119</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>EXXON MOBIL CORP</name>
+        <lei>J3WHBG0MTS7O8ZVMDC91</lei>
+        <title>EXXON MOBIL CORP</title>
+        <cusip>30231G102</cusip>
+        <identifiers>
+          <isin value="US30231G1022"/>
+        </identifiers>
+        <balance>53478757.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>7768324241.82000000</valUSD>
+        <pctVal>0.933520866339</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>VISA INC</name>
+        <lei>549300JZ4OKEHW3DPJ59</lei>
+        <title>VISA INC CL A</title>
+        <cusip>92826C839</cusip>
+        <identifiers>
+          <isin value="US92826C8394"/>
+        </identifiers>
+        <balance>21512997.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>7020981700.92000000</valUSD>
+        <pctVal>0.843712584074</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>JOHNSON and JOHNSON</name>
+        <lei>549300G0CFPGEF6X2043</lei>
+        <title>JOHNSON and JOHNSON</title>
+        <cusip>478160104</cusip>
+        <identifiers>
+          <isin value="US4781601046"/>
+        </identifiers>
+        <balance>30839534.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>6949072196.22000000</valUSD>
+        <pctVal>0.835071206470</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>INTEL CORP</name>
+        <lei>KNX4USFCNGPY45LOCE31</lei>
+        <title>INTEL CORP</title>
+        <cusip>458140100</cusip>
+        <identifiers>
+          <isin value="US4581401001"/>
+        </identifiers>
+        <balance>60085862.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>6890646654.16000000</valUSD>
+        <pctVal>0.828050198986</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>WALMART INC</name>
+        <lei>Y87794H0US1R65VBXU25</lei>
+        <title>WALMART INC</title>
+        <cusip>931142103</cusip>
+        <identifiers>
+          <isin value="US9311421039"/>
+        </identifiers>
+        <balance>56096931.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>6493219763.25000000</valUSD>
+        <pctVal>0.780291340838</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <loanByFundCondition isLoanByFund="Y" loanVal="81025.00000000"/>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>CISCO SYSTEMS INC</name>
+        <lei>8E6NF1YAL0WT6CWXXV93</lei>
+        <title>CISCO SYSTEMS INC</title>
+        <cusip>17275R102</cusip>
+        <identifiers>
+          <isin value="US17275R1023"/>
+        </identifiers>
+        <balance>50562256.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>6088706867.52000000</valUSD>
+        <pctVal>0.731680956267</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>COSTCO WHOLESALE CORP</name>
+        <lei>29DX7H14B9S6O3FD6V18</lei>
+        <title>COSTCO WHOLESALE CORP</title>
+        <cusip>22160K105</cusip>
+        <identifiers>
+          <isin value="US22160K1051"/>
+        </identifiers>
+        <balance>5680202.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>5432090776.64000000</valUSD>
+        <pctVal>0.652775287177</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>CATERPILLAR INC</name>
+        <lei>WRJR7GS4GTRECRRTVX92</lei>
+        <title>CATERPILLAR INC</title>
+        <cusip>149123101</cusip>
+        <identifiers>
+          <isin value="US1491231015"/>
+        </identifiers>
+        <balance>5954288.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>5215182230.56000000</valUSD>
+        <pctVal>0.626709349718</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <loanByFundCondition isLoanByFund="Y" loanVal="2277262.00000000"/>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>MASTERCARD INC</name>
+        <lei>AR5L2ODV9HN37376R084</lei>
+        <title>MASTERCARD INC CL A</title>
+        <cusip>57636Q104</cusip>
+        <identifiers>
+          <isin value="US57636Q1040"/>
+        </identifiers>
+        <balance>10421880.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>5148200282.40000000</valUSD>
+        <pctVal>0.618660117434</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>LAM RESEARCH CORP</name>
+        <lei>549300I4GMO6D34U1T02</lei>
+        <title>LAM RESEARCH CORP</title>
+        <cusip>512807306</cusip>
+        <identifiers>
+          <isin value="US5128073062"/>
+        </identifiers>
+        <balance>15980551.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>5084691717.18000000</valUSD>
+        <pctVal>0.611028282179</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ABBVIE INC</name>
+        <lei>FR5LCKFTG8054YNNRU85</lei>
+        <title>ABBVIE INC</title>
+        <cusip>00287Y109</cusip>
+        <identifiers>
+          <isin value="US00287Y1091"/>
+        </identifiers>
+        <balance>22617268.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4924231588.96000000</valUSD>
+        <pctVal>0.591745760847</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>ORACLE CORP</name>
+        <lei>1Z4GXXU7ZHVWFCD8TV52</lei>
+        <title>ORACLE CORP</title>
+        <cusip>68389X105</cusip>
+        <identifiers>
+          <isin value="US68389X1054"/>
+        </identifiers>
+        <balance>21700087.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4899445642.86000000</valUSD>
+        <pctVal>0.588767229421</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <loanByFundCondition isLoanByFund="Y" loanVal="4876848.00000000"/>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>NETFLIX INC</name>
+        <lei>549300Y7VHGU0I7CE873</lei>
+        <title>NETFLIX INC</title>
+        <cusip>64110L106</cusip>
+        <identifiers>
+          <isin value="US64110L1061"/>
+        </identifiers>
+        <balance>54031098.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4647755049.96000000</valUSD>
+        <pctVal>0.558521527386</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>PALANTIR TECHNOLOGIES INC</name>
+        <lei>549300UVN46B3BBDHO85</lei>
+        <title>PALANTIR TECHNOLOGIES INC</title>
+        <cusip>69608A108</cusip>
+        <identifiers>
+          <isin value="US69608A1088"/>
+        </identifiers>
+        <balance>29232674.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4576082787.96000000</valUSD>
+        <pctVal>0.549908659278</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>APPLIED MATERIALS INC</name>
+        <lei>41BNNE1AFPNAZELZ6K07</lei>
+        <title>APPLIED MATERIALS INC</title>
+        <cusip>038222105</cusip>
+        <identifiers>
+          <isin value="US0382221051"/>
+        </identifiers>
+        <balance>10157266.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4571379135.96000000</valUSD>
+        <pctVal>0.549343420604</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>UNITEDHEALTH GROUP INC</name>
+        <lei>549300GHBMY8T5GXDE41</lei>
+        <title>UNITEDHEALTH GROUP INC</title>
+        <cusip>91324P102</cusip>
+        <identifiers>
+          <isin value="US91324P1021"/>
+        </identifiers>
+        <balance>11592041.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4408569112.71000000</valUSD>
+        <pctVal>0.529778511980</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>BANK OF AMERICA CORPORATION</name>
+        <lei>9DJT3UXIJIZJI4WXO774</lei>
+        <title>BANK OF AMERICA CORPORATION</title>
+        <cusip>060505104</cusip>
+        <identifiers>
+          <isin value="US0605051046"/>
+        </identifiers>
+        <balance>84914236.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4381574577.60000000</valUSD>
+        <pctVal>0.526534574032</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>CHEVRON CORP NEW</name>
+        <lei>N/A</lei>
+        <title>CHEVRON CORP</title>
+        <cusip>166764100</cusip>
+        <identifiers>
+          <isin value="US1667641005"/>
+        </identifiers>
+        <balance>23988250.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4376896095.00000000</valUSD>
+        <pctVal>0.525972359970</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>GE AEROSPACE</name>
+        <lei>3C7474T6CDKPR9K6YT90</lei>
+        <title>GE AEROSPACE</title>
+        <cusip>369604301</cusip>
+        <identifiers>
+          <isin value="US3696043013"/>
+        </identifiers>
+        <balance>13421696.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4345408296.96000000</valUSD>
+        <pctVal>0.522188465839</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>PROCTER and GAMBLE CO</name>
+        <lei>2572IBTT8CCZW6AU4141</lei>
+        <title>PROCTER and GAMBLE CO</title>
+        <cusip>742718109</cusip>
+        <identifiers>
+          <isin value="US7427181091"/>
+        </identifiers>
+        <balance>29740297.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4269517037.32000000</valUSD>
+        <pctVal>0.513068600055</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>HOME DEPOT INC</name>
+        <lei>QEKMOTMBBKA8I816DO57</lei>
+        <title>HOME DEPOT INC</title>
+        <cusip>437076102</cusip>
+        <identifiers>
+          <isin value="US4370761029"/>
+        </identifiers>
+        <balance>12739577.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>4040229449.78000000</valUSD>
+        <pctVal>0.485515071045</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>GOLDMAN SACHS GROUP INC (THE)</name>
+        <lei>784F5XWPLTWKTBV3E584</lei>
+        <title>GOLDMAN SACHS GROUP INC</title>
+        <cusip>38141G104</cusip>
+        <identifiers>
+          <isin value="US38141G1040"/>
+        </identifiers>
+        <balance>3838198.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3936302340.88000000</valUSD>
+        <pctVal>0.473026132412</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>COCA COLA CO</name>
+        <lei>UWJKFUJFZ02DKWI3RY53</lei>
+        <title>COCA COLA CO</title>
+        <cusip>191216100</cusip>
+        <identifiers>
+          <isin value="US1912161007"/>
+        </identifiers>
+        <balance>49543004.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3914392746.04000000</valUSD>
+        <pctVal>0.470393252614</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>MERCK and CO INC</name>
+        <lei>4YV9Y5M8S0BRK1RP0397</lei>
+        <title>MERCK and CO INC NEW</title>
+        <cusip>58933Y105</cusip>
+        <identifiers>
+          <isin value="US58933Y1055"/>
+        </identifiers>
+        <balance>31762503.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3770844356.16000000</valUSD>
+        <pctVal>0.453143017800</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>IBM CORPORATION</name>
+        <lei>VGRQXHF3J8VDLUA7XE92</lei>
+        <title>INTL BUS MACH CORP</title>
+        <cusip>459200101</cusip>
+        <identifiers>
+          <isin value="US4592001014"/>
+        </identifiers>
+        <balance>11961823.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3562230889.40000000</valUSD>
+        <pctVal>0.428073901456</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>TEXAS INSTRUMENTS INC.</name>
+        <lei>WDJNR2L6D8RWOEB8T652</lei>
+        <title>TEXAS INSTRUMENTS INC</title>
+        <cusip>882508104</cusip>
+        <identifiers>
+          <isin value="US8825081040"/>
+        </identifiers>
+        <balance>11613951.00000000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>3550152541.68000000</valUSD>
+        <pctVal>0.426622444323</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>EC</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>CHICAGO MERCANTILE EXCH INC</name>
+        <lei>SNZ2OJLFK8MNNCLQOF39</lei>
+        <title>S and P500 EMINI FUT JUN26 ESM6</title>
+        <cusip>N/A</cusip>
+        <identifiers>
+          <ticker value="ESM6"/>
+        </identifiers>
+        <balance>2859.00000000</balance>
+        <units>NC</units>
+        <curCd>USD</curCd>
+        <valUSD>48015123.66000000</valUSD>
+        <pctVal>0.005769985706</pctVal>
+        <payoffProfile>N/A</payoffProfile>
+        <assetCat>DE</assetCat>
+        <issuerCat>CORP</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <derivativeInfo>
+          <futrDeriv derivCat="FUT">
+            <counterparties>
+              <counterpartyName>CHICAGO MERCANTILE EXCH INC</counterpartyName>
+              <counterpartyLei>SNZ2OJLFK8MNNCLQOF39</counterpartyLei>
+            </counterparties>
+            <payOffProf>Long</payOffProf>
+            <descRefInstrmnt>
+              <indexBasketInfo>
+                <indexName>S and P 500 INDX</indexName>
+                <indexIdentifier>783786106</indexIdentifier>
+              </indexBasketInfo>
+            </descRefInstrmnt>
+            <expDate>2026-06-18</expDate>
+            <notionalAmt>1037797338.84000000</notionalAmt>
+            <curCd>USD</curCd>
+            <unrealizedAppr>48015123.66000000</unrealizedAppr>
+          </futrDeriv>
+        </derivativeInfo>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+<invstOrSec>
+        <name>Fidelity Revere Street Trust</name>
+        <lei>549300BDV45LJNXBZC55</lei>
+        <title>Fidelity Cash Central Fund</title>
+        <cusip>31635A105</cusip>
+        <identifiers>
+          <isin value="US31635A1051"/>
+        </identifiers>
+        <balance>311103918.71500000</balance>
+        <units>NS</units>
+        <curCd>USD</curCd>
+        <valUSD>311166139.50000000</valUSD>
+        <pctVal>0.037392888746</pctVal>
+        <payoffProfile>Long</payoffProfile>
+        <assetCat>STIV</assetCat>
+        <issuerCat>RF</issuerCat>
+        <invCountry>US</invCountry>
+        <isRestrictedSec>N</isRestrictedSec>
+
+        <fairValLevel>1</fairValLevel>
+        <securityLending>
+          <isCashCollateral>N</isCashCollateral>
+          <isNonCashCollateral>N</isNonCashCollateral>
+          <isLoanByFund>N</isLoanByFund>
+        </securityLending>
+      </invstOrSec>
+</invstOrSecs>
+    <explntrNotes>
+      <explntrNote note="As of March 2025, monthly returns presented in Item B.5.a. have been calculated without deducting any applicable sales loads or redemption fees." noteItem="B.5.a"/>
+    </explntrNotes>
+    <signature>
+      <ncom:dateSigned>2026-06-30</ncom:dateSigned>
+      <ncom:nameOfApplicant>Stacie M. Smith</ncom:nameOfApplicant>
+      <ncom:signature>Stacie M. Smith</ncom:signature>
+      <ncom:signerName>Stacie M. Smith</ncom:signerName>
+      <ncom:title>President and Treasurer</ncom:title>
+    </signature>
+  </formData>
+  <documents>XXXX</documents>
+</edgarSubmission>

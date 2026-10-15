@@ -6,6 +6,7 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ### Added
 - **Mutual funds & ETFs** (`funds.html`, *Funds* in every page's header): costs (expense ratio, cost on $10,000, cost over 20 years), returns after costs against the fund's index, and the portfolio (size, holdings, top-10 share, turnover, sector/region mix) from each fund's SEC shareholder report (Form N-CSR XBRL), up to four side by side. New `/api/fund` endpoint (`backend/funds.py`).
+- Funds page: each fund's **top 10 holdings** with their share of the fund, from its latest Form N-PORT (share classes and one issuer's bonds added up; derivatives and cash left out).
 - Start page: the chips show the companies you opened recently. Footer: a link to the author's portfolio site. Growth table: "No dividend paid". Stock tables: Piotroski F-score column. Results header: Google News link.
 
 ### Fixed

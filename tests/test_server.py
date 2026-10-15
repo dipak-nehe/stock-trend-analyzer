@@ -135,7 +135,7 @@ def test_vercel_config_bundles_the_shared_module():
     with open(os.path.join(ROOT, "vercel.json")) as fh:
         config = json.load(fh)
     assert config["outputDirectory"] == "public"
-    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py", "api/search.py", "api/page.py"}
+    assert set(config["functions"]) == {"api/financials.py", "api/insiders.py", "api/search.py", "api/page.py", "api/fund.py"}
     for name, fn in config["functions"].items():
         if name == "api/page.py":  # company pages also read the results page and the S&P 500 list
             assert fn["includeFiles"] == "{backend/**,public/index.html,public/data/sp500.json}"

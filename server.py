@@ -11,7 +11,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, unquote, urlparse
 
-from backend import pages, stock_data, store
+from backend import funds, pages, stock_data, store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
@@ -45,6 +45,9 @@ class Handler(BaseHTTPRequestHandler):
             ticker = (parse_qs(url.query).get("ticker") or [""])[0]
             respond = stock_data.api_response if url.path == "/api/financials" else stock_data.insider_response
             status, body, cache, data_cache = respond(ticker)
+            return self._send(status, json.dumps(body), cache=cache, data_cache=data_cache)
+        if url.path == "/api/fund":
+            status, body, cache, data_cache = funds.fund_response((parse_qs(url.query).get("ticker") or [""])[0])
             return self._send(status, json.dumps(body), cache=cache, data_cache=data_cache)
         if url.path.startswith("/stock/"):  # a company page: the results page with that company's title and preview
             status, page, cache = pages.company_page(unquote(url.path[len("/stock/"):].strip("/")))

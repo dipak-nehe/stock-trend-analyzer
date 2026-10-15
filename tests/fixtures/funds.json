@@ -1,0 +1,83 @@
+{
+ "tickers": {
+  "VOO": [
+   36405,
+   "S000002839",
+   "C000092055"
+  ],
+  "VFIAX": [
+   36405,
+   "S000002839",
+   "C000007774"
+  ],
+  "FXAIX": [
+   819118,
+   "S000006027",
+   "C000100045"
+  ],
+  "SCHD": [
+   1454889,
+   "S000034163",
+   "C000105320"
+  ],
+  "BND": [
+   794105,
+   "S000002564",
+   "C000046844"
+  ],
+  "AGTHX": [
+   44201,
+   "S000009228",
+   "C000025064"
+  ],
+  "QQQ": [
+   1067839,
+   "S000101292",
+   "C000271435"
+  ]
+ },
+ "series": {
+  "S000002839": {
+   "form": "N-CSR",
+   "date": "2026-02-27",
+   "folder": "https://www.sec.gov/Archives/edgar/data/36405/000110465926021519/",
+   "fixture": "fund_000110465926021519.xml",
+   "file": "tm263123d8_ncsr_htm.xml"
+  },
+  "S000006027": {
+   "form": "N-CSR",
+   "date": "2026-04-22",
+   "folder": "https://www.sec.gov/Archives/edgar/data/819118/000081911826000065/",
+   "file": "filing11607_htm.xml",
+   "fixture": "fund_000081911826000065.xml"
+  },
+  "S000034163": {
+   "form": "N-CSR",
+   "date": "2025-11-03",
+   "folder": "https://www.sec.gov/Archives/edgar/data/1454889/000119312525262698/",
+   "file": "d78826dncsr_htm.xml",
+   "fixture": "fund_000119312525262698.xml"
+  },
+  "S000002564": {
+   "form": "N-CSR",
+   "date": "2026-02-27",
+   "folder": "https://www.sec.gov/Archives/edgar/data/794105/000110465926021506/",
+   "file": "tm263123d3_ncsr_htm.xml",
+   "fixture": "fund_000110465926021506.xml"
+  },
+  "S000009228": {
+   "form": "N-CSR",
+   "date": "2025-10-31",
+   "folder": "https://www.sec.gov/Archives/edgar/data/44201/000119312525260203/",
+   "file": "8de157439e338b7_htm.xml",
+   "fixture": "fund_000119312525260203.xml"
+  },
+  "S000101292": {
+   "form": "N-CSRS",
+   "date": "2026-06-01",
+   "folder": "https://www.sec.gov/Archives/edgar/data/1067839/000119312526250483/",
+   "file": "8deb6f921189c0e_htm.xml",
+   "fixture": "fund_000119312526250483.xml"
+  }
+ }
+}

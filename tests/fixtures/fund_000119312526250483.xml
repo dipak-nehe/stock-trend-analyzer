@@ -1,0 +1,265 @@
+<ns0:xbrl xmlns:ns0="http://www.xbrl.org/2003/instance" xmlns:oef="http://xbrl.sec.gov/oef/2025" xmlns:us-gaap="http://fasb.org/us-gaap/2025" xmlns:xbrldi="http://xbrl.org/2006/xbrldi"><ns0:context id="D20251001_20260331_C000271435Member">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:startDate>2025-10-01</ns0:startDate>
+            <ns0:endDate>2026-03-31</ns0:endDate>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_AlphabetIncClassAMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:AlphabetIncClassAMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_AlphabetIncClassCMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:AlphabetIncClassCMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_AmazonComIncMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:AmazonComIncMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_AppleIncMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:AppleIncMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_BroadcomIncMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:BroadcomIncMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_CommunicationsSectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">oef:CommunicationsSectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_ConsumerDiscretionarySectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">oef:ConsumerDiscretionarySectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_ConsumerStaplesSectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">oef:ConsumerStaplesSectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_HealthcareSectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">us-gaap:HealthcareSectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_IndustrialSectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">oef:IndustrialSectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_InformationTechnologySectorMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">oef:InformationTechnologySectorMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_MetaPlatformsIncClassAMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:MetaPlatformsIncClassAMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_MicrosoftCorpMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:MicrosoftCorpMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_MoneyMarketFundsPlusOtherAssetsLessLiabilitiesMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="us-gaap:InvestmentTypeAxis">iqts1:MoneyMarketFundsPlusOtherAssetsLessLiabilitiesMember</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_NVIDIACorpMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:NVIDIACorpMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_OtherSectorsEachLessThan2Member">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:IndustrySectorAxis">iqts1:OtherSectorsEachLessThan2Member</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_TeslaIncMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:TeslaIncMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <ns0:context id="TI20260331_C000271435Member_WalmartIncMember">
+        <ns0:entity>
+            <ns0:identifier scheme="http://www.sec.gov/CIK">0001067839</ns0:identifier>
+            <ns0:segment>
+                <xbrldi:explicitMember dimension="oef:ClassAxis">iqts1:C000271435Member</xbrldi:explicitMember>
+                <xbrldi:explicitMember dimension="oef:LargestHoldingAxis">iqts1:WalmartIncMember</xbrldi:explicitMember>
+            </ns0:segment>
+        </ns0:entity>
+        <ns0:period>
+            <ns0:instant>2026-03-31</ns0:instant>
+        </ns0:period>
+    </ns0:context>
+    <oef:PctOfNav contextRef="TI20260331_C000271435Member_InformationTechnologySectorMember" decimals="4" id="h_15_3057f2b2-90b0-5e65-f099-5d8db3a7b36f" unitRef="pure">0.504</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_CommunicationsSectorMember" decimals="4" id="h_16_3e192a16-97d3-8aae-6cfc-0f577f418c2f" unitRef="pure">0.153</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_ConsumerDiscretionarySectorMember" decimals="4" id="h_17_93938309-6983-c9e7-0285-533e3b0d2558" unitRef="pure">0.126</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_ConsumerStaplesSectorMember" decimals="4" id="h_18_dda0c4d8-c810-50b8-d536-3fc09e31dc0b" unitRef="pure">0.085</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_HealthcareSectorMember" decimals="4" id="h_19_db27de59-2a01-6458-d8b0-01572c2715a8" unitRef="pure">0.051</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_IndustrialSectorMember" decimals="4" id="h_20_a4aa7912-788b-8084-97c5-fa1e047b3603" unitRef="pure">0.042</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_OtherSectorsEachLessThan2Member" decimals="4" id="h_21_9ebb2a44-6dac-ef02-5627-30adc1c7cf53" unitRef="pure">0.038</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_MoneyMarketFundsPlusOtherAssetsLessLiabilitiesMember" decimals="4" id="h_22_4cc63b05-22ce-fb5e-d307-fd9742a265d9" unitRef="pure">0.001</oef:PctOfNav>
+<oef:ClassName contextRef="D20251001_20260331_C000271435Member" id="t_7_dd742f24_8f55_87de_44c1_1c63215c8125">Invesco QQQ TrustSM, Series 1</oef:ClassName>
+<oef:FundName contextRef="D20251001_20260331_C000271435Member" id="t_14_2abdbed6_332b_9edd_a713_f74eb7e47b03">Invesco QQQ TrustSM, Series 1</oef:FundName>
+<oef:ExpensesPaidAmt contextRef="D20251001_20260331_C000271435Member" decimals="INF" id="h_1_9dfd6c87_3bf1_4fdc_826e_ea35b69091b6" unitRef="USD">9</oef:ExpensesPaidAmt>
+<oef:ExpenseRatioPct contextRef="D20251001_20260331_C000271435Member" decimals="4" id="h_2_db04bdf6_5fe5_4ed2_9057_88ee1a77062f" unitRef="pure">0.0019</oef:ExpenseRatioPct>
+<us-gaap:AssetsNet contextRef="TI20260331_C000271435Member" decimals="INF" id="h_3_7f85a344_92b0_4e8a_992c_2eb8b277e7aa" unitRef="USD">371121437386</us-gaap:AssetsNet>
+<oef:HoldingsCount contextRef="TI20260331_C000271435Member" decimals="INF" id="h_4_738b03e5_f4aa_4d52_9057_692338022149" unitRef="Holding">102</oef:HoldingsCount>
+<us-gaap:InvestmentCompanyPortfolioTurnover contextRef="D20251001_20260331_C000271435Member" decimals="4" id="h_5_61981fee_e2fe_40ae_95c4_3eb47258c0c2" unitRef="pure">0.10</us-gaap:InvestmentCompanyPortfolioTurnover>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_NVIDIACorpMember" decimals="4" id="h_6_692725a5_acff_4cd6_8713_74c3cebf0e98" unitRef="pure">0.0868</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_AppleIncMember" decimals="4" id="h_7_f8dc9f95_adc8_496c_a7ff_5af032a5b394" unitRef="pure">0.0763</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_MicrosoftCorpMember" decimals="4" id="h_8_b95740cf_0ac5_4754_bc99_8ab25f48c7cd" unitRef="pure">0.0563</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_AmazonComIncMember" decimals="4" id="h_9_fd44380f_69f5_436a_bdd3_3543cc8cfb2f" unitRef="pure">0.0458</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_TeslaIncMember" decimals="4" id="h_10_1af4c574_0bc0_4190_8591_c7fc920562bc" unitRef="pure">0.0380</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_MetaPlatformsIncClassAMember" decimals="4" id="h_11_f24dedce_9fb2_4c76_947f_93c0485e1d04" unitRef="pure">0.0346</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_WalmartIncMember" decimals="4" id="h_12_f3c2d282_d950_4539_b31a_7cc786cef878" unitRef="pure">0.0344</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_AlphabetIncClassAMember" decimals="4" id="h_13_5f27a1cf_b8e3_4318_b7a5_160bb99429bd" unitRef="pure">0.0343</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_AlphabetIncClassCMember" decimals="4" id="h_14_ab82bdab_5e9c_4e9f_b45d_553672cc125c" unitRef="pure">0.0319</oef:PctOfNav>
+<oef:PctOfNav contextRef="TI20260331_C000271435Member_BroadcomIncMember" decimals="4" id="h_15_c7e9fb17_2477_44e8_84fb_c5aeaa9b97ca" unitRef="pure">0.0300</oef:PctOfNav>
+</ns0:xbrl>

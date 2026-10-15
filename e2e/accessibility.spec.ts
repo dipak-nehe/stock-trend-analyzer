@@ -231,6 +231,29 @@ test.describe('axe: S&P 500 pages', () => {
   });
 });
 
+test.describe('axe: Funds page', () => {
+  for (const lang of ['en', 'es'] as const) {
+    for (const scheme of SCHEMES) {
+      test(`Funds: four funds side by side (${lang}, ${scheme})`, async ({ funds, page }, testInfo) => {
+        await prepare(page, 1100, scheme);
+        await funds.goto(`f=VOO,FXAIX,AGTHX,BND${lang === 'es' ? '&lang=es' : ''}`);
+        await expect(funds.columns).toHaveCount(4);
+        await page.getByTestId('fund-help').locator('summary').click();
+        expect(await violations(funds, testInfo)).toEqual([]);
+      });
+    }
+  }
+
+  test('Funds at phone width, empty and with two funds', async ({ funds, page }, testInfo) => {
+    await prepare(page, 375);
+    await funds.goto();
+    expect(await violations(funds, testInfo)).toEqual([]);
+    await funds.goto('f=SCHD,QQQ');
+    await expect(funds.columns).toHaveCount(2);
+    expect(await violations(funds, testInfo)).toEqual([]);
+  });
+});
+
 test.describe('axe: How we calculate', () => {
   for (const lang of ['en', 'es'] as const) {
     for (const scheme of SCHEMES) {

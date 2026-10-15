@@ -59,6 +59,7 @@ export function applyStaticText() {
   $$("a.home-btn, a.home-link, a[data-start-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));
   $$("a[data-portfolio-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "portfolio.html" : `portfolio.html?lang=${lang}`));
   $$("a[data-sp500-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "sp500.html" : `sp500.html?lang=${lang}`));
+  $$("a[data-funds-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "funds.html" : `funds.html?lang=${lang}`));
 }
 
 /**

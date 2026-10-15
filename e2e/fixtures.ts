@@ -6,6 +6,7 @@ import { parentSuite } from 'allure-js-commons';
 import { AnalysisPage } from './pages/AnalysisPage';
 import { ComparePage } from './pages/ComparePage';
 import { DisclaimerPage } from './pages/DisclaimerPage';
+import { FundsPage } from './pages/FundsPage';
 import { MethodologyPage } from './pages/MethodologyPage';
 import { PortfolioPage } from './pages/PortfolioPage';
 import { Sp500Page } from './pages/Sp500Page';
@@ -18,6 +19,8 @@ type Fixtures = {
   compare: ComparePage;
   /** The disclaimer page (disclaimer.html). */
   disclaimer: DisclaimerPage;
+  /** Mutual funds & ETFs (funds.html). */
+  funds: FundsPage;
   /** How we calculate (methodology.html). */
   methodology: MethodologyPage;
   /** My portfolio (portfolio.html). */
@@ -43,6 +46,9 @@ export const test = base.extend<Fixtures>({
   },
   disclaimer: async ({ page }, use) => {
     await use(new DisclaimerPage(page));
+  },
+  funds: async ({ page }, use) => {
+    await use(new FundsPage(page));
   },
   methodology: async ({ page }, use) => {
     await use(new MethodologyPage(page));

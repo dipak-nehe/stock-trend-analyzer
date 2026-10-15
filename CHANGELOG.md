@@ -4,6 +4,10 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Added
+- **Mutual funds & ETFs** (`funds.html`, *Funds* in every page's header): costs (expense ratio, cost on $10,000, cost over 20 years), returns after costs against the fund's index, and the portfolio (size, holdings, top-10 share, turnover, sector/region mix) from each fund's SEC shareholder report (Form N-CSR XBRL), up to four side by side. New `/api/fund` endpoint (`backend/funds.py`).
+- Start page: the chips show the companies you opened recently. Footer: a link to the author's portfolio site. Growth table: "No dividend paid". Stock tables: Piotroski F-score column. Results header: Google News link.
+
 ### Fixed
 - My portfolio showed an out-of-date list after coming Back from saving S&P 500 picks (it trusted its old address, `?t=KO`, over the saved list) and then saved that over the new picks. It now always shows the list saved in the browser, re-reads it on Back and when another tab saves, and keeps the list out of its address. Opening a shared link no longer replaces your own list: it's shown read-only with *Add these to My portfolio*; *Copy link to share* makes such a link.
 

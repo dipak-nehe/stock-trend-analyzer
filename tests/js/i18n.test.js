@@ -31,11 +31,13 @@ test("every translatable element in every page has a Spanish entry, and no Spani
   };
   const index = tagged("index.html"), compare = tagged("compare.html"), disclaimer = tagged("disclaimer.html");
   const portfolio = tagged("portfolio.html"), sp500 = tagged("sp500.html"), sp500View = tagged("sp500-view.html"), methodology = tagged("methodology.html");
+  const funds = tagged("funds.html");
   assert.ok(index.length > 100, `only ${index.length} tagged elements in index.html`);
   assert.ok(compare.length > 20, `only ${compare.length} tagged elements in compare.html`);
   assert.ok(disclaimer.length > 15, `only ${disclaimer.length} tagged elements in disclaimer.html`);
+  assert.ok(funds.length > 10, `only ${funds.length} tagged elements in funds.html`);
   assert.ok(portfolio.length > 15, `only ${portfolio.length} tagged elements in portfolio.html`);
-  const keys = [...index, ...compare, ...disclaimer, ...portfolio, ...sp500, ...sp500View, ...methodology];
+  const keys = [...index, ...compare, ...disclaimer, ...portfolio, ...sp500, ...sp500View, ...methodology, ...funds];
   const missing = keys.filter((k) => !(k in ES));
   assert.deepEqual(missing, [], `untranslated page text: ${missing.join(", ")}`);
   const unused = Object.keys(ES).filter((k) => k.startsWith("ui.") && !keys.includes(k));

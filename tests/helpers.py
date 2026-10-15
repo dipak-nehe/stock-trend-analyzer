@@ -34,8 +34,31 @@ def _form4_fixture(cik):
         return json.load(fh)
 
 
+def _funds_fixture():
+    """tests/fixtures/funds.json: the saved fund tickers and each series' latest shareholder report (fund pages)."""
+    with open(os.path.join(FIXTURES, "funds.json")) as fh:
+        return json.load(fh)
+
+
+def _fund_atom(series_id):
+    """EDGAR's filing list for a series, as the Atom feed browse-edgar returns (one entry: the saved report)."""
+    saved = _funds_fixture()["series"].get(series_id)
+    if not saved:
+        return "<feed></feed>"
+    return (f"<feed><entry><content><filing-date>{saved['date']}</filing-date>"
+            f"<filing-href>{saved['folder']}index.htm</filing-href><filing-type>{saved['form']}</filing-type></content></entry></feed>")
+
+
 def fixture_sec_get_text(url):
     """Stand-in for stock_data.sec_get_text: a Form 4's (trimmed) XML from tests/fixtures/form4_<cik>.json."""
+    if "browse-edgar" in url and "type=N-CSR" in url:
+        return _fund_atom(re.search(r"CIK=(S\d+)", url).group(1))
+    if url.endswith("_htm.xml"):
+        for series in _funds_fixture()["series"].values():
+            if url == series["folder"] + series["file"]:
+                with open(os.path.join(FIXTURES, series["fixture"])) as fh:
+                    return fh.read()
+        raise _not_found(url)
     m = re.search(r"/Archives/edgar/data/(\d+)/(\d{10})(\d{2})(\d{6})/", url)
     saved = _form4_fixture(int(m.group(1))) if m else None
     accession = f"{m.group(2)}-{m.group(3)}-{m.group(4)}" if m else ""
@@ -46,6 +69,14 @@ def fixture_sec_get_text(url):
 
 def fixture_sec_get(url):
     """Stand-in for stock_data.sec_get that reads tests/fixtures/ instead of the network."""
+    if url.endswith("/company_tickers_mf.json"):
+        rows = [[cik, series, cls, t] for t, (cik, series, cls) in _funds_fixture()["tickers"].items()]
+        return {"fields": ["cik", "seriesId", "classId", "symbol"], "data": rows}
+    if url.endswith("/index.json") and "/Archives/" in url:
+        for series in _funds_fixture()["series"].values():
+            if url == series["folder"] + "index.json":
+                return {"directory": {"item": [{"name": "report.htm"}, {"name": series["file"]}]}}
+        raise _not_found(url)
     if url.endswith("/company_tickers.json"):
         name = "company_tickers.json"
     elif m := re.search(r"companyfacts/CIK(\d{10})\.json$", url):

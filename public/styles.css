@@ -544,3 +544,36 @@
 .meth-sev.warning { color: var(--warning-text, var(--text-1)); }
 .meth-sev.good { color: var(--good-text); }
 .meth-sev.info { color: var(--text-2); }
+
+/* ---------- Funds page (funds.html) ---------- */
+.fund-add label { display: block; font-weight: 600; margin-bottom: 6px; }
+.fund-add-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fund-add-row input { flex: 1 1 220px; min-width: 0; padding: 10px 12px; font-size: 16px; border: 1px solid var(--axis); border-radius: 8px; background: var(--page); color: var(--text-1); text-transform: uppercase; }
+.fund-add-row input::placeholder { text-transform: none; }
+.fund-add .sp-chips { margin-top: 10px; }
+.fund-h { margin: 0 0 10px; font-size: 16px; }
+.fund-result .fund-h + .fund-mix, #fundMixTitle { margin-top: 18px; }
+.fund-table thead th { vertical-align: bottom; }
+.fund-table .fund-tk { display: block; font-size: 14px; color: var(--text-1); font-weight: 700; }
+.fund-table .fund-name, .fund-table .fund-class { display: block; font-weight: 500; white-space: normal; max-width: 220px; margin-left: auto; }
+.fund-table tbody td { white-space: nowrap; }
+.fund-table td.fav { font-weight: 700; }
+.fund-mix { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+.fund-mix-card h4 { margin: 0 0 8px; font-size: 14px; }
+.fund-bars { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.fund-bars li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 3.5em; gap: 8px; align-items: center; font-size: 13px; }
+.fund-bar-label { overflow-wrap: anywhere; }
+.fund-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.fund-bar > span { display: block; height: 100%; background: var(--accent); }
+.fund-bar-pct { text-align: right; font-variant-numeric: tabular-nums; }
+.fund-help dl { margin: 10px 0 0; }
+.fund-help dt { font-weight: 600; margin-top: 8px; }
+.fund-help dd { margin: 2px 0 0; color: var(--text-2); }
+.portfolio-page form.fund-add { display: block; }
+.fund-add .chips { margin-top: 10px; }
+.fund-table td .fund-vs { display: block; font-size: 12px; white-space: normal; max-width: 200px; margin-left: auto; }
+@media (max-width: 600px) {
+  .fund-table th[scope="row"] { min-width: 96px; max-width: 120px; font-size: 13px; }
+  .fund-table th, .fund-table td { padding: 8px 6px; }
+  .fund-table .fund-name, .fund-table .fund-class, .fund-table td .fund-vs { max-width: 140px; }
+}

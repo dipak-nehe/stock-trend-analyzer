@@ -18,6 +18,10 @@
     "api/page.py": {
       "includeFiles": "{backend/**,public/index.html,public/data/sp500.json}",
       "maxDuration": 10
+    },
+    "api/fund.py": {
+      "includeFiles": "backend/**",
+      "maxDuration": 30
     }
   },
   "headers": [

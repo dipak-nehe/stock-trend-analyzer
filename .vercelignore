@@ -7,9 +7,7 @@ tests/
 requirements-dev.txt
 pytest.ini
 test-results/
-package.json
 node_modules/
-package-lock.json
 allurerc.mjs
 allure-results/
 allure-report/

@@ -15,7 +15,7 @@ from backend import funds, pages, stock_data, store
 
 PORT = int(os.environ.get("PORT", "8000"))
 PUBLIC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "public")
-STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript",
+STATIC_TYPES = {".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".map": "application/json",
                 ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon",
                 ".json": "application/json",  # data/industry.json; only files inside public/ are ever served
                 ".xml": "application/xml", ".txt": "text/plain"}  # sitemap.xml and robots.txt

@@ -2,16 +2,18 @@
   "name": "stock-trend-analyzer",
   "private": true,
   "type": "module",
-  "description": "Front-end unit tests run in Node; the Allure report generator. Not deployed (see .vercelignore).",
+  "description": "Front end in TypeScript (src/, bundled by esbuild into public/js), its unit tests, the browser tests and the Allure report.",
   "scripts": {
-    "lint": "eslint .",
+    "build": "node scripts/build.mjs",
+    "build:watch": "node scripts/build.mjs --watch",
+    "lint": "oxlint",
     "lint:py": "sh -c 'R=.venv/bin/ruff; [ -x \"$R\" ] || R=ruff; \"$R\" check .'",
-    "typecheck": "tsc -p tsconfig.json && tsc -p e2e/tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json && tsc -p tests/js/tsconfig.json && tsc -p e2e/tsconfig.json",
     "typecheck:py": "sh -c 'M=.venv/bin/mypy; [ -x \"$M\" ] || M=mypy; \"$M\"'",
     "check": "npm run lint && npm run lint:py && npm run typecheck && npm run typecheck:py",
-    "test": "node --test tests/js/*.test.js",
-    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include='public/js/**' --test-coverage-lines=95 --test-coverage-branches=85 --test-coverage-functions=95 tests/js/*.test.js",
-    "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.js",
+    "test": "node --test tests/js/*.test.ts",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include='src/**' --test-coverage-lines=95 --test-coverage-branches=85 --test-coverage-functions=95 tests/js/*.test.ts",
+    "test:js:allure": "node --test --test-reporter=spec --test-reporter-destination=stdout --test-reporter=./tests/js/allure-reporter.mjs --test-reporter-destination=stdout tests/js/*.test.ts",
     "report": "allure generate allure-results",
     "report:open": "allure open allure-report",
     "load": "sh load/run-local.sh",
@@ -21,14 +23,18 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@eslint/js": "10.0.1",
     "@playwright/test": "1.63.0",
     "@types/node": "22.20.4",
     "allure": "3.18.0",
     "allure-js-commons": "3.12.2",
     "allure-playwright": "3.12.2",
-    "eslint": "10.11.0",
-    "globals": "17.12.0",
+    "oxlint": "1.88.0",
     "typescript": "7.0.2"
+  },
+  "dependencies": {
+    "esbuild": "0.28.2"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

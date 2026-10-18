@@ -4,6 +4,9 @@ All notable changes to this project are listed here. The format follows [Keep a 
 
 ## [Unreleased]
 
+### Changed
+- **The front end is TypeScript** (`src/`, strict mode, no `any` in the site code), with typed API responses in `src/types.ts` (`Financials`, `Insiders`, `Fund`) and typed DOM lookups. **esbuild** bundles each page into one minified file in `public/js/` (same names, so the HTML didn't change) plus shared, hashed chunks: the start page loads 8 script files instead of 25 (217 KB instead of 280 KB) and is usable about 0.4 s sooner on a slow phone connection. Vercel builds on deploy; `public/js/` is no longer committed. The unit tests are TypeScript too and run on the sources with Node 22.18+ (no compile step). Linting moved from ESLint to oxlint (typescript-eslint can't use TypeScript 7). Five copies of the HTML-escaping helper became one (`src/html.ts`).
+
 ### Added
 - **Mutual funds & ETFs** (`funds.html`, *Funds* in every page's header): costs (expense ratio, cost on $10,000, cost over 20 years), returns after costs against the fund's index, and the portfolio (size, holdings, top-10 share, turnover, sector/region mix) from each fund's SEC shareholder report (Form N-CSR XBRL), up to four side by side. New `/api/fund` endpoint (`backend/funds.py`).
 - Funds page: **overlap** between the funds compared, **growth of $10,000** against the index with the worst year and years with a loss (charts that contradict the reported returns are left out), and **returns after the sales charge**.

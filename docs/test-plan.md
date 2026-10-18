@@ -8,7 +8,7 @@ How the web app is tested: what is covered, at which level, with what data, and 
 
 **In scope**
 - The Python backend (`backend/`, `server.py`, `api/financials.py`): reading SEC filings, building ten-year series, split and restatement handling, filing history (8-K items, late filings, amendments, SEC letters), the stored-results cache, the HTTP API.
-- The page's JavaScript (`public/js/`): formatting, trends, red-flag rules, Graham and Buffett checklists, value estimates, the filing-history view, the compare rules, translations.
+- The page's TypeScript (`src/`, bundled into `public/js/`): formatting, trends, red-flag rules, Graham and Buffett checklists, value estimates, the filing-history view, the compare rules, translations.
 - The pages as a person uses them (`index.html`, `compare.html`, `disclaimer.html`): search, results tabs, charts, price-based valuation, compare, language switching, Home, errors, phone layout.
 - Accessibility (WCAG 2.0/2.1/2.2 A and AA) and keyboard use.
 

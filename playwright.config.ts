@@ -34,7 +34,8 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } } }],
   webServer: {
-    command: `${python} tests/e2e_server.py`,
+    // build the page scripts from src/ first, so the tests run the code as deployed
+    command: `node scripts/build.mjs && ${python} tests/e2e_server.py`,
     url: `${BASE_URL}/`,
     env: { PORT: String(PORT) },
     reuseExistingServer: !process.env.CI,

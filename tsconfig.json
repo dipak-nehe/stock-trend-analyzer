@@ -1,10 +1,15 @@
 {
-  // Type-checks the plain JavaScript (no TypeScript sources, no build output): `npm run typecheck`.
+  // Type-checks the TypeScript sources (src/, bundled by esbuild into public/js) and their unit tests (tests/js,
+  // run by Node directly): `npm run typecheck`. Strict, and limited to syntax Node can strip (no enums, no
+  // namespaces, `import type` for types), so the tests run without a compile step.
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
+    "strict": true,
     "noEmit": true,
-    "strict": false,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -12,5 +17,5 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["public/js/**/*.js", "tests/js/**/*.js", "tests/js/**/*.mjs", "types/**/*.d.ts"]
+  "include": ["src/**/*.ts", "types/**/*.d.ts"]
 }

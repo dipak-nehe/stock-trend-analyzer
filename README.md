@@ -4,7 +4,7 @@
 
 **Live site: [stock-value-analysis.vercel.app](https://stock-value-analysis.vercel.app/)** · try [AAPL](https://stock-value-analysis.vercel.app/?t=AAPL), [KO](https://stock-value-analysis.vercel.app/?t=KO), [SMCI](https://stock-value-analysis.vercel.app/?t=SMCI)
 
-Web app that analyses 10 years of SEC filings for any US-listed company: an at-a-glance summary and 10-year trends, 20+ red-flag checks with plain-English explanations, SEC filing history (restatements, auditor changes, late filings, exchange notices and other serious 8-K events), insider trades from Form 4 filings, Graham & Buffett value checklists with price-based valuation, and a side-by-side comparison of two stocks. In English and Spanish, accessible (WCAG 2.2 AA) and phone-friendly. Python serverless backend on Vercel with stored results in Upstash Redis, and a modular JavaScript front end. Backed by 657 automated tests (unit, regression, API, Playwright end-to-end and axe-core accessibility), CI on every push, and a public [Allure report](https://stock-trend-test-report.vercel.app) with step screenshots and videos. Companion native apps: [Android and iOS](https://github.com/dipak-nehe/stock-value-mobile).
+Web app that analyses 10 years of SEC filings for any US-listed company: an at-a-glance summary and 10-year trends, 20+ red-flag checks with plain-English explanations, SEC filing history (restatements, auditor changes, late filings, exchange notices and other serious 8-K events), insider trades from Form 4 filings, Graham & Buffett value checklists with price-based valuation, and a side-by-side comparison of two stocks. In English and Spanish, accessible (WCAG 2.2 AA) and phone-friendly. Python serverless backend on Vercel with stored results in Upstash Redis, and a modular JavaScript front end. Backed by 659 automated tests (unit, regression, API, Playwright end-to-end and axe-core accessibility), CI on every push, and a public [Allure report](https://stock-trend-test-report.vercel.app) with step screenshots and videos. Companion native apps: [Android and iOS](https://github.com/dipak-nehe/stock-value-mobile).
 
 All data comes from the companies' own filings through the free **SEC EDGAR** API.
 
@@ -61,8 +61,8 @@ All data comes from the companies' own filings through the free **SEC EDGAR** AP
 |---|---|
 | **Backend** | Python 3 (standard library only), Vercel Serverless Functions: `/api/financials` (the analysis), `/api/insiders` (insider trades) and `/api/fund` (a mutual fund or ETF) |
 | **Data** | SEC EDGAR APIs: XBRL company facts, the filing index, Form 4 XML, funds' N-CSR shareholder reports (XBRL) and N-PORT holdings (XML); Upstash Redis for stored results; Vercel CDN caching with a versioned API |
-| **Front end** | HTML, CSS and JavaScript ES modules (no framework, no build step), Chart.js 4, English/Spanish text, light and dark themes |
-| **Code quality** | TypeScript 7 (type-checks the JavaScript via JSDoc, strict mode for the tests), ESLint 10, Ruff |
+| **Front end** | TypeScript in strict mode (no framework), bundled by esbuild into one minified file per page plus shared chunks; HTML, CSS, Chart.js 4, English/Spanish text, light and dark themes |
+| **Code quality** | TypeScript 7 (strict, with typed API responses in `src/types.ts`), oxlint, Ruff, mypy (strict) |
 | **Testing** | behave 1.3 (business rules as Gherkin scenarios), pytest 9 (storage, regression on saved SEC data, HTTP), Node's built-in test runner (JavaScript unit), Playwright Test 1.63 in TypeScript with page objects (end-to-end), axe-core 4.13 (accessibility) |
 | **Reporting** | Allure 3 (allure-behave, allure-pytest, allure-playwright): one report for all layers, with step screenshots and a video per browser test |
 | **CI/CD and hosting** | GitHub Actions (all tests on every push, a live-site check every 6 hours), Dependabot, Vercel (site, API and test report, deployed on every push), Vercel Web Analytics and Speed Insights (cookieless) |
@@ -98,10 +98,11 @@ The live site counts visits with [Vercel Web Analytics](https://vercel.com/docs/
 
 ## Run it locally
 
-Requires Python 3.9+. It has no third-party dependencies.
+Requires Python 3.9+ (the backend has no third-party dependencies) and Node 22.18+ to build the page scripts (`.nvmrc`).
 
 ```bash
 export SEC_USER_AGENT="StockTrendAnalyzer your-email@example.com"   # required by SEC's fair-access policy
+npm install && npm run build      # src/*.ts -> public/js (or `npm run build:watch` while editing)
 python3 server.py
 ```
 
@@ -111,7 +112,7 @@ To use a different port, run `PORT=8001 python3 server.py`.
 ## Deploy to Vercel (free)
 
 1. Sign in at [vercel.com](https://vercel.com) with GitHub, click **Add New → Project**, and import this repo.
-2. Leave the framework preset as **Other**. No build command is needed.
+2. Leave the framework preset as **Other**: `vercel.json` sets the build (`npm ci --omit=dev`, which installs only esbuild, then `npm run build`).
 3. Under **Environment Variables**, add `SEC_USER_AGENT` = `StockTrendAnalyzer your-email@example.com`.
 4. Click **Deploy**. Every push to `main` redeploys automatically.
 
@@ -119,7 +120,7 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 
 ## Tests
 
-657 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable. **[Test plan](docs/test-plan.md)** (scope, layers, risks, traceability, exit criteria) and **[every end-to-end test, by feature](docs/e2e-tests.md)**.
+659 automated tests run on every push (GitHub Actions). They never call SEC: they use trimmed real filings saved in `tests/fixtures/`, so they're fast, offline and repeatable. **[Test plan](docs/test-plan.md)** (scope, layers, risks, traceability, exit criteria) and **[every end-to-end test, by feature](docs/e2e-tests.md)**.
 
 | Layer | What it covers |
 |---|---|
@@ -130,8 +131,8 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | **Unit: company pages** (`tests/test_pages.py`, pytest, 9 tests) | Each company page's title, description, canonical address and share preview; names escaped; unknown or malformed tickers answered 404 and kept out of search results; the page still served when SEC's ticker list can't be read |
 | **Unit: storage** (`tests/test_store.py`, pytest, 32 tests) | Memory, file and Redis (against a fake Upstash server) storage: expiry, versioned keys, failures treated as a miss |
 | **Regression** (`tests/test_regression.py`, 54 tests) | Real Apple, Coca-Cola, Intel, JPMorgan and Super Micro filings. Figures are pinned to values cross-checked against published financials for fiscal 2021–2025. |
-| **HTTP** (`tests/test_server.py`, 30 tests) | Local server and Vercel function give identical responses. Source files can't be downloaded. Bad input is rejected. |
-| **JavaScript unit** (`tests/js/`, 168 tests) | The browser-side logic, run in Node with no dependencies: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett/Lynch checklists and value estimate, the growth table and filing-history views, and the comparison rules (mark directions, bank and negative-equity n/a, indexed growth, caveats) |
+| **HTTP** (`tests/test_server.py`, 32 tests) | Local server and Vercel function give identical responses. Source files (including the TypeScript in `src/` and the build script) can't be downloaded. Bad input is rejected. |
+| **JavaScript unit** (`tests/js/`, 168 tests) | The browser-side logic, run in Node on the TypeScript sources with no dependencies or compile step: formatting, CAGR and trend labels, every red-flag rule, the Graham/Buffett/Lynch checklists and value estimate, the growth table and filing-history views, and the comparison rules (mark directions, bank and negative-equity n/a, indexed growth, caveats) |
 | **End-to-end** (`e2e/ui.spec.ts`, `compare.spec.ts`, `portfolio.spec.ts`, `sp500.spec.ts`, `funds.spec.ts` and `methodology.spec.ts`, 161 tests) | [Playwright Test](https://playwright.dev) in TypeScript drives the real page in Chromium, against the real Python server running on the saved filings (`tests/e2e_server.py`, started by `playwright.config.ts`): the results guide, the at-a-glance card and tabs (including keyboard navigation and links to a tab), search, a tour of every tab (each opens alone, updates the address and shows its content), charts, red flags, filing-history filters, price-based valuation, bank handling, errors (shown right under the search box, and a wrong ticker never leaves the previous company in the address), disclaimer, phone layout, and no JavaScript errors. `e2e/compare.spec.ts` (15 tests) covers the compare page: the link appearing only after a result, the first stock pre-loaded, loading the second, marks, prices, swap, deep links, same-ticker and unknown-ticker errors, language carry-over and phone width. |
 | **Accessibility** (`e2e/accessibility.spec.ts`, 60 tests) | axe-core (`@axe-core/playwright`) checks against WCAG 2.0/2.1/2.2 A and AA plus best practices, on the landing page, every results tab, the compare page, the disclaimer page, My portfolio, the S&P 500 pages, the Funds page and How we calculate, in light and dark mode, English and Spanish, and desktop and phone width. Keyboard-only checks cover search, the tabs, the At a glance lines and scrolling the wide tables. |
 
@@ -140,9 +141,9 @@ API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat
 | Code | Lines | Branches | Minimum |
 |---|---|---|---|
 | Python backend (`backend/`, `api/`, `server.py`; behave and pytest together, `.coveragerc`) | 94% | 93% combined with lines | 90% |
-| JavaScript logic (`public/js/`, Node's built-in coverage) | 99% | 89% | 95% lines, 85% branches, 95% functions |
+| TypeScript logic (`src/`, Node's built-in coverage, run on the sources directly) | 98% | 90% | 95% lines, 85% branches, 95% functions |
 
-The uncovered Python lines are mostly the code that downloads from SEC, which tests replace with saved filings. The JavaScript figures cover the modules with logic; the files that wire up the pages (`app.js`, `page.js`, `charts.js`, `compare-app.js`, `disclaimer-app.js`) are covered by the Playwright tests in a real browser instead. The Python coverage table also appears in each CI run's summary.
+The uncovered Python lines are mostly the code that downloads from SEC, which tests replace with saved filings. The JavaScript figures cover the modules with logic; the files that wire up the pages (`app.ts`, `page.ts`, `charts.ts`, `compare-app.ts`, `disclaimer-app.ts`) are covered by the Playwright tests in a real browser instead. The Python coverage table also appears in each CI run's summary.
 
 ```bash
 python3 -m venv .venv
@@ -152,10 +153,10 @@ npx playwright install chromium
 
 .venv/bin/behave                 # business-rule scenarios (tests/features), under a second
 .venv/bin/pytest                 # storage, regression and HTTP tests (Python backend), about 2 seconds
-node --test tests/js/*.test.js   # JavaScript unit tests (Node 20+)
+npm test                         # TypeScript unit tests, run by Node 22.18+ directly (no compile step)
 .venv/bin/coverage run -m behave && .venv/bin/pytest --cov --cov-append   # Python coverage of both, as in CI
-npm run test:coverage            # the JavaScript tests with a coverage report (Node 22.8+)
-npm run test:e2e                 # browser and accessibility tests (Playwright, TypeScript), about 30 seconds
+npm run test:coverage            # the same with a coverage report
+npm run test:e2e                 # browser and accessibility tests on the built bundles (Playwright builds first), about 40 seconds
 npm run test:e2e:ui              # the same in Playwright's interactive UI mode
 ```
 
@@ -194,7 +195,7 @@ Live run on 2026-09-30 (`BYPASS_CDN=1`, 7 minutes, peak 15 visitors plus the fir
 
 **Latest report: https://stock-trend-test-report.vercel.app** (updated on every push to `main`)
 
-Every CI run builds an [Allure](https://allurereport.org) report covering all 657 tests, grouped by layer. **Browser tests can be replayed step by step:** each named step (e.g. *open SMCI with price 30 → open the flags tab → press Home → search for KO*) carries a screenshot of the screen at that point, and page loads and tab changes are captured automatically (`step()` and `snap()` in `e2e/fixtures.ts`). **Every browser test also has a video** of the whole run (Playwright's `video` option at 640×360, attached by allure-playwright); with compressed JPEG screenshots the single-file report stays around 30 MB. Failed browser tests also carry a screenshot at the failure and a Playwright trace, and accessibility failures carry the full axe output. (On failure CI also uploads Playwright's own HTML report as the **playwright-report** artifact.)
+Every CI run builds an [Allure](https://allurereport.org) report covering all 659 tests, grouped by layer. **Browser tests can be replayed step by step:** each named step (e.g. *open SMCI with price 30 → open the flags tab → press Home → search for KO*) carries a screenshot of the screen at that point, and page loads and tab changes are captured automatically (`step()` and `snap()` in `e2e/fixtures.ts`). **Every browser test also has a video** of the whole run (Playwright's `video` option at 640×360, attached by allure-playwright); with compressed JPEG screenshots the single-file report stays around 30 MB. Failed browser tests also carry a screenshot at the failure and a Playwright trace, and accessibility failures carry the full axe output. (On failure CI also uploads Playwright's own HTML report as the **playwright-report** artifact.)
 
 - **Finding the screenshots:** open a browser test (groups *4 · End-to-end* and *5 · Accessibility*). Its **Test body** lists only the named steps; expand a step to see its screenshot, or open the test's **Attachments** tab for all of them plus the video. (Playwright's internal calls and assertions are left out with allure-playwright's `detail: false`, so they don't bury the screenshots.)
 - **In GitHub:** open the run under **Actions**. The run summary shows the pass count and links. Download the **allure-report** artifact: it's a single `index.html` that opens in any browser.
@@ -209,14 +210,14 @@ Every CI run builds an [Allure](https://allurereport.org) report covering all 65
 ### Lint and type check
 
 ```bash
-npm run lint        # ESLint: recommended rules plus no-shadow, eqeqeq (null-aware), prefer-const
+npm run lint        # oxlint: correctness rules plus no-shadow, eqeqeq (null-aware), prefer-const, no-var (.oxlintrc.json)
 npm run lint:py     # Ruff lints the Python (pyflakes, pycodestyle, import order, bugbear, pyupgrade); settings in ruff.toml
-npm run typecheck   # TypeScript 7 checks the plain JavaScript (checkJs); no build step, nothing emitted
+npm run typecheck   # TypeScript 7: src/ in full strict mode, the unit tests strict but without null checks, e2e/ strict
 npm run typecheck:py # mypy checks the Python in strict mode (every function typed); settings in mypy.ini
 npm run check       # all four; CI runs this before the tests
 ```
 
-The Python backend is fully type-hinted and checked by mypy. The code stays plain JavaScript: JSDoc hints (`/** @type {...} */`) cover the few places where types aren't obvious, and `types/globals.d.ts` declares the globals loaded by `<script>` tags (Chart.js, Vercel Analytics and Speed Insights).
+The Python backend is fully type-hinted and checked by mypy. The front end is TypeScript with no `any` in the site code: `src/types.ts` describes what each API returns (`Financials`, `Insiders`, `Fund`), so a renamed field fails the type check everywhere it's used, and `types/globals.d.ts` declares the globals from `<script>` tags (Chart.js, Vercel Analytics and Speed Insights) and the phone apps' save-file bridges. The sources use only syntax Node can strip (`erasableSyntaxOnly`, `verbatimModuleSyntax`), so the unit tests run on them with no compile step. The tests' config (`tests/js/tsconfig.json`) leaves out null checks: they compute expected values from test data that's there by construction. The linter is oxlint rather than ESLint because typescript-eslint needs TypeScript's JavaScript API, which TypeScript 7 doesn't have.
 
 To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 tests/make_fixtures.py`. Then update any pinned values that changed.
 
@@ -225,17 +226,20 @@ To refresh the saved filings, run `SEC_USER_AGENT="App you@example.com" python3 
 ```
 public/index.html     results page; public/compare.html the compare page; public/portfolio.html My portfolio;
                       public/sp500.html the S&P 500 picker and public/sp500-view.html its picks; public/funds.html mutual funds & ETFs;
-                      public/methodology.html How we calculate (rules from methodology.js)
+                      public/methodology.html How we calculate (rules from methodology.ts)
 public/data/          industry.json and sp500.json, rebuilt monthly by GitHub Actions (scripts/build_*.py)
 public/styles.css     styles shared by all pages
 public/vendor/        Chart.js 4.4.1 (MIT), served from the site so no third-party request can block the page
-public/js/strings/    en.js and es.js translations (static page text uses data-i18n keys)
-public/js/            ES modules: app.js and compare-app.js wire the two pages (page.js holds
-                      what they share; compare.js builds the comparison); flags.js (red-flag rules),
-                      valuation.js (Graham/Buffett/Lynch), growth.js, history.js, views.js and
-                      charts.js; portfolio.js (the portfolio's measures), stock-table.js (the table
-                      shared by My portfolio and the S&P 500 picks), sp500.js (the picker's rules) and
-                      their page scripts (portfolio-app.js, sp500-app.js, sp500-view-app.js); funds.js (the fund measures and comparison) and funds-app.js (the Funds page); format.js, series.js and labels.js hold shared helpers
+src/strings/          en.ts and es.ts translations (static page text uses data-i18n keys)
+src/                  TypeScript: app.ts and compare-app.ts wire the two pages (page.ts holds what they share;
+                      compare.ts builds the comparison); types.ts (the API's data shapes); flags.ts (red-flag rules),
+                      valuation.ts (Graham/Buffett/Lynch/Piotroski), durable.ts, growth.ts, history.ts, views.ts and
+                      charts.ts; portfolio.ts (the portfolio's measures), stock-table.ts (the table shared by My
+                      portfolio and the S&P 500 picks), sp500.ts (the picker's rules) and their page scripts
+                      (portfolio-app.ts, sp500-app.ts, sp500-view-app.ts); funds.ts and funds-app.ts (the Funds page);
+                      format.ts, series.ts, html.ts and labels.ts hold shared helpers
+public/js/            built by scripts/build.mjs (esbuild), not committed: one file per page under the name its
+                      <script> loads (js/app.js…), shared code in hashed chunks/, source maps alongside
 public/favicon.svg    icon; public/og.png is the link-preview image
 api/financials.py     Vercel serverless function: GET /api/financials?ticker=AAPL (the main results)
 api/insiders.py       Vercel serverless function: GET /api/insiders?ticker=AAPL (insider trades, when the Insiders tab opens)
@@ -250,7 +254,8 @@ server.py             local development server (same API, serves public/)
 vercel.json           function settings and security headers
 tests/                unit, regression and HTTP tests (pytest) + saved SEC fixtures + tests/e2e_server.py
 e2e/                  Playwright Test browser and accessibility tests (TypeScript); playwright.config.ts at the root
-tsconfig.json, eslint.config.js, types/   type checking and lint settings (not deployed)
+tsconfig.json, tests/js/tsconfig.json, .oxlintrc.json, types/   type checking and lint settings (not deployed)
+scripts/build.mjs     the esbuild build (`npm run build`), run by Vercel on deploy and before the browser tests
 .github/workflows/    tests.yml runs the checks and tests on every push; health.yml checks the live site every 6 hours;
                       industry.yml rebuilds public/data/industry.json monthly
 .github/dependabot.yml  weekly grouped update pull requests for Python, npm and GitHub Actions dependencies
@@ -268,7 +273,7 @@ Browser (public/index.html) ──/api/financials?ticker=KO──▶ api/financi
 ```
 
 - **`backend/stock_data.py`** (used by `server.py` locally and `api/financials.py` on Vercel) maps the ticker to a CIK and downloads the XBRL *company facts*. For each metric it keeps only full-year values from annual reports and prefers the latest (restated) filing. It falls back through alternative XBRL tags, since companies label revenue and similar items differently. Responses are cached in memory and on the CDN. A small backend is needed because SEC's API doesn't allow direct browser (CORS) requests. The response also carries `latestReport` (the newest 10-K, 10-Q, 20-F or 40-F with its filing date and link), which the [Android app](https://github.com/dipak-nehe/stock-value-android) compares between checks to send "new report filed" alerts.
-- **`public/js/`** holds plain-JavaScript ES modules with no build step. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node. Only `app.js`, `compare-app.js`, `page.js` and `charts.js` touch the page.
+- **`src/`** holds the front end in TypeScript. The analysis modules are pure functions (data in, results or HTML out), so they're unit-tested in Node; only the `*-app.ts` page scripts, `page.ts` and `charts.ts` touch the page. **esbuild** bundles each page's entry into one minified ES module in `public/js/` (same file name, so the HTML didn't change) and puts code shared by several pages into hashed chunks the browser caches once. On a throttled phone connection (150 ms, ~1.6 Mbit/s) the start page went from 25 script files (280 KB) to 8 (217 KB) and became usable about 0.4 s sooner (3.1 s → 2.7 s); the Funds page from 14 files to 6 (1.8 s → 1.5 s).
 
 ## Limitations
 

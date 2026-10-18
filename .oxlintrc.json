@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  // Lints the TypeScript sources and tests and the remaining JavaScript (k6 load scripts, configs): `npm run lint`.
+  // oxlint, not ESLint: typescript-eslint needs TypeScript's JavaScript API, which TypeScript 7 doesn't have.
+  "categories": { "correctness": "error" },
+  "rules": {
+    // A local variable named like an import hid the translate function once ("t is not a function").
+    "no-shadow": ["error", { "hoist": "functions" }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "eqeqeq": ["error", "always", { "null": "ignore" }],   // `x == null` deliberately covers undefined too
+    "prefer-const": "error",
+    "no-var": "error"
+  },
+  "env": { "browser": true, "es2022": true },
+  "overrides": [
+    {
+      // k6 load scripts run in k6's own JavaScript runtime, which provides __ENV and __VU.
+      "files": ["load/**/*.js"],
+      "globals": { "__ENV": "readonly", "__VU": "readonly", "__ITER": "readonly" }
+    },
+    { "files": ["tests/**", "scripts/**", "*.js", "*.mjs", "*.ts"], "env": { "node": true } }
+  ],
+  "ignorePatterns": ["public/vendor/**", "public/js/**", "node_modules/**", "allure-report/**", "allure-results/**", ".venv/**",
+                     "test-results/**", "playwright-report/**", "load/report.html"]
+}

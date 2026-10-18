@@ -36,6 +36,10 @@ jobs:
       - name: Lint and type check
         run: npm run check
 
+      # The TypeScript in src/ bundled into public/js, as Vercel does on deploy (the browser tests build it again)
+      - name: Build the page scripts
+        run: npm run build
+
       # Each test step runs even if an earlier one failed, so the report always covers every layer.
       - name: JavaScript unit tests
         run: npm run test:js:allure

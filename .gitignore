@@ -14,3 +14,6 @@ playwright-report/
 load/report.html
 load/summary.txt
 load/ui-report.html
+
+# Built by `npm run build` from src/ (and by Vercel on deploy): never committed
+public/js/

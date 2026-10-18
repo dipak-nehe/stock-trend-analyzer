@@ -13,4 +13,8 @@ interface Window {
   /** Vercel Speed Insights command queue. */
   si?: (...args: unknown[]) => void;
   siq?: unknown[][];
+  /** The Android app's bridge (stock-value-mobile): saves a file through the phone's share sheet. */
+  StockValueAndroid?: { saveFile(name: string, text: string): void };
+  /** The iOS app's bridge (WKWebView message handler), for the same. */
+  webkit?: { messageHandlers?: { saveFile?: { postMessage(message: { name: string; text: string }): void } } };
 }

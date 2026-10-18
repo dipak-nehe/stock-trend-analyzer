@@ -1,0 +1,8 @@
+{
+  // The unit tests: as strict as the sources (no implicit any, no unused names), except null checks. Tests compute
+  // their expected values from test data they built, which is there by construction; null-proofing every one of
+  // those lines would add noise and no safety. The sources (../../tsconfig.json) keep full null checks.
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "strictNullChecks": false },
+  "include": ["./**/*.ts", "./**/*.mjs", "../../src/**/*.ts", "../../types/**/*.d.ts"]
+}

@@ -40,7 +40,7 @@ CACHE_NONE = "no-store"
 
 
 # ---------- stored results (see store.py) ----------
-# Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in public/js/page.js),
+# Bump CACHE_VERSION whenever the response format changes (together with API_VERSION in src/page.ts),
 # so stored entries in the old format are simply ignored.
 CACHE_VERSION = "v16"
 FRESH_SECONDS = 24 * 3600          # serve a stored result without asking SEC at all for this long

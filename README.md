@@ -116,6 +116,7 @@ To use a different port, run `PORT=8001 python3 server.py`.
 2. Leave the framework preset as **Other**: `vercel.json` sets the build (`npm ci --omit=dev`, which installs only esbuild, then `npm run build`).
 3. Under **Environment Variables**, add `SEC_USER_AGENT` = `StockTrendAnalyzer your-email@example.com`.
 4. Click **Deploy**. Every push to `main` redeploys automatically.
+5. Leave **Settings → Deployment Checks** empty. Vercel's own *Lint* and *Typecheck* checks fail here (the deploy installs only esbuild, not the test tools), and a failed check stops a deployment going live until it's promoted by hand. GitHub Actions already runs lint, type checks and every test on each push.
 
 API responses are cached on Vercel's CDN for a day (`s-maxage=86400`), so repeat lookups never reach SEC.
 

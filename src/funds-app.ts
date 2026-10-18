@@ -5,8 +5,9 @@ import { $, $$, applyStaticText, bindSlashShortcut, enableWhenFilled, errorText,
 import { EXAMPLES, MAX_FUNDS, benchmark, breakdownRows, compareRows, dollars, holdingRows, indexName, overlapPairs, parseFunds, reportDate } from "./funds.ts";
 import { esc, langQuery } from "./stock-table.ts";
 import { pct } from "./format.ts";
-import { setLang, t } from "./i18n.ts";
+import { getLang, setLang, t } from "./i18n.ts";
 import type { ChartPoint, Fund } from "./types.ts";
+import { shareHtml, siteUrl } from "./share.ts";
 
 type Shown = { ticker: string; status: "loading" | "ok" | "error"; data?: Fund; error?: string };
 let funds: Shown[] = [];
@@ -177,7 +178,11 @@ function render() {
   drawChips();
   const shown = funds.flatMap((f) => (f.status === "ok" && f.data ? [f.data] : []));
   $("fundResult").hidden = !shown.length;
-  if (shown.length) { drawTable(shown); drawOverlap(shown); drawGrowth(shown); drawTop(shown); drawMix(shown); }
+  if (shown.length) {
+    const list = shown.map((d) => d.ticker).join(", ");
+    $("fundShare").innerHTML = shareHtml({ url: siteUrl(`/funds.html?f=${shown.map((d) => encodeURIComponent(d.ticker)).join(",")}`, getLang()),
+      text: t("share.funds", { list }), subject: t("share.subject", { what: list }) });
+    drawTable(shown); drawOverlap(shown); drawGrowth(shown); drawTop(shown); drawMix(shown); }
   $("fundAdd").toggleAttribute("disabled", !$<HTMLInputElement>("fundInput").value.trim() || funds.length >= MAX_FUNDS);
   updateUrl();
 }

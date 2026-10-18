@@ -596,3 +596,8 @@
 .fund-key::before { content: ""; display: inline-block; width: 14px; height: 0; border-top: 2px solid var(--accent); vertical-align: middle; margin-right: 6px; }
 .fund-key.index::before { border-top: 2px dashed var(--text-2); }
 .fund-key-note { flex-basis: 100%; }
+
+/* Share: LinkedIn · X · Gmail (src/share.ts) */
+.share { margin-top: 10px; font-size: 14px; }
+.share a { font-weight: 600; }
+#cmpShare .share, #fundShare .share { margin: 0 0 12px; }

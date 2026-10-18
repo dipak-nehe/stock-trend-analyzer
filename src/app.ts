@@ -24,6 +24,7 @@ import type { Financials, Insiders } from "./types.ts";
 /** The company on screen; insider trades are added once their tab has loaded them. */
 type Company = Financials & { insiders?: Insiders | null; insidersState?: "loading" | "done" | "error" };
 import { bindSuggest } from "./suggest.ts";
+import { shareHtml, siteUrl } from "./share.ts";
 
 let current: { data: Company; result: Analysis } | null = null;
 let failed: string | null = null;   // the ticker of a lookup that failed (its error is showing), so the address and language keep it
@@ -43,6 +44,8 @@ function render(d: Company) {
     + t("company.meta", { from: d.years[0], to: d.years[d.years.length - 1], cur, cik: d.cik });
   $<HTMLAnchorElement>("secLink").href = d.secUrl ?? "";
   $<HTMLAnchorElement>("newsLink").href = newsUrl(d.ticker);
+  const what = t("share.company", { name: d.name, ticker: d.ticker });
+  $("shareRow").innerHTML = shareHtml({ url: siteUrl(`/stock/${encodeURIComponent(d.ticker)}`, getLang()), text: what, subject: t("share.subject", { what: `${d.name} (${d.ticker})` }) });
   $<HTMLAnchorElement>("compareLink").href = compareHref(d.ticker);
   $<HTMLAnchorElement>("portfolioAddLink").href = portfolioHref(d.ticker);
   // When the data was fetched from SEC (results are stored and reused for up to a day)

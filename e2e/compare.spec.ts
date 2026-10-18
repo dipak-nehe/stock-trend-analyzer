@@ -130,6 +130,12 @@ test.describe('prices and links', () => {
     await expect(compare.figureRow('Price to book').getByRole('cell').first()).not.toHaveText('add a price');
   });
 
+  test('the comparison can be shared on LinkedIn, X and Gmail', async ({ compare, page }) => {
+    await compare.goto('a=KO&b=AAPL');
+    await expect(page.getByTestId('share-x')).toHaveAttribute('href', /text=KO%20vs%20AAPL%3A%2010%20years.*&url=.*%2Fcompare\.html%3Fa%3DKO%26b%3DAAPL$/);
+    await expect(page.getByTestId('share-gmail')).toHaveAttribute('href', /su=Stock%20Value%20Analysis%3A%20KO%20vs%20AAPL/);
+  });
+
   test('swap switches sides and prices', async ({ compare, page }) => {
     await compare.goto('a=KO&b=AAPL&pa=60');
     await compare.step('swap the two sides', async () => {

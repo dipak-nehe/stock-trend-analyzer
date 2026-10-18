@@ -1130,6 +1130,19 @@ test.describe('page basics: layout, privacy and data freshness', () => {
     }
   });
 
+  test('share links for LinkedIn, X and Gmail open the networks\' own share pages with the company page', async ({ analysis, page }) => {
+    await analysis.open('KO');
+    const share = page.getByTestId('share');
+    const company = encodeURIComponent(new URL('/stock/KO', page.url()).toString());
+    await expect(share.getByTestId('share-linkedin')).toHaveAttribute('href', `https://www.linkedin.com/sharing/share-offsite/?url=${company}`);
+    await expect(share.getByTestId('share-x')).toHaveAttribute('href', new RegExp(`^https://x\\.com/intent/tweet\\?text=10%20years%20of%20COCA%20COLA%20CO%20\\(KO\\).*&url=${company.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`));
+    await expect(share.getByTestId('share-gmail')).toHaveAttribute('href', /^https:\/\/mail\.google\.com\/mail\/\?view=cm&fs=1&su=Stock%20Value%20Analysis%3A%20COCA%20COLA%20CO%20\(KO\)/);
+    for (const id of ['share-linkedin', 'share-x', 'share-gmail']) await expect(share.getByTestId(id)).toHaveAttribute('target', '_blank');
+    await analysis.step('switch to Spanish', () => analysis.goto('/?t=KO&lang=es'));
+    await expect(page.getByTestId('share')).toContainText('Compartir:');
+    await expect(page.getByTestId('share-linkedin')).toHaveAttribute('href', /%2Fstock%2FKO%3Flang%3Des$/);
+  });
+
   test('a news link opens Google News for the stock in a new tab, in the page\'s language', async ({ analysis }) => {
     await analysis.open('KO');
     await expect(analysis.newsLink).toHaveText('Latest news on Google News ↗');

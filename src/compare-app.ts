@@ -10,6 +10,7 @@ import { esc } from "./html.ts";
 import type { Financials } from "./types.ts";
 import type { Prepared } from "./compare.ts";
 import type { GlanceRow } from "./views.ts";
+import { shareHtml, siteUrl } from "./share.ts";
 
 /** API responses for the two slots */
 const state: { a: Financials | null; b: Financials | null } = { a: null, b: null };
@@ -56,6 +57,8 @@ function render() {
 
   const A = prepare(a, price("a")), B = prepare(b, price("b"));
   document.title = t("cmp.app.title", { a: a.ticker, b: b.ticker });
+  $("cmpShare").innerHTML = shareHtml({ url: siteUrl(`/compare.html?a=${encodeURIComponent(a.ticker)}&b=${encodeURIComponent(b.ticker)}`, getLang()),
+    text: t("share.compare", { a: a.ticker, b: b.ticker }), subject: t("share.subject", { what: `${a.ticker} vs ${b.ticker}` }) });
   const head = `<thead><tr><th scope="col">${t("cmp.app.measure")}</th><th scope="col">${esc(a.ticker)}</th><th scope="col">${esc(b.ticker)}</th></tr></thead>`;
 
   $("cmpCaveats").innerHTML = caveats(a, b).map((n) => `<p class="stale-note">${esc(n)}</p>`).join("");

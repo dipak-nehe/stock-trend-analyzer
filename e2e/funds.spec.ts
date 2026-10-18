@@ -61,6 +61,7 @@ test.describe('comparing funds', () => {
     await expect(funds.row('netAssets').locator('td.fav')).toHaveCount(0);   // size isn't better or worse
     await expect(funds.cell('top10', 1)).toHaveText('41% in the top 10');
     await expect(funds.cell('vsIndex10', 1)).toHaveText(/vs the broad market index, 10 years/);   // Fidelity doesn't name it
+    await expect(page.getByTestId('share-x')).toHaveAttribute('href', /text=VOO%2C%20FXAIX%2C%20AGTHX%2C%20BND%3A%20costs.*&url=.*%2Ffunds\.html%3Ff%3DVOO%2CFXAIX%2CAGTHX%2CBND$/);
     await expect(funds.caveat).toHaveText(/different dates \(VOO Dec 31, 2025, FXAIX Feb 28, 2026, AGTHX Aug 31, 2025, BND Dec 31, 2025\)/);
     await expect(funds.mixCards.nth(3)).toContainText('BND by investment type');
     await expect(funds.addButton).toBeDisabled();

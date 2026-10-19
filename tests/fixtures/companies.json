@@ -1,0 +1,101 @@
+{
+ "generated": "2026-10-18",
+ "source": "SEC EDGAR: company tickers, Financial Statement Data Sets, SIC code list",
+ "count": 14,
+ "industries": {
+  "2080": "Beverages",
+  "2086": "Bottled & Canned Soft Drinks & Carbonated Waters",
+  "3571": "Electronic Computers",
+  "3674": "Semiconductors & Related Devices",
+  "5990": "Retail-Retail Stores, NEC",
+  "6021": "National Commercial Banks",
+  "6331": "Fire, Marine & Casualty Insurance",
+  "7372": "Services-Prepackaged Software"
+ },
+ "companies": [
+  [
+   "FLWS",
+   "1 800 FLOWERS COM INC",
+   "Nasdaq",
+   "5990"
+  ],
+  [
+   "AAPL",
+   "Apple Inc.",
+   "Nasdaq",
+   "3571"
+  ],
+  [
+   "BRK-B",
+   "BERKSHIRE HATHAWAY INC",
+   "NYSE",
+   "6331"
+  ],
+  [
+   "KO",
+   "COCA COLA CO",
+   "NYSE",
+   "2080"
+  ],
+  [
+   "COCSF",
+   "COCA COLA FEMSA SAB DE CV",
+   "OTC",
+   "2086"
+  ],
+  [
+   "KOF",
+   "COCA COLA FEMSA SAB DE CV",
+   "NYSE",
+   "2086"
+  ],
+  [
+   "COKE",
+   "Coca-Cola Consolidated, Inc.",
+   "Nasdaq",
+   "2086"
+  ],
+  [
+   "INTC",
+   "INTEL CORP",
+   "Nasdaq",
+   "3674"
+  ],
+  [
+   "JPM",
+   "JPMORGAN CHASE & CO",
+   "NYSE",
+   "6021"
+  ],
+  [
+   "MSFT",
+   "MICROSOFT CORP",
+   "Nasdaq",
+   "7372"
+  ],
+  [
+   "PEP",
+   "PEPSICO INC",
+   "Nasdaq",
+   "2080"
+  ],
+  [
+   "SMCI",
+   "Super Micro Computer, Inc.",
+   "Nasdaq",
+   "3571"
+  ],
+  [
+   "OWSCX",
+   "1WS Credit Income Fund",
+   "other",
+   ""
+  ],
+  [
+   "TKDG",
+   "3KNIGHTS DYNAMICS GROUP Ltd",
+   "other",
+   ""
+  ]
+ ]
+}

@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://stock-value-analysis.vercel.app/</loc></url>
   <url><loc>https://stock-value-analysis.vercel.app/sp500.html</loc></url>
+  <url><loc>https://stock-value-analysis.vercel.app/companies.html</loc></url>
   <url><loc>https://stock-value-analysis.vercel.app/portfolio.html</loc></url>
   <url><loc>https://stock-value-analysis.vercel.app/compare.html</loc></url>
   <url><loc>https://stock-value-analysis.vercel.app/funds.html</loc></url>

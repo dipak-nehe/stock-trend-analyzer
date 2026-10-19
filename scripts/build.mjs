@@ -6,7 +6,7 @@
 import { build, context } from "esbuild";
 import { rmSync } from "node:fs";
 
-const ENTRIES = ["app", "compare-app", "disclaimer-app", "funds-app", "methodology-app", "portfolio-app", "sp500-app", "sp500-view-app"];
+const ENTRIES = ["app", "companies-app", "compare-app", "disclaimer-app", "funds-app", "methodology-app", "portfolio-app", "sp500-app", "sp500-view-app"];
 const OUT = "public/js";
 
 const options = {

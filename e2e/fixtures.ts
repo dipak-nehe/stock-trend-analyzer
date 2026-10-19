@@ -4,6 +4,7 @@ import { basename } from 'node:path';
 import { test as base, expect, type Page } from '@playwright/test';
 import { parentSuite } from 'allure-js-commons';
 import { AnalysisPage } from './pages/AnalysisPage';
+import { CompaniesPage } from './pages/CompaniesPage';
 import { ComparePage } from './pages/ComparePage';
 import { DisclaimerPage } from './pages/DisclaimerPage';
 import { FundsPage } from './pages/FundsPage';
@@ -15,6 +16,8 @@ import { Sp500ViewPage } from './pages/Sp500ViewPage';
 type Fixtures = {
   /** The start and results page (index.html). */
   analysis: AnalysisPage;
+  /** All companies (companies.html). */
+  companies: CompaniesPage;
   /** The compare page (compare.html). */
   compare: ComparePage;
   /** The disclaimer page (disclaimer.html). */
@@ -40,6 +43,9 @@ type Fixtures = {
 export const test = base.extend<Fixtures>({
   analysis: async ({ page }, use) => {
     await use(new AnalysisPage(page));
+  },
+  companies: async ({ page }, use) => {
+    await use(new CompaniesPage(page));
   },
   compare: async ({ page }, use) => {
     await use(new ComparePage(page));

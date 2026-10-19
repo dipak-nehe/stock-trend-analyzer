@@ -231,6 +231,24 @@ test.describe('axe: S&P 500 pages', () => {
   });
 });
 
+test.describe('axe: All companies', () => {
+  for (const lang of ['en', 'es'] as const) {
+    for (const scheme of SCHEMES) {
+      test(`All companies, filtered and sorted (${lang}, ${scheme})`, async ({ companies, page }, testInfo) => {
+        await prepare(page, 1100, scheme);
+        await companies.goto(`ind=2086&sort=-ticker${lang === 'es' ? '&lang=es' : ''}`);
+        expect(await violations(companies, testInfo)).toEqual([]);
+      });
+    }
+  }
+
+  test('All companies at phone width', async ({ companies, page }, testInfo) => {
+    await prepare(page, 375);
+    await companies.goto('q=coca');
+    expect(await violations(companies, testInfo)).toEqual([]);
+  });
+});
+
 test.describe('axe: Funds page', () => {
   for (const lang of ['en', 'es'] as const) {
     for (const scheme of SCHEMES) {

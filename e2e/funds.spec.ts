@@ -131,14 +131,15 @@ test.describe('errors', () => {
 });
 
 test.describe('navigation', () => {
-  test('every page links to Funds next to S&P 500, keeping the language', async ({ page }) => {
-    for (const path of ['/', '/compare.html', '/portfolio.html', '/sp500.html', '/sp500-view.html', '/disclaimer.html', '/funds.html', '/?lang=es']) {
+  test('every page links to All companies and Funds after S&P 500, keeping the language', async ({ page }) => {
+    for (const path of ['/', '/compare.html', '/portfolio.html', '/sp500.html', '/sp500-view.html', '/disclaimer.html', '/funds.html', '/companies.html', '/?lang=es']) {
       await page.goto(path);
       const nav = page.locator('.top-actions a.nav-btn');
       const labels = await nav.allInnerTexts();
       const sp = labels.findIndex((l) => l.includes('S&P 500'));
-      expect(labels[sp + 1]).toMatch(/^(Funds & ETFs|Fondos y ETF)$/);
+      expect(labels.slice(sp + 1, sp + 3)).toEqual(path.includes('lang=es') ? ['Todas las empresas', 'Fondos y ETF'] : ['All companies', 'Funds & ETFs']);
       await expect(page.locator('a[data-funds-link]')).toHaveAttribute('href', path.includes('lang=es') ? 'funds.html?lang=es' : 'funds.html');
+      await expect(page.locator('a[data-companies-link]')).toHaveAttribute('href', path.includes('lang=es') ? 'companies.html?lang=es' : 'companies.html');
     }
   });
 });

@@ -22,6 +22,7 @@ on:
           - portfolio        # e2e/portfolio.spec.ts: My portfolio
           - sp500            # e2e/sp500.spec.ts: the S&P 500 picker and picks
           - funds            # e2e/funds.spec.ts: mutual funds & ETFs
+          - companies        # e2e/companies.spec.ts: All companies
           - methodology      # e2e/methodology.spec.ts: How we calculate
           - accessibility    # e2e/accessibility.spec.ts: axe-core and keyboard checks
         default: all
@@ -88,6 +89,7 @@ jobs:
             portfolio) args="e2e/portfolio.spec.ts" ;;
             sp500) args="e2e/sp500.spec.ts" ;;
             funds) args="e2e/funds.spec.ts" ;;
+            companies) args="e2e/companies.spec.ts" ;;
             methodology) args="e2e/methodology.spec.ts" ;;
             accessibility) args="e2e/accessibility.spec.ts" ;;
           esac

@@ -447,6 +447,11 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('guide-hide');
   }
 
+  /** The start page's three facts under the intro ("Free, no sign-up", ...). */
+  get trust(): Locator {
+    return this.page.getByTestId('trust').getByRole('listitem');
+  }
+
   get guideTitle(): Locator {
     return this.page.getByTestId('guide-title');
   }

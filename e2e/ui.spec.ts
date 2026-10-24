@@ -254,17 +254,27 @@ test.describe('wrong tickers and errors', () => {
 });
 
 test.describe('results guide', () => {
-  test('guide starts collapsed, with a gently pulsing "Show guide", and explains the results', async ({ analysis }) => {
+  test('the start page shows what you get: the guide starts open and can be folded away', async ({ analysis }) => {
     await analysis.goto('/');
-    await expect(analysis.guide).not.toHaveAttribute('open', '');
-    await expect(analysis.guideShowText).toHaveText('Show guide');
-    expect(await analysis.guideToggle.locator('.guide-toggle').evaluate((el) => getComputedStyle(el).animationName)).toBe('guide-pulse');
-    await analysis.step('open the guide', () => analysis.guideToggle.click());
     await expect(analysis.guide).toHaveAttribute('open', '');
     // the guide's cards are named after the tabs, so the guide maps directly onto the results
     await expect(analysis.guideCardTitles).toHaveText(
       ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Buffett & Graham-style analysis', 'Durable advantage', 'Charts', 'Data']);
     await expect(analysis.guideCardArrows.first()).toBeVisible();
+    await analysis.step('fold the guide', () => analysis.guideToggle.click());
+    await expect(analysis.guide).not.toHaveAttribute('open', '');
+    await expect(analysis.guideShowText).toHaveText('Show guide');
+  });
+
+  test('the start page has a big title and a trust line; the results get a normal title and no trust line', async ({ analysis }) => {
+    await analysis.goto('/');
+    await expect(analysis.trust).toHaveText(['Free, no sign-up', 'Straight from SEC filings', 'In English and Spanish']);
+    const titleSize = () => analysis.page.locator('h1').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(await titleSize()).toBeGreaterThan(36);
+    await analysis.search('KO');
+    await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
+    await expect(analysis.trust.first()).toBeHidden();
+    expect(await titleSize()).toBeLessThanOrEqual(26);
   });
 
   test('guide collapses after a search and can be reopened', async ({ analysis }) => {
@@ -279,7 +289,6 @@ test.describe('results guide', () => {
 
   test('guide card before a search shows an example on that tab', async ({ analysis, page }) => {
     await analysis.goto('/');
-    await analysis.step('open the guide', () => analysis.guideToggle.click());
     await analysis.step('click the "Red flags" guide card', async () => {
       await analysis.guideCard('flags').click();
       await expect(analysis.companyName).toHaveText('Apple Inc. (AAPL)');

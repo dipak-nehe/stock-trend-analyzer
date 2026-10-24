@@ -246,15 +246,7 @@
   .guide .when-open, .guide[open] .when-closed { display: none; }
   .guide[open] .when-open { display: inline; }
   .guide[open] summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  /* the guide starts collapsed: on the start page "Show guide" pulses gently three times so it gets noticed, then stops
-     (no endless flashing, and none at all for people who turn motion off) */
-  .guide:not([open]):not(.has-results) .guide-toggle { animation: guide-pulse 1.6s ease-out .8s 3; }
-  @keyframes guide-pulse {
-    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
-    70% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 0%, transparent); }
-    100% { box-shadow: 0 0 0 0 transparent; }
-  }
-  @media (prefers-reduced-motion: reduce) { .guide-toggle svg, .guide { transition: none; } .guide-toggle { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .guide-toggle svg, .guide, .guide-item { transition: none; } .guide-item:hover, .guide-item:focus-visible { transform: none; } }
   .guide-intro { margin: 0 18px 10px; color: var(--text-2); font-size: 14px; }
   .guide-try { color: var(--accent); font-weight: 600; }
   .guide.has-results .guide-try { display: none; }
@@ -366,6 +358,29 @@
   .disclaimer { margin: 24px 0 0; padding: 10px 14px; font-size: 13px; color: var(--text-2); border-left: 3px solid var(--warning); background: var(--surface); border-radius: 0 8px 8px 0; }
   /* start-page quote of the day */
   .quotes { margin: 16px 0; }
+
+/* ---------- start page (no company shown yet) ----------
+   One clear first screen: a big title, the promise, three facts people want before trying a free tool, and the search.
+   Below it, what you get (the guide's cards, open), then the quote as a closing note. Even 28px gaps between sections.
+   After a search the results take over: normal-size title, no trust line. */
+  main:has(#result.hidden) .top h1 { font-size: clamp(26px, 4vw + 14px, 42px); line-height: 1.1; letter-spacing: -0.025em; }
+  main:has(#result.hidden) .sub { font-size: 17px; max-width: 72ch; margin: 10px 0 12px; }
+  /* phones: the eight cards as a compact two-column grid (icon over title); the whole card is the link */
+  @media (max-width: 640px) {
+    main:has(#result.hidden) .guide-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px 4px; }
+    main:has(#result.hidden) .guide-item { grid-template-columns: 1fr; gap: 8px; padding: 12px; }
+    main:has(#result.hidden) .gi-icon { width: 32px; height: 32px; }
+    main:has(#result.hidden) .gi-text { font-size: 13px; }
+    main:has(#result.hidden) .gi-go { display: none; }
+    main:has(#result.hidden) .guide-intro { margin: 0 12px 10px; }
+  }
+  .trust { display: flex; flex-wrap: wrap; gap: 6px 20px; list-style: none; margin: 0 0 24px; padding: 0; font-size: 14px; color: var(--text-2); }
+  .trust li { display: inline-flex; align-items: center; gap: 6px; }
+  .trust svg { flex: none; width: 16px; height: 16px; color: var(--good-text); }
+  main:has(#result:not(.hidden)) .trust { display: none; }
+  main:has(#result.hidden) .search { padding: 22px; }
+  main:has(#result.hidden) .guide { margin-top: 28px; }
+  main:has(#result.hidden) .quotes { margin: 28px 0 8px; }
   .quotes-title { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
   .quote { margin: 0; padding: 12px 16px; border-left: 3px solid var(--quote); }
   .quote blockquote { margin: 0; font-size: 16px; line-height: 1.45; font-style: italic; font-weight: 500; color: var(--quote); }

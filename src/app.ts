@@ -224,7 +224,6 @@ async function run(ticker: string) {
   if (!ticker) return;
   $("searchHint").hidden = true;
   $<HTMLInputElement>("ticker").value = ticker;
-  $("homeBtn").hidden = false;  // after any lookup (result or error) Home leads back to the start page
   $("error").classList.add("hidden");
   $("loading").classList.remove("hidden");
   $<HTMLButtonElement>("go").disabled = true;

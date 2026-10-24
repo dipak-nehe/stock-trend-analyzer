@@ -433,15 +433,14 @@
     .cmp-price { min-width: 0; }
   }
 
-/* ---------- header: home button ---------- */
+/* ---------- header: main menu ---------- */
   .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-start; row-gap: 8px; }
   .top-actions .lang-switch { margin-left: auto; }
-  .home-btn, .nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+  .nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
               color: var(--text-2); font-size: 13px; font-weight: 700; text-decoration: none; }
-  .home-btn[hidden] { display: none; }  /* on the start page Home would only reload it */
-  .home-btn svg, .nav-btn svg { width: 16px; height: 16px; }
-  .home-btn:hover, .nav-btn:hover { color: var(--accent); border-color: var(--accent); }
-  .home-btn:focus-visible, .nav-btn:focus-visible, .home-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .nav-btn svg { width: 16px; height: 16px; }
+  .nav-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .nav-btn:focus-visible, .home-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- My portfolio (portfolio.html) ---------- */
 .page-title { margin: 4px 0 0; font-size: 22px; }
@@ -477,7 +476,7 @@
 @media (max-width: 640px) {
   .top-actions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 4px 4px 12px; margin: -4px -4px 0; }
   .top-actions::-webkit-scrollbar { display: none; }
-  .home-btn, .nav-btn { flex: none; white-space: nowrap; }
+  .nav-btn { flex: none; white-space: nowrap; }
   .top-actions .lang-switch { position: sticky; right: 0; flex: none; box-shadow: 8px 0 0 0 var(--page), -14px 0 10px -4px var(--page); }
 }
 

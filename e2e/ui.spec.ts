@@ -949,7 +949,7 @@ test.describe('Spanish and language choice', () => {
       await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
       await analysis.step('footer: disclaimer', () => analysis.footerDisclaimerLink.click());
       await expect(disclaimer.heading).toHaveText('Aviso sobre riesgos de inversión');
-      await disclaimer.step('Home', () => disclaimer.homeButton.click());
+      await disclaimer.step('Stocks', () => disclaimer.stocksLink.click());
       await expect(analysis.searchLabel).toHaveText('Busca una empresa por nombre o ticker');
       // A new visit with no ?lang in the address, on each page.
       for (const path of ['/', '/compare.html', '/disclaimer.html']) {
@@ -993,41 +993,49 @@ test.describe('Spanish and language choice', () => {
   });
 });
 
-test.describe('Home button', () => {
-  test('Home button returns to a fresh landing page', async ({ analysis, page, consoleErrors }) => {
+test.describe('main menu', () => {
+  test('Stocks returns to a fresh start page', async ({ analysis, page, consoleErrors }) => {
     await analysis.open('SMCI', 30);
     await analysis.openTab('flags');
-    await analysis.step('press Home', async () => {
-      await analysis.homeButton.click();
+    await analysis.step('press Stocks', async () => {
+      await analysis.stocksLink.click();
       await expect(page).toHaveURL(url('/'));
     });
     await expect(analysis.result).toBeHidden();
     await expect(analysis.searchBox).toHaveValue('');
     await expect(analysis.price).toHaveValue('');
     await expect(page).toHaveTitle('10-Year Stock Value Analysis');
-    await expect(analysis.homeButton).toBeHidden(); // nothing to go back from on the start page
     // and a new search works normally from there
     await analysis.search('KO');
     await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)');
     expect(consoleErrors).toEqual([]);
   });
 
-  test('Home keeps the language', async ({ analysis, page }) => {
+  test('Stocks keeps the language', async ({ analysis, page }) => {
     await analysis.goto('/?t=KO&lang=es');
     await analysis.result.waitFor({ state: 'visible' });
-    await expect(analysis.homeButton).toHaveText('Inicio');
-    await analysis.step('press Inicio (Home)', () => analysis.homeButton.click());
+    await expect(analysis.stocksLink).toHaveText('Acciones');
+    await analysis.step('press Acciones (Stocks)', () => analysis.stocksLink.click());
     await expect(page).toHaveURL(url('/?lang=es'));
     await expect(analysis.result).toBeHidden();
     await expect(analysis.analyzeButton).toHaveText('Analizar');
   });
 
-  test('Home button appears only after a lookup', async ({ analysis }) => {
-    await analysis.goto('/');
-    await expect(analysis.homeButton).toBeHidden();
-    await analysis.search('ZZZZQ');
-    await expect(analysis.error).toBeVisible();
-    await expect(analysis.homeButton).toBeVisible(); // an error also counts: Home clears it
+  const MENU = ['Stocks', 'Compare', 'S&P 500', 'All companies', 'Funds & ETFs', 'My portfolio'];
+  for (const [path, current] of [['/', 'Stocks'], ['/compare.html', 'Compare'], ['/sp500.html', 'S&P 500'],
+    ['/companies.html', 'All companies'], ['/funds.html', 'Funds & ETFs'], ['/portfolio.html', 'My portfolio'], ['/disclaimer.html', null]] as const) {
+    test(`${path}: the same menu in task order, with ${current ?? 'no item'} marked as the current page`, async ({ analysis }) => {
+      await analysis.goto(path);
+      await expect(analysis.menuLinks).toHaveText(MENU);
+      if (current) await expect(analysis.currentMenuLink).toHaveText(current);
+      else await expect(analysis.currentMenuLink).toHaveCount(0);
+    });
+  }
+
+  test('the menu reads in Spanish and its links keep the language', async ({ analysis }) => {
+    await analysis.goto('/?lang=es');
+    await expect(analysis.menuLinks).toHaveText(['Acciones', 'Comparar', 'S&P 500', 'Todas las empresas', 'Fondos y ETF', 'Mi cartera']);
+    await expect(analysis.page.locator('a[data-compare-link]')).toHaveAttribute('href', 'compare.html?lang=es');
   });
 });
 

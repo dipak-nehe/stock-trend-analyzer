@@ -216,7 +216,7 @@ test.describe('language, layout and navigation', () => {
 
   test('Home leaves the compare page', async ({ analysis, compare, page }) => {
     await compare.goto('a=KO&b=AAPL');
-    await compare.step('press Home', () => compare.homeButton.click());
+    await compare.step('press Stocks', () => compare.stocksLink.click());
     await expect(page).toHaveURL(url('/'));
     await expect(analysis.result).toBeHidden();
     await expect(analysis.searchBox).toHaveValue('');

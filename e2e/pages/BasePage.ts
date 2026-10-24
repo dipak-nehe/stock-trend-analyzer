@@ -2,7 +2,7 @@ import { test, type Locator, type Page } from '@playwright/test';
 import { either } from './names';
 
 /**
- * What every page of the site has: the header (Home, language switch), the disclaimer and the footer.
+ * What every page of the site has: the header (the main menu, language switch), the disclaimer and the footer.
  *
  * Locator order in all page objects: getByRole → getByText → getByLabel → getByPlaceholder → getByTitle →
  * getByTestId → CSS (only for sub-parts with no role, each marked "CSS:" with the reason). No XPath.
@@ -14,8 +14,19 @@ export class BasePage {
   constructor(readonly page: Page) {}
 
   // ---------- header ----------
-  get homeButton(): Locator {
-    return this.page.getByRole('link', { name: either('Home', 'Inicio') });
+  /** "Stocks" in the main menu: the start page with the search box. */
+  get stocksLink(): Locator {
+    return this.page.getByRole('link', { name: either('Stocks', 'Acciones') });
+  }
+
+  /** The main menu's links, in order (the language switch is a group of buttons, not links). */
+  get menuLinks(): Locator {
+    return this.page.getByRole('navigation', { name: either('Main menu', 'Menú principal') }).getByRole('link');
+  }
+
+  /** The menu link marked as the page you're on. */
+  get currentMenuLink(): Locator {
+    return this.page.getByRole('navigation', { name: either('Main menu', 'Menú principal') }).locator('[aria-current="page"]');
   }
 
   /** "My portfolio" in the header (every page but the portfolio itself). */

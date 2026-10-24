@@ -167,6 +167,7 @@
   .assumptions { margin-bottom: 12px; }
   .assumptions summary { cursor: pointer; font-weight: 600; font-size: 14px; }
   .assume-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px 16px; margin-top: 12px; align-items: end; }
+  .assumptions:not(.bank) .for-bank, .assumptions.bank .for-fcf { display: none; }
   .assume-grid label { font-size: 13px; color: var(--text-2); grid-row: 1; }
   .assume-grid input { grid-row: 2; width: 100%; max-width: 160px; padding: 8px 12px; font-size: 15px; border: 1px solid var(--axis); border-radius: 8px; background: var(--page); color: var(--text-1); }
   .assume-note { margin: 10px 0 0; font-size: 13px; color: var(--muted); }

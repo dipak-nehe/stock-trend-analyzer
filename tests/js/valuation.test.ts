@@ -46,17 +46,28 @@ test("balance-sheet rules are N/A for banks", () => {
   for (const name of ["Conservative debt", "Low capital needs"]) assert.equal(row(v.buffett, name).status, "na", name);
 });
 
-test("banks and insurers: earnings a share stand in for free cash flow in owner earnings, the yield and the margin of safety", () => {
+test("banks and insurers: valued on book value and return on equity; earnings a share give the yield", () => {
+  // equity grows 4% a year, so the default growth is the book value's own 4%; earning about 14% on it
+  const equity = YEARS.map((_, i) => 1e9 * Math.pow(1.04, i));
   const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
-                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9) });
-  const eps = bank.series.eps;
-  const v = checks(bank, 100);
+                         totalLiabilities: YEARS.map(() => 90e9), equity });
+  const s = bank.series, v = checks(bank, 100);
   assert.equal(v.oeBasis, "eps");
-  assert.ok(Math.abs(v.oe - (eps.at(-1) + eps.at(-2) + eps.at(-3)) / 3) < 1e-9);  // 3-year average, as free cash flow is
-  assert.ok(Math.abs(v.fcfYield - eps.at(-1) / 100) < 1e-9);                      // latest earnings ÷ price
-  assert.ok(v.iv > 0);
+  const roe3 = [-1, -2, -3].reduce((a, i) => a + s.netIncome.at(i) / s.equity.at(i), 0) / 3;
+  const bvps = s.equity.at(-1) / bank.sharesOutstanding.value;
+  assert.ok(Math.abs(v.roe3 - roe3) < 1e-9);
+  assert.ok(Math.abs(v.g - 0.04) < 1e-9);
+  const expected = bvps * (roe3 - v.g) / (0.10 - v.g);                       // book x (ROE - g) / (r - g)
+  assert.ok(Math.abs(v.iv / expected - 1) < 1e-9, `${v.iv} vs ${expected}`);
+  assert.ok(Math.abs(v.fcfYield - s.eps.at(-1) / 100) < 1e-9);               // latest earnings ÷ price
+  assert.ok(v.roe3 > 0.13 && v.roe3 < 0.15);
   assert.notEqual(row(v.buffett, "Margin of safety").status, "na");
   assert.equal(v.evFcf, null);  // EV still isn't meaningful for a bank
+  // growth is capped at 6%, and a discount rate at or below growth gives no estimate rather than a nonsense one
+  const fast = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
+                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map((_, i) => 10e9 * Math.pow(1.2, i)) });
+  assert.equal(checks(fast).g, 0.06);
+  assert.equal(valueChecks(bank, 100, analyze(bank), { g: 0.10, disc: 0.10 }).iv, null);
   assert.equal(checks(company(), 100).oeBasis, "fcf");
 });
 

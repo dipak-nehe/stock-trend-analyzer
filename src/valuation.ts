@@ -36,16 +36,20 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   const pb = price && positive(bvps) ? price / bvps : null;
 
   const fcf3 = vals(r.fcf).slice(-3), dil = L(s.dilutedShares);
-  // Owner earnings: free cash flow a share, averaged over 3 years. Banks and insurers: their cash flow mixes in deposits,
-  // loans and claims, so it says nothing about what the owners earned; earnings a share stand in (they spend little on
-  // equipment, and Buffett values banks on their earnings).
-  const oeBasis: "fcf" | "eps" = fin ? "eps" : "fcf";
-  const oe = fin ? (eps.length >= 3 ? avg(eps.slice(-3)) : null)
-    : fcf3.length === 3 && dil ? (avg(fcf3) ?? 0) / dil : null;
-  const gAuto = Math.min(Math.max(cagr(s.eps) ?? 0, 0), 0.12);
+  // Owner earnings: free cash flow a share, averaged over 3 years, grown for 10 years and discounted.
+  // Banks and insurers are different: their cash flow mixes in deposits, loans and claims, and their earnings aren't free
+  // to take out, because a bigger loan book needs more capital. So their value comes from what their capital earns:
+  // book value a share x (return on equity - growth) / (discount rate - growth), with the return on equity averaged over
+  // 3 years and growth the book value's own (0-6%). A bank earning exactly the discount rate is worth its book value.
+  const oeBasis: "fcf" | "eps" = fin ? "eps" : "fcf";  // banks: earnings a share for the yield at a price
+  const oe = fin ? null : fcf3.length === 3 && dil ? (avg(fcf3) ?? 0) / dil : null;
+  const roe3 = fin ? avg(vals(ratio(s.netIncome, s.equity)).slice(-3)) : null;
+  const gAuto = fin ? Math.min(Math.max(cagr(s.equity) ?? 0, 0), 0.06) : Math.min(Math.max(cagr(s.eps) ?? 0, 0), 0.12);
   const g = assume.g ?? gAuto, disc = assume.disc ?? 0.10, tg = assume.tg ?? 0.03;
   let iv: number | null = null;
-  if (positive(oe) && disc > tg) {  // the formula only works when the discount rate is above the long-term growth
+  if (fin) {
+    if (positive(bvps) && roe3 != null && roe3 > g && disc > g) iv = bvps * (roe3 - g) / (disc - g);
+  } else if (positive(oe) && disc > tg) {  // the formula only works when the discount rate is above the long-term growth
     let x = oe, pv = 0;
     for (let yr = 1; yr <= 10; yr++) { x *= 1 + g; pv += x / Math.pow(1 + disc, yr); }
     iv = pv + (x * (1 + tg)) / (disc - tg) / Math.pow(1 + disc, 10);
@@ -141,7 +145,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   buffett.push(row("shares", shChg == null ? "na" : tf(shChg <= 0.005),
     shChg == null ? NOT_REPORTED : t(shChg <= 0 ? "val.shares.down" : "val.shares.up", { pct: pct(Math.abs(shChg)) })));
   buffett.push(row("mos", iv == null ? "na" : !price ? "price" : tf(price <= iv * 0.75),
-    iv == null ? t(fin ? "val.mos.noEarnings" : "val.mos.noFcf") : !price ? t("val.mos.needPrice", { iv: ps(iv) })
+    iv == null ? t(fin ? "val.mos.noBook" : "val.mos.noFcf") : !price ? t("val.mos.needPrice", { iv: ps(iv) })
       : t(price <= iv ? "val.mos.below" : "val.mos.above",
           { price: ps(price), iv: ps(iv), diff: price <= iv ? pct(1 - price / iv, 0) : pct(price / iv - 1, 0) })));
 
@@ -212,7 +216,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { price, graham, buffett, lynch, piotroski, bvps, iv, oe, oeBasis, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
+  return { price, graham, buffett, lynch, piotroski, bvps, iv, oe, oeBasis, roe3, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
 }
 
 /** The checklists and value figures for a company at a price. */

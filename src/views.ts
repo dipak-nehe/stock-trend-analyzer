@@ -184,12 +184,15 @@ export function checklistScore(rows: Check[]) {
 export function valueView(d: Financials, price: number | null, v: ValueChecks) {
   const cur = d.currency;
   const ps = (x: number | null) => perShare(x, cur);
-  const bank = v.oeBasis === "eps";  // banks and insurers: earnings stand in for free cash flow
+  const bank = v.oeBasis === "eps";  // banks and insurers: valued on book value and return on equity
   const tileV = (label: string, value: string, detail: string, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   // What the business might be worth, from the filings alone: Buffett's owner-earnings value, no price needed
   const tiles = [
-    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t(bank ? "vv.oe.detailBank" : "vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
-      : positive(v.oe) ? t("vv.oe.badRates") : t(bank ? "vv.oe.noneBank" : "vv.oe.none")),
+    bank
+      ? tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detailBank", { bv: ps(v.bvps), roe: pct(v.roe3, 1), g: pct(v.g, 1), disc: pct(v.disc, 1) })
+        : v.disc <= v.g ? t("vv.oe.badRatesBank") : t("vv.oe.noneBank"))
+      : tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
+        : positive(v.oe) ? t("vv.oe.badRates") : t("vv.oe.none")),
   ].join("");
 
   // Valuation at the entered price, last on the tab: the business is judged first, then the price, with Buffett's two

@@ -256,12 +256,12 @@
       <details class="card assumptions" id="assumptions" data-testid="assumptions">
         <summary data-i18n="ui.assume.title">Adjust the value estimate's assumptions</summary>
         <div class="assume-grid">
-          <label for="aGrowth" data-i18n="ui.assume.growth">Growth, years 1–10 (%)</label>
+          <label for="aGrowth"><span class="for-fcf" data-i18n="ui.assume.growth">Growth, years 1–10 (%)</span><span class="for-bank" data-i18n="ui.assume.growthBank">Book value growth (%)</span></label>
           <input id="aGrowth" type="number" inputmode="decimal" step="0.5" min="-20" max="50">
           <label for="aDisc" data-i18n="ui.assume.disc">Discount rate (%)</label>
           <input id="aDisc" type="number" inputmode="decimal" step="0.5" min="1" max="30">
-          <label for="aTerm" data-i18n="ui.assume.term">Growth after year 10 (%)</label>
-          <input id="aTerm" type="number" inputmode="decimal" step="0.5" min="-5" max="10">
+          <label for="aTerm" class="for-fcf" data-i18n="ui.assume.term">Growth after year 10 (%)</label>
+          <input id="aTerm" class="for-fcf" type="number" inputmode="decimal" step="0.5" min="-5" max="10">
         </div>
         <p class="assume-note"><span data-i18n="ui.assume.note">Grey numbers are this company's defaults. Your numbers change the owner-earnings value and the margin-of-safety test.</span>
           <button type="button" class="assume-reset" id="aReset" data-testid="assume-reset" data-i18n="ui.assume.reset">Reset</button></p>

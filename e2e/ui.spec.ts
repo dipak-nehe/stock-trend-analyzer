@@ -628,12 +628,15 @@ test.describe('Buffett & Graham and the share price', () => {
   });
 
   // Regression: a bank's owner earnings showed only "–" / "Not available" (its free cash flow mixes in deposits and
-  // loans, so it was skipped). Earnings a share now stand in, and the tiles say so.
-  test('a bank gets owner earnings from its earnings: value, yield and margin of safety', async ({ analysis }) => {
+  // loans, so it was skipped). A bank is now valued on book value and return on equity, and its earnings give the yield.
+  test('a bank is valued on book value and return on equity, with an earnings yield and margin of safety', async ({ analysis, page }) => {
     await analysis.open('JPM', 331.58);
     await analysis.openTab('value');
     await expect(analysis.valueTiles).toContainText(/Owner-earnings value\s*\$\d/);
-    await expect(analysis.valueTiles).toContainText('For banks and insurers, earnings stand in for free cash flow');
+    await expect(analysis.valueTiles).toContainText(/Book value \$[\d.]+\/share × \(return on equity [\d.]+% − growth [\d.]+%\)/);
+    await analysis.step('open the assumptions', () => page.getByTestId('assumptions').locator('summary').click());
+    await expect(page.getByLabel('Book value growth (%)')).toBeVisible();      // one growth rate for a bank
+    await expect(page.getByLabel('Growth after year 10 (%)')).toBeHidden();   // and no second stage
     await expect(analysis.priceTiles).toContainText(/Owner earnings yield\s*\d+\.\d%/);
     await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% (below|above)/);
     await expect(analysis.checkRow('Margin of safety')).not.toContainText('Not meaningful for banks');

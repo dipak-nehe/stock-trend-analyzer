@@ -206,6 +206,8 @@ function renderValue() {
   const checks = valueChecks(d, price, current.result, assumptions());
   // empty boxes use the defaults, shown in grey
   $<HTMLInputElement>("aGrowth").placeholder = fixed(checks.gAuto * 100, 1); $<HTMLInputElement>("aDisc").placeholder = "10"; $<HTMLInputElement>("aTerm").placeholder = "3";
+  // banks and insurers are valued on book value and return on equity: one growth rate, no second stage
+  $("assumptions").classList.toggle("bank", checks.oeBasis === "eps");
   const view = valueView(d, price, checks);
   $("glance").innerHTML = glanceView(d, current.result, checks);
   $("valueTiles").innerHTML = view.tiles;

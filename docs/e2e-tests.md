@@ -112,7 +112,7 @@ Regenerate the list with `npx playwright test --list`. Run one group with `npx p
 | # | Test |
 |---|---|
 | 55 | price runs valuation tests and is kept in the URL |
-| 56 | a bank gets owner earnings from its earnings: value, yield and margin of safety |
+| 56 | a bank is valued on book value and return on equity, with an earnings yield and margin of safety |
 | 57 | business first, price last: the checklists, then the estimates, then the valuation at the price |
 | 58 | price from link is applied on load |
 | 59 | new search clears the previous price |

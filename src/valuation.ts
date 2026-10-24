@@ -36,7 +36,12 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   const pb = price && positive(bvps) ? price / bvps : null;
 
   const fcf3 = vals(r.fcf).slice(-3), dil = L(s.dilutedShares);
-  const oe = !fin && fcf3.length === 3 && dil ? (avg(fcf3) ?? 0) / dil : null;
+  // Owner earnings: free cash flow a share, averaged over 3 years. Banks and insurers: their cash flow mixes in deposits,
+  // loans and claims, so it says nothing about what the owners earned; earnings a share stand in (they spend little on
+  // equipment, and Buffett values banks on their earnings).
+  const oeBasis: "fcf" | "eps" = fin ? "eps" : "fcf";
+  const oe = fin ? (eps.length >= 3 ? avg(eps.slice(-3)) : null)
+    : fcf3.length === 3 && dil ? (avg(fcf3) ?? 0) / dil : null;
   const gAuto = Math.min(Math.max(cagr(s.eps) ?? 0, 0), 0.12);
   const g = assume.g ?? gAuto, disc = assume.disc ?? 0.10, tg = assume.tg ?? 0.03;
   let iv: number | null = null;
@@ -69,7 +74,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   const rotcOverall = used.length ? used.reduce((a, i) => a + (nopat[i] ?? 0), 0) / used.reduce((a, i) => a + (tangible[i] ?? 0), 0) : null;
 
   // Yields at the entered price: the latest dividend and free cash flow per share, as a share of the price
-  const dpsL = L(s.dps), fcfL = L(r.fcf), fcfPs = !fin && fcfL != null && shares ? fcfL / shares : null;
+  const dpsL = L(s.dps), fcfL = L(r.fcf), fcfPs = fin ? L(s.eps) : fcfL != null && shares ? fcfL / shares : null;
   const divYield = price && dpsL != null ? dpsL / price : null;
   const fcfYield = price && fcfPs != null ? fcfPs / price : null;
   // Enterprise value (market value + debt − cash) over the latest free cash flow: the price of the whole business,
@@ -136,7 +141,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   buffett.push(row("shares", shChg == null ? "na" : tf(shChg <= 0.005),
     shChg == null ? NOT_REPORTED : t(shChg <= 0 ? "val.shares.down" : "val.shares.up", { pct: pct(Math.abs(shChg)) })));
   buffett.push(row("mos", iv == null ? "na" : !price ? "price" : tf(price <= iv * 0.75),
-    iv == null ? (fin ? NA_BANK : t("val.mos.noFcf")) : !price ? t("val.mos.needPrice", { iv: ps(iv) })
+    iv == null ? t(fin ? "val.mos.noEarnings" : "val.mos.noFcf") : !price ? t("val.mos.needPrice", { iv: ps(iv) })
       : t(price <= iv ? "val.mos.below" : "val.mos.above",
           { price: ps(price), iv: ps(iv), diff: price <= iv ? pct(1 - price / iv, 0) : pct(price / iv - 1, 0) })));
 
@@ -207,7 +212,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { price, graham, buffett, lynch, piotroski, bvps, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
+  return { price, graham, buffett, lynch, piotroski, bvps, iv, oe, oeBasis, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
 }
 
 /** The checklists and value figures for a company at a price. */

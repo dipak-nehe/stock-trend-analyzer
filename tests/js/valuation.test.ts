@@ -43,7 +43,21 @@ test("balance-sheet rules are N/A for banks", () => {
                          totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9) });
   const v = checks(bank);
   for (const name of ["Strong current position", "Debt covered by working capital"]) assert.equal(row(v.graham, name).status, "na", name);
-  for (const name of ["Conservative debt", "Low capital needs", "Margin of safety"]) assert.equal(row(v.buffett, name).status, "na", name);
+  for (const name of ["Conservative debt", "Low capital needs"]) assert.equal(row(v.buffett, name).status, "na", name);
+});
+
+test("banks and insurers: earnings a share stand in for free cash flow in owner earnings, the yield and the margin of safety", () => {
+  const bank = company({ currentAssets: nulls(), currentLiabilities: nulls(), totalAssets: YEARS.map(() => 100e9),
+                         totalLiabilities: YEARS.map(() => 90e9), equity: YEARS.map(() => 10e9) });
+  const eps = bank.series.eps;
+  const v = checks(bank, 100);
+  assert.equal(v.oeBasis, "eps");
+  assert.ok(Math.abs(v.oe - (eps.at(-1) + eps.at(-2) + eps.at(-3)) / 3) < 1e-9);  // 3-year average, as free cash flow is
+  assert.ok(Math.abs(v.fcfYield - eps.at(-1) / 100) < 1e-9);                      // latest earnings ÷ price
+  assert.ok(v.iv > 0);
+  assert.notEqual(row(v.buffett, "Margin of safety").status, "na");
+  assert.equal(v.evFcf, null);  // EV still isn't meaningful for a bank
+  assert.equal(checks(company(), 100).oeBasis, "fcf");
 });
 
 test("negative equity makes ROE not meaningful rather than a pass", () => {

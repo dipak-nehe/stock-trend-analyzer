@@ -184,11 +184,12 @@ export function checklistScore(rows: Check[]) {
 export function valueView(d: Financials, price: number | null, v: ValueChecks) {
   const cur = d.currency;
   const ps = (x: number | null) => perShare(x, cur);
+  const bank = v.oeBasis === "eps";  // banks and insurers: earnings stand in for free cash flow
   const tileV = (label: string, value: string, detail: string, extra = "") => `<div class="card tile" data-testid="tile"><div class="label">${label}</div><div class="value">${value}</div>${extra}<div class="detail">${detail}</div></div>`;
   // What the business might be worth, from the filings alone: Buffett's owner-earnings value, no price needed
   const tiles = [
-    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t("vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
-      : positive(v.oe) ? t("vv.oe.badRates") : t("vv.oe.none")),
+    tileV(t("vv.oe.label"), v.iv ? ps(v.iv) : "–", v.iv ? t(bank ? "vv.oe.detailBank" : "vv.oe.detail", { fcf: ps(v.oe), g: pct(v.g, 1), tg: pct(v.tg, 1), disc: pct(v.disc, 1) })
+      : positive(v.oe) ? t("vv.oe.badRates") : t(bank ? "vv.oe.noneBank" : "vv.oe.none")),
   ].join("");
 
   // Valuation at the entered price, last on the tab: the business is judged first, then the price, with Buffett's two
@@ -196,9 +197,9 @@ export function valueView(d: Financials, price: number | null, v: ValueChecks) {
   const ENTER = t("vv.pe.enter");
   const priceTiles = [
     tileV(t("vv.fcfYield.label"), v.fcfYield != null ? pct(v.fcfYield) : "–",
-      v.fcfPs == null ? t("vv.fcfYield.none") : price ? t("vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : ENTER),
+      v.fcfPs == null ? t("vv.fcfYield.none") : price ? t(bank ? "vv.fcfYield.detailBank" : "vv.fcfYield.detail", { fcf: ps(v.fcfPs) }) : ENTER),
     tileV(t("vv.mos.label"), price && v.iv ? (price <= v.iv ? t("vv.mos.below", { pct: pct(1 - price / v.iv, 0) }) : t("vv.mos.above", { pct: pct(price / v.iv - 1, 0) })) : "–",
-      !v.iv ? t("vv.mos.none") : price ? t("vv.mos.detail", { iv: ps(v.iv) }) : ENTER),
+      !v.iv ? t(bank ? "vv.mos.noneBank" : "vv.mos.none") : price ? t("vv.mos.detail", { iv: ps(v.iv) }) : ENTER),
   ].join("");
 
   const list = checklist, score = checklistScore;

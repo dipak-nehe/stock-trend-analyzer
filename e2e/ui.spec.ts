@@ -627,6 +627,18 @@ test.describe('Buffett & Graham and the share price', () => {
     await expect(page).toHaveURL(/\?t=KO&p=68#value$/);
   });
 
+  // Regression: a bank's owner earnings showed only "–" / "Not available" (its free cash flow mixes in deposits and
+  // loans, so it was skipped). Earnings a share now stand in, and the tiles say so.
+  test('a bank gets owner earnings from its earnings: value, yield and margin of safety', async ({ analysis }) => {
+    await analysis.open('JPM', 331.58);
+    await analysis.openTab('value');
+    await expect(analysis.valueTiles).toContainText(/Owner-earnings value\s*\$\d/);
+    await expect(analysis.valueTiles).toContainText('For banks and insurers, earnings stand in for free cash flow');
+    await expect(analysis.priceTiles).toContainText(/Owner earnings yield\s*\d+\.\d%/);
+    await expect(analysis.priceTiles).toContainText(/Margin of safety\s*\d+% (below|above)/);
+    await expect(analysis.checkRow('Margin of safety')).not.toContainText('Not meaningful for banks');
+  });
+
   test('business first, price last: the checklists, then the estimates, then the valuation at the price', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.openTab('value');

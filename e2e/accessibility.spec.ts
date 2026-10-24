@@ -102,6 +102,23 @@ test.describe('axe: start and results pages', () => {
   });
 });
 
+// The phone menu scrolls sideways, so a button can sit at the edge of the screen. Fonts differ by system (CI's Linux
+// fonts are wider than a Mac's), so which button lands at the edge depends on the machine: check every phone width.
+test.describe('axe: main menu at every phone width', () => {
+  for (const path of ['/', '/?lang=es']) {
+    test(`${path}: no menu button is covered or too small to tap, 320 to 640px`, async ({ analysis, page }) => {
+      await analysis.goto(path);
+      const found: string[] = [];
+      for (let width = 320; width <= 640; width += 20) {
+        await page.setViewportSize({ width, height: 800 });
+        const { violations: v } = await new AxeBuilder({ page }).include('nav').withRules(['target-size']).analyze();
+        found.push(...v.flatMap((x) => x.nodes.map((n) => `${width}px ${n.target.join(' ')}`)));
+      }
+      expect(found).toEqual([]);
+    });
+  }
+});
+
 test.describe('keyboard only', () => {
   test('search and results work with the keyboard', async ({ analysis, page }) => {
     await analysis.goto('/');

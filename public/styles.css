@@ -434,8 +434,9 @@
   }
 
 /* ---------- header: main menu ---------- */
-  .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-start; row-gap: 8px; }
-  .top-actions .lang-switch { margin-left: auto; }
+  .top-actions { display: flex; align-items: flex-start; gap: 10px; }
+  .menu-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; flex: 1; min-width: 0; }
+  .top-actions .lang-switch { margin-left: auto; flex: none; }
   .nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
               color: var(--text-2); font-size: 13px; font-weight: 700; text-decoration: none; }
   .nav-btn svg { width: 16px; height: 16px; }
@@ -471,14 +472,17 @@
 .pf-table th[scope="row"] a { color: var(--accent); }
 /* the company column stays in view while the measures scroll sideways (phones) */
 .pf-table th[scope="row"], .pf-table thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
-/* phones: the menu is one row that scrolls sideways, so the search box shows without scrolling the page. EN/ES stays
-   pinned at the right, with a fade where the buttons slide under it. The padding leaves room for the focus outline. */
+/* phones: the menu buttons are one row that scrolls sideways, so the search box shows without scrolling the page.
+   EN/ES sits beside the row, not over it (a button half under it would be a too-small touch target), and the row
+   fades out at its right edge to show there is more. The padding leaves room for the focus outline. */
 @media (max-width: 640px) {
-  .top-actions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 4px 4px 12px; margin: -4px -4px 0; }
-  .top-actions::-webkit-scrollbar { display: none; }
+  .top-actions { align-items: center; }
+  .menu-links { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 4px; margin: -4px;
+                mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+  .menu-links::-webkit-scrollbar { display: none; }
   .nav-btn { flex: none; white-space: nowrap; }
-  .top-actions .lang-switch { position: sticky; right: 0; flex: none; box-shadow: 8px 0 0 0 var(--page), -14px 0 10px -4px var(--page); }
 }
+
 
 /* ---------- S&P 500 picker (sp500.html) and its results (sp500-view.html) ---------- */
 .nav-btn[aria-current="page"] { color: var(--accent); border-color: var(--accent); }

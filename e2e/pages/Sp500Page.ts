@@ -51,8 +51,9 @@ export class Sp500Page extends BasePage {
     return this.page.getByTestId('sp-chips').getByRole('button');
   }
 
-  unpick(name: string): Locator {
-    return this.page.getByRole('button', { name: either(`Remove ${name} from the selection`, `Quitar ${name} de la selección`) });
+  /** A picked company's chip ("KO ✕"); its name starts with the ticker it shows, for voice control. */
+  unpick(ticker: string, name: string): Locator {
+    return this.page.getByRole('button', { name: either(`Remove ${ticker} (${name}) from the selection`, `Quitar ${ticker} (${name}) de la selección`) });
   }
 
   /** "Show N companies →": a link, disabled (aria-disabled) until something is picked. #id: its name holds a count. */

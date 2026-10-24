@@ -52,7 +52,7 @@ function renderPicks() {
   $("spPickedTitle").textContent = t("sp.picked", { n, max: MAX_PICKS });
   $("spChips").innerHTML = picks.map((tk) => {
     const c = byTicker(tk);
-    return `<button type="button" class="chip sp-chip" data-unpick="${esc(tk)}" aria-label="${esc(t("sp.unpick", { name: c ? c.n : tk }))}">${esc(tk)} ✕</button>`;
+    return `<button type="button" class="chip sp-chip" data-unpick="${esc(tk)}" aria-label="${esc(t("sp.unpick", { ticker: tk, name: c ? c.n : tk }))}">${esc(tk)} ✕</button>`;
   }).join("");
   const show = $<HTMLAnchorElement>("spShow");
   show.textContent = n ? tn("sp.show", n) : t("sp.showNone");

@@ -807,7 +807,7 @@ export default {
   "sp.count": "Showing {shown} of {total} companies",
   "sp.none": "No company matches. Try a shorter name, a ticker, or All sectors.",
   "sp.picked": "{n} of {max} selected",
-  "sp.unpick": "Remove {name} from the selection",
+  "sp.unpick": "Remove {ticker} ({name}) from the selection",
   "sp.show.one": "Show {n} company →",
   "sp.show.other": "Show {n} companies →",
   "sp.showNone": "Pick up to 10 to show",

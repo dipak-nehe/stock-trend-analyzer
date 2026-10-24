@@ -1009,7 +1009,7 @@ export default {
   "sp.count": "Se muestran {shown} de {total} empresas",
   "sp.none": "Ninguna empresa coincide. Prueba un nombre más corto, un ticker o Todos los sectores.",
   "sp.picked": "{n} de {max} seleccionadas",
-  "sp.unpick": "Quitar {name} de la selección",
+  "sp.unpick": "Quitar {ticker} ({name}) de la selección",
   "sp.show.one": "Mostrar {n} empresa →",
   "sp.show.other": "Mostrar {n} empresas →",
   "sp.showNone": "Elige hasta 10 para mostrar",

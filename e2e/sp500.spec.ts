@@ -32,7 +32,7 @@ test.describe('picking companies', () => {
     await expect(sp500.show).toHaveText('Show 2 companies →');
     await expect(sp500.show).toHaveAttribute('aria-disabled', 'false');
     await expect(page).toHaveURL(/\?pick=KO%2CAAPL$/);
-    await sp500.step('remove KO with its chip', () => sp500.unpick('Coca-Cola Company (The)').click());
+    await sp500.step('remove KO with its chip', () => sp500.unpick('KO', 'Coca-Cola Company (The)').click());
     await expect(sp500.chips).toHaveText(['AAPL ✕']);
     await expect(sp500.checkbox('Coca-Cola Company (The)')).not.toBeChecked();
     await sp500.step('clear the selection', () => sp500.clear.click());

@@ -263,7 +263,7 @@ test.describe('results guide', () => {
     await expect(analysis.guide).toHaveAttribute('open', '');
     // the guide's cards are named after the tabs, so the guide maps directly onto the results
     await expect(analysis.guideCardTitles).toHaveText(
-      ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Graham & Buffett-style analysis', 'Durable advantage', 'Charts', 'Data']);
+      ['Overview', 'Red flags', 'SEC history', 'Insider trades', 'Buffett & Graham-style analysis', 'Durable advantage', 'Charts', 'Data']);
     await expect(analysis.guideCardArrows.first()).toBeVisible();
   });
 
@@ -292,7 +292,7 @@ test.describe('results guide', () => {
   test('guide card after a search opens its tab for that company', async ({ analysis }) => {
     await analysis.open('KO');
     await analysis.guideToggle.click();
-    await analysis.step('click the "Graham & Buffett" guide card', () => analysis.guideCard('value').click());
+    await analysis.step('click the "Buffett & Graham" guide card', () => analysis.guideCard('value').click());
     await expect(analysis.panel('value')).toBeVisible();
     await expect(analysis.companyName).toHaveText('COCA COLA CO (KO)'); // stays on the searched company
   });
@@ -315,7 +315,7 @@ test.describe('at a glance', () => {
   test('glance summarises each area in one line', async ({ analysis }) => {
     await analysis.open('SMCI');
     await expect(analysis.glanceRows).toHaveCount(6);
-    await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Graham & Buffett']);
+    await expect(analysis.glanceTopics).toHaveText(['Revenue', 'Earnings', 'Dividend', 'Red flags', 'SEC record', 'Buffett & Graham']);
     await expect(analysis.glanceRow('Red flags')).toContainText('3 critical');
     await expect(analysis.glanceRow('Red flags')).toContainText('Restatement warning');
     await expect(analysis.glanceRow('SEC record')).toContainText('1 restatement warning · 3 auditor changes · 13 late filings · 14 other serious events');
@@ -465,7 +465,7 @@ test.describe('tabs', () => {
     await analysis.step('click "← Overview"', () => analysis.previousButton('flags').click());
     await expect(analysis.panel('overview')).toBeVisible();
     await analysis.openTab('insiders'); // regression: its neighbours' buttons showed "tab.insiders"
-    await expect(analysis.panelNavButtons('insiders')).toHaveText(['← SEC history', 'Next: Graham & Buffett →']);
+    await expect(analysis.panelNavButtons('insiders')).toHaveText(['← SEC history', 'Next: Buffett & Graham →']);
     await analysis.openTab('history');
     await expect(analysis.panelNavButtons('history')).toHaveText(['← Red flags', 'Next: Insiders →']);
     await analysis.openTab('data');
@@ -536,7 +536,7 @@ test.describe('overview and trends', () => {
     await expect(analysis.jargon(/Compound annual growth rate/).first()).toHaveText('CAGR');
     await expect(analysis.glossary).toBeVisible();
     await analysis.step('open "Terms explained"', () => analysis.glossaryToggle.click());
-    await expect(analysis.glossaryTerms).toContainText(['CAGR', 'Free cash flow', 'Graham Number']);
+    await expect(analysis.glossaryTerms).toContainText(['CAGR', 'Free cash flow', 'Margin of safety']);
   });
 });
 
@@ -603,7 +603,7 @@ test.describe('red flags and SEC history', () => {
   });
 });
 
-test.describe('Graham & Buffett and the share price', () => {
+test.describe('Buffett & Graham and the share price', () => {
   test('price runs valuation tests and is kept in the URL', async ({ analysis, page }) => {
     await analysis.open('KO');
     await expect(analysis.checkRow('Moderate P/E')).toContainText('Needs price');
@@ -716,7 +716,7 @@ test.describe('Graham & Buffett and the share price', () => {
 
   test('the value estimate can be recalculated with your own assumptions, and reset', async ({ analysis }) => {
     await analysis.open('KO', 68);
-    await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
+    await analysis.step('open the Buffett & Graham tab', () => analysis.openTab('value'));
     await analysis.step('open the assumptions', () => analysis.assumptions.locator('summary').click());
     await expect(analysis.assumption('Discount rate (%)')).toHaveAttribute('placeholder', '10');
     await expect(analysis.assumption('Growth after year 10 (%)')).toHaveAttribute('placeholder', '3');
@@ -747,12 +747,12 @@ test.describe('Graham & Buffett and the share price', () => {
     await expect(analysis.balanceTerms.getByRole('term')).toHaveText(['Balance sheet', "Shareholders' equity (book value)", 'Total liabilities',
       'Debt to equity (in these checks)', 'Long-term debt', 'Retained earnings', 'Treasury stock', 'Preferred stock']);
     await expect(analysis.balanceTerms).toContainText('Companies that cancel the shares they buy back hold none');
-    await expect(analysis.panelNavButtons('durable')).toHaveText(['← Graham & Buffett', 'Next: Charts →']);
+    await expect(analysis.panelNavButtons('durable')).toHaveText(['← Buffett & Graham', 'Next: Charts →']);
   });
 
   test('return on tangible capital, the Piotroski F-score and the yields show on the value tab', async ({ analysis }) => {
     await analysis.open('KO');
-    await analysis.step('open the Graham & Buffett tab', () => analysis.openTab('value'));
+    await analysis.step('open the Buffett & Graham tab', () => analysis.openTab('value'));
     await expect(analysis.panel('value')).toContainText('High return on tangible capital');
     await expect(analysis.panel('value')).toContainText(/Overall \d+\.\d% · 15%\+ in 10 of 10 years/);
     await expect(analysis.piotroski).toBeVisible();
@@ -780,9 +780,9 @@ test.describe('Graham & Buffett and the share price', () => {
 
   test('value tab is named after Graham and Buffett', async ({ analysis }) => {
     await analysis.open('KO');
-    await expect(analysis.tab('value')).toHaveText('Graham & Buffett');
+    await expect(analysis.tab('value')).toHaveText('Buffett & Graham');
     await analysis.openTab('durable');
-    await expect(analysis.previousButton('durable')).toHaveText('← Graham & Buffett');
+    await expect(analysis.previousButton('durable')).toHaveText('← Buffett & Graham');
     await expect(analysis.valueNote).toContainText('Not affiliated with or endorsed by');
   });
 
@@ -899,7 +899,7 @@ test.describe('Spanish and language choice', () => {
     await analysis.openTab('value');
     await analysis.step('switch to Spanish', async () => {
       await analysis.switchLanguage('es');
-      await expect(analysis.tab('value')).toHaveText('Graham y Buffett');
+      await expect(analysis.tab('value')).toHaveText('Buffett y Graham');
     });
     await expect(analysis.panel('value')).toBeVisible();
     await expect(analysis.price).toHaveValue('68');

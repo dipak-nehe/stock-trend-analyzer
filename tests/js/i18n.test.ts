@@ -30,7 +30,7 @@ test("every English string has a Spanish translation with the same placeholders 
 test("every translatable element in every page has a Spanish entry, and no Spanish entry is unused", () => {
   const tagged = (page: string) => {
     const html = readFileSync(new URL(`../../public/${page}`, import.meta.url), "utf8");
-    return [...html.matchAll(/data-i18n(?:-placeholder)?="([^"]+)"/g)].map((m) => m[1]);
+    return [...html.matchAll(/data-i18n(?:-placeholder|-aria)?="([^"]+)"/g)].map((m) => m[1]);
   };
   const index = tagged("index.html"), compare = tagged("compare.html"), disclaimer = tagged("disclaimer.html");
   const portfolio = tagged("portfolio.html"), sp500 = tagged("sp500.html"), sp500View = tagged("sp500-view.html"), methodology = tagged("methodology.html");

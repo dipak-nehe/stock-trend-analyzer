@@ -113,7 +113,7 @@ test("the balance-sheet score is green from three quarters passed and red under 
   assert.equal(tone(col("balance"), 0.25), "bad");
 });
 
-test("the Piotroski F-score: nine tests from the Graham & Buffett tab, coloured by his own bands, n/a for banks", () => {
+test("the Piotroski F-score: nine tests from the Buffett & Graham tab, coloured by his own bands, n/a for banks", () => {
   const d = company(), r = analyze(d);
   const cell = portfolioRow(d).cells.piotroski;
   const rows = valueChecks(d, null, r).piotroski;

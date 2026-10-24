@@ -9,11 +9,10 @@ import type { Check, ValueChecks } from "../../src/valuation.ts";
 const checks = (d: Financials, price: number | null = null) => valueChecks(d, price, analyze(d));
 const row = (list: Check[], name: string) => list.find((c) => c.name === name);
 
-test("Graham Number is sqrt(22.5 x EPS x book value per share)", () => {
+test("book value per share is equity over shares outstanding", () => {
   const d = company();
   const v = checks(d);
-  const eps = d.series.eps.at(-1), bvps = d.series.equity.at(-1) / d.sharesOutstanding.value;
-  assert.ok(Math.abs(v.grahamNumber - Math.sqrt(22.5 * eps * bvps)) < 1e-9);
+  const bvps = d.series.equity.at(-1) / d.sharesOutstanding.value;
   assert.ok(Math.abs(v.bvps - bvps) < 1e-9);
 });
 

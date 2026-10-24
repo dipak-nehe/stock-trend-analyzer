@@ -38,8 +38,7 @@
 <body>
 <main class="portfolio-page meth-page">
   <header class="top">
-    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
-    <div class="top-actions">
+    <nav class="top-actions" aria-label="Main menu" data-i18n-aria="ui.mainMenu">
       <a class="home-btn" href="./"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
       <a class="nav-btn" href="portfolio.html" data-portfolio-link><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
       <a class="nav-btn" href="sp500.html" data-sp500-link><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
@@ -49,7 +48,8 @@
         <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
       </div>
-    </div>
+    </nav>
+    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
   </header>
   <h2 class="page-title" data-i18n="ui.meth.title">How we calculate</h2>
   <p class="sub" data-i18n="ui.meth.sub">Where every figure comes from, and the exact rule behind each red flag, checklist test and portfolio measure. The rules below are drawn from the same text the results pages show.</p>
@@ -125,7 +125,7 @@
     <ul data-i18n="ui.meth.choices">
       <li><strong>Graham's size test</strong> uses $750 million of revenue (his $100 million from 1972, adjusted for inflation), and his 20-year dividend record becomes the 10 years available here.</li>
       <li><strong>Buffett's tests</strong> are common numerical readings of his letters (15% returns, 7% earnings growth, debt within 4 years of earnings, and so on); Buffett himself rarely gives hard numbers.</li>
-      <li><strong>The value estimate</strong> discounts free cash flow per share at 10%, with growth capped at 12% for 10 years and 3% after; you can change all three on the Graham &amp; Buffett tab.</li>
+      <li><strong>The value estimate</strong> discounts free cash flow per share at 10%, with growth capped at 12% for 10 years and 3% after; you can change all three on the Buffett &amp; Graham tab.</li>
       <li><strong>Owner earnings</strong> are taken as free cash flow (operating cash flow minus capital spending), the usual reading of Buffett's 1986 definition; their yield is the latest year's per share ÷ the price. <strong>EV / free cash flow</strong> uses the price × shares outstanding, plus total debt, minus cash, over the latest free cash flow, on the Compare page, and isn't shown for banks.</li>
       <li><strong>Lynch's growth</strong> is the last 5 years' EPS growth, not expected growth; his price tests don't apply above 25% a year, and growth plus yield over P/E passes at 1.5.</li>
       <li><strong>"Rising steadily"</strong> means EPS, or retained earnings, rose in at least 7 of every 10 years.</li>

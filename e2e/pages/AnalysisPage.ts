@@ -278,7 +278,7 @@ export class AnalysisPage extends BasePage {
     return this.page.locator('#historyMore');
   }
 
-  // ---------- Graham & Buffett ----------
+  // ---------- Buffett & Graham ----------
   get price(): Locator {
     return this.page.getByLabel(startsWith('Current share price', 'Precio actual de la acción'));
   }
@@ -292,7 +292,7 @@ export class AnalysisPage extends BasePage {
     return this.page.getByTestId('check').filter({ hasText: criterion });
   }
 
-  /** The value estimates (no price needed): owner-earnings value, Graham Number, book value per share. */
+  /** The value estimates (no price needed): owner-earnings value and book value per share. */
   get valueTiles(): Locator {
     return this.page.getByTestId('value-tiles');
   }

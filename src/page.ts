@@ -50,6 +50,10 @@ export function applyStaticText() {
     if (!("enPlaceholder" in el.dataset)) el.dataset.enPlaceholder = el.placeholder;
     el.placeholder = (lang === "en" ? el.dataset.enPlaceholder : dict[el.dataset.i18nPlaceholder ?? ""] ?? el.dataset.enPlaceholder) ?? "";
   }
+  for (const el of $$("[data-i18n-aria]")) {
+    if (!("enAria" in el.dataset)) el.dataset.enAria = el.getAttribute("aria-label") ?? "";
+    el.setAttribute("aria-label", (lang === "en" ? el.dataset.enAria : dict[el.dataset.i18nAria ?? ""] ?? el.dataset.enAria) ?? "");
+  }
   $$(".lang-switch [data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
   // Home (and other links back to the start page) go to a fresh landing page in the same language
   $$("a.home-btn, a.home-link, a[data-start-link]").forEach((a) => a.setAttribute("href", lang === "en" ? "./" : `./?lang=${lang}`));

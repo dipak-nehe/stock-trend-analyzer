@@ -53,7 +53,7 @@ function score(rows: { id: string; status: string }[]): Cell {
 
 /**
  * The display name of a test in a score column's notMet list: Buffett's criteria and the Piotroski tests are named as on
- * the Graham & Buffett tab, the balance-sheet tests as on the Durable advantage tab. */
+ * the Buffett & Graham tab, the balance-sheet tests as on the Durable advantage tab. */
 export function checkName(column: string, id: string) {
   return t(column === "balance" ? `dur.${id}.name` : `val.${id}.name`);
 }

@@ -341,10 +341,10 @@
   .glossary dt { font-weight: 600; }
   .glossary dd { margin: 0; color: var(--text-2); }
   @media (max-width: 600px) { .glossary dl { grid-template-columns: 1fr; gap: 2px; } .glossary dd { margin-bottom: 8px; } }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  /* the title keeps a readable width; on a phone the buttons move to their own row instead of squeezing it */
-  .top h1 { flex: 1 1 220px; }
-  .top-actions { margin-left: auto; }
+  /* the menu runs across the top, the site's name underneath it */
+  .top { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+  .top-actions { padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .top h1 { margin: 0; }
   .lang-switch { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 2px; background: var(--surface); }
   .lang-switch button { background: none; color: var(--text-2); font-size: 13px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
   .lang-switch button[aria-pressed="true"] { background: var(--accent-strong); color: #fff; }
@@ -434,7 +434,8 @@
   }
 
 /* ---------- header: home button ---------- */
-  .top-actions { display: flex; align-items: center; gap: 10px; }
+  .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-start; row-gap: 8px; }
+  .top-actions .lang-switch { margin-left: auto; }
   .home-btn, .nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
               color: var(--text-2); font-size: 13px; font-weight: 700; text-decoration: none; }
   .home-btn[hidden] { display: none; }  /* on the start page Home would only reload it */
@@ -471,15 +472,16 @@
 .pf-table th[scope="row"] a { color: var(--accent); }
 /* the company column stays in view while the measures scroll sideways (phones) */
 .pf-table th[scope="row"], .pf-table thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--surface); }
-/* very narrow screens: "My portfolio" in the header shrinks to its icon (the text stays for screen readers), so the
-   buttons still fit on one row */
-@media (max-width: 360px) {
-  .nav-btn { padding: 5px 8px; }
-  .nav-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* phones: the menu is one row that scrolls sideways, so the search box shows without scrolling the page. EN/ES stays
+   pinned at the right, with a fade where the buttons slide under it. The padding leaves room for the focus outline. */
+@media (max-width: 640px) {
+  .top-actions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 4px 4px 12px; margin: -4px -4px 0; }
+  .top-actions::-webkit-scrollbar { display: none; }
+  .home-btn, .nav-btn { flex: none; white-space: nowrap; }
+  .top-actions .lang-switch { position: sticky; right: 0; flex: none; box-shadow: 8px 0 0 0 var(--page), -14px 0 10px -4px var(--page); }
 }
 
 /* ---------- S&P 500 picker (sp500.html) and its results (sp500-view.html) ---------- */
-.top-actions { flex-wrap: wrap; justify-content: flex-end; row-gap: 8px; }
 .nav-btn[aria-current="page"] { color: var(--accent); border-color: var(--accent); }
 .sp-filters { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; }
 .sp-field { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px; }

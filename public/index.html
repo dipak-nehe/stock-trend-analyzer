@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>10-Year Stock Value Analysis</title>
-<meta name="description" content="Enter a stock ticker to see 10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta name="description" content="Ten years of SEC filings for any US stock: trends, red flags, filing history, insider trades and Buffett-style value checks. Plus funds and ETFs, and a directory of every listed company.">
 <meta name="theme-color" content="#2a78d6">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://stock-value-analysis.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="10-Year Stock Value Analysis">
-<meta property="og:description" content="10 years of revenue, earnings and dividend trends from SEC filings, plus automated balance-sheet red flags.">
+<meta property="og:description" content="Ten years of SEC filings for any US stock: trends, red flags and Buffett-style value checks, plus funds and ETFs.">
 <meta property="og:image" content="https://stock-value-analysis.vercel.app/og.png">
 <meta property="og:url" content="https://stock-value-analysis.vercel.app/">
 <meta property="og:image:width" content="1200">
@@ -48,8 +48,7 @@
   <symbol id="i-data" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></symbol>
 </svg>
   <header class="top">
-    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
-    <div class="top-actions">
+    <nav class="top-actions" aria-label="Main menu" data-i18n-aria="ui.mainMenu">
       <a class="home-btn" id="homeBtn" href="./" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10v10h5v-6h4v6h5V10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="ui.home">Home</span></a>
       <a class="nav-btn" href="portfolio.html" data-portfolio-link><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18" fill="none" stroke="currentColor" stroke-width="2"/></svg><span data-i18n="ui.portfolioLink">My portfolio</span></a>
       <a class="nav-btn" href="sp500.html" data-sp500-link><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-i18n="ui.sp500Link">S&amp;P 500</span></a>
@@ -59,9 +58,10 @@
         <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
         <button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button>
       </div>
-    </div>
+    </nav>
+    <h1><a class="home-link" href="./">10-Year Stock Value Analysis</a></h1>
   </header>
-  <p class="sub" data-i18n="ui.sub">Enter a US stock ticker to analyse 10 years of its SEC filings: trends, red flags, filing history and value-investing checklists.</p>
+  <p class="sub" data-i18n="ui.sub">Ten years of SEC filings for any US stock: trends, red flags and Buffett-style value checks.</p>
 
   <section class="search card" aria-label="Search">
     <div class="search-label"><label for="ticker" data-testid="search-label" data-i18n="ui.search.label">Look up a company by name or ticker</label><span class="kbd-hint" aria-hidden="true" data-i18n="ui.search.kbd">Press <kbd>/</kbd> to search</span></div>
@@ -127,7 +127,7 @@
       </button>
       <button type="button" class="guide-item" data-tab="value">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-value"/></svg></span>
-        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.value.title">Graham &amp; Buffett-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">Graham's and Buffett's criteria, plus valuation tests.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
+        <span class="gi-body"><span class="gi-title" data-testid="guide-card-title" data-i18n="ui.card.value.title">Buffett &amp; Graham-style analysis</span><span class="gi-text" data-i18n="ui.card.value.text">Buffett's and Graham's criteria, plus valuation tests.</span><span class="gi-go" data-testid="guide-card-go"><span class="go-example" data-i18n="ui.card.example">See an example →</span><span class="go-open" data-i18n="ui.card.open">Open →</span></span></span>
       </button>
       <button type="button" class="guide-item" data-tab="durable">
         <span class="gi-icon" aria-hidden="true"><svg><use href="#i-durable"/></svg></span>
@@ -171,7 +171,7 @@
       <button role="tab" id="tab-flags" aria-controls="panel-flags" data-tab="flags"><svg class="tab-icon" aria-hidden="true"><use href="#i-flags"/></svg><span data-i18n="ui.tab.flags">Red flags</span> <span class="badge" id="flagsBadge" data-testid="flags-badge"></span></button>
       <button role="tab" id="tab-history" aria-controls="panel-history" data-tab="history"><svg class="tab-icon" aria-hidden="true"><use href="#i-history"/></svg><span data-i18n="ui.tab.history">SEC history</span> <span class="badge" id="historyBadge" data-testid="history-badge"></span></button>
       <button role="tab" id="tab-insiders" aria-controls="panel-insiders" data-tab="insiders"><svg class="tab-icon" aria-hidden="true"><use href="#i-insiders"/></svg><span data-i18n="ui.tab.insiders">Insiders</span></button>
-      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg><span data-i18n="ui.tab.value">Graham &amp; Buffett</span></button>
+      <button role="tab" id="tab-value" aria-controls="panel-value" data-tab="value"><svg class="tab-icon" aria-hidden="true"><use href="#i-value"/></svg><span data-i18n="ui.tab.value">Buffett &amp; Graham</span></button>
       <button role="tab" id="tab-durable" aria-controls="panel-durable" data-tab="durable"><svg class="tab-icon" aria-hidden="true"><use href="#i-durable"/></svg><span data-i18n="ui.tab.durable">Durable advantage</span></button>
       <button role="tab" id="tab-charts" aria-controls="panel-charts" data-tab="charts"><svg class="tab-icon" aria-hidden="true"><use href="#i-charts"/></svg><span data-i18n="ui.tab.charts">Charts</span></button>
       <button role="tab" id="tab-data" aria-controls="panel-data" data-tab="data"><svg class="tab-icon" aria-hidden="true"><use href="#i-data"/></svg><span data-i18n="ui.tab.data">Data</span></button>
@@ -213,7 +213,7 @@
     </div>
 
     <div role="tabpanel" class="panel" id="panel-value" aria-labelledby="tab-value" hidden>
-      <p class="section-note" data-testid="section-note" data-i18n="ui.note.value"><strong>Graham &amp; Buffett-style analysis:</strong> how the company measures up against Benjamin Graham's, Warren Buffett's and Peter Lynch's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
+      <p class="section-note" data-testid="section-note" data-i18n="ui.note.value"><strong>Buffett &amp; Graham-style analysis:</strong> how the company measures up against Benjamin Graham's, Warren Buffett's and Peter Lynch's published criteria. This is an educational checklist, not a recommendation to buy or sell.</p>
     <div class="value-grid">
       <div class="card checklist">
         <h3 data-i18n="ui.buffett.title">Warren Buffett: a wonderful business at a fair price</h3>
@@ -323,7 +323,6 @@
         <dt data-i18n="ui.gloss.8.term">Interest coverage</dt><dd data-i18n="ui.gloss.8.def">Operating income divided by interest expense: how many times profits cover the interest bill.</dd>
         <dt data-i18n="ui.gloss.9.term">ROE</dt><dd data-i18n="ui.gloss.9.def">Return on equity: net income as a percentage of shareholders' equity.</dd>
         <dt data-i18n="ui.gloss.10.term">P/E and P/B</dt><dd data-i18n="ui.gloss.10.def">Share price divided by earnings per share, or by book value per share. Lower means you pay less for each dollar of profit or assets.</dd>
-        <dt data-i18n="ui.gloss.11.term">Graham Number</dt><dd data-i18n="ui.gloss.11.def">√(22.5 × EPS × book value per share): the highest price Benjamin Graham would pay under his defensive rules.</dd>
         <dt data-i18n="ui.gloss.12.term">Margin of safety</dt><dd data-i18n="ui.gloss.12.def">How far the price sits below an estimate of value, as a cushion against mistakes in the estimate.</dd>
         <dt data-i18n="ui.gloss.13.term">Goodwill</dt><dd data-i18n="ui.gloss.13.def">The amount paid for acquisitions above the value of their assets; written off if a deal disappoints.</dd>
         <dt data-i18n="ui.gloss.14.term">Dilution / buybacks</dt><dd data-i18n="ui.gloss.14.def">Issuing new shares shrinks each shareholder's slice; buying shares back grows it.</dd>

@@ -34,7 +34,6 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
   const latestEps = L(s.eps);
   const pe3 = price && positive(eps3) ? price / eps3 : null;
   const pb = price && positive(bvps) ? price / bvps : null;
-  const grahamNumber = positive(latestEps) && positive(bvps) ? Math.sqrt(22.5 * latestEps * bvps) : null;
 
   const fcf3 = vals(r.fcf).slice(-3), dil = L(s.dilutedShares);
   const oe = !fin && fcf3.length === 3 && dil ? (avg(fcf3) ?? 0) / dil : null;
@@ -208,7 +207,7 @@ export function valueChecks(d: Financials, price: number | null, r: Analysis, as
     fRow("turnoverUp", both(turnover(e), turnover(p), (a, b) => a > b), change(x2, turnover(e), turnover(p))),
   ];
 
-  return { price, graham, buffett, lynch, piotroski, bvps, grahamNumber, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
+  return { price, graham, buffett, lynch, piotroski, bvps, iv, oe, g, pe3, pb, disc, tg, gAuto, rotc, rotcOverall, divYield, fcfYield, fcfPs, fcfL, dpsL, ev, evFcf, lynchGrowth: lg, peg, pegy, lynchFair };
 }
 
 /** The checklists and value figures for a company at a price. */

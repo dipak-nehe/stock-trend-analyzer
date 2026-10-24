@@ -100,7 +100,7 @@ export class ComparePage extends BasePage {
     return row.getByText(either('(more favourable)', '(más favorable)'));
   }
 
-  /** #id: the table's region is named after a hard-coded heading ("Graham & Buffett criteria"). */
+  /** #id: the table's region is named after a hard-coded heading ("Buffett & Graham criteria"). */
   get criteriaTable(): Locator {
     return this.page.locator('#cmpGrid');
   }
